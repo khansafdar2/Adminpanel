@@ -1,0 +1,11 @@
+<p *ngIf="loading">Loading...</p>
+<form action="" [formGroup]="signinForm" (ngSubmit)="onSubmit()">
+    <input type="email" name="email" formControlName="email"><br />
+    <p *ngIf="signinForm.get('email').hasError('required')">Email is required.</p>
+
+    <input type="password" name="password" formControlName="password"><br />
+    <p *ngIf="signinForm.get('password').hasError('required')">Password is required</p>
+    <p *ngIf="formError">{{ formError }}</p>
+
+    <button type="submit">Sign in</button>
+</form>
