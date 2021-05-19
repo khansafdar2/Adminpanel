@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import HomeIcon from "../../../assets/img/icons/HomeIcon";
 
 @Component({
   selector: 'app-sidenav',
