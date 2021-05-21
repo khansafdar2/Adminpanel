@@ -11,3 +11,10 @@ body {
     font-family: 'Poppins', sans-serif;
     color: $textColor;
 }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+#main {
+    padding-left: 275px;
+    padding-top: 25px;
+}

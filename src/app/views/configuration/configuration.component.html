@@ -1,0 +1,24 @@
+<app-topbar></app-topbar>
+<app-sidenav></app-sidenav>
+<main id="main">
+    <div class="page-header">
+        <h1>Discounts</h1>
+    </div>
+
+    <div class="settings-section">
+        <div class="content" fxLayout="row" fxLayout.xs="column">
+            <h2 class="settings-section-heading" fxFlex="25%">Miscellaneous</h2>
+            <div class="settings-section-cards" fxLayout="row wrap" fxLayoutGap="20px" fxFlex="grow">
+                <div class="settings-section-card" fxFlex="0 1 33.3333%">
+                    <mat-card>
+                        <mat-card-header>
+                            <div mat-card-avatar [inlineSVG]="'/assets/img/MailIcon.svg'"></div>
+                            <mat-card-title>General Information</mat-card-title>
+                            <mat-card-subtitle>Configurate your email address from which all automatic emails will be sent to your customers.</mat-card-subtitle>
+                        </mat-card-header>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

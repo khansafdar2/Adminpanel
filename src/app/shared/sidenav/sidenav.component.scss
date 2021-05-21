@@ -6,20 +6,22 @@
   top: 48px;
   left: 0;
   bottom: 0;
+  width: 250px;
+  box-shadow: 2px 2px 4px #ddd;
   
   ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    
+
     li {
       > a {
         display: block;
-        padding: 6px 18px;
+        padding: 10px 18px;
         text-decoration: none;
         color: inherit;
 
-        &:hover, &:focus {
+        &:hover, &:focus, &.active {
           color: $primaryColor;
         }
       }
@@ -30,5 +32,10 @@
     width: 16px;
     margin-right: 10px;
     vertical-align: middle;
+    line-height: 16px;
+
+    > svg {
+      display: block;
+    }
   }
 }

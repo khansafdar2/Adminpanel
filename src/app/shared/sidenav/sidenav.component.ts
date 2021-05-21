@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import URLS from '../urls';
+
 
 @Component({
   selector: 'app-sidenav',
@@ -8,6 +10,8 @@ import { Component, OnInit } from '@angular/core';
 export class SidenavComponent implements OnInit {
 
   constructor() { }
+
+  Urls = URLS;
 
   ngOnInit(): void {
   }
