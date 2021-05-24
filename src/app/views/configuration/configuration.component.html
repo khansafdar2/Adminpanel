@@ -8,12 +8,74 @@
     <div class="settings-section">
         <div class="content" fxLayout="row" fxLayout.xs="column">
             <h2 class="settings-section-heading" fxFlex="25%">Miscellaneous</h2>
-            <div class="settings-section-cards" fxLayout="row wrap" fxLayoutGap="20px" fxFlex="grow">
+            <div class="settings-section-cards" fxLayout="row wrap" fxFlex="grow">
                 <div class="settings-section-card" fxFlex="0 1 33.3333%">
                     <mat-card>
                         <mat-card-header>
                             <div mat-card-avatar [inlineSVG]="'/assets/img/MailIcon.svg'"></div>
                             <mat-card-title>General Information</mat-card-title>
+                            <mat-card-subtitle>Configurate your email address from which all automatic emails will be sent to your customers.</mat-card-subtitle>
+                        </mat-card-header>
+                    </mat-card>
+                </div>
+                <div class="settings-section-card" fxFlex="0 1 33.3333%">
+                    <mat-card>
+                        <mat-card-header>
+                            <div mat-card-avatar [inlineSVG]="'/assets/img/MailIcon.svg'"></div>
+                            <mat-card-title>Store Languages</mat-card-title>
+                            <mat-card-subtitle>Manage the languages your customers see on your store.</mat-card-subtitle>
+                        </mat-card-header>
+                    </mat-card>
+                </div>
+                <div class="settings-section-card" fxFlex="0 1 33.3333%">
+                    <mat-card (click)="goToSettings('userManagement')">
+                        <mat-card-header>
+                            <div mat-card-avatar [inlineSVG]="'/assets/img/MailIcon.svg'"></div>
+                            <mat-card-title>User Management</mat-card-title>
+                            <mat-card-subtitle>Manage what users can do or see in your store.</mat-card-subtitle>
+                        </mat-card-header>
+                    </mat-card>
+                </div>
+                <div class="settings-section-card" fxFlex="0 1 33.3333%">
+                    <mat-card>
+                        <mat-card-header>
+                            <div mat-card-avatar [inlineSVG]="'/assets/img/MailIcon.svg'"></div>
+                            <mat-card-title>Checkout</mat-card-title>
+                            <mat-card-subtitle>Customize your online store checkout process.</mat-card-subtitle>
+                        </mat-card-header>
+                    </mat-card>
+                </div>
+                <div class="settings-section-card" fxFlex="0 1 33.3333%">
+                    <mat-card>
+                        <mat-card-header>
+                            <div mat-card-avatar [inlineSVG]="'/assets/img/MailIcon.svg'"></div>
+                            <mat-card-title>Tax</mat-card-title>
+                            <mat-card-subtitle>Manage how your store charges taxes.</mat-card-subtitle>
+                        </mat-card-header>
+                    </mat-card>
+                </div>                
+            </div>
+        </div>
+    </div>
+
+    <div class="settings-section">
+        <div class="content" fxLayout="row" fxLayout.xs="column">
+            <h2 class="settings-section-heading" fxFlex="25%">Communication</h2>
+            <div class="settings-section-cards" fxLayout="row wrap" fxFlex="grow">
+                <div class="settings-section-card" fxFlex="0 1 33.3333%">
+                    <mat-card>
+                        <mat-card-header>
+                            <div mat-card-avatar [inlineSVG]="'/assets/img/MailIcon.svg'"></div>
+                            <mat-card-title>Email</mat-card-title>
+                            <mat-card-subtitle>Configurate your email address from which all automatic emails will be sent to your customers.</mat-card-subtitle>
+                        </mat-card-header>
+                    </mat-card>
+                </div>
+                <div class="settings-section-card" fxFlex="0 1 33.3333%">
+                    <mat-card>
+                        <mat-card-header>
+                            <div mat-card-avatar [inlineSVG]="'/assets/img/MailIcon.svg'"></div>
+                            <mat-card-title>Files</mat-card-title>
                             <mat-card-subtitle>Configurate your email address from which all automatic emails will be sent to your customers.</mat-card-subtitle>
                         </mat-card-header>
                     </mat-card>

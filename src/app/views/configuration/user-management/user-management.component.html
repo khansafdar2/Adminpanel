@@ -1,0 +1,92 @@
+<app-topbar></app-topbar>
+<app-sidenav></app-sidenav>
+<main id="main">
+    <div class="page-header">
+        <h1>
+            <button mat-icon-button aria-label="Go back" class="header-back-arrow" (click)="goBack()">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+            User management
+        </h1>
+    </div>
+
+    <div class="page-container">
+        <div class="settings-section">
+            <div fxLayout="row">
+                <div fxFlex="0 1 33.333333%">
+                    <h2>Store Owner</h2>
+                    <p>Store owners have some permissions that can't be assigned to staff.</p>
+                </div>
+                <div fxFlex="1 1 auto">
+                    <mat-card>
+                        <mat-card-header>
+                            <div mat-card-avatar>
+                                <span class="account-initials">MK</span>
+                            </div>
+                            <mat-card-title class="account-title"><a routerLink="">Muhammad Kashif</a></mat-card-title>
+                            <mat-card-subtitle>Last login was Monday, April 26, 2021, 1:06 am - 0400</mat-card-subtitle>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <p class="text-link">Transfer ownership</p>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <div fxLayout="row">
+                <div fxFlex="0 1 33.333333%">
+                    <h2>Store Staff</h2>
+                    <p>Store owners have some permissions that can't be assigned to staff.</p>
+                </div>
+                <div fxFlex="1 1 auto">
+                    <div class="text-right">
+                        <button mat-flat-button color="primary">Add</button>
+                    </div>
+                    <div class="accounts-list">
+                        <mat-card class="account-card">
+                            <mat-card-content>
+                                <div fxFlex="row">
+                                    <div fxFlex="0 1 66.66666%">
+                                        <h4 class="text-link">Nawab Shah</h4>
+                                        <p>Last login was Monday, April 26, 2021, 1:06 am - 0400</p>
+                                    </div>
+                                    <div fxFlex="0 1 33.33333%" class="text-right">
+                                        <span class="access-label limited">Limited access</span>
+                                    </div>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                        <mat-card class="account-card">
+                            <mat-card-content>
+                                <div fxFlex="row">
+                                    <div fxFlex="0 1 66.66666%">
+                                        <h4 class="text-link">Nawab Shah</h4>
+                                        <p>Last login was Monday, April 26, 2021, 1:06 am - 0400</p>
+                                    </div>
+                                    <div fxFlex="0 1 33.33333%" class="text-right">
+                                        <span class="access-label full">Full access</span>
+                                    </div>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                        <mat-card class="account-card">
+                            <mat-card-content>
+                                <div fxFlex="row">
+                                    <div fxFlex="0 1 66.66666%">
+                                        <h4 class="text-link">Nawab Shah</h4>
+                                        <p>Last login was Monday, April 26, 2021, 1:06 am - 0400</p>
+                                    </div>
+                                    <div fxFlex="0 1 33.33333%" class="text-right">
+                                        <span class="access-label limited">Limited access</span>
+                                    </div>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

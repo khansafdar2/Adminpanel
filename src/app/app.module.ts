@@ -5,6 +5,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,6 +18,7 @@ import { TopbarComponent } from './shared/topbar/topbar.component';
 import { SidenavComponent } from './shared/sidenav/sidenav.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ConfigurationComponent } from './views/configuration/configuration.component';
+import { UserManagementComponent } from './views/configuration/user-management/user-management.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +28,7 @@ import { ConfigurationComponent } from './views/configuration/configuration.comp
     TopbarComponent,
     SidenavComponent,
     ConfigurationComponent,
+    UserManagementComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,7 +40,9 @@ import { ConfigurationComponent } from './views/configuration/configuration.comp
     BrowserAnimationsModule,
     FlexLayoutModule,
 
-    MatCardModule
+    MatCardModule,
+    MatIconModule,
+    MatButtonModule
   ],
   providers: [LoggedInAuthGuard, LoggedOutAuthGuard],
   bootstrap: [AppComponent]

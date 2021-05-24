@@ -1,8 +1,19 @@
 @import "variables.scss";
 
+@import '~@angular/material/theming';
+$custom-typography: mat-typography-config(
+  $font-family: 'Poppins'
+);
+@include mat-core($custom-typography);
+
+* {
+    box-sizing: border-box;
+}
+
 html {
     min-height: 100%;
 }
+html, body { height: 100%; }
 body {
     margin: 0;
     padding: 0;
@@ -11,10 +22,34 @@ body {
     font-family: 'Poppins', sans-serif;
     color: $textColor;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
+a, .text-link {
+    color: #2F80ED;
+    text-decoration: none;
+    cursor: pointer;
+}
 #main {
-    padding-left: 275px;
-    padding-top: 25px;
+    padding: 73px 25px 25px 290px;
+}
+
+.page-header {
+    position: relative;
+
+    .header-back-arrow {
+        position: absolute;
+        left: -40px;
+        top: -5px;
+    }
+}
+.page-container {
+    max-width: 1100px;
+}
+[fxlayout="row"] {
+    margin: 0 -10px;
+
+    > * {
+        padding: 0 10px;
+    }
+}
+.text-right {
+    text-align: right;
 }

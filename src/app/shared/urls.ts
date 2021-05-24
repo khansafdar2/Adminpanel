@@ -1,7 +1,8 @@
 const URLS = {
     signin: 'signin',
     home: 'dashboard',
-    configuration: 'configuration'
+    configuration: 'configuration',
+    userManagement: 'user-management'
 }
 
 export default URLS;

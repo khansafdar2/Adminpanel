@@ -5,6 +5,11 @@
     display: flex;
     align-items: center;
     box-shadow: 0 2px 4px #ddd;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999;
 
     .logo {
         height: 34px;

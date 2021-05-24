@@ -1,0 +1,58 @@
+.settings-section {
+    margin-top: 40px;
+
+    h2 {
+        margin-bottom: 10px;
+    }
+
+    .mat-card-avatar {
+        background-color: #97BE50;
+        color: #ffffff;
+        position: relative;
+
+        .account-initials {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            text-align: center;
+            display: block;
+            transform: translateY(-50%);
+        }
+    }
+
+    .account-title {
+        font-size: 16px;
+    }
+
+    .accounts-list {
+        margin-top: 20px;
+
+        h4 {
+            margin-bottom: 10px;
+        }
+        p {
+            color: rgba(0,0,0,.54);
+        }
+        .account-card {
+            & + .account-card {
+                margin-top: 20px;
+            }
+        }
+
+        .access-label {
+            display: inline-block;
+            padding: 5px 25px;
+            border-radius: 18px;
+            background: #ddd;
+
+            &.limited {
+                background-color: #EAA236;
+                color: #ffffff;
+            }
+            &.full {
+                background-color: #15847B;
+                color: #ffffff;
+            }
+        }
+    }
+}
