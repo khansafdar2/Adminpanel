@@ -1,0 +1,12 @@
+.permissions {
+    * + label {
+        margin-top: 20px;
+    }
+    label {
+        display: block;
+        margin-bottom: 10px;
+    }
+    .mat-checkbox {
+        display: block;
+    }
+}

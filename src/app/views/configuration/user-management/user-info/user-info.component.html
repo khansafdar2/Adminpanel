@@ -1,0 +1,134 @@
+<app-topbar></app-topbar>
+<app-sidenav></app-sidenav>
+<main id="main">
+    <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
+        <h1>
+            <button mat-icon-button aria-label="Go back" class="header-back-arrow" (click)="goBack()">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+            User information
+        </h1>
+
+        <div class="header-actions">
+            <button mat-stroked-button color="primary" (click)="goBack()">Cancel</button>
+            <button mat-flat-button color="primary" (click)="goBack()">Save</button>
+        </div>
+    </div>
+
+    <div class="page-container">
+        <div class="settings-section">
+            <div fxLayout="row">
+                <div fxFlex="0 1 33.33333%">
+                    <h2>User profile</h2>
+                </div>
+                <div fxFlex="0 1 66.66666%">
+                    <mat-card>
+                        <mat-card-header>
+                            <div mat-card-avatar>
+                                <span class="account-initials">MK</span>
+                            </div>
+                            <mat-card-title class="account-title"><span class="text-link">Muhammad Kashif</span></mat-card-title>
+                            <mat-card-subtitle>m.kasshif56@gmail.com</mat-card-subtitle>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <div fxLayout="row" class="user-password-row">
+                                <div fxFlex="0 1 auto">
+                                    <p class="field-label">Two-step authentication</p>
+                                    <p class="field-value">Two-step authentication enabled</p>
+                                </div>
+                                <div fxFlex="0 1 auto">
+                                    <p class="field-label">Password</p>
+                                    <p class="field-value text-link">Reset password</p>
+                                </div>
+                            </div>
+                            <mat-divider></mat-divider>
+                            <p class="field-label notification-label">Notifications</p>
+                            <div fxLayout="row" class="user-notification-row">
+                                <div fxFlex="0 1 auto">
+                                    <mat-checkbox></mat-checkbox>
+                                </div>
+                                <div fxFlex="1 1 auto">
+                                    <p class="notification-heading">Allow important notifications to be sent by email</p>
+                                    <p class="text-small">We periodically send out important news about Shopify to our users via email. We keep the email volume to an absolute minimum.</p>
+                                </div>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <div fxLayout="row">
+                <div fxFlex="0 1 33.33333%">
+                    <h2>Recent access to store</h2>
+                    <p>If you don't recognize a location, IP address, or ISP, it could mean your store has been compromised. Take steps to secure your account.</p>
+                </div>
+                <div fxFlex="0 1 66.66666%">
+                    <table mat-table class="mat-elevation-z2" [dataSource]="dataSource">
+                        <!-- Date column -->
+                        <ng-container matColumnDef="date">
+                            <th mat-header-cell *matHeaderCellDef>Date</th>
+                            <td mat-cell *matCellDef="let log"> {{log.date}} </td>
+                        </ng-container>
+
+                        <!-- IP address column -->
+                        <ng-container matColumnDef="ip_address">
+                            <th mat-header-cell *matHeaderCellDef>IP address</th>
+                            <td mat-cell *matCellDef="let log">{{log.ip_address}}</td>
+                        </ng-container>
+
+                        <!-- Location column -->
+                        <ng-container matColumnDef="location">
+                            <th mat-header-cell *matHeaderCellDef>Location</th>
+                            <td mat-cell *matCellDef="let log">{{log.location}}</td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-section permissions">
+            <div fxLayout="row">
+                <div fxFlex="0 1 33.33333%">
+                    <h2>Permissions</h2>
+                    <p>If you don't recognize a location, IP address, or ISP, it could mean your store has been compromised. Take steps to secure your account.</p>
+                </div>
+                <div fxFlex="0 1 66.66666%">
+                    <mat-card>
+                        <div fxLayout="row">
+                            <div fxFlex="0 1 50%">
+                                <label>Dummy</label>
+                                <mat-checkbox>Home</mat-checkbox>
+                                <mat-checkbox>Orders</mat-checkbox>
+                                <mat-checkbox>Draft Orders</mat-checkbox>
+                                <mat-checkbox>Products</mat-checkbox>
+                                <mat-checkbox>Gift cards</mat-checkbox>
+                                <mat-checkbox>Customers</mat-checkbox>
+                                <mat-checkbox>Reports</mat-checkbox>
+                                <mat-checkbox>Dashboard</mat-checkbox>
+                                <mat-checkbox>Marketing</mat-checkbox>
+                            </div>
+                            <div fxFlex="0 1 50%">
+                                <label>Dummy</label>
+                                <mat-checkbox>Themes</mat-checkbox>
+                                <mat-checkbox>Blog posts and pages</mat-checkbox>
+                                <mat-checkbox>Navigation</mat-checkbox>
+                                <mat-checkbox>Domains</mat-checkbox>
+                                <label>Dummy</label>
+                                <mat-checkbox>Manage settings</mat-checkbox>
+                                <mat-checkbox>Manage locations</mat-checkbox>
+                                <mat-checkbox>Edit permissions</mat-checkbox>
+                                <mat-checkbox>Add and remove stuff</mat-checkbox>
+                                <mat-checkbox>Manage payment methods</mat-checkbox>
+                            </div>
+                        </div>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

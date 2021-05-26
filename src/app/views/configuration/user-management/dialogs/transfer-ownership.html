@@ -1,0 +1,39 @@
+<button mat-icon-button mat-dialog-close class="dialog-close"><mat-icon>close</mat-icon></button>
+<h2 mat-dialog-title>Transfer ownership</h2>
+<mat-dialog-content class="mat-typography">
+    <p>The new store owner will be able to:</p>
+    <ul>
+        <li>Remove you from the store or change your permissions</li>
+        <li>View or edit credit card and banking information</li>
+        <li>Pause or close the store</li>
+    </ul>
+    <h4>New store owner information</h4>
+    <form>
+        <div fxLayout="row">
+            <div fxFlex="0 1 50%">
+                <mat-form-field appearance="outline">
+                    <mat-label>First name</mat-label>
+                    <input matInput />
+                </mat-form-field>
+            </div>
+            <div fxFlex="0 1 50%">
+                <mat-form-field appearance="outline">
+                    <mat-label>Last name</mat-label>
+                    <input matInput />
+                </mat-form-field>
+            </div>
+        </div>
+        <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Enter your password to confirm</mat-label>
+            <input matInput type="password" />
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-stroked-button color="primary" mat-dialog-close cdkFocusInitial>Cancel</button>
+    <button mat-flat-button color="primary">Transfer ownership</button>
+</mat-dialog-actions>

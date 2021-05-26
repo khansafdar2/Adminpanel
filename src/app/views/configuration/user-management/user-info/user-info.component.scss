@@ -1,0 +1,53 @@
+.mat-card-avatar {
+    background-color: #97BE50;
+    color: #ffffff;
+    position: relative;
+
+    .account-initials {
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        text-align: center;
+        display: block;
+        transform: translateY(-50%);
+    }
+}
+
+.account-title {
+    font-size: 16px;
+}
+
+.field-label {
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+.field-value {
+    margin-top: 5px;
+    color: rgba(0,0,0,0.59);
+}
+.notification-label {
+    margin-top: 20px;
+}
+.user-notification-row {
+    .notification-heading {
+        margin: 0 0 5px;
+    }
+    .text-small {
+        margin: 5px 0 0;
+        font-size: 12px;
+        color: rgba(0,0,0,0.59);
+    }
+}
+
+.permissions {
+    * + label {
+        margin-top: 20px;
+    }
+    label {
+        display: block;
+        margin-bottom: 10px;
+    }
+    .mat-checkbox {
+        display: block;
+    }
+}

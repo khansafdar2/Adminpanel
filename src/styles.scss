@@ -21,11 +21,19 @@ body {
     min-height: 100%;
     font-family: 'Poppins', sans-serif;
     color: $textColor;
+
+    .mat-form-field {
+        width: 100%;
+        display: block;
+    }
 }
 a, .text-link {
     color: #2F80ED;
     text-decoration: none;
     cursor: pointer;
+}
+.text-link {
+    color: #2F80ED !important;
 }
 #main {
     padding: 73px 25px 25px 290px;
@@ -36,8 +44,14 @@ a, .text-link {
 
     .header-back-arrow {
         position: absolute;
-        left: -40px;
+        left: -30px;
         top: -5px;
+    }
+
+    .header-actions {
+        > * + * {
+            margin-left: 10px;
+        }
     }
 }
 .page-container {
@@ -52,4 +66,29 @@ a, .text-link {
 }
 .text-right {
     text-align: right;
+}
+.mat-dialog-container {
+    position: relative;
+}
+.mat-icon-button {
+    &.dialog-close {
+        position: absolute;
+        top: 18px;
+        right: 18px;
+    }
+}
+.settings-section {
+    margin-top: 30px;
+
+    h2 {
+        margin-bottom: 10px;
+    }
+}
+table.mat-table{
+    width: 100%;
+}
+th.mat-header-cell {
+    font-weight: 600;
+    color: #3d3d3d;
+    font-size: 14px;
 }

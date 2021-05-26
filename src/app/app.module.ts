@@ -7,7 +7,12 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatTableModule } from '@angular/material/table';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,7 +23,9 @@ import { TopbarComponent } from './shared/topbar/topbar.component';
 import { SidenavComponent } from './shared/sidenav/sidenav.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ConfigurationComponent } from './views/configuration/configuration.component';
-import { UserManagementComponent } from './views/configuration/user-management/user-management.component';
+import { TransferOwnershipDialog, UserManagementComponent } from './views/configuration/user-management/user-management.component';
+import { AddUserComponent } from './views/configuration/user-management/add-user/add-user.component';
+import { UserInfoComponent } from './views/configuration/user-management/user-info/user-info.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +36,9 @@ import { UserManagementComponent } from './views/configuration/user-management/u
     SidenavComponent,
     ConfigurationComponent,
     UserManagementComponent,
+    TransferOwnershipDialog,
+    AddUserComponent,
+    UserInfoComponent
   ],
   imports: [
     BrowserModule,
@@ -40,9 +50,15 @@ import { UserManagementComponent } from './views/configuration/user-management/u
     BrowserAnimationsModule,
     FlexLayoutModule,
 
+    MatDialogModule,
     MatCardModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule,
+    MatDividerModule,
+    MatTableModule
   ],
   providers: [LoggedInAuthGuard, LoggedOutAuthGuard],
   bootstrap: [AppComponent]

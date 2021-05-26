@@ -1,0 +1,92 @@
+<app-topbar></app-topbar>
+<app-sidenav></app-sidenav>
+<main id="main">
+    <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
+        <h1>
+            <button mat-icon-button aria-label="Go back" class="header-back-arrow" (click)="goBack()">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+            New Staff member
+        </h1>
+
+        <div class="header-actions">
+            <button mat-stroked-button color="primary" (click)="goBack()">Cancel</button>
+            <button mat-flat-button color="primary" (click)="goBack()">Save</button>
+        </div>
+    </div>
+
+    <div class="page-container">
+        <form>
+            <div class="settings-section">
+                <div fxLayout="row">
+                    <div fxFlex="0 1 33.333333%">
+                        <h2>Member detail</h2>
+                        <p>Give staff access to your store by sending them invitation.</p>
+                    </div>
+                    <div fxFlex="0 1 66.666666%">
+                        <mat-card>
+                            <div fxLayout="row">
+                                <div fxFlex="0 1 50%">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>First name</mat-label>
+                                        <input matInput />
+                                    </mat-form-field>
+                                </div>
+                                <div fxFlex="0 1 50%">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Last name</mat-label>
+                                        <input matInput />
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Email</mat-label>
+                                <input matInput type="email" />
+                            </mat-form-field>
+                        </mat-card>
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-section permissions">
+                <div fxLayout="row">
+                    <div fxFlex="0 1 33.333333%">
+                        <h2>Permissions</h2>
+                        <p>Customer will have option to translate the website in these languages.</p>
+                    </div>
+                    <div fxFlex="0 1 66.666666%">
+                        <mat-card>
+                            <div fxLayout="row">
+                                <div fxFlex="0 1 50%">
+                                    <label>Dummy</label>
+                                    <mat-checkbox>Home</mat-checkbox>
+                                    <mat-checkbox>Orders</mat-checkbox>
+                                    <mat-checkbox>Draft Orders</mat-checkbox>
+                                    <mat-checkbox>Products</mat-checkbox>
+                                    <mat-checkbox>Gift cards</mat-checkbox>
+                                    <mat-checkbox>Customers</mat-checkbox>
+                                    <mat-checkbox>Reports</mat-checkbox>
+                                    <mat-checkbox>Dashboard</mat-checkbox>
+                                    <mat-checkbox>Marketing</mat-checkbox>
+                                </div>
+                                <div fxFlex="0 1 50%">
+                                    <label>Dummy</label>
+                                    <mat-checkbox>Themes</mat-checkbox>
+                                    <mat-checkbox>Blog posts and pages</mat-checkbox>
+                                    <mat-checkbox>Navigation</mat-checkbox>
+                                    <mat-checkbox>Domains</mat-checkbox>
+                                    <label>Dummy</label>
+                                    <mat-checkbox>Manage settings</mat-checkbox>
+                                    <mat-checkbox>Manage locations</mat-checkbox>
+                                    <mat-checkbox>Edit permissions</mat-checkbox>
+                                    <mat-checkbox>Add and remove stuff</mat-checkbox>
+                                    <mat-checkbox>Manage payment methods</mat-checkbox>
+                                </div>
+                            </div>
+                        </mat-card>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</main>

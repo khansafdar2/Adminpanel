@@ -1,7 +1,7 @@
 <app-topbar></app-topbar>
 <app-sidenav></app-sidenav>
 <main id="main">
-    <div class="page-header">
+    <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
         <h1>
             <button mat-icon-button aria-label="Go back" class="header-back-arrow" (click)="goBack()">
                 <mat-icon>arrow_back</mat-icon>
@@ -23,11 +23,11 @@
                             <div mat-card-avatar>
                                 <span class="account-initials">MK</span>
                             </div>
-                            <mat-card-title class="account-title"><a routerLink="">Muhammad Kashif</a></mat-card-title>
+                            <mat-card-title class="account-title"><span class="text-link" (click)="openUserInfo(3)">Muhammad Kashif</span></mat-card-title>
                             <mat-card-subtitle>Last login was Monday, April 26, 2021, 1:06 am - 0400</mat-card-subtitle>
                         </mat-card-header>
                         <mat-card-content>
-                            <p class="text-link">Transfer ownership</p>
+                            <p class="text-link" (click)="openTransferOwnershipDialog()">Transfer ownership</p>
                         </mat-card-content>
                     </mat-card>
                 </div>
@@ -42,14 +42,14 @@
                 </div>
                 <div fxFlex="1 1 auto">
                     <div class="text-right">
-                        <button mat-flat-button color="primary">Add</button>
+                        <button mat-flat-button color="primary" (click)="addUser()">Add</button>
                     </div>
                     <div class="accounts-list">
                         <mat-card class="account-card">
                             <mat-card-content>
                                 <div fxFlex="row">
                                     <div fxFlex="0 1 66.66666%">
-                                        <h4 class="text-link">Nawab Shah</h4>
+                                        <h4 class="text-link" (click)="openUserInfo(3)">Nawab Shah</h4>
                                         <p>Last login was Monday, April 26, 2021, 1:06 am - 0400</p>
                                     </div>
                                     <div fxFlex="0 1 33.33333%" class="text-right">
@@ -62,7 +62,7 @@
                             <mat-card-content>
                                 <div fxFlex="row">
                                     <div fxFlex="0 1 66.66666%">
-                                        <h4 class="text-link">Nawab Shah</h4>
+                                        <h4 class="text-link" (click)="openUserInfo(3)">Nawab Shah</h4>
                                         <p>Last login was Monday, April 26, 2021, 1:06 am - 0400</p>
                                     </div>
                                     <div fxFlex="0 1 33.33333%" class="text-right">
@@ -75,7 +75,7 @@
                             <mat-card-content>
                                 <div fxFlex="row">
                                     <div fxFlex="0 1 66.66666%">
-                                        <h4 class="text-link">Nawab Shah</h4>
+                                        <h4 class="text-link" (click)="openUserInfo(3)">Nawab Shah</h4>
                                         <p>Last login was Monday, April 26, 2021, 1:06 am - 0400</p>
                                     </div>
                                     <div fxFlex="0 1 33.33333%" class="text-right">
