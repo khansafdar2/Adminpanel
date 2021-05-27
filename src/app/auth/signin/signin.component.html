@@ -1,4 +1,36 @@
-<p *ngIf="loading">Loading...</p>
+<div id="auth-wrapper">
+    <img class="logo" src="assets/img/logo.png" />
+
+    <mat-card>
+        <mat-card-content>
+            <h1 class="text-center">Login to KEES</h1>
+            <form>
+                <mat-form-field appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input matInput type="email" />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Password</mat-label>
+                    <input matInput type="password" />
+                </mat-form-field>
+
+                <div fxLayout="row">
+                    <div fxFlex="0 1 50%">
+                        <mat-checkbox>Remember me</mat-checkbox>
+                    </div>
+                    <div fxFlex="0 1 50%" class="text-right">
+                        <a routerLink="/">Forgot Password?</a>
+                    </div>
+                </div>
+
+                <button mat-flat-button color="primary" class="button-block" type="submit">Log in</button>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>
+
+<!-- <p *ngIf="loading">Loading...</p>
 <form action="" [formGroup]="signinForm" (ngSubmit)="onSubmit()">
     <input type="email" name="email" formControlName="email"><br />
     <p *ngIf="signinForm.get('email').hasError('required')">Email is required.</p>
@@ -8,4 +40,4 @@
     <p *ngIf="formError">{{ formError }}</p>
 
     <button type="submit">Sign in</button>
-</form>
+</form> -->
