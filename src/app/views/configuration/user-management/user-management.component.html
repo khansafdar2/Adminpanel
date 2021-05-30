@@ -1,6 +1,7 @@
 <app-topbar></app-topbar>
 <app-sidenav></app-sidenav>
 <main id="main">
+    <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
     <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
         <h1>
             <button mat-icon-button aria-label="Go back" class="header-back-arrow" (click)="goBack()">
@@ -11,7 +12,7 @@
     </div>
 
     <div class="page-container">
-        <div class="settings-section">
+        <div class="settings-section" *ngIf="!loading">
             <div fxLayout="row">
                 <div fxFlex="0 1 33.333333%">
                     <h2>Store Owner</h2>
@@ -23,8 +24,8 @@
                             <div mat-card-avatar>
                                 <span class="account-initials">MK</span>
                             </div>
-                            <mat-card-title class="account-title"><span class="text-link" (click)="openUserInfo(3)">Muhammad Kashif</span></mat-card-title>
-                            <mat-card-subtitle>Last login was Monday, April 26, 2021, 1:06 am - 0400</mat-card-subtitle>
+                            <mat-card-title class="account-title"><span class="text-link" (click)="openUserInfo(storeOwner.id)">{{storeOwner.first_name}} {{storeOwner.last_name}}</span></mat-card-title>
+                            <mat-card-subtitle>Last login was {{storeOwner.last_login}}</mat-card-subtitle>
                         </mat-card-header>
                         <mat-card-content>
                             <p class="text-link" (click)="openTransferOwnershipDialog()">Transfer ownership</p>
@@ -34,7 +35,7 @@
             </div>
         </div>
 
-        <div class="settings-section">
+        <div class="settings-section" *ngIf="!loading">
             <div fxLayout="row">
                 <div fxFlex="0 1 33.333333%">
                     <h2>Store Staff</h2>
@@ -45,41 +46,16 @@
                         <button mat-flat-button color="primary" (click)="addUser()">Add</button>
                     </div>
                     <div class="accounts-list">
-                        <mat-card class="account-card">
+                        <mat-card class="account-card" *ngFor="let user of staff">
                             <mat-card-content>
                                 <div fxFlex="row">
                                     <div fxFlex="0 1 66.66666%">
-                                        <h4 class="text-link" (click)="openUserInfo(3)">Nawab Shah</h4>
-                                        <p>Last login was Monday, April 26, 2021, 1:06 am - 0400</p>
+                                        <h4 class="text-link" (click)="openUserInfo(user.id)">{{user.first_name}} {{user.last_name}}</h4>
+                                        <p>Last login was {{user.last_login}}</p>
                                     </div>
                                     <div fxFlex="0 1 33.33333%" class="text-right">
-                                        <span class="access-label limited">Limited access</span>
-                                    </div>
-                                </div>
-                            </mat-card-content>
-                        </mat-card>
-                        <mat-card class="account-card">
-                            <mat-card-content>
-                                <div fxFlex="row">
-                                    <div fxFlex="0 1 66.66666%">
-                                        <h4 class="text-link" (click)="openUserInfo(3)">Nawab Shah</h4>
-                                        <p>Last login was Monday, April 26, 2021, 1:06 am - 0400</p>
-                                    </div>
-                                    <div fxFlex="0 1 33.33333%" class="text-right">
-                                        <span class="access-label full">Full access</span>
-                                    </div>
-                                </div>
-                            </mat-card-content>
-                        </mat-card>
-                        <mat-card class="account-card">
-                            <mat-card-content>
-                                <div fxFlex="row">
-                                    <div fxFlex="0 1 66.66666%">
-                                        <h4 class="text-link" (click)="openUserInfo(3)">Nawab Shah</h4>
-                                        <p>Last login was Monday, April 26, 2021, 1:06 am - 0400</p>
-                                    </div>
-                                    <div fxFlex="0 1 33.33333%" class="text-right">
-                                        <span class="access-label limited">Limited access</span>
+                                        <span class="access-label full" *ngIf="user.full_access">Full access</span>
+                                        <span class="access-label limited" *ngIf="!user.full_access">Limited access</span>
                                     </div>
                                 </div>
                             </mat-card-content>

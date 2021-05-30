@@ -13,12 +13,12 @@ import { AuthService } from '../auth.service';
 })
 export class SigninComponent implements OnInit {
 
-  constructor(private fb: FormBuilder,  private router: Router, private authService: AuthService) { }
+  constructor(private fb: FormBuilder, private router: Router, private authService: AuthService) {}
 
   loading: boolean = false;
   formError: string = "";
   signinForm = this.fb.group({
-    email: ['', [Validators.required]],
+    username_or_email: ['', [Validators.required]],
     password: ['', [Validators.required]],
   });
 
@@ -28,13 +28,10 @@ export class SigninComponent implements OnInit {
   onSubmit() {
     if(this.signinForm.valid) {
       this.loading = true;
-      Axios.post(environment.backend_url + "/signin", {
-        usernameOrEmail: this.signinForm.get('email').value,
-        password: this.signinForm.get('password').value
-      })
+      Axios.post(environment.backend_url + "/authentication/signin", this.signinForm.value)
       .then((response) => {
         this.loading = false;
-        this.authService.signin(response.data.token, response.data.role_permission);
+        this.authService.signin(response.data.token, response.data.permission);
 
         this.router.navigate(['/dashboard']);
       }, (error) => {

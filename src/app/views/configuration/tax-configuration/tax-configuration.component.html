@@ -1,0 +1,51 @@
+<app-topbar></app-topbar>
+<app-sidenav></app-sidenav>
+<main id="main">
+    <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+    <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
+        <h1>
+            <button mat-icon-button aria-label="Go back" class="header-back-arrow" (click)="goBack()">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+            Taxes
+        </h1>
+
+        <div class="header-actions">
+            <button mat-stroked-button color="primary" (click)="goBack()">Cancel</button>
+            <button mat-flat-button color="primary" >Save</button>
+        </div>
+    </div>
+
+    <div class="page-container">
+        <div class="settings-section">
+            <div fxLayout="row">
+                <div fxFlex="0 1 33.333333%">
+                    <h2>Tax</h2>
+                    <p>Manage how your store charges sales tax in your shipping zones.</p>
+                </div>
+                <div fxFlex="0 1 66.666666%">
+                    <form>
+                        <mat-card>
+                            <div fxLayout="row">
+                                <div fxFlex="1 1 auto">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Tax name</mat-label>
+                                        <input matInput name="tax_name" />
+                                        <!-- <mat-error *ngIf="userForm.get('first_name').hasError('required')">Enter first name of user.</mat-error> -->
+                                    </mat-form-field>
+                                </div>
+                                <div fxFlex="1 1 auto">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Tax amount</mat-label>
+                                        <input matInput type="number" max=100 />
+                                        <span matSuffix>%</span>
+                                      </mat-form-field>
+                                </div>
+                            </div>
+                        </mat-card>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

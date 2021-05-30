@@ -1,6 +1,7 @@
 <app-topbar></app-topbar>
 <app-sidenav></app-sidenav>
 <main id="main">
+    <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
     <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
         <h1>
             <button mat-icon-button aria-label="Go back" class="header-back-arrow" (click)="goBack()">
@@ -11,12 +12,12 @@
 
         <div class="header-actions">
             <button mat-stroked-button color="primary" (click)="goBack()">Cancel</button>
-            <button mat-flat-button color="primary" (click)="goBack()">Save</button>
+            <button mat-flat-button color="primary" (click)="onSubmit()" [disabled]="!userForm.valid || loading">Save</button>
         </div>
     </div>
 
     <div class="page-container">
-        <form>
+        <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
             <div class="settings-section">
                 <div fxLayout="row">
                     <div fxFlex="0 1 33.333333%">
@@ -29,58 +30,32 @@
                                 <div fxFlex="0 1 50%">
                                     <mat-form-field appearance="outline">
                                         <mat-label>First name</mat-label>
-                                        <input matInput />
+                                        <input matInput name="first_name" formControlName="first_name" />
+                                        <mat-error *ngIf="userForm.get('first_name').hasError('required')">Enter first name of user.</mat-error>
                                     </mat-form-field>
                                 </div>
                                 <div fxFlex="0 1 50%">
                                     <mat-form-field appearance="outline">
                                         <mat-label>Last name</mat-label>
-                                        <input matInput />
+                                        <input matInput name="last_name" formControlName="last_name" />
+                                        <mat-error *ngIf="userForm.get('last_name').hasError('required')">Enter last name of user.</mat-error>
                                     </mat-form-field>
                                 </div>
                             </div>
-                            <mat-form-field appearance="outline">
-                                <mat-label>Email</mat-label>
-                                <input matInput type="email" />
-                            </mat-form-field>
-                        </mat-card>
-                    </div>
-                </div>
-            </div>
-
-            <div class="settings-section permissions">
-                <div fxLayout="row">
-                    <div fxFlex="0 1 33.333333%">
-                        <h2>Permissions</h2>
-                        <p>Customer will have option to translate the website in these languages.</p>
-                    </div>
-                    <div fxFlex="0 1 66.666666%">
-                        <mat-card>
                             <div fxLayout="row">
                                 <div fxFlex="0 1 50%">
-                                    <label>Dummy</label>
-                                    <mat-checkbox>Home</mat-checkbox>
-                                    <mat-checkbox>Orders</mat-checkbox>
-                                    <mat-checkbox>Draft Orders</mat-checkbox>
-                                    <mat-checkbox>Products</mat-checkbox>
-                                    <mat-checkbox>Gift cards</mat-checkbox>
-                                    <mat-checkbox>Customers</mat-checkbox>
-                                    <mat-checkbox>Reports</mat-checkbox>
-                                    <mat-checkbox>Dashboard</mat-checkbox>
-                                    <mat-checkbox>Marketing</mat-checkbox>
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Username</mat-label>
+                                        <input matInput name="username" formControlName="username" />
+                                        <mat-error *ngIf="userForm.get('username').hasError('required')">Enter the username of user.</mat-error>
+                                    </mat-form-field>
                                 </div>
                                 <div fxFlex="0 1 50%">
-                                    <label>Dummy</label>
-                                    <mat-checkbox>Themes</mat-checkbox>
-                                    <mat-checkbox>Blog posts and pages</mat-checkbox>
-                                    <mat-checkbox>Navigation</mat-checkbox>
-                                    <mat-checkbox>Domains</mat-checkbox>
-                                    <label>Dummy</label>
-                                    <mat-checkbox>Manage settings</mat-checkbox>
-                                    <mat-checkbox>Manage locations</mat-checkbox>
-                                    <mat-checkbox>Edit permissions</mat-checkbox>
-                                    <mat-checkbox>Add and remove stuff</mat-checkbox>
-                                    <mat-checkbox>Manage payment methods</mat-checkbox>
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Email</mat-label>
+                                        <input matInput name="email" formControlName="email" type="email" />
+                                        <mat-error *ngIf="userForm.get('email').hasError('required')">Enter the email address.</mat-error>
+                                    </mat-form-field>
                                 </div>
                             </div>
                         </mat-card>
@@ -88,5 +63,32 @@
                 </div>
             </div>
         </form>
+
+        <div class="settings-section permissions">
+            <div fxLayout="row">
+                <div fxFlex="0 1 33.333333%">
+                    <h2>Permissions</h2>
+                    <p>Customer will have option to translate the website in these languages.</p>
+                </div>
+                <div fxFlex="0 1 66.666666%">
+                    <mat-card>
+                        <div fxLayout="row">
+                            <div fxFlex="0 1 50%">
+                                <label>Dummy</label>
+                                <mat-checkbox [(ngModel)]="userPermissions.dashboard">Dashboard</mat-checkbox>
+                                <mat-checkbox [(ngModel)]="userPermissions.configuration">Configuration</mat-checkbox>
+                                <mat-checkbox [(ngModel)]="userPermissions.customer">Customer</mat-checkbox>
+                                <mat-checkbox [(ngModel)]="userPermissions.discounts">Discounts</mat-checkbox>
+                                <mat-checkbox [(ngModel)]="userPermissions.orders">Orders</mat-checkbox>
+                                <mat-checkbox [(ngModel)]="userPermissions.products">Products</mat-checkbox>
+                                <mat-checkbox [(ngModel)]="userPermissions.theme">Theme</mat-checkbox>
+                            </div>
+                            <div fxFlex="0 1 50%">
+                            </div>
+                        </div>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
     </div>
 </main>

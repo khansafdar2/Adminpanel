@@ -1,0 +1,29 @@
+<div id="auth-wrapper">
+    <img class="logo" src="assets/img/logo.png" />
+
+    <mat-card>
+        <mat-progress-bar color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+        <mat-card-content>
+            <h1 class="text-center">Accept invitation</h1>
+
+            <p class="form-error" *ngIf="expired">The invitation link has been expired.</p>
+            <form [formGroup]="setupPasswordForm" (ngSubmit)="onSubmit()" *ngIf="!expired">
+                <mat-form-field appearance="outline">
+                    <mat-label>Password</mat-label>
+                    <input matInput name="password" formControlName="password" type="password">
+                    <mat-error *ngIf="setupPasswordForm.get('password').hasError('required')">Please enter a password for your account.</mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Confirm password</mat-label>
+                    <input matInput name="confirm_password" formControlName="confirm_password" type="password">
+                    <mat-error *ngIf="setupPasswordForm.get('confirm_password').hasError('required')">Please enter your password again.</mat-error>
+                </mat-form-field>
+
+                <p class="form-error" *ngIf="formError">{{ formError }}</p>
+
+                <button mat-flat-button color="primary" class="button-block" type="submit" [disabled]="loading">Accept</button>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

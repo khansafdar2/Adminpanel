@@ -1,0 +1,197 @@
+<app-topbar></app-topbar>
+<app-sidenav></app-sidenav>
+<main id="main">
+    <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+    <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
+        <h1>
+            <button mat-icon-button aria-label="Go back" class="header-back-arrow" (click)="goBack()">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+            General Information
+        </h1>
+
+        <div class="header-actions">
+            <button mat-stroked-button color="primary" (click)="goBack()">Cancel</button>
+            <button mat-flat-button color="primary">Save</button>
+        </div>
+    </div>
+
+    <div class="page-container">
+        <form>
+            <div class="settings-section" *ngIf="!loading">
+                <div fxLayout="row">
+                    <div fxFlex="0 1 33.333333%">
+                        <h2>Store details</h2>
+                        <p>Shopify and your customers will use this information to contact you.</p>
+                    </div>
+                    <div fxFlex="1 1 auto">
+                        <mat-card>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Store name</mat-label>
+                                <input matInput name="store_name" />
+                                <!-- <mat-error *ngIf="userForm.get('first_name').hasError('required')">Enter first name of user.</mat-error> -->
+                            </mat-form-field>
+                            <div fxLayout="row">
+                                <div fxFlex="0 1 50%">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Store contact email</mat-label>
+                                        <input matInput name="store_email" />
+                                        <!-- <mat-error *ngIf="userForm.get('first_name').hasError('required')">Enter first name of user.</mat-error> -->
+                                    </mat-form-field>
+                                    <p class="field-hint">We'll use this address if we need to contact you about your store.</p>
+                                </div>
+                                <div fxFlex="0 1 50%">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Sender email</mat-label>
+                                        <input matInput name="sender_email" />
+                                        <!-- <mat-error *ngIf="userForm.get('first_name').hasError('required')">Enter first name of user.</mat-error> -->
+                                    </mat-form-field>
+                                    <p class="field-hint">Your customers will see this address if you email them.</p>
+                                </div>
+                            </div>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Store industry</mat-label>
+                                <mat-select>
+                                    <mat-option value="Apparel">Apparel</mat-option>
+                                    <mat-option value="Information technology">Information technology</mat-option>
+                                </mat-select>
+                                <!-- <mat-error *ngIf="userForm.get('first_name').hasError('required')">Enter first name of user.</mat-error> -->
+                            </mat-form-field>
+                        </mat-card>
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-section" *ngIf="!loading">
+                <div fxLayout="row">
+                    <div fxFlex="0 1 33.333333%">
+                        <h2>Store address</h2>
+                        <p>This address will appear on your invoices.</p>
+                    </div>
+                    <div fxFlex="1 1 auto">
+                        <mat-card>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Legal name of company</mat-label>
+                                <input matInput name="legal_name" />
+                                <!-- <mat-error *ngIf="userForm.get('first_name').hasError('required')">Enter first name of user.</mat-error> -->
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Phone Number</mat-label>
+                                <input matInput name="phone_number" />
+                                <!-- <mat-error *ngIf="userForm.get('first_name').hasError('required')">Enter first name of user.</mat-error> -->
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Address</mat-label>
+                                <input matInput name="address" />
+                                <!-- <mat-error *ngIf="userForm.get('first_name').hasError('required')">Enter first name of user.</mat-error> -->
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Appartment, suite, etc.</mat-label>
+                                <input matInput name="appartment" />
+                                <!-- <mat-error *ngIf="userForm.get('first_name').hasError('required')">Enter first name of user.</mat-error> -->
+                            </mat-form-field>
+
+                            <div fxLayout="row">
+                                <div fxFlex="0 1 50%">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Country/Region</mat-label>
+                                        <mat-select>
+                                            <mat-option value="UAE">UAE</mat-option>
+                                            <mat-option value="Pakistan">Pakistan</mat-option>
+                                        </mat-select>
+                                        <!-- <mat-error *ngIf="userForm.get('first_name').hasError('required')">Enter first name of user.</mat-error> -->
+                                    </mat-form-field>
+                                </div>
+                                <div fxFlex="0 1 50%">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Postal code</mat-label>
+                                        <input matInput name="postal_code" />
+                                        <!-- <mat-error *ngIf="userForm.get('first_name').hasError('required')">Enter first name of user.</mat-error> -->
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </mat-card>
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-section" *ngIf="!loading">
+                <div fxLayout="row">
+                    <div fxFlex="0 1 33.333333%">
+                        <h2>Standards and formats</h2>
+                        <p>Standards and formats are used to calculate product prices, shipping weights, and order times.</p>
+                    </div>
+                    <div fxFlex="1 1 auto">
+                        <mat-card>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Time zone</mat-label>
+                                <mat-select>
+                                    <mat-option value="Africa/Abidjan">Africa/Abidjan</mat-option>
+                                    <mat-option value="Africa/Accra">Africa/Accra</mat-option>
+                                    <mat-option value="Africa/Addis_Ababa">Africa/Addis_Ababa</mat-option>
+                                    <mat-option value="Africa/Algiers">Africa/Algiers</mat-option>
+                                    <mat-option value="Africa/Asmara">Africa/Asmara</mat-option>
+                                    <mat-option value="Africa/Asmera">Africa/Asmera</mat-option>
+                                    <mat-option value="Africa/Bamako">Africa/Bamako</mat-option>
+                                </mat-select>
+                                <!-- <mat-error *ngIf="userForm.get('first_name').hasError('required')">Enter first name of user.</mat-error> -->
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Unit System</mat-label>
+                                <mat-select>
+                                    <mat-option value="Metric">Metric</mat-option>
+                                    <mat-option value="Imperial">Imperial</mat-option>
+                                </mat-select>
+                                <!-- <mat-error *ngIf="userForm.get('first_name').hasError('required')">Enter first name of user.</mat-error> -->
+                            </mat-form-field>
+
+                            <p class="field-label">Order format</p>
+                            <p class="field-value">Order numbers start at #1001 by default. While you can’t change the order number itself, you can add a prefix or suffix to create IDs like "EN1001" or "1001-A.</p>
+
+                            <div fxLayout="row">
+                                <div fxFlex="0 1 50%">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Main order</mat-label>
+                                        <input matInput name="main_order" placeholder="Prefix" />
+                                        <!-- <mat-error *ngIf="userForm.get('first_name').hasError('required')">Enter first name of user.</mat-error> -->
+                                    </mat-form-field>
+                                </div>
+                                <div fxFlex="0 1 50%">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Splitted order</mat-label>
+                                        <input matInput name="splitted_order" placeholder="Suffix" />
+                                        <!-- <mat-error *ngIf="userForm.get('first_name').hasError('required')">Enter first name of user.</mat-error> -->
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </mat-card>
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-section" *ngIf="!loading">
+                <div fxLayout="row">
+                    <div fxFlex="0 1 33.333333%">
+                        <h2>Store currency</h2>
+                        <p>This is the currency your products are sold in. After your first sale, currency is locked in and can’t be changed.</p>
+                    </div>
+                    <div fxFlex="1 1 auto">
+                        <mat-card>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Store currency</mat-label>
+                                <mat-select>
+                                    <mat-option value="AED">AED</mat-option>
+                                </mat-select>
+                                <!-- <mat-error *ngIf="userForm.get('first_name').hasError('required')">Enter first name of user.</mat-error> -->
+                            </mat-form-field>
+                        </mat-card>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</main>

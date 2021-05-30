@@ -4,15 +4,17 @@
     <mat-card>
         <mat-card-content>
             <h1 class="text-center">Login to KEES</h1>
-            <form>
+            <form [formGroup]="signinForm" (ngSubmit)="onSubmit()">
                 <mat-form-field appearance="outline">
                     <mat-label>Email</mat-label>
-                    <input matInput type="email" />
+                    <input matInput name="username_or_email" formControlName="username_or_email">
+                    <mat-error *ngIf="signinForm.get('username_or_email').hasError('required')">Enter your username or email address.</mat-error>
                 </mat-form-field>
 
                 <mat-form-field appearance="outline">
                     <mat-label>Password</mat-label>
-                    <input matInput type="password" />
+                    <input matInput type="password" name="password" formControlName="password">
+                    <mat-error *ngIf="signinForm.get('password').hasError('required')">Enter your password.</mat-error>
                 </mat-form-field>
 
                 <div fxLayout="row">
@@ -24,7 +26,9 @@
                     </div>
                 </div>
 
-                <button mat-flat-button color="primary" class="button-block" type="submit">Log in</button>
+                <p class="form-error" *ngIf="formError">{{ formError }}</p>
+
+                <button mat-flat-button color="primary" class="button-block" type="submit" [disabled]="loading">Log in</button>
             </form>
         </mat-card-content>
     </mat-card>

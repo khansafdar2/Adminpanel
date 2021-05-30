@@ -8,10 +8,14 @@ import URLS from './shared/urls';
 import { UserManagementComponent } from './views/configuration/user-management/user-management.component';
 import { AddUserComponent } from './views/configuration/user-management/add-user/add-user.component';
 import { UserInfoComponent } from './views/configuration/user-management/user-info/user-info.component';
+import { AcceptInviteComponent } from './auth/accept-invite/accept-invite.component';
+import { TaxConfigurationComponent } from './views/configuration/tax-configuration/tax-configuration.component';
+import { GeneralInformationComponent } from './views/configuration/general-information/general-information.component';
 
 
 const routes: Routes = [
   {path: URLS.signin, component: SigninComponent},
+  {path: URLS.acceptInvite + '/:key', component: AcceptInviteComponent},
   {path: URLS.home, component: DashboardComponent},
   {path: URLS.configuration, component: ConfigurationComponent},
   {path: URLS.userManagement, children: [
@@ -20,6 +24,8 @@ const routes: Routes = [
     {path: URLS.add, component: AddUserComponent},
     {path: URLS.info + '/:id', component: UserInfoComponent},
   ]},
+  {path: URLS.tax, component: TaxConfigurationComponent},
+  {path: URLS.generalInformation, component: GeneralInformationComponent},
 ];
 
 @NgModule({

@@ -13,6 +13,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTableModule } from '@angular/material/table';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSelectModule } from '@angular/material/select';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -26,6 +29,9 @@ import { ConfigurationComponent } from './views/configuration/configuration.comp
 import { TransferOwnershipDialog, UserManagementComponent } from './views/configuration/user-management/user-management.component';
 import { AddUserComponent } from './views/configuration/user-management/add-user/add-user.component';
 import { UserInfoComponent } from './views/configuration/user-management/user-info/user-info.component';
+import { AcceptInviteComponent } from './auth/accept-invite/accept-invite.component';
+import { TaxConfigurationComponent } from './views/configuration/tax-configuration/tax-configuration.component';
+import { GeneralInformationComponent } from './views/configuration/general-information/general-information.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +44,10 @@ import { UserInfoComponent } from './views/configuration/user-management/user-in
     UserManagementComponent,
     TransferOwnershipDialog,
     AddUserComponent,
-    UserInfoComponent
+    UserInfoComponent,
+    AcceptInviteComponent,
+    TaxConfigurationComponent,
+    GeneralInformationComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,7 +67,10 @@ import { UserInfoComponent } from './views/configuration/user-management/user-in
     MatInputModule,
     MatCheckboxModule,
     MatDividerModule,
-    MatTableModule
+    MatTableModule,
+    MatProgressBarModule,
+    MatSnackBarModule,
+    MatSelectModule,
   ],
   providers: [LoggedInAuthGuard, LoggedOutAuthGuard],
   bootstrap: [AppComponent]

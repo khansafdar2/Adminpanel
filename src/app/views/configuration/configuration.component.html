@@ -10,7 +10,7 @@
             <h2 class="settings-section-heading" fxFlex="25%">Miscellaneous</h2>
             <div class="settings-section-cards" fxLayout="row wrap" fxFlex="grow">
                 <div class="settings-section-card" fxFlex="0 1 33.3333%">
-                    <mat-card>
+                    <mat-card (click)="goToSettings('generalInformation')">
                         <mat-card-header>
                             <div mat-card-avatar [inlineSVG]="'/assets/img/MailIcon.svg'"></div>
                             <mat-card-title>General Information</mat-card-title>
@@ -46,7 +46,7 @@
                     </mat-card>
                 </div>
                 <div class="settings-section-card" fxFlex="0 1 33.3333%">
-                    <mat-card>
+                    <mat-card (click)="goToSettings('tax')">
                         <mat-card-header>
                             <div mat-card-avatar [inlineSVG]="'/assets/img/MailIcon.svg'"></div>
                             <mat-card-title>Tax</mat-card-title>
