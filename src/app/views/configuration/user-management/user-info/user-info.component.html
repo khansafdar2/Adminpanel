@@ -1,6 +1,7 @@
 <app-topbar></app-topbar>
 <app-sidenav></app-sidenav>
 <main id="main">
+    <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
     <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
         <h1>
             <button mat-icon-button aria-label="Go back" class="header-back-arrow" (click)="goBack()">
@@ -11,7 +12,7 @@
 
         <div class="header-actions">
             <button mat-stroked-button color="primary" (click)="goBack()">Cancel</button>
-            <button mat-flat-button color="primary" (click)="goBack()">Save</button>
+            <button mat-flat-button color="primary" (click)="saveInfo()">Save</button>
         </div>
     </div>
 
@@ -23,29 +24,43 @@
                 </div>
                 <div fxFlex="0 1 66.66666%">
                     <mat-card>
-                        <mat-card-header>
+                        <!-- <mat-card-header>
                             <div mat-card-avatar>
                                 <span class="account-initials">MK</span>
                             </div>
                             <mat-card-title class="account-title"><span class="text-link">Muhammad Kashif</span></mat-card-title>
                             <mat-card-subtitle>m.kasshif56@gmail.com</mat-card-subtitle>
-                        </mat-card-header>
+                        </mat-card-header> -->
                         <mat-card-content>
+                            <div fxLayout="row">
+                                <div fxFlex="0 1 50%">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>First Name</mat-label>
+                                        <input matInput name="first_name" [(ngModel)]="userDetail.first_name" />
+                                    </mat-form-field>
+                                </div>
+                                <div fxFlex="0 1 50%">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Last Name</mat-label>
+                                        <input matInput name="last_name" [(ngModel)]="userDetail.last_name" />
+                                    </mat-form-field>
+                                </div>
+                            </div>
                             <div fxLayout="row" class="user-password-row">
-                                <div fxFlex="0 1 auto">
-                                    <p class="field-label">Two-step authentication</p>
-                                    <p class="field-value">Two-step authentication enabled</p>
+                                <div fxFlex="0 1 50%">
+                                    <p class="field-label">Email address</p>
+                                    <p class="field-value">{{userDetail.email}}</p>
                                 </div>
                                 <div fxFlex="0 1 auto">
                                     <p class="field-label">Password</p>
-                                    <p class="field-value text-link">Reset password</p>
+                                    <p class="field-value text-link" (click)="openChangePasswordDialog()">Change password</p>
                                 </div>
                             </div>
                             <mat-divider></mat-divider>
                             <p class="field-label notification-label">Notifications</p>
                             <div fxLayout="row" class="user-notification-row">
                                 <div fxFlex="0 1 auto">
-                                    <mat-checkbox></mat-checkbox>
+                                    <mat-checkbox [(ngModel)]="userDetail.newsletter"></mat-checkbox>
                                 </div>
                                 <div fxFlex="1 1 auto">
                                     <p class="notification-heading">Allow important notifications to be sent by email</p>
@@ -102,28 +117,13 @@
                         <div fxLayout="row">
                             <div fxFlex="0 1 50%">
                                 <label>Dummy</label>
-                                <mat-checkbox>Home</mat-checkbox>
-                                <mat-checkbox>Orders</mat-checkbox>
-                                <mat-checkbox>Draft Orders</mat-checkbox>
-                                <mat-checkbox>Products</mat-checkbox>
-                                <mat-checkbox>Gift cards</mat-checkbox>
-                                <mat-checkbox>Customers</mat-checkbox>
-                                <mat-checkbox>Reports</mat-checkbox>
-                                <mat-checkbox>Dashboard</mat-checkbox>
-                                <mat-checkbox>Marketing</mat-checkbox>
-                            </div>
-                            <div fxFlex="0 1 50%">
-                                <label>Dummy</label>
-                                <mat-checkbox>Themes</mat-checkbox>
-                                <mat-checkbox>Blog posts and pages</mat-checkbox>
-                                <mat-checkbox>Navigation</mat-checkbox>
-                                <mat-checkbox>Domains</mat-checkbox>
-                                <label>Dummy</label>
-                                <mat-checkbox>Manage settings</mat-checkbox>
-                                <mat-checkbox>Manage locations</mat-checkbox>
-                                <mat-checkbox>Edit permissions</mat-checkbox>
-                                <mat-checkbox>Add and remove stuff</mat-checkbox>
-                                <mat-checkbox>Manage payment methods</mat-checkbox>
+                                <mat-checkbox [(ngModel)]="userDetail.permissions.dashboard">Dashboard</mat-checkbox>
+                                <mat-checkbox [(ngModel)]="userDetail.permissions.configuration">Configuration</mat-checkbox>
+                                <mat-checkbox [(ngModel)]="userDetail.permissions.customer">Customer</mat-checkbox>
+                                <mat-checkbox [(ngModel)]="userDetail.permissions.discounts">Discounts</mat-checkbox>
+                                <mat-checkbox [(ngModel)]="userDetail.permissions.orders">Orders</mat-checkbox>
+                                <mat-checkbox [(ngModel)]="userDetail.permissions.products">Products</mat-checkbox>
+                                <mat-checkbox [(ngModel)]="userDetail.permissions.theme">Theme</mat-checkbox>
                             </div>
                         </div>
                     </mat-card>

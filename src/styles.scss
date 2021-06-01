@@ -109,6 +109,11 @@ th.mat-header-cell {
     color: #3d3d3d;
     font-size: 14px;
 }
+.form-error {
+    color: #f00;
+    margin: 10px 0;
+    font-size: 13px;
+}
 #auth-wrapper {
     max-width: 550px;
     margin: 0 auto;
@@ -132,11 +137,6 @@ th.mat-header-cell {
     }
     .mat-card {
         padding: 30px;
-    }
-    .form-error {
-        color: #f00;
-        margin: 10px 0;
-        font-size: 13px;
     }
     .button-block {
         margin-top: 20px;

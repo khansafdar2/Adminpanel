@@ -28,7 +28,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ConfigurationComponent } from './views/configuration/configuration.component';
 import { TransferOwnershipDialog, UserManagementComponent } from './views/configuration/user-management/user-management.component';
 import { AddUserComponent } from './views/configuration/user-management/add-user/add-user.component';
-import { UserInfoComponent } from './views/configuration/user-management/user-info/user-info.component';
+import { ChangePasswordDialog, UserInfoComponent } from './views/configuration/user-management/user-info/user-info.component';
 import { AcceptInviteComponent } from './auth/accept-invite/accept-invite.component';
 import { TaxConfigurationComponent } from './views/configuration/tax-configuration/tax-configuration.component';
 import { GeneralInformationComponent } from './views/configuration/general-information/general-information.component';
@@ -48,6 +48,7 @@ import { GeneralInformationComponent } from './views/configuration/general-infor
     AcceptInviteComponent,
     TaxConfigurationComponent,
     GeneralInformationComponent,
+    ChangePasswordDialog
   ],
   imports: [
     BrowserModule,

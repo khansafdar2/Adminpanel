@@ -43,4 +43,57 @@ export class UsersService {
   signupPassword(data) {
     return Axios.post(environment.backend_url + '/authentication/input_password', data);
   }
+
+  getUser(id) {
+    return Axios.get(environment.backend_url + '/authentication/users/' + id, {
+      headers: {
+        Authorization: this.authservice.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authservice.signout();
+      }
+    });
+  }
+
+  updateUser(data) {
+    return Axios.put(environment.backend_url + '/authentication/users', data, {
+      headers: {
+        Authorization: this.authservice.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authservice.signout();
+      }
+    });
+  }
+
+  changePassword(data) {
+    return Axios.put(environment.backend_url + '/authentication/change_password', data, {
+      headers: {
+        Authorization: this.authservice.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authservice.signout();
+      }
+      return error.response;
+    });
+  }
+
+  transferOwnership(id) {
+    return Axios.post(environment.backend_url + '/authentication/transfer_ownership', {id}, {
+      headers: {
+        Authorization: this.authservice.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authservice.signout();
+      }
+    });
+  }
 }

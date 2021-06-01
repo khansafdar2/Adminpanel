@@ -22,7 +22,7 @@
                     <mat-card>
                         <mat-card-header>
                             <div mat-card-avatar>
-                                <span class="account-initials">MK</span>
+                                <span class="account-initials">{{userInitials}}</span>
                             </div>
                             <mat-card-title class="account-title"><span class="text-link" (click)="openUserInfo(storeOwner.id)">{{storeOwner.first_name}} {{storeOwner.last_name}}</span></mat-card-title>
                             <mat-card-subtitle>Last login was {{storeOwner.last_login}}</mat-card-subtitle>

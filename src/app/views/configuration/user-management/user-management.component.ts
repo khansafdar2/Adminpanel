@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import URLs from '../../../shared/urls';
 import { UsersService } from './users.service';
 
@@ -15,7 +15,11 @@ export class UserManagementComponent implements OnInit {
 
   users = [];
   staff = [];
-  storeOwner = {};
+  userInitials: string = "";
+  storeOwner = {
+    first_name: "",
+    last_name: ""
+  };
   loading: boolean = true;
 
   ngOnInit(): void {
@@ -34,9 +38,11 @@ export class UserManagementComponent implements OnInit {
         resp.data.users.forEach(user => {
           if(user.is_superuser) {
             this.storeOwner = user;
+            this.userInitials = this.storeOwner.first_name.charAt(0).toUpperCase() + this.storeOwner.last_name.charAt(0).toUpperCase();
           } else {
             this.staff.push(user);
           }
+
           user.full_access = true;
           for (let [permission, value] of Object.entries(user.permissions)) {
             if(!value) {
@@ -59,7 +65,8 @@ export class UserManagementComponent implements OnInit {
 
   openTransferOwnershipDialog() {
     this.dialog.open(TransferOwnershipDialog, {
-      width: '600px'
+      width: '600px',
+      data: {users: this.users}
     });
   }
 
@@ -70,4 +77,19 @@ export class UserManagementComponent implements OnInit {
   selector: 'transfer-ownership-dialog',
   templateUrl: 'dialogs/transfer-ownership.html',
 })
-export class TransferOwnershipDialog {}
+export class TransferOwnershipDialog {
+  constructor(public dialogRef: MatDialogRef<TransferOwnershipDialog>, @Inject(MAT_DIALOG_DATA) public data, private usersService: UsersService) {}
+
+  loading: boolean = false;
+  transferId = null;
+  formError: string = "";
+
+  transferOwnership() {
+    console.log(this.transferId);
+
+    this.usersService.transferOwnership(this.transferId).then(resp => {
+      console.log(resp);
+      this.dialogRef.close();
+    });
+  }
+}
