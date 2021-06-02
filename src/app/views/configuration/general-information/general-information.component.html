@@ -12,12 +12,12 @@
 
         <div class="header-actions">
             <button mat-stroked-button color="primary" (click)="goBack()">Cancel</button>
-            <button mat-flat-button color="primary">Save</button>
+            <button mat-flat-button color="primary" [disabled]="!storeInfoForm.valid || loading" (click)="saveInfo()">Save</button>
         </div>
     </div>
 
     <div class="page-container">
-        <form>
+        <form [formGroup]="storeInfoForm">
             <div class="settings-section" *ngIf="!loading">
                 <div fxLayout="row">
                     <div fxFlex="0 1 33.333333%">
@@ -28,34 +28,34 @@
                         <mat-card>
                             <mat-form-field appearance="outline">
                                 <mat-label>Store name</mat-label>
-                                <input matInput name="store_name" />
-                                <!-- <mat-error *ngIf="userForm.get('first_name').hasError('required')">Enter first name of user.</mat-error> -->
+                                <input matInput name="store_name" formControlName="store_name" />
+                                <mat-error *ngIf="storeInfoForm.get('store_name').hasError('required')">This field is required.</mat-error>
                             </mat-form-field>
                             <div fxLayout="row">
                                 <div fxFlex="0 1 50%">
                                     <mat-form-field appearance="outline">
                                         <mat-label>Store contact email</mat-label>
-                                        <input matInput name="store_email" />
-                                        <!-- <mat-error *ngIf="userForm.get('first_name').hasError('required')">Enter first name of user.</mat-error> -->
+                                        <input matInput name="store_contact_email" formControlName="store_contact_email" />
+                                        <mat-error *ngIf="storeInfoForm.get('store_contact_email').hasError('required')">This field is required.</mat-error>
                                     </mat-form-field>
                                     <p class="field-hint">We'll use this address if we need to contact you about your store.</p>
                                 </div>
                                 <div fxFlex="0 1 50%">
                                     <mat-form-field appearance="outline">
                                         <mat-label>Sender email</mat-label>
-                                        <input matInput name="sender_email" />
-                                        <!-- <mat-error *ngIf="userForm.get('first_name').hasError('required')">Enter first name of user.</mat-error> -->
+                                        <input matInput name="sender_email" formControlName="sender_email" />
+                                        <mat-error *ngIf="storeInfoForm.get('sender_email').hasError('required')">This field is required.</mat-error>
                                     </mat-form-field>
                                     <p class="field-hint">Your customers will see this address if you email them.</p>
                                 </div>
                             </div>
                             <mat-form-field appearance="outline">
                                 <mat-label>Store industry</mat-label>
-                                <mat-select>
+                                <mat-select formControlName="store_industry">
                                     <mat-option value="Apparel">Apparel</mat-option>
                                     <mat-option value="Information technology">Information technology</mat-option>
                                 </mat-select>
-                                <!-- <mat-error *ngIf="userForm.get('first_name').hasError('required')">Enter first name of user.</mat-error> -->
+                                <mat-error *ngIf="storeInfoForm.get('store_industry').hasError('required')">This field is required.</mat-error>
                             </mat-form-field>
                         </mat-card>
                     </div>
@@ -72,44 +72,42 @@
                         <mat-card>
                             <mat-form-field appearance="outline">
                                 <mat-label>Legal name of company</mat-label>
-                                <input matInput name="legal_name" />
-                                <!-- <mat-error *ngIf="userForm.get('first_name').hasError('required')">Enter first name of user.</mat-error> -->
+                                <input matInput name="company_name" formControlName="company_name" />
+                                <mat-error *ngIf="storeInfoForm.get('company_name').hasError('required')">This field is required.</mat-error>
                             </mat-form-field>
 
                             <mat-form-field appearance="outline">
                                 <mat-label>Phone Number</mat-label>
-                                <input matInput name="phone_number" />
-                                <!-- <mat-error *ngIf="userForm.get('first_name').hasError('required')">Enter first name of user.</mat-error> -->
+                                <input matInput name="phone_number" formControlName="phone_number" />
+                                <mat-error *ngIf="storeInfoForm.get('phone_number').hasError('required')">This field is required.</mat-error>
                             </mat-form-field>
 
                             <mat-form-field appearance="outline">
                                 <mat-label>Address</mat-label>
-                                <input matInput name="address" />
-                                <!-- <mat-error *ngIf="userForm.get('first_name').hasError('required')">Enter first name of user.</mat-error> -->
+                                <input matInput name="address1" formControlName="address1" />
+                                <mat-error *ngIf="storeInfoForm.get('address1').hasError('required')">This field is required.</mat-error>
                             </mat-form-field>
 
                             <mat-form-field appearance="outline">
                                 <mat-label>Appartment, suite, etc.</mat-label>
-                                <input matInput name="appartment" />
-                                <!-- <mat-error *ngIf="userForm.get('first_name').hasError('required')">Enter first name of user.</mat-error> -->
+                                <input matInput name="address2" formControlName="address2" />
                             </mat-form-field>
 
                             <div fxLayout="row">
                                 <div fxFlex="0 1 50%">
                                     <mat-form-field appearance="outline">
                                         <mat-label>Country/Region</mat-label>
-                                        <mat-select>
-                                            <mat-option value="UAE">UAE</mat-option>
-                                            <mat-option value="Pakistan">Pakistan</mat-option>
+                                        <mat-select formControlName="country">
+                                            <mat-option value="Qatar">Qatar</mat-option>
                                         </mat-select>
-                                        <!-- <mat-error *ngIf="userForm.get('first_name').hasError('required')">Enter first name of user.</mat-error> -->
+                                        <mat-error *ngIf="storeInfoForm.get('country').hasError('required')">This field is required.</mat-error>
                                     </mat-form-field>
                                 </div>
                                 <div fxFlex="0 1 50%">
                                     <mat-form-field appearance="outline">
                                         <mat-label>Postal code</mat-label>
-                                        <input matInput name="postal_code" />
-                                        <!-- <mat-error *ngIf="userForm.get('first_name').hasError('required')">Enter first name of user.</mat-error> -->
+                                        <input matInput formControlName="postal_code" />
+                                        <mat-error *ngIf="storeInfoForm.get('postal_code').hasError('required')">This field is required.</mat-error>
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -128,26 +126,37 @@
                         <mat-card>
                             <mat-form-field appearance="outline">
                                 <mat-label>Time zone</mat-label>
-                                <mat-select>
-                                    <mat-option value="Africa/Abidjan">Africa/Abidjan</mat-option>
-                                    <mat-option value="Africa/Accra">Africa/Accra</mat-option>
-                                    <mat-option value="Africa/Addis_Ababa">Africa/Addis_Ababa</mat-option>
-                                    <mat-option value="Africa/Algiers">Africa/Algiers</mat-option>
-                                    <mat-option value="Africa/Asmara">Africa/Asmara</mat-option>
-                                    <mat-option value="Africa/Asmera">Africa/Asmera</mat-option>
-                                    <mat-option value="Africa/Bamako">Africa/Bamako</mat-option>
+                                <mat-select formControlName="time_zone">
+                                    <mat-option value="Qatar (GMT+3)">Qatar (GMT+3)</mat-option>
                                 </mat-select>
-                                <!-- <mat-error *ngIf="userForm.get('first_name').hasError('required')">Enter first name of user.</mat-error> -->
+                                <mat-error *ngIf="storeInfoForm.get('time_zone').hasError('required')">This field is required.</mat-error>
                             </mat-form-field>
 
-                            <mat-form-field appearance="outline">
-                                <mat-label>Unit System</mat-label>
-                                <mat-select>
-                                    <mat-option value="Metric">Metric</mat-option>
-                                    <mat-option value="Imperial">Imperial</mat-option>
-                                </mat-select>
-                                <!-- <mat-error *ngIf="userForm.get('first_name').hasError('required')">Enter first name of user.</mat-error> -->
-                            </mat-form-field>
+                            <div fxLayout="row">
+                                <div fxFlex="0 1 50%">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Unit System</mat-label>
+                                        <mat-select formControlName="unit_system">
+                                            <mat-option value="Standard">Standard</mat-option>
+                                            <mat-option value="Imperial">Imperial</mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="storeInfoForm.get('unit_system').hasError('required')">This field is required.</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div fxFlex="0 1 50%">
+                                    <mat-form-field appearance="outline" *ngIf="storeInfoForm.get('unit_system').value">
+                                        <mat-label>Weight unit</mat-label>
+                                        <mat-select formControlName="weight_units">
+                                            <mat-option value="kg" *ngIf="storeInfoForm.get('unit_system').value == 'Standard'">kg</mat-option>
+                                            <mat-option value="g" *ngIf="storeInfoForm.get('unit_system').value == 'Standard'">g</mat-option>
+                                            <mat-option value="lb" *ngIf="storeInfoForm.get('unit_system').value == 'Imperial'">lb</mat-option>
+                                            <mat-option value="oz" *ngIf="storeInfoForm.get('unit_system').value == 'Imperial'">oz</mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="storeInfoForm.get('weight_units').hasError('required')">This field is required.</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
 
                             <p class="field-label">Order format</p>
                             <p class="field-value">Order numbers start at #1001 by default. While you can’t change the order number itself, you can add a prefix or suffix to create IDs like "EN1001" or "1001-A.</p>
@@ -155,16 +164,14 @@
                             <div fxLayout="row">
                                 <div fxFlex="0 1 50%">
                                     <mat-form-field appearance="outline">
-                                        <mat-label>Main order</mat-label>
-                                        <input matInput name="main_order" placeholder="Prefix" />
-                                        <!-- <mat-error *ngIf="userForm.get('first_name').hasError('required')">Enter first name of user.</mat-error> -->
+                                        <mat-label>Main order prefix</mat-label>
+                                        <input matInput name="main_order_prefix" formControlName="main_order_prefix" />
                                     </mat-form-field>
                                 </div>
                                 <div fxFlex="0 1 50%">
                                     <mat-form-field appearance="outline">
-                                        <mat-label>Splitted order</mat-label>
-                                        <input matInput name="splitted_order" placeholder="Suffix" />
-                                        <!-- <mat-error *ngIf="userForm.get('first_name').hasError('required')">Enter first name of user.</mat-error> -->
+                                        <mat-label>Splitted order prefix</mat-label>
+                                        <input matInput name="split_order_prefix" formControlName="split_order_prefix" />
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -183,10 +190,10 @@
                         <mat-card>
                             <mat-form-field appearance="outline">
                                 <mat-label>Store currency</mat-label>
-                                <mat-select>
-                                    <mat-option value="AED">AED</mat-option>
+                                <mat-select formControlName="store_currency">
+                                    <mat-option value="QAR">QAR</mat-option>
                                 </mat-select>
-                                <!-- <mat-error *ngIf="userForm.get('first_name').hasError('required')">Enter first name of user.</mat-error> -->
+                                <mat-error *ngIf="storeInfoForm.get('store_currency').hasError('required')">This field is requried.</mat-error>
                             </mat-form-field>
                         </mat-card>
                     </div>

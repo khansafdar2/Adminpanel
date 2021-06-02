@@ -6,7 +6,7 @@
             <h1 class="text-center">Login to KEES</h1>
             <form [formGroup]="signinForm" (ngSubmit)="onSubmit()">
                 <mat-form-field appearance="outline">
-                    <mat-label>Email</mat-label>
+                    <mat-label>Username or email address</mat-label>
                     <input matInput name="username_or_email" formControlName="username_or_email">
                     <mat-error *ngIf="signinForm.get('username_or_email').hasError('required')">Enter your username or email address.</mat-error>
                 </mat-form-field>
@@ -22,7 +22,7 @@
                         <mat-checkbox>Remember me</mat-checkbox>
                     </div>
                     <div fxFlex="0 1 50%" class="text-right">
-                        <a routerLink="/">Forgot Password?</a>
+                        <a [routerLink]="'/' + URLs.forgotPassword">Forgot Password?</a>
                     </div>
                 </div>
 

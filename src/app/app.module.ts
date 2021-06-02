@@ -32,6 +32,9 @@ import { ChangePasswordDialog, UserInfoComponent } from './views/configuration/u
 import { AcceptInviteComponent } from './auth/accept-invite/accept-invite.component';
 import { TaxConfigurationComponent } from './views/configuration/tax-configuration/tax-configuration.component';
 import { GeneralInformationComponent } from './views/configuration/general-information/general-information.component';
+import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
+import { ProductsComponent } from './views/products/products.component';
+import { CategoryStructureComponent } from './views/products/category-structure/category-structure.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +51,10 @@ import { GeneralInformationComponent } from './views/configuration/general-infor
     AcceptInviteComponent,
     TaxConfigurationComponent,
     GeneralInformationComponent,
-    ChangePasswordDialog
+    ChangePasswordDialog,
+    ForgotPasswordComponent,
+    ProductsComponent,
+    CategoryStructureComponent
   ],
   imports: [
     BrowserModule,

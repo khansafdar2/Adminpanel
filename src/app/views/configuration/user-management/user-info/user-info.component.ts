@@ -86,6 +86,7 @@ export class UserInfoComponent implements OnInit {
       if(resp) {
         console.log(resp);
         this.loading = false;
+        this.router.navigate([URLS.userManagement, URLS.all]);
       }
     });
   }

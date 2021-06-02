@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import Axios from 'axios';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../auth.service';
+import URLS  from '../../shared/urls';
 
 
 @Component({
@@ -21,6 +22,7 @@ export class SigninComponent implements OnInit {
     username_or_email: ['', [Validators.required]],
     password: ['', [Validators.required]],
   });
+  URLs = URLS;
 
   ngOnInit(): void {
   }
