@@ -4,6 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { QuillModule } from 'ngx-quill';
+import { AngularFileUploaderModule } from "angular-file-uploader";
+
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -35,6 +38,7 @@ import { GeneralInformationComponent } from './views/configuration/general-infor
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 import { ProductsComponent } from './views/products/products.component';
 import { CategoryStructureComponent } from './views/products/category-structure/category-structure.component';
+import { NewMainCategoryComponent } from './views/products/category-structure/main-category/new-main-category/new-main-category.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +58,8 @@ import { CategoryStructureComponent } from './views/products/category-structure/
     ChangePasswordDialog,
     ForgotPasswordComponent,
     ProductsComponent,
-    CategoryStructureComponent
+    CategoryStructureComponent,
+    NewMainCategoryComponent
   ],
   imports: [
     BrowserModule,
@@ -65,6 +70,8 @@ import { CategoryStructureComponent } from './views/products/category-structure/
     InlineSVGModule.forRoot(),
     BrowserAnimationsModule,
     FlexLayoutModule,
+    QuillModule.forRoot(),
+    AngularFileUploaderModule,
 
     MatDialogModule,
     MatCardModule,

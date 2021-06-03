@@ -11,7 +11,8 @@ const URLS = {
     tax: 'tax',
     generalInformation: 'general-information',
     products: 'products',
-    categories: 'categories'
+    categories: 'categories',
+    newMainCategory: 'new-main',
 }
 
 export default URLS;

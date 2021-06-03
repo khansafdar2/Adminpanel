@@ -13,6 +13,7 @@ import { TaxConfigurationComponent } from './views/configuration/tax-configurati
 import { GeneralInformationComponent } from './views/configuration/general-information/general-information.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 import { CategoryStructureComponent } from './views/products/category-structure/category-structure.component';
+import { NewMainCategoryComponent } from './views/products/category-structure/main-category/new-main-category/new-main-category.component';
 
 
 const routes: Routes = [
@@ -22,14 +23,18 @@ const routes: Routes = [
   {path: URLS.home, component: DashboardComponent},
   {path: URLS.configuration, component: ConfigurationComponent},
   {path: URLS.userManagement, children: [
-    {path: '', redirectTo: 'all', pathMatch: 'full'},
+    {path: '', redirectTo: URLS.all, pathMatch: 'full'},
     {path: URLS.all, component: UserManagementComponent},
     {path: URLS.add, component: AddUserComponent},
     {path: URLS.info + '/:id', component: UserInfoComponent},
   ]},
   {path: URLS.tax, component: TaxConfigurationComponent},
   {path: URLS.generalInformation, component: GeneralInformationComponent},
-  {path: URLS.categories, component: CategoryStructureComponent},
+  {path: URLS.categories, children: [
+    {path: '', redirectTo: URLS.all, pathMatch: 'full'},
+    {path: URLS.all, component: CategoryStructureComponent},
+    {path: URLS.newMainCategory, component: NewMainCategoryComponent}
+  ]},
 ];
 
 @NgModule({

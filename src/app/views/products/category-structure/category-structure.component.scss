@@ -1,0 +1,38 @@
+.categories-card {
+    max-width: 800px;
+
+    &.mat-card {
+        padding-bottom: 0;
+    }
+
+    .category-wrapper {
+        & + .category-wrapper {
+            border-top: 1px solid #f2f2f2;
+        }
+        .category-inner {
+            padding: 6px 0;
+            background-color: #ffffff;
+
+            & + .category-inner {
+                border-top: 1px solid #f2f2f2;
+            }
+        }
+
+        .category-actions {
+            .products-count {
+                margin-right: 20px;
+                opacity: 0.6;
+            }
+            > * + * {
+                margin-left: 10px;
+            }
+        }
+    }
+
+    .sub-categories {
+        padding-left: 36px;
+        background-color: #fafafa;
+        margin: 0 0 0 -16px;
+        border-top: 1px solid #f2f2f2;
+    }
+}
