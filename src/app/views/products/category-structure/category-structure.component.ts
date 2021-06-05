@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import URLS from 'src/app/shared/urls';
@@ -11,7 +12,7 @@ import URLS from 'src/app/shared/urls';
 })
 export class CategoryStructureComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   URLS = URLS;
   loading: boolean = false;
@@ -38,6 +39,10 @@ export class CategoryStructureComponent implements OnInit {
       sub_category: []
     }
   ]
+
+  addSubCategory(index) {
+    this.router.navigate(['/', URLS.categories, URLS.newSubCategory, index]);
+  }
 
   ngOnInit(): void {
     this.filteredCategories = this.searchField.valueChanges

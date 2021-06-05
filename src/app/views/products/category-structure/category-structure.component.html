@@ -3,9 +3,7 @@
 <main id="main">
     <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
     <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
-        <h1>
-            Category structure
-        </h1>
+        <h1>Category structure</h1>
 
         <div class="header-actions">
             <a [routerLink]="['/', URLS.categories, URLS.newMainCategory]" mat-flat-button color="primary">Create new</a>
@@ -20,15 +18,18 @@
             </mat-form-field>
 
             <div id="category-structure">
-                <div class="category-wrapper" *ngFor="let mainCategory of filteredCategories | async">
+                <div class="category-wrapper" *ngFor="let mainCategory of filteredCategories | async; let i = index;">
                     <div class="category-inner" fxLayout="row" fxLayoutAlign="space-between center">
                         <span class="category-title">{{mainCategory.name}}</span>
 
                         <div class="category-actions">
                             <span class="products-count">13 products</span>
-                            <button mat-icon-button color="primary">
-                                <mat-icon>edit</mat-icon>
+                            <button mat-icon-button color="primary" (click)="addSubCategory(mainCategory.id)">
+                                <mat-icon>add</mat-icon>
                             </button>
+                            <a [routerLink]="['/', URLS.categories, URLS.editMainCategory, mainCategory.id]" mat-icon-button color="primary">
+                                <mat-icon>edit</mat-icon>
+                            </a>
                             <button mat-icon-button color="warn">
                                 <mat-icon>delete</mat-icon>
                             </button>
@@ -41,13 +42,17 @@
     
                             <div class="category-actions">
                                 <span class="products-count">13 products</span>
-                                <button mat-icon-button color="primary">
+                                <a [routerLink]="['/', URLS.categories, URLS.editSubCategory, subCategory.id]" mat-icon-button color="primary">
                                     <mat-icon>edit</mat-icon>
-                                </button>
+                                </a>
                                 <button mat-icon-button color="warn">
                                     <mat-icon>delete</mat-icon>
                                 </button>
                             </div>
+                        </div>
+
+                        <div class="category-inner add-category" fxLayout="row" fxLayoutAlign="space-between center" (click)="addSubCategory(mainCategory.id)">
+                            <span class="category-title">+ Add subcategory</span>
                         </div>
                     </div>
                 </div>

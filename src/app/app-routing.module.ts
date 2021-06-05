@@ -14,6 +14,12 @@ import { GeneralInformationComponent } from './views/configuration/general-infor
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 import { CategoryStructureComponent } from './views/products/category-structure/category-structure.component';
 import { NewMainCategoryComponent } from './views/products/category-structure/main-category/new-main-category/new-main-category.component';
+import { NewSubCategoryComponent } from './views/products/category-structure/sub-category/new-sub-category/new-sub-category.component';
+import { EditMainCategoryComponent } from './views/products/category-structure/main-category/edit-main-category/edit-main-category.component';
+import { EditSubCategoryComponent } from './views/products/category-structure/sub-category/edit-sub-category/edit-sub-category.component';
+import { CollectionsComponent } from './views/products/collections/collections.component';
+import { AddCollectionComponent } from './views/products/collections/add-collection/add-collection.component';
+import { EditCollectionComponent } from './views/products/collections/edit-collection/edit-collection.component';
 
 
 const routes: Routes = [
@@ -33,8 +39,17 @@ const routes: Routes = [
   {path: URLS.categories, children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
     {path: URLS.all, component: CategoryStructureComponent},
-    {path: URLS.newMainCategory, component: NewMainCategoryComponent}
+    {path: URLS.newMainCategory, component: NewMainCategoryComponent},
+    {path: URLS.newSubCategory + '/:mainID', component: NewSubCategoryComponent},
+    {path: URLS.editMainCategory + '/:id', component: EditMainCategoryComponent},
+    {path: URLS.editSubCategory + '/:id', component: EditSubCategoryComponent}
   ]},
+  {path: URLS.collections, children: [
+    {path: '', redirectTo: URLS.all, pathMatch: 'full'},
+    {path: URLS.all, component: CollectionsComponent},
+    {path: URLS.add, component: AddCollectionComponent},
+    {path: URLS.edit + '/:id', component: EditCollectionComponent}
+  ]}
 ];
 
 @NgModule({

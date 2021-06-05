@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import URLS from 'src/app/shared/urls';
 
 @Component({
-  selector: 'app-new-main-category',
-  templateUrl: './new-main-category.component.html',
-  styleUrls: ['./new-main-category.component.scss']
+  selector: 'app-edit-sub-category',
+  templateUrl: './edit-sub-category.component.html',
+  styleUrls: ['./edit-sub-category.component.scss']
 })
-export class NewMainCategoryComponent implements OnInit {
+export class EditSubCategoryComponent implements OnInit {
 
   constructor() { }
 
@@ -26,7 +26,19 @@ export class NewMainCategoryComponent implements OnInit {
       [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
     ]
   };
+  categoryType: string = "Manual";
   previewImageSrc: string = "";
+  categoryConditions = {
+    rule: "all",
+    conditions: [
+      {
+        column: "tag",
+        condition: "equal",
+        value: ""
+      }
+    ]
+  }
+
 
   addMetaField() {
     console.log("pushing")
@@ -53,6 +65,20 @@ export class NewMainCategoryComponent implements OnInit {
    
       this.previewImageSrc = reader.result as string; 
     }
+  }
+
+  addCondition() {
+    this.categoryConditions.conditions.push({
+      column: "tag",
+      condition: "equal",
+      value: ""
+    });
+  }
+
+  deleteCondition(index) {
+    let tempConditions = Object.assign([], this.categoryConditions.conditions);
+    tempConditions.splice(index, 1);
+    this.categoryConditions.conditions = tempConditions;
   }
 
   ngOnInit(): void {

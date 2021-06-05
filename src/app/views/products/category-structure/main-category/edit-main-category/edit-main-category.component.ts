@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import URLS from 'src/app/shared/urls';
 
 @Component({
-  selector: 'app-new-main-category',
-  templateUrl: './new-main-category.component.html',
-  styleUrls: ['./new-main-category.component.scss']
+  selector: 'app-edit-main-category',
+  templateUrl: './edit-main-category.component.html',
+  styleUrls: ['./edit-main-category.component.scss']
 })
-export class NewMainCategoryComponent implements OnInit {
+export class EditMainCategoryComponent implements OnInit {
 
   constructor() { }
 

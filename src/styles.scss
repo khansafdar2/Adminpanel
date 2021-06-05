@@ -93,7 +93,7 @@ a, .text-link {
 .page-container {
     max-width: 1100px;
 }
-[fxlayout="row"] {
+[fxlayout="row"], [fxlayout="row wrap"] {
     margin: 0 -10px;
 
     > * {
@@ -181,6 +181,36 @@ th.mat-header-cell {
         .mat-form-field-wrapper {
             margin: 0px;
             padding: 0;
+        }
+    }
+}
+.mat-radio-group {
+    label {
+        margin-bottom: 10px;
+    }
+}
+.mat-radio-button {
+    .mat-radio-label {
+        font-weight: 400;
+    }
+}
+body {
+    .category-conditions-wrap {
+        .mat-form-field {
+            margin-bottom: 0;
+        }
+        .mat-form-field-appearance-outline .mat-form-field-wrapper {
+            margin-bottom: 0;
+        }
+    }
+}
+
+.p-datatable {
+    .p-datatable-thead {
+        > tr {
+            > th {
+                background-color: transparent;
+            }
         }
     }
 }

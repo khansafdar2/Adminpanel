@@ -19,6 +19,9 @@ import { MatTableModule } from '@angular/material/table';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSelectModule } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
+
+import { TableModule } from 'primeng/table';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -39,6 +42,12 @@ import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.
 import { ProductsComponent } from './views/products/products.component';
 import { CategoryStructureComponent } from './views/products/category-structure/category-structure.component';
 import { NewMainCategoryComponent } from './views/products/category-structure/main-category/new-main-category/new-main-category.component';
+import { NewSubCategoryComponent } from './views/products/category-structure/sub-category/new-sub-category/new-sub-category.component';
+import { EditMainCategoryComponent } from './views/products/category-structure/main-category/edit-main-category/edit-main-category.component';
+import { EditSubCategoryComponent } from './views/products/category-structure/sub-category/edit-sub-category/edit-sub-category.component';
+import { CollectionsComponent } from './views/products/collections/collections.component';
+import { AddCollectionComponent } from './views/products/collections/add-collection/add-collection.component';
+import { EditCollectionComponent } from './views/products/collections/edit-collection/edit-collection.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +68,13 @@ import { NewMainCategoryComponent } from './views/products/category-structure/ma
     ForgotPasswordComponent,
     ProductsComponent,
     CategoryStructureComponent,
-    NewMainCategoryComponent
+    NewMainCategoryComponent,
+    NewSubCategoryComponent,
+    EditMainCategoryComponent,
+    EditSubCategoryComponent,
+    CollectionsComponent,
+    AddCollectionComponent,
+    EditCollectionComponent
   ],
   imports: [
     BrowserModule,
@@ -85,6 +100,9 @@ import { NewMainCategoryComponent } from './views/products/category-structure/ma
     MatProgressBarModule,
     MatSnackBarModule,
     MatSelectModule,
+    MatRadioModule,
+
+    TableModule,
   ],
   providers: [LoggedInAuthGuard, LoggedOutAuthGuard],
   bootstrap: [AppComponent]

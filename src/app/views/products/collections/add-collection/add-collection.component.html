@@ -3,12 +3,10 @@
 <main id="main">
     <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
     <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
-        <h1>
-            New main category
-        </h1>
+        <h1>New collection</h1>
 
         <div class="header-actions">
-            <a [routerLink]="['/', URLS.categories]" mat-stroked-button color="primary">Cancel</a>
+            <a [routerLink]="['/', URLS.collections]" mat-stroked-button color="primary">Cancel</a>
             <button mat-flat-button color="primary">Save</button>
         </div>
     </div>
@@ -96,6 +94,65 @@
                 <img [src]="previewImageSrc" class="banner-preview-image" *ngIf="previewImageSrc" />
                 <button mat-button color="primary" (click)="bannerFileInput.click()">Upload image</button>
                 <input type="file" class="banner-file-input" accept=".png, .jpg, .jpeg" #bannerFileInput (change)="bannerImageSelect($event)" />
+            </mat-card>
+
+            <mat-card>
+                <h2>Category type</h2>
+
+                <mat-radio-group fxLayout="column" class="category-type-radio"
+                    [(ngModel)]="categoryType">
+                    <mat-radio-button value="Manual">
+                        <p class="radio-label">Manual</p>
+                        <p class="radio-detail">Add products to this category manually.</p>
+                    </mat-radio-button>
+                    <mat-radio-button value="Automated">
+                        <p class="radio-label">Automated</p>
+                        <p class="radio-detail">Existing and future products that match the conditions you set will automatically added to this category.</p>
+                    </mat-radio-button>
+                </mat-radio-group>
+
+                <div class="category-conditions" *ngIf="categoryType == 'Automated'">
+                    <h3>Conditions</h3>
+
+                    <mat-radio-group fxLayout="column" class="category-rule-type" [(ngModel)]="categoryConditions.rule">
+                        <label>Products must match</label>
+                        <mat-radio-button value="all">all conditions</mat-radio-button>
+                        <mat-radio-button value="Automated">any conditions</mat-radio-button>
+                    </mat-radio-group>
+
+                    <div class="category-conditions-wrap">
+                        <div fxLayout="row wrap" *ngFor="let condition of categoryConditions.conditions; let i = index">
+                            <div fxFlex="0 1 50%">
+                                <mat-form-field appearance="outline">
+                                    <mat-label></mat-label>
+                                    <mat-select [(ngModel)]="condition.column">
+                                        <mat-option value="tag">Product tag</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="0 1 50%">
+                                <mat-form-field appearance="outline">
+                                    <mat-label></mat-label>
+                                    <mat-select [(ngModel)]="condition.condition">
+                                        <mat-option value="equal">is equal to</mat-option>
+                                        <mat-option value="not equal">is not equal to</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="0 1 50%">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Tag</mat-label>
+                                    <input matInput [(ngModel)]="condition.value" />
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="0 1 50%">
+                                <button mat-icon-button color="primary" (click)="deleteCondition(i)"><mat-icon>delete</mat-icon></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button mat-button color="primary" (click)="addCondition()">+ Add another</button>
+                </div>
             </mat-card>
         </div>
     </div>

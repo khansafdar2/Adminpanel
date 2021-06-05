@@ -1,0 +1,53 @@
+<app-topbar></app-topbar>
+<app-sidenav></app-sidenav>
+<main id="main">
+    <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+    <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
+        <h1>Collections</h1>
+
+        <div class="header-actions">
+            <a [routerLink]="['/', URLS.collections, URLS.add]" mat-flat-button color="primary">Create new</a>
+        </div>
+    </div>
+
+    <div class="page-container">
+        <mat-card class="collections-card">
+            <mat-form-field appearance="outline">
+                <mat-label>Search</mat-label>
+                <input matInput type="search" (input)="collectionTable.filterGlobal($event.target.value, 'contains')" name="collection" />
+            </mat-form-field>
+
+            <p-table #collectionTable
+                [value]="collections"
+                [loading]="loading"
+                [globalFilterFields]="['name']"
+                dataKey="id"
+                [(selection)]="selectedCollections">
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th>Title</th>
+                        <th style="width: 120px;"></th>
+                        <th style="width: 115px;"></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-collection>
+                    <tr>
+                        <td>
+                            <p-tableCheckbox [value]="collection"></p-tableCheckbox>
+                        </td>
+                        <td>{{collection.name}}</td>
+                        <td>{{collection.product_count}} products</td>
+                        <td>
+                            <a [routerLink]="['/', URLS.collections, URLS.edit, collection.id]" mat-icon-button color="primary"><mat-icon>edit</mat-icon></a>
+                            <button mat-icon-button color="warn"><mat-icon>delete</mat-icon></button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </mat-card>
+    </div>
+</main>
