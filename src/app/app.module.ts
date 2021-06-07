@@ -20,6 +20,10 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatMenuModule } from '@angular/material/menu';
+
+
 
 import { TableModule } from 'primeng/table';
 
@@ -48,10 +52,12 @@ import { EditSubCategoryComponent } from './views/products/category-structure/su
 import { CollectionsComponent } from './views/products/collections/collections.component';
 import { AddCollectionComponent } from './views/products/collections/add-collection/add-collection.component';
 import { EditCollectionComponent } from './views/products/collections/edit-collection/edit-collection.component';
+import { DatatableComponent } from './shared/datatable/datatable.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    DatatableComponent,
     SigninComponent,
     DashboardComponent,
     TopbarComponent,
@@ -74,7 +80,7 @@ import { EditCollectionComponent } from './views/products/collections/edit-colle
     EditSubCategoryComponent,
     CollectionsComponent,
     AddCollectionComponent,
-    EditCollectionComponent
+    EditCollectionComponent,
   ],
   imports: [
     BrowserModule,
@@ -101,6 +107,8 @@ import { EditCollectionComponent } from './views/products/collections/edit-colle
     MatSnackBarModule,
     MatSelectModule,
     MatRadioModule,
+    MatPaginatorModule,
+    MatMenuModule,
 
     TableModule,
   ],

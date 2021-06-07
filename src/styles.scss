@@ -56,6 +56,11 @@ body {
             width: 100%;
         }
     }
+    .mat-card {
+        &.table-wrapper-card {
+            padding: 0;
+        }
+    }
 }
 a, .text-link {
     color: #2F80ED;
@@ -213,4 +218,9 @@ body {
             }
         }
     }
+}
+
+.table-row-thumbnail {
+    max-width: 50px;
+    max-height: 50px;
 }

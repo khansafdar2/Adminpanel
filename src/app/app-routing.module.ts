@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, UrlSegment } from '@angular/router';
 // import { LoggedOutAuthGuard, LoggedInAuthGuard } from './auth/auth.guard';
 import { SigninComponent } from './auth/signin/signin.component';
 import { DashboardComponent } from './views/dashboard/dashboard.component';
@@ -20,6 +20,7 @@ import { EditSubCategoryComponent } from './views/products/category-structure/su
 import { CollectionsComponent } from './views/products/collections/collections.component';
 import { AddCollectionComponent } from './views/products/collections/add-collection/add-collection.component';
 import { EditCollectionComponent } from './views/products/collections/edit-collection/edit-collection.component';
+import { ProductsComponent } from './views/products/products.component';
 
 
 const routes: Routes = [
@@ -49,6 +50,10 @@ const routes: Routes = [
     {path: URLS.all, component: CollectionsComponent},
     {path: URLS.add, component: AddCollectionComponent},
     {path: URLS.edit + '/:id', component: EditCollectionComponent}
+  ]},
+  {path: URLS.products, children: [
+    {path: '', redirectTo: URLS.all, pathMatch: 'full'},
+    {path: URLS.all, component: ProductsComponent}
   ]}
 ];
 

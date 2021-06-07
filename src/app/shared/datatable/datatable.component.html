@@ -1,0 +1,143 @@
+<div class="datatable">
+  <!-- <div class="search-row">
+    <mat-form-field *ngIf="searchable">
+      <mat-label>Search</mat-label>
+      <input matInput type="search" (keyup)="onSearch()" [(ngModel)]="searchQuery" />
+      <mat-icon matSuffix fontSet="icofont-search"></mat-icon>
+    </mat-form-field>
+
+    <button mat-flat-button class="filters-toggle"
+            (click)="toggleFilters()"
+            *ngIf="filters && filters.length"><mat-icon>filter_alt</mat-icon> Filters <mat-icon>arrow_drop_down</mat-icon></button>
+    <button mat-flat-button color="primary" class="new-button" *ngIf="showAddNew" (click)="onAddNew()">+ New</button>
+  </div> -->
+
+  <!-- <ng-container *ngIf="filters && filters.length">
+    <div class="filters-row" *ngIf="displayFilters">
+      <div class="activated-filters">
+        <mat-chip-list aria-label="Fish selection">
+          <ng-container *ngFor="let filter of appliedFilters">
+            <mat-chip *ngFor="let value of filter.values">{{ value }} <mat-icon matChipRemove (click)="applyFilter(filter.title, value, false)">clear</mat-icon></mat-chip>
+          </ng-container>
+        </mat-chip-list>
+      </div>
+      <div class="available-filters">
+        <ng-container *ngFor="let filter of filters; let i = index">
+          <button mat-stroked-button [matMenuTriggerFor]="filterMenu">{{ filter.title }} <mat-icon>arrow_drop_down</mat-icon></button>
+          <mat-menu #filterMenu="matMenu">
+            <ng-template matMenuContent>
+              <ng-container *ngFor="let value of filter.values">
+                <mat-checkbox class="mat-menu-item"
+                              (change)="applyFilter(filter.title, value, $event.checked)"
+                              [checked]="isFilterApplied(filter.title, value)"
+                              (click)="$event.stopPropagation()">{{ value }}</mat-checkbox>
+              </ng-container>
+            </ng-template>
+          </mat-menu>
+        </ng-container>
+      </div>
+    </div>
+  </ng-container> -->
+
+  <div class="filters-row">
+    
+  </div>
+
+  <div class="table-wrapper">
+    <table mat-table matSort [dataSource]="dataSource" (matSortChange)="sortData($event)">
+  
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef [style]="{width: '70px'}">
+          <mat-checkbox (change)="$event ? masterToggle() : null"
+                        [checked]="selection.hasValue() && isAllSelected()"
+                        [indeterminate]="selection.hasValue() && !isAllSelected()">
+          </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <mat-checkbox (click)="$event.stopPropagation()"
+                        (change)="rowSelectionChange($event, row)"
+                        [checked]="selection.isSelected(row)">
+          </mat-checkbox>
+        </td>
+      </ng-container>
+    
+      <ng-container *ngFor="let column of columns" matColumnDef="{{ column.selector }}">
+        <ng-container *ngIf="column.sortable">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ column.title }} </th>
+        </ng-container>
+    
+        <ng-container *ngIf="!column.sortable">
+          <th mat-header-cell *matHeaderCellDef> {{ column.title }} </th>
+        </ng-container>
+    
+        <td mat-cell *matCellDef="let row" style="width: {{column.width ? column.width : 'auto'}}">
+          <ng-container *ngIf="column.cell; else normalCell">
+            <span *ngIf="column.clickable" class="clickable-cell" (click)="onCellClick(row, column.selector)" [innerHTML]="column.cell(row)"></span>
+            <span *ngIf="!column.clickable" [innerHTML]="column.cell(row)"></span>
+          </ng-container>
+
+          <ng-template #normalCell>
+            <span *ngIf="column.label; else selectorvalue">
+              <span class="label {{ column.labelStyles[row[column.selector]] }}">{{ row[column.selector] }}</span>
+            </span>
+  
+            <ng-template #selectorvalue>
+              <span *ngIf="column.clickable" class="clickable-cell" (click)="onCellClick(row, column.selector)">{{ row[column.selector] }}</span>
+              <span *ngIf="!column.clickable">
+                <span *ngIf="column.pipe === 'date'">
+                  {{ row[column.selector] | date: column.dateFormat }}
+                </span>
+                <span *ngIf="!column.pipe">
+                  {{ row[column.selector] }}
+                </span>
+              </span>
+            </ng-template>
+          </ng-template>
+        </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="actionsColumn">
+        <ng-container *ngIf="selectable">
+          <th mat-header-cell *matHeaderCellDef [style]="{width: selectable ? '160px' : '64px'}">
+            <button mat-flat-button color="primary" [disabled]="!selection.hasValue()" [matMenuTriggerFor]="bulkActionsMenu">Bulk actions<mat-icon>arrow_drop_down</mat-icon></button>
+          </th>
+        </ng-container>
+    
+        <ng-container *ngIf="!selectable">
+          <th mat-header-cell *matHeaderCellDef [style]="{width: '64px'}"></th>
+        </ng-container>
+    
+        <td mat-cell *matCellDef="let row" [style]="{textAlign: 'right'}">
+          <ng-container *ngIf="rowActions && rowActions.length">
+            <button mat-icon-button [matMenuTriggerFor]="rowActionsMenu" (click)="rowActionsToggle(row)"><mat-icon>more_horiz</mat-icon></button>
+          </ng-container>
+        </td>
+      </ng-container>
+    
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="pageSizeOptions"
+                  showFirstLastButtons
+                  hidePageSize="false"
+                  pageSize="itemsPerPage"
+                  pageIndex="0"></mat-paginator>
+  </div>
+
+  <mat-menu #rowActionsMenu="matMenu">
+    <ng-template matMenuContent>
+      <ng-container *ngFor="let action of rowActionsArray">
+        <button mat-menu-item (click)="onRowAction(action)">{{ action }}</button>
+      </ng-container>
+    </ng-template>
+  </mat-menu>
+
+  <mat-menu #bulkActionsMenu="matMenu">
+    <ng-template matMenuContent>
+      <ng-container *ngFor="let action of bulkActions">
+        <button mat-menu-item (click)="onBulkAction(action)">{{ action }}</button>
+      </ng-container>
+    </ng-template>
+  </mat-menu>
+</div>

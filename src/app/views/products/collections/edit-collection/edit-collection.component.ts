@@ -26,9 +26,9 @@ export class EditCollectionComponent implements OnInit {
       [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
     ]
   };
-  categoryType: string = "Manual";
+  collectionType: string = "Manual";
   previewImageSrc: string = "";
-  categoryConditions = {
+  collectionConditions = {
     rule: "all",
     conditions: [
       {
@@ -68,7 +68,7 @@ export class EditCollectionComponent implements OnInit {
   }
 
   addCondition() {
-    this.categoryConditions.conditions.push({
+    this.collectionConditions.conditions.push({
       column: "tag",
       condition: "equal",
       value: ""
@@ -76,9 +76,9 @@ export class EditCollectionComponent implements OnInit {
   }
 
   deleteCondition(index) {
-    let tempConditions = Object.assign([], this.categoryConditions.conditions);
+    let tempConditions = Object.assign([], this.collectionConditions.conditions);
     tempConditions.splice(index, 1);
-    this.categoryConditions.conditions = tempConditions;
+    this.collectionConditions.conditions = tempConditions;
   }
 
   ngOnInit(): void {

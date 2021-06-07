@@ -21,7 +21,7 @@
                     <input matInput />
                 </mat-form-field>
 
-                <quill-editor [modules]="editorModules" placeholder="Category description"></quill-editor>
+                <quill-editor [modules]="editorModules" placeholder="Collection description"></quill-editor>
             </mat-card>
 
             <mat-card>
@@ -97,10 +97,10 @@
             </mat-card>
 
             <mat-card>
-                <h2>Category type</h2>
+                <h2>Collection type</h2>
 
-                <mat-radio-group fxLayout="column" class="category-type-radio"
-                    [(ngModel)]="categoryType">
+                <mat-radio-group fxLayout="column" class="collection-type-radio"
+                    [(ngModel)]="collectionType">
                     <mat-radio-button value="Manual">
                         <p class="radio-label">Manual</p>
                         <p class="radio-detail">Add products to this category manually.</p>
@@ -111,17 +111,17 @@
                     </mat-radio-button>
                 </mat-radio-group>
 
-                <div class="category-conditions" *ngIf="categoryType == 'Automated'">
+                <div class="collection-conditions" *ngIf="collectionType == 'Automated'">
                     <h3>Conditions</h3>
 
-                    <mat-radio-group fxLayout="column" class="category-rule-type" [(ngModel)]="categoryConditions.rule">
+                    <mat-radio-group fxLayout="column" class="category-rule-type" [(ngModel)]="collectionConditions.rule">
                         <label>Products must match</label>
                         <mat-radio-button value="all">all conditions</mat-radio-button>
                         <mat-radio-button value="Automated">any conditions</mat-radio-button>
                     </mat-radio-group>
 
-                    <div class="category-conditions-wrap">
-                        <div fxLayout="row wrap" *ngFor="let condition of categoryConditions.conditions; let i = index">
+                    <div class="collection-conditions-wrap">
+                        <div fxLayout="row wrap" *ngFor="let condition of collectionConditions.conditions; let i = index">
                             <div fxFlex="0 1 50%">
                                 <mat-form-field appearance="outline">
                                     <mat-label></mat-label>

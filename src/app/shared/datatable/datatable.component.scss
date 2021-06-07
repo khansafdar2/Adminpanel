@@ -1,0 +1,56 @@
+@import "../../../variables.scss";
+
+.datatable {
+    .filters-row {
+        display: flex;
+        padding-bottom: 10px;
+
+        // > * {
+        //     flex-basis: 50%;
+        // }
+    }
+    .search-row {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin-bottom: 10px;
+
+        > * + * {
+            margin-left: 10px;
+        }
+
+        .mat-form-field {
+            width: 280px;
+            max-width: 280px;
+        }
+
+        .filters-toggle {
+            background-color: #EAEFFF;
+            color: $primary;
+        }
+
+        .new-button {
+            min-width: 100px;
+        }
+    }
+    .activated-filters {
+        .mat-chip.mat-standard-chip {
+            border-radius: 2px;
+            background-color: #EBF0FF;
+            color: $primary;
+
+            .mat-chip.mat-standard-chip .mat-chip-remove {
+                color: $primary;
+                opacity: 1;
+            }
+        }
+    }
+    .available-filters {
+        display: flex;
+        justify-content: flex-end;
+
+        > * + button {
+            margin-left: 10px;
+        }
+    }
+}
