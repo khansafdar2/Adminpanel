@@ -1,5 +1,6 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Column } from 'src/app/shared/datatable/datatable.component';
 import URLS from 'src/app/shared/urls';
 
@@ -10,7 +11,7 @@ import URLS from 'src/app/shared/urls';
 })
 export class ProductsComponent implements OnInit {
 
-  constructor() { }
+  constructor(public dialog: MatDialog) { }
 
   loading: boolean = false;
   URLS = URLS;
@@ -98,15 +99,92 @@ export class ProductsComponent implements OnInit {
       selector: "price",
     },
   ]
-  productSelection: SelectionModel<[]>;
+  productSelection: SelectionModel<[]> = new SelectionModel(true, []);
   productFilters = [
     {
       title: "Status",
       values: ["Active", "Inactive"]
+    },
+    {
+      title: "Type",
+      values: ["Simple", "Configurable"]
     }
   ]
+  searchColumns = ["Name", "Vendor", "Type"];
+
+  importProduct() {
+    this.dialog.open(ImportProductsDialog, {
+      width: "600px"
+    });
+  }
+
+  bulkChangeStatus() {
+    this.dialog.open(ProductsChangeStatusDialog, {
+      width: "600px",
+      data: {
+        products: this.productSelection.selected
+      }
+    });
+  }
+
+  bulkChangeApproval() {
+    this.dialog.open(ProductsChangeApprovalDialog, {
+      width: "600px",
+      data: {
+        products: this.productSelection.selected
+      }
+    });
+  }
 
   ngOnInit(): void {
   }
+
+}
+
+
+@Component({
+  selector: 'import-products-dialog',
+  templateUrl: './dialogs/import-products-dialog.html',
+})
+export class ImportProductsDialog {
+  constructor(public dialogRef: MatDialogRef<ImportProductsDialog>) {}
+
+  loading: boolean = false;
+  afuConfig = {
+    uploadAPI: {
+      url:"https://example-file-upload-api"
+    },
+    theme: "dragNDrop",
+    multiple: false,
+    formatsAllowed: '.csv',
+    hideResetBtn: true,
+    replaceTexts: {
+      dragNDropBox: "Drop file here.",
+      uploadBtn: "Upload and continue"
+    }
+  };
+}
+
+
+@Component({
+  selector: 'products-change-status-dialog',
+  templateUrl: './dialogs/products-change-status-dialog.html',
+})
+export class ProductsChangeStatusDialog {
+  constructor(public dialogRef: MatDialogRef<ProductsChangeStatusDialog>, @Inject(MAT_DIALOG_DATA) public data) {}
+
+  loading: boolean = false;
+
+}
+
+
+@Component({
+  selector: 'products-change-approval-dialog',
+  templateUrl: './dialogs/products-change-approval-dialog.html',
+})
+export class ProductsChangeApprovalDialog {
+  constructor(public dialogRef: MatDialogRef<ProductsChangeStatusDialog>, @Inject(MAT_DIALOG_DATA) public data) {}
+
+  loading: boolean = false;
 
 }

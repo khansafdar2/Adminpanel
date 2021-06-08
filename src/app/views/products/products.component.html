@@ -6,6 +6,20 @@
         <h1>Products</h1>
 
         <div class="header-actions">
+            <button mat-button color="primary" [matMenuTriggerFor]="bulkActionsMenu" *ngIf="productSelection.selected.length">Bulk Actions <mat-icon>arrow_drop_down</mat-icon></button>
+            <mat-menu #bulkActionsMenu="matMenu">
+                <ng-template matMenuContent>
+                    <button mat-menu-item (click)="bulkChangeStatus()">Change status</button>
+                    <button mat-menu-item (click)="bulkChangeApproval()">Change approval status</button>
+                    <button mat-menu-item>Organize</button>
+                    <button mat-menu-item>Apply discounts</button>
+                    <button mat-menu-item>Add tags</button>
+                    <button mat-menu-item>Available channels</button>
+                </ng-template>
+            </mat-menu>
+
+            <button mat-button color="primary">Export</button>
+            <button mat-button color="primary" (click)="importProduct()">Import</button>
             <a [routerLink]="['/', URLS.products, URLS.add]" mat-flat-button color="primary">Create new</a>
         </div>
     </div>
@@ -15,6 +29,7 @@
                   [columns]="displayedColumns"
                   [selectable]="true"
                   [(selection)]="productSelection"
+                  [searchColumns]="searchColumns"
                   [filters]="productFilters"
                   [searchable]="true">
       </datatable>

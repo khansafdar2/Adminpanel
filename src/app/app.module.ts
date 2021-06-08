@@ -43,7 +43,7 @@ import { AcceptInviteComponent } from './auth/accept-invite/accept-invite.compon
 import { TaxConfigurationComponent } from './views/configuration/tax-configuration/tax-configuration.component';
 import { GeneralInformationComponent } from './views/configuration/general-information/general-information.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
-import { ProductsComponent } from './views/products/products.component';
+import { ImportProductsDialog, ProductsChangeApprovalDialog, ProductsChangeStatusDialog, ProductsComponent } from './views/products/products.component';
 import { CategoryStructureComponent } from './views/products/category-structure/category-structure.component';
 import { NewMainCategoryComponent } from './views/products/category-structure/main-category/new-main-category/new-main-category.component';
 import { NewSubCategoryComponent } from './views/products/category-structure/sub-category/new-sub-category/new-sub-category.component';
@@ -81,6 +81,9 @@ import { DatatableComponent } from './shared/datatable/datatable.component';
     CollectionsComponent,
     AddCollectionComponent,
     EditCollectionComponent,
+    ImportProductsDialog,
+    ProductsChangeStatusDialog,
+    ProductsChangeApprovalDialog
   ],
   imports: [
     BrowserModule,

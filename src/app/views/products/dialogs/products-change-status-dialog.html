@@ -1,0 +1,18 @@
+<button mat-icon-button mat-dialog-close class="dialog-close"><mat-icon>close</mat-icon></button>
+<h2 mat-dialog-title>Change status</h2>
+<mat-dialog-content class="mat-typography">
+    <p>Change status of {{data.products.length}} products:</p>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Status</mat-label>
+        <mat-select>
+            <mat-option value="Active">Active</mat-option>
+            <mat-option value="Inactive">Inactive</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+</mat-dialog-content>
+<div mat-dialog-actions>
+    <button mat-stroked-button color="primary" mat-dialog-close>Cancel</button>
+    <button mat-flat-button color="primary">Update status</button>
+</div>

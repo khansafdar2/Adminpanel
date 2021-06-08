@@ -40,7 +40,47 @@
   </ng-container> -->
 
   <div class="filters-row">
-    
+    <!-- Table search field and columns -->
+    <div class="search-filter">
+      <mat-form-field *ngIf="searchable" appearance="outline" class="table-search-field">
+        <mat-label>Search</mat-label>
+        <input matInput type="search" (keyup)="onSearch()" [(ngModel)]="searchQuery" />
+        <mat-icon matSuffix fontSet="icofont-search"></mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="search-column-selector" *ngIf="searchColumns.length">
+        <mat-label>Search column</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let column of searchColumns" [value]="column">{{column}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- Table filters -->
+    <div class="table-filters" *ngIf="filters && filters.length">
+      <div class="available-filters">
+        <mat-form-field appearance="outline" *ngFor="let filter of filters; let i = index">
+          <mat-label>{{ filter.title }}</mat-label>
+          <mat-select [(ngModel)]="appliedFilters[i].value">
+            <mat-option value="">All</mat-option>
+            <mat-option *ngFor="let value of filter.values" [value]="value">{{ value }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <!-- <ng-container *ngFor="let filter of filters; let i = index">
+          <button mat-stroked-button [matMenuTriggerFor]="filterMenu">{{ filter.title }} <mat-icon>arrow_drop_down</mat-icon></button>
+          <mat-menu #filterMenu="matMenu">
+            <ng-template matMenuContent>
+              <ng-container *ngFor="let value of filter.values">
+                <mat-checkbox class="mat-menu-item"
+                              (change)="applyFilter(filter.title, value, $event.checked)"
+                              [checked]="isFilterApplied(filter.title, value)"
+                              (click)="$event.stopPropagation()">{{ value }}</mat-checkbox>
+              </ng-container>
+            </ng-template>
+          </mat-menu>
+        </ng-container> -->
+      </div>
+    </div>
   </div>
 
   <div class="table-wrapper">
@@ -118,11 +158,11 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 
-    <mat-paginator [pageSizeOptions]="pageSizeOptions"
+    <!-- <mat-paginator [pageSizeOptions]="pageSizeOptions"
                   showFirstLastButtons
                   hidePageSize="false"
                   pageSize="itemsPerPage"
-                  pageIndex="0"></mat-paginator>
+                  pageIndex="0"></mat-paginator> -->
   </div>
 
   <mat-menu #rowActionsMenu="matMenu">

@@ -53,7 +53,7 @@ export class DatatableComponent implements OnInit, AfterViewInit {
   @Input() rowActions: any;
 
   // Takes array of filters to show by there column name. e.g. [{title: "Role", values: ["Admin", "User"]}, ..]
-  @Input() filters: [{}];
+  @Input() filters: any[];
 
   // Show Add new button above table, calls (addNew) when button is clicked
   @Input() showAddNew: boolean;
@@ -70,6 +70,8 @@ export class DatatableComponent implements OnInit, AfterViewInit {
   // The selection model of all selected rows in the table.
   @Input() selection: SelectionModel<[{}]>;
 
+  // Options to show in search columns dropdown.
+  @Input() searchColumns: string[]
 
   // When any bulk action is clicked after selection. Emits {action: string, selection: data[]}
   @Output() bulkAction = new EventEmitter<any>();
@@ -123,6 +125,7 @@ export class DatatableComponent implements OnInit, AfterViewInit {
     this.isAllSelected() ?
         this.selection.clear() :
         this.data.forEach(row => this.selection.select(row));
+    this.selectionChange.emit(this.selection);
   }
 
   rowActionsToggle(row) {
@@ -187,6 +190,10 @@ export class DatatableComponent implements OnInit, AfterViewInit {
     }
   }
 
+  onFilterChange(event, index) {
+    this.appliedFilters[index].value = event.value;
+  }
+
   onSearch = Debounce(() =>  {
     this.dataSource.filter = this.searchQuery;
     // this.search.emit(this.searchQuery);
@@ -225,8 +232,19 @@ export class DatatableComponent implements OnInit, AfterViewInit {
       this.selection = new SelectionModel(true, []);
     }
 
-    if((this.selectable) || (this.rowActions && this.rowActions.length)) {
-      this.displayedColumns.push("actionsColumn");
+    // if((this.selectable) || (this.rowActions && this.rowActions.length)) {
+    //   this.displayedColumns.push("actionsColumn");
+    // }
+    if(this.filters.length) {
+      let appliedFilters = [];
+      this.filters.forEach(filter => {
+        appliedFilters.push({
+          title: filter.title,
+          value: ""
+        });
+      });
+
+      this.appliedFilters = Object.assign([], appliedFilters);
     }
   }
 

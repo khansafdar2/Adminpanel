@@ -1,0 +1,14 @@
+<button mat-icon-button mat-dialog-close class="dialog-close"><mat-icon>close</mat-icon></button>
+<h2 mat-dialog-title>Import products by CSV</h2>
+<mat-dialog-content class="mat-typography">
+    <p>Download a simple CSV template to see an example of the format required.</p>
+
+    <angular-file-uploader
+      [config]="afuConfig">
+    </angular-file-uploader>
+
+    <mat-checkbox class="overwrite-checkbox">Overwrite any current products that have the same handle. Existing values will be used for any missing columns.</mat-checkbox>
+</mat-dialog-content>
+<div mat-dialog-actions>
+    <button mat-stroked-button color="primary" mat-dialog-close>Cancel</button>
+</div>

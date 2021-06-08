@@ -3,11 +3,32 @@
 .datatable {
     .filters-row {
         display: flex;
-        padding-bottom: 10px;
+        padding: 10px;
 
         // > * {
         //     flex-basis: 50%;
         // }
+        .search-filter {
+            display: flex;
+
+            .table-search-field {
+                min-width: 300px;
+            }
+
+            .mat-form-field {
+                margin: 0;
+
+                & + .mat-form-field {
+                    margin-left: 10px;
+                }
+            }
+            .mat-form-field-appearance-outline .mat-form-field-wrapper {
+                margin: 0;
+            }
+            .search-column-selector {
+                max-width: 150px;
+            }
+        }
     }
     .search-row {
         display: flex;
@@ -51,6 +72,18 @@
 
         > * + button {
             margin-left: 10px;
+        }
+    }
+
+    .table-filters {
+        padding-left: 10px;
+
+        .mat-form-field {
+            margin: 0;
+
+            & + .mat-form-field {
+                margin-left: 10px;
+            }
         }
     }
 }
