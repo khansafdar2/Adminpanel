@@ -1,0 +1,107 @@
+<app-topbar></app-topbar>
+<app-sidenav></app-sidenav>
+<main id="main">
+    <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+    <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
+        <h1>Add Product</h1>
+
+        <div class="header-actions">
+            <a [routerLink]="['/', URLS.products]" mat-button color="primary">Cancel</a>
+            <button mat-flat-button color="primary">Save</button>
+        </div>
+    </div>
+
+
+    <div fxLayout="row">
+        <div fxFlex="0 1 66.66666">
+            <mat-card>
+                <h2>General Information</h2>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Collection Name</mat-label>
+                    <input matInput />
+                </mat-form-field>
+
+                <quill-editor [modules]="editorModules" placeholder="Collection description"></quill-editor>
+            </mat-card>
+
+            <mat-card>
+                <h2>Features</h2>
+
+                <table class="product-features-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 20%">Field</th>
+                            <th>Value</th>
+                            <th style="width: 50px"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let obj of features; let i = index">
+                            <td>
+                                <mat-form-field appearance="outline">
+                                    <input matInput [(ngModel)]="obj.title" />
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <mat-form-field appearance="outline">
+                                    <input matInput [(ngModel)]="obj.detail" />
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <button mat-icon-button color="primary" (click)="deleteFeature(i)"><mat-icon>delete</mat-icon></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="text-right meta-fields-bottom">
+                    <button mat-button color="primary" (click)="addFeature()">Add feature</button>
+                </div>
+            </mat-card>
+
+            <mat-card>
+                <h2>Media</h2>
+
+            </mat-card>
+
+            <mat-card>
+                <h2>Inventory</h2>
+
+                <div fxLayout="row">
+                    <div fxFlex="0 1 50%">
+                        <mat-form-field appearance="outline">
+                            <mat-label>SKU</mat-label>
+                            <input matInput />
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="0 1 50%">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Barcode</mat-label>
+                            <input matInput />
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div fxLayout="row">
+                    <div fxFlex="0 1 50%">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Inventory available</mat-label>
+                            <input matInput type="number" />
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="0 1 50%">
+                        <mat-checkbox>Track inventory</mat-checkbox>
+                    </div>
+                </div>
+            </mat-card>
+        </div>
+
+        <div fxFlex="0 1 33.33333">
+            <mat-card>
+                <h2>Availability</h2>
+
+            </mat-card>
+        </div>
+    </div>
+</main>

@@ -1,0 +1,14 @@
+.product-features-table {
+    width: 100%;
+
+    tr {
+        th {
+            border-bottom: 1px solid #e0e0e0;
+            text-align: left;
+        }
+        th, td {
+            padding: 12px;
+            vertical-align: middle;
+        }
+    }
+}

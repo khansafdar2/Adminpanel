@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import URLs from '../../../shared/urls';
+import { TaxConfigurationService } from './tax-configuration.service';
 
 
 @Component({
@@ -10,15 +12,53 @@ import URLs from '../../../shared/urls';
 })
 export class TaxConfigurationComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private taxService: TaxConfigurationService, private fb: FormBuilder) { }
 
-  loading: boolean = false;
+  loading: boolean = true;
+  taxForm = this.fb.group({
+    id: [0],
+    tax_name: ['', [Validators.required]],
+    tax_percentage: [0, [Validators.required, Validators.pattern('[0-9]{1,2}[.]?[0-9]{1,2}?')]]
+  });
 
   goBack() {
     this.router.navigate([URLs.configuration]);
   }
 
+  getTaxInfo() {
+    this.taxService.getTaxInfo().then(resp => {
+      if(resp) {
+        this.loading = false;
+        if(resp.data.id) {
+          this.taxForm.patchValue(resp.data);
+        }
+        console.log(resp.data);
+      }
+    });
+  }
+
+  onTaxSave() {
+      let data = this.taxForm.value;
+      this.loading = true;
+      if(data.id) {
+        this.taxService.updateTaxInfo(data).then(resp => {
+          if(resp) {
+            console.log(resp.data);
+            this.loading = false;
+          }
+        });
+      } else {
+        delete data.id;
+        this.taxService.postTaxInfo(data).then(resp => {
+          if(resp) {
+            this.loading = false;
+          }
+        });
+      }
+  }
+
   ngOnInit(): void {
+    this.getTaxInfo();
   }
 
 }

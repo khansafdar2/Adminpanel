@@ -12,7 +12,7 @@
 
         <div class="header-actions">
             <button mat-stroked-button color="primary" (click)="goBack()">Cancel</button>
-            <button mat-flat-button color="primary" >Save</button>
+            <button mat-flat-button color="primary" [disabled]="!taxForm.valid" (click)="onTaxSave()">Save</button>
         </div>
     </div>
 
@@ -24,22 +24,24 @@
                     <p>Manage how your store charges sales tax in your shipping zones.</p>
                 </div>
                 <div fxFlex="0 1 66.666666%">
-                    <form>
+                    <form [formGroup]="taxForm">
                         <mat-card>
                             <div fxLayout="row">
                                 <div fxFlex="1 1 auto">
                                     <mat-form-field appearance="outline">
                                         <mat-label>Tax name</mat-label>
-                                        <input matInput name="tax_name" />
-                                        <!-- <mat-error *ngIf="userForm.get('first_name').hasError('required')">Enter first name of user.</mat-error> -->
+                                        <input matInput name="tax_name" formControlName="tax_name"/>
+                                        <mat-error *ngIf="taxForm.get('tax_name').hasError('required')">Enter the tax name.</mat-error>
                                     </mat-form-field>
                                 </div>
                                 <div fxFlex="1 1 auto">
                                     <mat-form-field appearance="outline">
                                         <mat-label>Tax amount</mat-label>
-                                        <input matInput type="number" max=100 />
+                                        <input matInput type="number" max=100 formControlName="tax_percentage" />
                                         <span matSuffix>%</span>
-                                      </mat-form-field>
+                                        <mat-error *ngIf="taxForm.get('tax_percentage').hasError('required')">Enter the amount in percentage.</mat-error>
+                                        <mat-error *ngIf="taxForm.get('tax_percentage').hasError('pattern')">Please enter a valid number.</mat-error>
+                                    </mat-form-field>
                                 </div>
                             </div>
                         </mat-card>

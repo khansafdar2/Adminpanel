@@ -21,6 +21,7 @@ import { CollectionsComponent } from './views/products/collections/collections.c
 import { AddCollectionComponent } from './views/products/collections/add-collection/add-collection.component';
 import { EditCollectionComponent } from './views/products/collections/edit-collection/edit-collection.component';
 import { ProductsComponent } from './views/products/products.component';
+import { AddProductComponent } from './views/products/add-product/add-product.component';
 
 
 const routes: Routes = [
@@ -53,7 +54,8 @@ const routes: Routes = [
   ]},
   {path: URLS.products, children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
-    {path: URLS.all, component: ProductsComponent}
+    {path: URLS.all, component: ProductsComponent},
+    {path: URLS.add, component: AddProductComponent}
   ]}
 ];
 

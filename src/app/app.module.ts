@@ -53,6 +53,7 @@ import { CollectionsComponent } from './views/products/collections/collections.c
 import { AddCollectionComponent } from './views/products/collections/add-collection/add-collection.component';
 import { EditCollectionComponent } from './views/products/collections/edit-collection/edit-collection.component';
 import { DatatableComponent } from './shared/datatable/datatable.component';
+import { AddProductComponent } from './views/products/add-product/add-product.component';
 
 @NgModule({
   declarations: [
@@ -83,7 +84,8 @@ import { DatatableComponent } from './shared/datatable/datatable.component';
     EditCollectionComponent,
     ImportProductsDialog,
     ProductsChangeStatusDialog,
-    ProductsChangeApprovalDialog
+    ProductsChangeApprovalDialog,
+    AddProductComponent,
   ],
   imports: [
     BrowserModule,
