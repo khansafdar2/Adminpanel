@@ -1,0 +1,33 @@
+<button mat-icon-button mat-dialog-close class="dialog-close"><mat-icon>close</mat-icon></button>
+<h2 mat-dialog-title>Add tags</h2>
+<mat-dialog-content class="mat-typography">
+    <p>Add tags on {{data.products.length}} products:</p>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Tags</mat-label>
+        <mat-chip-list #tagsList>
+            <mat-chip
+                *ngFor="let tag of tags"
+                [removable]="true"
+                (removed)="remove(tag)">{{tag}}<mat-icon matChipRemove *ngIf="removable">cancel</mat-icon></mat-chip>
+
+            <input
+                placeholder="New tag..."
+                #tagInput
+                [formControl]="tagCtrl"
+                [matChipInputFor]="tagsList"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                (matChipInputTokenEnd)="add($event)">
+        </mat-chip-list>
+    </mat-form-field>
+
+    <mat-radio-group [(ngModel)]="tagRule" fxLayout="column">
+        <mat-radio-button value="append">Append new tags</mat-radio-button>
+        <mat-radio-button value="replace">Replace existing tags</mat-radio-button>
+    </mat-radio-group>
+
+</mat-dialog-content>
+<div mat-dialog-actions>
+    <button mat-stroked-button color="primary" mat-dialog-close>Cancel</button>
+    <button mat-flat-button color="primary">Apply</button>
+</div>

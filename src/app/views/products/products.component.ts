@@ -1,8 +1,11 @@
 import { SelectionModel } from '@angular/cdk/collections';
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatChipInputEvent } from '@angular/material/chips';
 import { Column } from 'src/app/shared/datatable/datatable.component';
 import URLS from 'src/app/shared/urls';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-products',
@@ -136,6 +139,34 @@ export class ProductsComponent implements OnInit {
     });
   }
 
+  bulkDiscount() {
+    this.dialog.open(ApplyBulkDiscountDialog, {
+      width: "600px",
+      data: {
+        products: this.productSelection.selected
+      }
+    });
+  }
+
+  bulkTags() {
+    this.dialog.open(AddBulkTagsDialog, {
+      width: "600px",
+      data: {
+        products: this.productSelection.selected
+      }
+    });
+  }
+
+  bulkChannels() {
+    this.dialog.open(ApplyBulkChannelDialog, {
+      width: "600px",
+      data: {
+        products: this.productSelection.selected
+      }
+    });
+  }
+
+
   ngOnInit(): void {
   }
 
@@ -144,7 +175,7 @@ export class ProductsComponent implements OnInit {
 
 @Component({
   selector: 'import-products-dialog',
-  templateUrl: './dialogs/import-products-dialog.html',
+  templateUrl: './dialogs/import-products-dialog.html'
 })
 export class ImportProductsDialog {
   constructor(public dialogRef: MatDialogRef<ImportProductsDialog>) {}
@@ -183,6 +214,64 @@ export class ProductsChangeStatusDialog {
   templateUrl: './dialogs/products-change-approval-dialog.html',
 })
 export class ProductsChangeApprovalDialog {
+  constructor(public dialogRef: MatDialogRef<ProductsChangeStatusDialog>, @Inject(MAT_DIALOG_DATA) public data) {}
+
+  loading: boolean = false;
+
+}
+
+
+@Component({
+  selector: 'apply-bulk-discount-dialog',
+  templateUrl: './dialogs/apply-bulk-discount-dialog.html',
+})
+export class ApplyBulkDiscountDialog {
+  constructor(public dialogRef: MatDialogRef<ProductsChangeStatusDialog>, @Inject(MAT_DIALOG_DATA) public data) {}
+
+  loading: boolean = false;
+
+}
+
+
+@Component({
+  selector: 'add-bulk-tags-dialog',
+  templateUrl: './dialogs/add-bulk-tags-dialog.html',
+})
+export class AddBulkTagsDialog {
+  constructor(public dialogRef: MatDialogRef<ProductsChangeStatusDialog>, @Inject(MAT_DIALOG_DATA) public data) {}
+
+  loading: boolean = false;
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+  tags = [];
+  tagCtrl = new FormControl();
+  tagRule: string = "append";
+
+
+  add(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+
+    if (value) {
+      this.tags.push(value);
+    }
+
+    this.tagCtrl.setValue(null);
+  }
+
+  remove(tag: string): void {
+    const index = this.tags.indexOf(tag);
+
+    if (index >= 0) {
+      this.tags.splice(index, 1);
+    }
+  }
+}
+
+
+@Component({
+  selector: 'apply-bulk-channel-dialog',
+  templateUrl: './dialogs/apply-bulk-channel-dialog.html',
+})
+export class ApplyBulkChannelDialog {
   constructor(public dialogRef: MatDialogRef<ProductsChangeStatusDialog>, @Inject(MAT_DIALOG_DATA) public data) {}
 
   loading: boolean = false;

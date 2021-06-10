@@ -1,0 +1,17 @@
+<button mat-icon-button mat-dialog-close class="dialog-close"><mat-icon>close</mat-icon></button>
+<h2 mat-dialog-title>Available channels</h2>
+<mat-dialog-content class="mat-typography">
+    <p>Change sales channel availability on {{data.products.length}} products:</p>
+
+    <div class="sales-channel-list">
+        <div fxLayout="column">
+            <mat-checkbox>Whatsapp</mat-checkbox>
+            <mat-checkbox>Facebook</mat-checkbox>
+        </div>
+    </div>
+
+</mat-dialog-content>
+<div mat-dialog-actions>
+    <button mat-stroked-button color="primary" mat-dialog-close>Cancel</button>
+    <button mat-flat-button color="primary">Apply</button>
+</div>

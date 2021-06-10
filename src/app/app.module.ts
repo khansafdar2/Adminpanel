@@ -22,6 +22,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatChipsModule } from '@angular/material/chips';
 
 
 
@@ -43,7 +44,7 @@ import { AcceptInviteComponent } from './auth/accept-invite/accept-invite.compon
 import { TaxConfigurationComponent } from './views/configuration/tax-configuration/tax-configuration.component';
 import { GeneralInformationComponent } from './views/configuration/general-information/general-information.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
-import { ImportProductsDialog, ProductsChangeApprovalDialog, ProductsChangeStatusDialog, ProductsComponent } from './views/products/products.component';
+import { ApplyBulkDiscountDialog, ImportProductsDialog, ProductsChangeApprovalDialog, ProductsChangeStatusDialog, ProductsComponent, AddBulkTagsDialog, ApplyBulkChannelDialog } from './views/products/products.component';
 import { CategoryStructureComponent } from './views/products/category-structure/category-structure.component';
 import { NewMainCategoryComponent } from './views/products/category-structure/main-category/new-main-category/new-main-category.component';
 import { NewSubCategoryComponent } from './views/products/category-structure/sub-category/new-sub-category/new-sub-category.component';
@@ -85,6 +86,9 @@ import { AddProductComponent } from './views/products/add-product/add-product.co
     ImportProductsDialog,
     ProductsChangeStatusDialog,
     ProductsChangeApprovalDialog,
+    ApplyBulkDiscountDialog,
+    AddBulkTagsDialog,
+    ApplyBulkChannelDialog,
     AddProductComponent,
   ],
   imports: [
@@ -114,6 +118,7 @@ import { AddProductComponent } from './views/products/add-product/add-product.co
     MatRadioModule,
     MatPaginatorModule,
     MatMenuModule,
+    MatChipsModule,
 
     TableModule,
   ],

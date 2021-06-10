@@ -12,9 +12,9 @@
                     <button mat-menu-item (click)="bulkChangeStatus()">Change status</button>
                     <button mat-menu-item (click)="bulkChangeApproval()">Change approval status</button>
                     <button mat-menu-item>Organize</button>
-                    <button mat-menu-item>Apply discounts</button>
-                    <button mat-menu-item>Add tags</button>
-                    <button mat-menu-item>Available channels</button>
+                    <button mat-menu-item (click)="bulkDiscount()">Apply discounts</button>
+                    <button mat-menu-item (click)="bulkTags()">Add tags</button>
+                    <button mat-menu-item (click)="bulkChannels()">Available channels</button>
                 </ng-template>
             </mat-menu>
 

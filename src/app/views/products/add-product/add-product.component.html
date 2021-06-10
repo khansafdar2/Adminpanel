@@ -63,6 +63,9 @@
             <mat-card>
                 <h2>Media</h2>
 
+                <angular-file-uploader
+                    [config]="afuConfig">
+                </angular-file-uploader>
             </mat-card>
 
             <mat-card>
@@ -95,12 +98,110 @@
                     </div>
                 </div>
             </mat-card>
+
+            <mat-card>
+                <h2>Variants</h2>
+
+                <mat-checkbox>This product has multiple options like size, color etc.</mat-checkbox>
+
+                <table class="product-variants-table">
+                    <tbody>
+                        <ng-container *ngFor="let variant of variants; let i = index;">
+                            <tr>
+                                <td style="width: 200px">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Name</mat-label>
+                                        <input matInput [(ngModel)]="variant.name" />
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Options</mat-label>
+                                        <mat-chip-list #optionsList>
+                                            <mat-chip
+                                                *ngFor="let option of variant.options"
+                                                [removable]="true"
+                                                (removed)="removeOptionValue(option, i)">{{option}}</mat-chip>
+    
+                                            <input
+                                                placeholder="New option..."
+                                                #optionInput
+                                                [formControl]="variantOptionsInputCtrl[i]"
+                                                [matChipInputFor]="optionsList"
+                                                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                (matChipInputTokenEnd)="addOptionValue($event, i)">
+                                        </mat-chip-list>
+                                    </mat-form-field>
+                                </td>
+                                <td style="width: 50px">
+                                    <button mat-icon-button color="primary" (click)="deleteOption(i)"><mat-icon>delete</mat-icon></button>
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </table>
+
+                <div>
+                    <button mat-button color="primary" (click)="addOption()" *ngIf="variants.length < 3">Add option</button>
+                </div>
+            </mat-card>
         </div>
 
         <div fxFlex="0 1 33.33333">
             <mat-card>
                 <h2>Availability</h2>
 
+                <div fxLayout="column" class="verticle-checkbox">
+                    <mat-checkbox>Active</mat-checkbox>
+                    <mat-checkbox>Hide when out of stock</mat-checkbox>
+                    <mat-checkbox>Enable 'Order through Whatsapp'</mat-checkbox>
+                </div>
+            </mat-card>
+
+            <mat-card>
+                <h2>Shipped through</h2>
+
+                <mat-radio-group fxLayout="row">
+                    <mat-radio-button value="Kees" fxFlex="0 1 50%">Kees</mat-radio-button>
+                    <mat-radio-button value="Vendor" fxFlex="0 1 50%">Vendor</mat-radio-button>
+                </mat-radio-group>
+            </mat-card>
+
+            <mat-card>
+                <h2>Organization</h2>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Product type</mat-label>
+                    <mat-select>
+                        <mat-option value="Apparel">Apparel</mat-option>
+                        <mat-option value="Footwear">Footwear</mat-option>
+                        <mat-option value="Accessories">Accessories</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Product group</mat-label>
+                    <mat-select>
+                        <mat-option value="Laptops">Laptops</mat-option>
+                        <mat-option value="Phones">Phones</mat-option>
+                        <mat-option value="Tablets">Tablets</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Collections</mat-label>
+                    <mat-select multiple>
+                        <mat-option value="TCL">TCL</mat-option>
+                        <mat-option value="Samsung">Samsung</mat-option>
+                        <mat-option value="Dell">Dell</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </mat-card>
+
+            <mat-card>
+                <h2>Shipping and Tax</h2>
+
+                <mat-checkbox>Apply shipping</mat-checkbox>
             </mat-card>
         </div>
     </div>

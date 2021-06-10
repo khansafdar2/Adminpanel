@@ -180,7 +180,7 @@ th.mat-header-cell {
 .mat-form-field + mat-form-field {
     margin-top: 10px;
 }
-.meta-fields-table, .product-features-table {
+.meta-fields-table, .product-features-table, .product-variants-table {
     .mat-form-field-appearance-outline .mat-form-field-wrapper {
         margin: 0;
     }
@@ -300,4 +300,16 @@ body {
 
 .overwrite-checkbox {
     margin-top: 20px;
+}
+
+.sales-channel-list {
+    padding: 20px 0;
+}
+
+.verticle-checkbox {
+    .mat-checkbox {
+        + .mat-checkbox {
+            margin-top: 10px;
+        }
+    }
 }
