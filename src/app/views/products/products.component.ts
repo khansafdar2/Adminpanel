@@ -4,8 +4,8 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Column } from 'src/app/shared/datatable/datatable.component';
-import URLS from 'src/app/shared/urls';
 import { FormControl } from '@angular/forms';
+import URLS from 'src/app/shared/urls';
 
 @Component({
   selector: 'app-products',

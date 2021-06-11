@@ -11,13 +11,13 @@
     </div>
 
     <div class="page-container">
-        <mat-card class="categories-card">
-            <mat-form-field appearance="outline">
+        <!-- <mat-card class="categories-card"> -->
+            <!-- <mat-form-field appearance="outline">
                 <mat-label>Search</mat-label>
                 <input matInput type="search" [formControl]="searchField" name="category" />
-            </mat-form-field>
+            </mat-form-field> -->
 
-            <div id="category-structure">
+            <!-- <div id="category-structure">
                 <div class="category-wrapper" *ngFor="let mainCategory of filteredCategories | async; let i = index;">
                     <div class="category-inner" fxLayout="row" fxLayoutAlign="space-between center">
                         <span class="category-title">{{mainCategory.name}}</span>
@@ -56,7 +56,49 @@
                         </div>
                     </div>
                 </div>
+            </div> -->
+
+            <div id="category-structure">
+                <mat-accordion displayMode="flat" multi>
+                    <!-- Main category -->
+                    <mat-expansion-panel hideToggle *ngFor="let mainCategory of categoriesAccordion; let i = index" (opened)="onMainCategoryOpen($event, i)">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>{{mainCategory.name}}</mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div>
+                            <mat-progress-bar color="primary" mode="indeterminate" *ngIf="mainCategory.loading"></mat-progress-bar>
+
+                            <p class="no-category" *ngIf="!mainCategory.loading && mainCategory.sub_category.length === 0">No sub categories found.</p>
+                            <!-- Sub category -->
+                            <ng-container *ngIf="!mainCategory.loading && mainCategory.sub_category">
+                                <mat-expansion-panel hideToggle *ngFor="let subCategory of mainCategory.sub_category; let j = index" (opened)="onSubCategoryOpen($event, i, j)">
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>{{subCategory.name}}</mat-panel-title>
+                                    </mat-expansion-panel-header>
+                                    <div>
+                                        <mat-progress-bar color="primary" mode="indeterminate" *ngIf="subCategory.loading"></mat-progress-bar>
+
+                                        <p class="no-category" *ngIf="!subCategory.loading && subCategory.sub_category && subCategory.sub_category.length === 0">No sub categories found.</p>
+                                        <!-- Sub sub category -->
+                                        <ng-container *ngIf="!subCategory.loading && subCategory.sub_category">
+                                            <mat-list role="list">
+                                                <mat-list-item *ngFor="let subSubCategory of subCategory.sub_category">{{subSubCategory.name}}</mat-list-item>
+                                            </mat-list>
+                                        </ng-container>
+                                    </div>
+                                </mat-expansion-panel>
+                            </ng-container>
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
             </div>
-        </mat-card>
     </div>
 </main>
+<!-- <mat-expansion-panel hideToggle>
+    <mat-expansion-panel-header>
+        <mat-panel-title>Sub Sub category 1</mat-panel-title>
+    </mat-expansion-panel-header>
+    <div>
+        
+    </div>
+</mat-expansion-panel> -->

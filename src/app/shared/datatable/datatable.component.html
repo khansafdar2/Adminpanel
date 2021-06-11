@@ -48,7 +48,7 @@
         <mat-icon matSuffix fontSet="icofont-search"></mat-icon>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" class="search-column-selector" *ngIf="searchColumns.length">
+      <mat-form-field appearance="outline" class="search-column-selector" *ngIf="searchColumns && searchColumns.length">
         <mat-label>Search column</mat-label>
         <mat-select>
           <mat-option *ngFor="let column of searchColumns" [value]="column">{{column}}</mat-option>

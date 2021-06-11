@@ -235,7 +235,10 @@ export class DatatableComponent implements OnInit, AfterViewInit {
     // if((this.selectable) || (this.rowActions && this.rowActions.length)) {
     //   this.displayedColumns.push("actionsColumn");
     // }
-    if(this.filters.length) {
+    if(this.rowActions) {
+      this.displayedColumns.push("actionsColumn");
+    }
+    if(this.filters && this.filters.length) {
       let appliedFilters = [];
       this.filters.forEach(filter => {
         appliedFilters.push({

@@ -17,7 +17,8 @@ const URLS = {
     newSubCategory: 'new-sub',
     editMainCategory: 'edit-main',
     editSubCategory: 'edit-sub',
-    collections: 'collections'
+    collections: 'collections',
+    productGroups: 'product-groups',
 }
 
 export default URLS;

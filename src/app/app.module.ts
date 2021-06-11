@@ -23,6 +23,8 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatListModule } from '@angular/material/list';
 
 
 
@@ -55,6 +57,9 @@ import { AddCollectionComponent } from './views/products/collections/add-collect
 import { EditCollectionComponent } from './views/products/collections/edit-collection/edit-collection.component';
 import { DatatableComponent } from './shared/datatable/datatable.component';
 import { AddProductComponent } from './views/products/add-product/add-product.component';
+import { ProductGroupsComponent } from './views/products/product-groups/product-groups.component';
+import { AddProductGroupComponent } from './views/products/product-groups/add-product-group/add-product-group.component';
+import { EditProductGroupComponent } from './views/products/product-groups/edit-product-group/edit-product-group.component';
 
 @NgModule({
   declarations: [
@@ -90,6 +95,9 @@ import { AddProductComponent } from './views/products/add-product/add-product.co
     AddBulkTagsDialog,
     ApplyBulkChannelDialog,
     AddProductComponent,
+    ProductGroupsComponent,
+    AddProductGroupComponent,
+    EditProductGroupComponent,
   ],
   imports: [
     BrowserModule,
@@ -119,6 +127,8 @@ import { AddProductComponent } from './views/products/add-product/add-product.co
     MatPaginatorModule,
     MatMenuModule,
     MatChipsModule,
+    MatExpansionModule,
+    MatListModule,
 
     TableModule,
   ],

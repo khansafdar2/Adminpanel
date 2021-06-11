@@ -22,6 +22,9 @@ import { AddCollectionComponent } from './views/products/collections/add-collect
 import { EditCollectionComponent } from './views/products/collections/edit-collection/edit-collection.component';
 import { ProductsComponent } from './views/products/products.component';
 import { AddProductComponent } from './views/products/add-product/add-product.component';
+import { ProductGroupsComponent } from './views/products/product-groups/product-groups.component';
+import { AddProductGroupComponent } from './views/products/product-groups/add-product-group/add-product-group.component';
+import { EditProductGroupComponent } from './views/products/product-groups/edit-product-group/edit-product-group.component';
 
 
 const routes: Routes = [
@@ -56,6 +59,12 @@ const routes: Routes = [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
     {path: URLS.all, component: ProductsComponent},
     {path: URLS.add, component: AddProductComponent}
+  ]},
+  {path: URLS.productGroups, children: [
+    {path: '', redirectTo: URLS.all, pathMatch: 'full'},
+    {path: URLS.all, component: ProductGroupsComponent},
+    {path: URLS.add, component: AddProductGroupComponent},
+    {path: URLS.edit + '/:id', component: EditProductGroupComponent}
   ]}
 ];
 

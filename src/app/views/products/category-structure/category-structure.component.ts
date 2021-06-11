@@ -39,9 +39,43 @@ export class CategoryStructureComponent implements OnInit {
       sub_category: []
     }
   ]
+  categoriesAccordion: any[] = this.categories;
 
   addSubCategory(index) {
     this.router.navigate(['/', URLS.categories, URLS.newSubCategory, index]);
+  }
+
+  onMainCategoryOpen(event, i) {
+    console.log(event, i);
+    this.categoriesAccordion[i].loading = true;
+    let subCategories = [
+      {
+        id: 2,
+        name: "Sub Category 1"
+      },
+      {
+        id: 3,
+        name: "Sub Category 2"
+      }
+    ];
+    this.categoriesAccordion[i].sub_category = subCategories;
+    this.categoriesAccordion[i].loading = false;
+  }
+
+  onSubCategoryOpen(event, i, j) {
+    this.categoriesAccordion[i].sub_category[j].loading = true;
+    let subCategories = [
+      {
+        id: 6,
+        name: "Sub sub Category 1"
+      },
+      {
+        id: 7,
+        name: "Sub sub Category 2"
+      }
+    ];
+    this.categoriesAccordion[i].sub_category[j].sub_category = subCategories;
+    this.categoriesAccordion[i].sub_category[j].loading = false;
   }
 
   ngOnInit(): void {
