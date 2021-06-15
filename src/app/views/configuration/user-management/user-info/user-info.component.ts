@@ -3,6 +3,7 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import URLS from 'src/app/shared/urls';
 import { UsersService } from '../users.service';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-user-info',
@@ -18,6 +19,8 @@ export class UserInfoComponent implements OnInit {
   userId = null;
   displayedColumns: string[] = ['date', 'ip_address', 'location'];
   dataSource = [];
+  firstNameField = new FormControl("", [Validators.required]);
+  lastNameField = new FormControl("", [Validators.required]);
   userPermissions = {
     dashboard: false,
     theme: false,
@@ -63,17 +66,24 @@ export class UserInfoComponent implements OnInit {
         console.log(resp.data);
         this.userDetail = resp.data;
         this.dataSource = resp.data.last_login_list;
+        this.firstNameField.setValue(resp.data.first_name);
+        this.lastNameField.setValue(resp.data.last_name);
         this.loading = false;
       }
     })
   }
 
   saveInfo() {
+    this.firstNameField.markAsTouched();
+    this.lastNameField.markAsTouched();
+    if(!this.firstNameField.valid || !this.lastNameField.valid) {
+      return false;
+    }
     this.loading = true;
     let data = {
       id: this.userDetail.id,
-      first_name: this.userDetail.first_name,
-      last_name: this.userDetail.last_name,
+      first_name: this.firstNameField.value,
+      last_name: this.lastNameField.value,
       username: this.userDetail.username,
       email: this.userDetail.email,
       newsletter: this.userDetail.newsletter,

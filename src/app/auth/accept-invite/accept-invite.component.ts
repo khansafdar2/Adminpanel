@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import URLS from 'src/app/shared/urls';
 import { UsersService } from 'src/app/views/configuration/user-management/users.service';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-accept-invite',
@@ -12,7 +13,7 @@ import { UsersService } from 'src/app/views/configuration/user-management/users.
 })
 export class AcceptInviteComponent implements OnInit {
 
-  constructor(private usersService: UsersService, private route: ActivatedRoute, private fb: FormBuilder, private router: Router) { }
+  constructor(private usersService: UsersService, private route: ActivatedRoute, private fb: FormBuilder, private router: Router, private authService: AuthService) { }
 
   loading: boolean = true;
   key: string;
@@ -51,6 +52,7 @@ export class AcceptInviteComponent implements OnInit {
       if(resp) {
         console.log(resp.data);
         this.loading = false;
+        this.authService.signin(resp.data.token, resp.data.permission);
         this.router.navigate([URLS.home]);
       }
     });

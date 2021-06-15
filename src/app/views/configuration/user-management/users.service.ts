@@ -33,6 +33,7 @@ export class UsersService {
       if (error.response.data.detail == "Session expired, Reopen the application!") {
         this.authservice.signout();
       }
+      return error;
     });
   }
 

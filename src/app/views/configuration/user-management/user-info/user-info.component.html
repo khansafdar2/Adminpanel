@@ -36,13 +36,15 @@
                                 <div fxFlex="0 1 50%">
                                     <mat-form-field appearance="outline">
                                         <mat-label>First Name</mat-label>
-                                        <input matInput name="first_name" [(ngModel)]="userDetail.first_name" />
+                                        <input matInput name="first_name" [formControl]="firstNameField" />
+                                        <mat-error *ngIf="firstNameField.hasError('required')">First name is requried.</mat-error>
                                     </mat-form-field>
                                 </div>
                                 <div fxFlex="0 1 50%">
                                     <mat-form-field appearance="outline">
                                         <mat-label>Last Name</mat-label>
-                                        <input matInput name="last_name" [(ngModel)]="userDetail.last_name" />
+                                        <input matInput name="last_name" [formControl]="lastNameField" />
+                                        <mat-error *ngIf="lastNameField.hasError('required')">Last name is requried.</mat-error>
                                     </mat-form-field>
                                 </div>
                             </div>

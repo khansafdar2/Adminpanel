@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/auth/auth.service';
 import URLS from '../urls';
 
 
@@ -9,10 +10,11 @@ import URLS from '../urls';
 })
 export class SidenavComponent implements OnInit {
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   Urls = URLS;
   sideDrawer: string = "";
+  userPermissions = this.authService.user_permissions;
 
   toggleDrawer(drawer) {
     this.sideDrawer = this.sideDrawer == drawer ? "" : drawer;

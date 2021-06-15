@@ -3,6 +3,17 @@ import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import URLS from '../shared/urls';
 
+interface UserPermission {
+  id: number;
+  dashboard: boolean;
+  theme: boolean;
+  products: boolean;
+  orders: boolean;
+  customer: boolean;
+  discounts: boolean;
+  configuration: boolean;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -15,25 +26,27 @@ export class AuthService {
     }
     if(localStorage.getItem('permissions')) {
       this.user_permissions = JSON.parse(localStorage.getItem('permissions'));
+      console.log(this.user_permissions);
     }
   }
 
   signedIn: boolean = false;
   token: string;
-  user_permissions: {};
+  user_permissions: UserPermission;
 
-  signin(token: string, permissions: {}) {
+  signin(token: string, permissions: UserPermission) {
     console.log(permissions)
     this.cookies.set('token', token, 1, '/');
     this.token = token;
     this.user_permissions = permissions;
+    localStorage.setItem('permissions', JSON.stringify(permissions));
     this.signedIn = true;
   }
 
   signout() {
     this.cookies.delete('token');
     this.token = undefined;
-    this.user_permissions = {};
+    this.user_permissions = null;
     this.signedIn = false;
     this.router.navigate([URLS.signin]);
   }

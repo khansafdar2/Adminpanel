@@ -43,15 +43,24 @@ export class AddUserComponent implements OnInit {
     this.loading = true;
     let data = this.userForm.value;
     data.permissions = this.userPermissions;
-    console.log(data);
     this.usersService.addUser(data)
     .then(resp => {
-      if(resp) {
-        console.log(resp.data);
-        this.loading = false;
-        this.snackbarService.open('Invitation sent to user.');
-        this.goBack();
+      this.loading = false;
+      console.log(resp.response);
+      if(resp.response.status === 400) {
+        if(resp.response.data.email[0] === "This field must be unique.") {
+          this.snackbarService.open("An account with this email address already exists.", "", {duration: 3000});
+        }
+      } else {
+        if(resp) {
+          console.log(resp.data);
+          this.loading = false;
+          this.snackbarService.open('Invitation sent to user.', "", {duration: 3000});
+          this.goBack();
+        }
       }
+    }).catch(error => {
+      console.log(error);
     })
   }
 

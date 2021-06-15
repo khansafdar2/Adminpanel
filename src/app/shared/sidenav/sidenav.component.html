@@ -1,13 +1,13 @@
 <div id="side-nav">
     <nav>
         <ul>
-            <li><a [routerLink]="'/' + Urls.home" routerLinkActive="active"><span class="link-icon" [inlineSVG]="'/assets/img/HomeIcon.svg'"></span>Home</a></li>
-            <li><a routerLink="/xyz" routerLinkActive="active"><span class="link-icon" [inlineSVG]="'/assets/img/HomeIcon.svg'"></span>Customization</a></li>
-            <li><a (click)="toggleDrawer('products')" [class.active]="sideDrawer === 'products'"><span class="link-icon" [inlineSVG]="'/assets/img/ProductsIcon.svg'"></span>Products</a></li>
-            <li><a routerLink="/xyz" routerLinkActive="active"><span class="link-icon" [inlineSVG]="'/assets/img/HomeIcon.svg'"></span>Orders</a></li>
-            <li><a routerLink="/xyz" routerLinkActive="active"><span class="link-icon" [inlineSVG]="'/assets/img/HomeIcon.svg'"></span>Customers</a></li>
-            <li><a routerLink="/xyz" routerLinkActive="active"><span class="link-icon" [inlineSVG]="'/assets/img/HomeIcon.svg'"></span>Discounts</a></li>
-            <li><a [routerLink]="'/' + Urls.configuration" routerLinkActive="active"><span class="link-icon" [inlineSVG]="'/assets/img/SettingsIcon.svg'"></span>Configuration</a></li>
+            <li *ngIf="userPermissions.dashboard"><a [routerLink]="'/' + Urls.home" routerLinkActive="active"><span class="link-icon" [inlineSVG]="'/assets/img/HomeIcon.svg'"></span>Home</a></li>
+            <li *ngIf="userPermissions.theme"><a routerLink="/xyz" routerLinkActive="active"><span class="link-icon" [inlineSVG]="'/assets/img/HomeIcon.svg'"></span>Customization</a></li>
+            <li *ngIf="userPermissions.products"><a (click)="toggleDrawer('products')" [class.active]="sideDrawer === 'products'"><span class="link-icon" [inlineSVG]="'/assets/img/ProductsIcon.svg'"></span>Products</a></li>
+            <li *ngIf="userPermissions.orders"><a routerLink="/xyz" routerLinkActive="active"><span class="link-icon" [inlineSVG]="'/assets/img/HomeIcon.svg'"></span>Orders</a></li>
+            <li *ngIf="userPermissions.customer"><a routerLink="/xyz" routerLinkActive="active"><span class="link-icon" [inlineSVG]="'/assets/img/HomeIcon.svg'"></span>Customers</a></li>
+            <li *ngIf="userPermissions.discounts"><a routerLink="/xyz" routerLinkActive="active"><span class="link-icon" [inlineSVG]="'/assets/img/HomeIcon.svg'"></span>Discounts</a></li>
+            <li *ngIf="userPermissions.configuration"><a [routerLink]="'/' + Urls.configuration" routerLinkActive="active"><span class="link-icon" [inlineSVG]="'/assets/img/SettingsIcon.svg'"></span>Configuration</a></li>
         </ul>
     </nav>
 

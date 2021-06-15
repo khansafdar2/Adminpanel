@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import URLS from 'src/app/shared/urls';
 import { FormControl } from '@angular/forms';
+import { CollectionsService } from './collections.service';
 
 @Component({
   selector: 'app-collections',
@@ -9,7 +10,7 @@ import { FormControl } from '@angular/forms';
 })
 export class CollectionsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private collectionsService: CollectionsService) { }
 
   URLS = URLS;
   loading: boolean = false;
@@ -37,8 +38,22 @@ export class CollectionsComponent implements OnInit {
     }
   ]
   selectedCollections = [];
+  pageNumber: number = 1;
+  pageSize: number = 50;
 
-  ngOnInit(): void {
+
+  getCollections() {
+    this.loading = true;
+    this.collectionsService.getCollectionsList(this.pageNumber, this.pageSize).then(resp => {
+      this.loading = false;
+      if(resp) {
+        console.log(resp.data);
+        this.collections = resp.data.results;
+      }
+    });
   }
 
+  ngOnInit(): void {
+    this.getCollections();
+  }
 }
