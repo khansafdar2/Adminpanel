@@ -50,7 +50,7 @@
 
       <mat-form-field appearance="outline" class="search-column-selector" *ngIf="searchColumns && searchColumns.length">
         <mat-label>Search column</mat-label>
-        <mat-select>
+        <mat-select [(ngModel)]="searchColumn">
           <mat-option *ngFor="let column of searchColumns" [value]="column">{{column}}</mat-option>
         </mat-select>
       </mat-form-field>
@@ -157,6 +157,8 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+
+    <p *ngIf="dataSource.data.length === 0" class="empty-state">No records found.</p>
 
     <!-- <mat-paginator [pageSizeOptions]="pageSizeOptions"
                   showFirstLastButtons

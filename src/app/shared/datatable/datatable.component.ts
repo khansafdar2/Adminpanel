@@ -101,6 +101,7 @@ export class DatatableComponent implements OnInit, AfterViewInit {
   displayFilters: boolean = false;
   appliedFilters = [];
   searchQuery: string;
+  searchColumn: string;
   rowActionsArray = [];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -195,8 +196,11 @@ export class DatatableComponent implements OnInit, AfterViewInit {
   }
 
   onSearch = Debounce(() =>  {
-    this.dataSource.filter = this.searchQuery;
-    // this.search.emit(this.searchQuery);
+    // this.dataSource.filter = this.searchQuery;
+    this.search.emit({
+      query: this.searchQuery,
+      column: this.searchColumn
+    });
   }, 500)
 
   onAddNew() {
@@ -248,6 +252,9 @@ export class DatatableComponent implements OnInit, AfterViewInit {
       });
 
       this.appliedFilters = Object.assign([], appliedFilters);
+    }
+    if(this.searchColumns.length) {
+      this.searchColumn = this.searchColumns[0];
     }
   }
 

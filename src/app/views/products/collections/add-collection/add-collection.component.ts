@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import URLS from 'src/app/shared/urls';
+import { VendorsService } from '../../vendors.service';
+import { CollectionsService } from '../collections.service';
 
 @Component({
   selector: 'app-add-collection',
@@ -8,11 +13,16 @@ import URLS from 'src/app/shared/urls';
 })
 export class AddCollectionComponent implements OnInit {
 
-  constructor() { }
+  constructor(private fb: FormBuilder,
+    private vendorService: VendorsService,
+    private collectionsService: CollectionsService,
+    private snackbarService: MatSnackBar,
+    private router: Router) { }
 
   URLS = URLS;
   loading: boolean = false;
   bannerFile: File;
+  vendors = [];
   metaFields = [
     {
       field: "",
@@ -38,21 +48,34 @@ export class AddCollectionComponent implements OnInit {
       }
     ]
   }
+  collectionForm = this.fb.group({
+    title: ['', [Validators.required]],
+    description: [''],
+    slug: [''],
+    seo_title: [''],
+    seo_description: [''],
+    vendor: ['', [Validators.required]],
+    is_active: [false],
+    meta_data: this.fb.array([
+      this.fb.group({
+        field: [''],
+        value: ['']
+      })
+    ])
+  })
 
 
   addMetaField() {
-    console.log("pushing")
-    this.metaFields.push({
-      field: "",
-      value: ""
-    })
+    (this.collectionForm.get('meta_data') as FormArray).push(
+      this.fb.group({
+        field: [''],
+        value: ['']
+      })
+    )
   }
 
   deleteMetaField(index) {
-    console.log(index);
-    let tempFields = Object.assign([], this.metaFields);
-    tempFields.splice(index, 1);
-    this.metaFields = tempFields;
+    (this.collectionForm.get('meta_data') as FormArray).removeAt(index);
   }
 
   bannerImageSelect(e) {
@@ -81,7 +104,31 @@ export class AddCollectionComponent implements OnInit {
     this.collectionConditions.conditions = tempConditions;
   }
 
+  getVendorsList() {
+    this.vendorService.getVendorsList(1, 50).then(resp => {
+      if(resp) {
+        this.vendors = resp.data.results;
+      }
+    })
+  }
+
+  onSubmit() {
+    this.collectionForm.markAllAsTouched();
+    if(!this.collectionForm.valid) {
+      return false;
+    }
+
+    console.log(this.collectionForm.value)
+    this.collectionsService.createCollection(this.collectionForm.value).then(resp => {
+      if(resp) {
+        this.snackbarService.open('Collection created.', "", {duration: 3000});
+        this.router.navigate(['', URLS.collections]);
+      }
+    })
+  }
+
   ngOnInit(): void {
+    this.getVendorsList();
   }
 
 }

@@ -26,7 +26,6 @@ export class AuthService {
     }
     if(localStorage.getItem('permissions')) {
       this.user_permissions = JSON.parse(localStorage.getItem('permissions'));
-      console.log(this.user_permissions);
     }
   }
 

@@ -23,4 +23,17 @@ export class CollectionsService {
       }
     });
   }
+
+  createCollection(data) {
+    return Axios.post( environment.backend_url + '/products/collections', data, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
 }

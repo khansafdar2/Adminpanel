@@ -11,49 +11,14 @@
     </div>
 
     <div class="page-container">
-        <mat-card class="collections-card">
-            <mat-form-field appearance="outline">
-                <mat-label>Search</mat-label>
-                <input matInput type="search" (input)="collectionTable.filterGlobal($event.target.value, 'contains')" name="collection" />
-            </mat-form-field>
-
-            <p-table #collectionTable
-                [value]="collections"
-                [loading]="loading"
-                [globalFilterFields]="['name']"
-                dataKey="id"
-                [(selection)]="selectedCollections">
-
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th style="width: 3rem">
-                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                        </th>
-                        <th>Title</th>
-                        <th style="width: 120px;"></th>
-                        <th style="width: 115px;"></th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-collection>
-                    <tr>
-                        <td>
-                            <p-tableCheckbox [value]="collection"></p-tableCheckbox>
-                        </td>
-                        <td>{{collection.name}}</td>
-                        <td>{{collection.product_count}} products</td>
-                        <td>
-                            <a [routerLink]="['/', URLS.collections, URLS.edit, collection.id]" mat-icon-button color="primary"><mat-icon>edit</mat-icon></a>
-                            <button mat-icon-button color="warn"><mat-icon>delete</mat-icon></button>
-                        </td>
-                    </tr>
-                </ng-template>
-
-                <ng-template pTemplate="emptymessage">
-                    <tr>
-                        <td colspan="4">No collections found.</td>
-                    </tr>
-                </ng-template>
-            </p-table>
+        <mat-card class="table-wrapper-card">
+            <datatable *ngIf="!loading" [data]="collections"
+                      [columns]="displayedColumns"
+                      [selectable]="true"
+                      [(selection)]="collectionSelection"
+                      [searchColumns]="searchColumns"
+                      [searchable]="true">
+          </datatable>
         </mat-card>
     </div>
 </main>
