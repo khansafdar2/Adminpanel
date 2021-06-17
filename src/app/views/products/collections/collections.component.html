@@ -6,18 +6,34 @@
         <h1>Collections</h1>
 
         <div class="header-actions">
+            <button mat-stroked-button color="primary" *ngIf="collectionSelection.hasValue()" [matMenuTriggerFor]="bulkActionsMenu">Bulk actions <mat-icon>arrow_drop_down</mat-icon></button>
+            <mat-menu #bulkActionsMenu="matMenu">
+                <ng-template matMenuContent>
+                    <button mat-menu-item>Activate</button>
+                    <button mat-menu-item>Deactivate</button>
+                    <button mat-menu-item>Approve</button>
+                    <button mat-menu-item>Disapprove</button>
+                </ng-template>
+            </mat-menu>
+
             <a [routerLink]="['/', URLS.collections, URLS.add]" mat-flat-button color="primary">Create new</a>
         </div>
     </div>
 
     <div class="page-container">
         <mat-card class="table-wrapper-card">
-            <datatable *ngIf="!loading" [data]="collections"
+            <datatable [data]="collections"
                       [columns]="displayedColumns"
                       [selectable]="true"
                       [(selection)]="collectionSelection"
                       [searchColumns]="searchColumns"
-                      [searchable]="true">
+                      [rowActions]="rowActions"
+                      [searchable]="true"
+                      [filters]="filtersArray"
+
+                      (search)="onSearch($event)"
+                      (filter)="onFilter($event)"
+                      (rowAction)="onRowAction($event)">
           </datatable>
         </mat-card>
     </div>

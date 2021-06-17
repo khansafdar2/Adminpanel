@@ -38,7 +38,11 @@ export class DatatableComponent implements OnInit, AfterViewInit {
   constructor() { }
 
   // The array of data to display
-  @Input() data: any[];
+  // @Input() data: any[];
+  @Input()
+  public set data(val: any[]) {
+    this.dataSource = new MatTableDataSource(val);
+  }
 
   // The columns to display and there options
   @Input() public columns: Column[];
@@ -70,8 +74,8 @@ export class DatatableComponent implements OnInit, AfterViewInit {
   // The selection model of all selected rows in the table.
   @Input() selection: SelectionModel<[{}]>;
 
-  // Options to show in search columns dropdown.
-  @Input() searchColumns: string[]
+  // Options to show in search columns dropdown. e.g. [{ label: "Title", value: "title" }]
+  @Input() searchColumns: any[]
 
   // When any bulk action is clicked after selection. Emits {action: string, selection: data[]}
   @Output() bulkAction = new EventEmitter<any>();
@@ -93,6 +97,9 @@ export class DatatableComponent implements OnInit, AfterViewInit {
 
   // Two way binding of selection property.
   @Output() selectionChange = new EventEmitter<SelectionModel<[{}]>>();
+
+  // When a filter is applied.
+  @Output() filter = new EventEmitter<any>();
 
   dataSource: MatTableDataSource<any>;
   displayedColumns: string[];
@@ -117,7 +124,7 @@ export class DatatableComponent implements OnInit, AfterViewInit {
 
   isAllSelected() {
     const numSelected = this.selection.selected.length;
-    const numRows = this.data.length;
+    const numRows = this.dataSource.data.length;
     return numSelected == numRows;
   }
 
@@ -125,7 +132,7 @@ export class DatatableComponent implements OnInit, AfterViewInit {
   masterToggle() {
     this.isAllSelected() ?
         this.selection.clear() :
-        this.data.forEach(row => this.selection.select(row));
+        this.dataSource.data.forEach(row => this.selection.select(row));
     this.selectionChange.emit(this.selection);
   }
 
@@ -192,11 +199,11 @@ export class DatatableComponent implements OnInit, AfterViewInit {
   }
 
   onFilterChange(event, index) {
-    this.appliedFilters[index].value = event.value;
+    this.filter.emit(this.appliedFilters);
   }
 
   onSearch = Debounce(() =>  {
-    // this.dataSource.filter = this.searchQuery;
+    console.log(this.searchQuery);
     this.search.emit({
       query: this.searchQuery,
       column: this.searchColumn
@@ -222,7 +229,6 @@ export class DatatableComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.dataSource = new MatTableDataSource(this.data);
     if(typeof this.rowActions === 'object') {
       this.rowActionsArray = this.rowActions;
     }
@@ -247,6 +253,7 @@ export class DatatableComponent implements OnInit, AfterViewInit {
       this.filters.forEach(filter => {
         appliedFilters.push({
           title: filter.title,
+          key: filter.key,
           value: ""
         });
       });
@@ -254,7 +261,7 @@ export class DatatableComponent implements OnInit, AfterViewInit {
       this.appliedFilters = Object.assign([], appliedFilters);
     }
     if(this.searchColumns.length) {
-      this.searchColumn = this.searchColumns[0];
+      this.searchColumn = this.searchColumns[0].value;
     }
   }
 

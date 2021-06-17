@@ -51,7 +51,7 @@
       <mat-form-field appearance="outline" class="search-column-selector" *ngIf="searchColumns && searchColumns.length">
         <mat-label>Search column</mat-label>
         <mat-select [(ngModel)]="searchColumn">
-          <mat-option *ngFor="let column of searchColumns" [value]="column">{{column}}</mat-option>
+          <mat-option *ngFor="let column of searchColumns" [value]="column.value">{{column.label}}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
@@ -61,7 +61,7 @@
       <div class="available-filters">
         <mat-form-field appearance="outline" *ngFor="let filter of filters; let i = index">
           <mat-label>{{ filter.title }}</mat-label>
-          <mat-select [(ngModel)]="appliedFilters[i].value">
+          <mat-select [(ngModel)]="appliedFilters[i].value" (selectionChange)="onFilterChange($event, i)">
             <mat-option value="">All</mat-option>
             <mat-option *ngFor="let value of filter.values" [value]="value">{{ value }}</mat-option>
           </mat-select>
@@ -139,10 +139,10 @@
       <ng-container matColumnDef="actionsColumn">
         <ng-container *ngIf="selectable">
           <th mat-header-cell *matHeaderCellDef [style]="{width: selectable ? '160px' : '64px'}">
-            <button mat-flat-button color="primary" [disabled]="!selection.hasValue()" [matMenuTriggerFor]="bulkActionsMenu">Bulk actions<mat-icon>arrow_drop_down</mat-icon></button>
+            <!-- <button mat-flat-button color="primary" [disabled]="!selection.hasValue()" [matMenuTriggerFor]="bulkActionsMenu">Bulk actions<mat-icon>arrow_drop_down</mat-icon></button> -->
           </th>
         </ng-container>
-    
+
         <ng-container *ngIf="!selectable">
           <th mat-header-cell *matHeaderCellDef [style]="{width: '64px'}"></th>
         </ng-container>

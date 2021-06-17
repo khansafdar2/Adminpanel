@@ -11,8 +11,8 @@ export class CollectionsService {
 
   constructor(private authService: AuthService) { }
 
-  getCollectionsList(page: number, limit: number) {
-    return Axios.get( environment.backend_url + '/products/collections_list?page=' + page + '&limit=' + limit, {
+  getCollectionsList(page: number, limit: number, filterString: string, searchString: string) {
+    return Axios.get( environment.backend_url + '/products/collections_list?page=' + page + '&limit=' + limit + filterString + searchString, {
       headers: {
         Authorization: this.authService.token
       }
@@ -26,6 +26,32 @@ export class CollectionsService {
 
   createCollection(data) {
     return Axios.post( environment.backend_url + '/products/collections', data, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
+  getCollectionDetail(id) {
+    return Axios.get( environment.backend_url + '/products/collections/' + id, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
+  updateCollectionDetail(data) {
+    return Axios.put( environment.backend_url + '/products/collections', data, {
       headers: {
         Authorization: this.authService.token
       }
