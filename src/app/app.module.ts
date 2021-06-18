@@ -52,7 +52,7 @@ import { NewMainCategoryComponent } from './views/products/category-structure/ma
 import { NewSubCategoryComponent } from './views/products/category-structure/sub-category/new-sub-category/new-sub-category.component';
 import { EditMainCategoryComponent } from './views/products/category-structure/main-category/edit-main-category/edit-main-category.component';
 import { EditSubCategoryComponent } from './views/products/category-structure/sub-category/edit-sub-category/edit-sub-category.component';
-import { CollectionsComponent } from './views/products/collections/collections.component';
+import { CollectionDeleteDialog, CollectionsChangeApprovalStatusDialog, CollectionsChangeStatusDialog, CollectionsComponent } from './views/products/collections/collections.component';
 import { AddCollectionComponent } from './views/products/collections/add-collection/add-collection.component';
 import { EditCollectionComponent } from './views/products/collections/edit-collection/edit-collection.component';
 import { DatatableComponent } from './shared/datatable/datatable.component';
@@ -98,6 +98,9 @@ import { EditProductGroupComponent } from './views/products/product-groups/edit-
     ProductGroupsComponent,
     AddProductGroupComponent,
     EditProductGroupComponent,
+    CollectionsChangeStatusDialog,
+    CollectionsChangeApprovalStatusDialog,
+    CollectionDeleteDialog
   ],
   imports: [
     BrowserModule,

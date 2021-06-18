@@ -9,10 +9,9 @@
             <button mat-stroked-button color="primary" *ngIf="collectionSelection.hasValue()" [matMenuTriggerFor]="bulkActionsMenu">Bulk actions <mat-icon>arrow_drop_down</mat-icon></button>
             <mat-menu #bulkActionsMenu="matMenu">
                 <ng-template matMenuContent>
-                    <button mat-menu-item>Activate</button>
-                    <button mat-menu-item>Deactivate</button>
-                    <button mat-menu-item>Approve</button>
-                    <button mat-menu-item>Disapprove</button>
+                    <button mat-menu-item (click)="bulkChangeStatus()">Change active status</button>
+                    <button mat-menu-item (click)="bulkChangeApprovalStatus()">Change approval status</button>
+                    <button mat-menu-item (click)="bulkDeleteCollections()">Delete</button>
                 </ng-template>
             </mat-menu>
 

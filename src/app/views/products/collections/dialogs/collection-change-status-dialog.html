@@ -1,0 +1,18 @@
+<button mat-icon-button mat-dialog-close class="dialog-close"><mat-icon>close</mat-icon></button>
+<h2 mat-dialog-title>Change status</h2>
+<mat-dialog-content class="mat-typography">
+    <p>Change status of {{data.collections.length}} collections:</p>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Status</mat-label>
+        <mat-select [(ngModel)]="status" [disabled]="loading">
+            <mat-option value="1">Active</mat-option>
+            <mat-option value="0">Inactive</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+</mat-dialog-content>
+<div mat-dialog-actions>
+    <button mat-stroked-button color="primary" mat-dialog-close>Cancel</button>
+    <button mat-flat-button color="primary" [disabled]="loading || !status" (click)="onUpdate()">Update status</button>
+</div>

@@ -62,4 +62,21 @@ export class CollectionsService {
       }
     });
   }
+
+  change_status(ids: number[], status: string, value: boolean) {
+    return Axios.put( environment.backend_url + '/products/collections_status_change', {
+      ids,
+      status,
+      value
+    }, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
 }
