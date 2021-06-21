@@ -50,6 +50,19 @@ export class CollectionsService {
     });
   }
 
+  deleteCollection(id) {
+    return Axios.delete( environment.backend_url + '/products/collections?id=' + id, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
   updateCollectionDetail(data) {
     return Axios.put( environment.backend_url + '/products/collections', data, {
       headers: {

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import URLS from 'src/app/shared/urls';
+import { CategoryService } from './category.service';
 
 @Component({
   selector: 'app-category-structure',
@@ -12,10 +13,10 @@ import URLS from 'src/app/shared/urls';
 })
 export class CategoryStructureComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private categoryService: CategoryService) { }
 
   URLS = URLS;
-  loading: boolean = false;
+  loading: boolean = true;
   searchField:FormControl = new FormControl("");
   filteredCategories: Observable<any[]>;
   categories = [
@@ -78,12 +79,23 @@ export class CategoryStructureComponent implements OnInit {
     this.categoriesAccordion[i].sub_category[j].loading = false;
   }
 
+  getMainCategories() {
+    this.categoryService.getMainCategories().then(resp => {
+      if(resp) {
+        console.log(resp.data);
+        this.loading = false;
+      }
+    });
+  }
+
   ngOnInit(): void {
     this.filteredCategories = this.searchField.valueChanges
       .pipe(
         startWith(''),
         map(value => this._filterCategories(value))
     );
+
+    this.getMainCategories();
   }
 
   private _filterCategories(value: string): any[] {

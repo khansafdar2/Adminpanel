@@ -94,9 +94,10 @@
     
                 <mat-card>
                     <h2>Banner</h2>
-    
+
+                    <mat-spinner class="file-upload-spinner" diameter="80" *ngIf="file_uploading"></mat-spinner>
                     <img [src]="previewImageSrc" class="banner-preview-image" *ngIf="previewImageSrc" />
-                    <button mat-button color="primary" (click)="bannerFileInput.click()">Upload image</button>
+                    <button mat-button type="button" color="primary" (click)="bannerFileInput.click()" [disabled]="file_uploading">Upload image</button>
                     <input type="file" class="banner-file-input" accept=".png, .jpg, .jpeg" #bannerFileInput (change)="bannerImageSelect($event)" />
                 </mat-card>
 

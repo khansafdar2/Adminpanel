@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { SharedService } from 'src/app/shared/shared.service';
 import URLS from 'src/app/shared/urls';
 import { VendorsService } from '../../vendors.service';
 import { CollectionsService } from '../collections.service';
@@ -17,10 +18,12 @@ export class AddCollectionComponent implements OnInit {
     private vendorService: VendorsService,
     private collectionsService: CollectionsService,
     private snackbarService: MatSnackBar,
-    private router: Router) { }
+    private router: Router,
+    private sharedService: SharedService) { }
 
   URLS = URLS;
   loading: boolean = false;
+  file_uploading: boolean = false;
   bannerFile: File;
   vendors = [];
   metaFields = [
@@ -79,15 +82,24 @@ export class AddCollectionComponent implements OnInit {
   }
 
   bannerImageSelect(e) {
-    const reader = new FileReader();
-    const file:File = e.target.files[0];
-    this.bannerFile = file;
-    reader.readAsDataURL(file);
+    // const reader = new FileReader();
+    // const file:File = e.target.files[0];
+    // this.bannerFile = file;
+    // reader.readAsDataURL(file);
 
-    reader.onload = () => {
-   
-      this.previewImageSrc = reader.result as string; 
-    }
+    // reader.onload = () => {
+    //   this.previewImageSrc = reader.result as string; 
+    // }
+
+    const file = e.target.files[0];
+    this.file_uploading = true;
+    this.sharedService.uploadMedia(file).then(resp => {
+      this.file_uploading = false;
+      if(resp) {
+        console.log(resp.data);
+        this.previewImageSrc = resp.data.cdn_link;
+      }
+    });
   }
 
   addCondition() {

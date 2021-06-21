@@ -5,14 +5,14 @@
 
     <mat-form-field appearance="outline">
         <mat-label>Approval status</mat-label>
-        <mat-select>
-            <mat-option value="Approve">Approve</mat-option>
-            <mat-option value="Disapprove">Disapprove</mat-option>
+        <mat-select [(ngModel)]="status" [disabled]="loading">
+            <mat-option value="1">Approve</mat-option>
+            <mat-option value="0">Disapprove</mat-option>
         </mat-select>
     </mat-form-field>
 
 </mat-dialog-content>
 <div mat-dialog-actions>
     <button mat-stroked-button color="primary" mat-dialog-close>Cancel</button>
-    <button mat-flat-button color="primary">Update status</button>
+    <button mat-flat-button color="primary" [disabled]="loading || !status" (click)="onUpdate()">Update status</button>
 </div>

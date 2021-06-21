@@ -25,7 +25,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
-
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 import { TableModule } from 'primeng/table';
@@ -132,6 +132,7 @@ import { EditProductGroupComponent } from './views/products/product-groups/edit-
     MatChipsModule,
     MatExpansionModule,
     MatListModule,
+    MatProgressSpinnerModule,
 
     TableModule,
   ],

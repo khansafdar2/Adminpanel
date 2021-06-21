@@ -20,7 +20,8 @@ export class CollectionsComponent implements OnInit {
     private collectionsService: CollectionsService,
     private router: Router,
     private vendorsService: VendorsService,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    private snackbar: MatSnackBar) { }
 
   URLS = URLS;
   loading: boolean = true;
@@ -29,7 +30,8 @@ export class CollectionsComponent implements OnInit {
   displayedColumns: Column[] = [
     {
       title: "Title",
-      selector: "title"
+      selector: "title",
+      clickable: true
     },
     {
       title: "",
@@ -79,12 +81,19 @@ export class CollectionsComponent implements OnInit {
     return actions;
   }
 
+  onCellClick(data) {
+    console.log(data);
+    if(data.column == "title") {
+      this.router.navigate(["/", URLS.collections, URLS.edit, data.row.id]);
+    }
+  }
+
   getCollections() {
     this.loading = true;
+    this.collectionSelection.clear();
     this.collectionsService.getCollectionsList(this.pageNumber, this.pageSize, this.filterString, this.searchString).then(resp => {
       this.loading = false;
       if(resp) {
-        console.log(resp.data);
         this.collections = resp.data.results;
       }
     });
@@ -126,29 +135,51 @@ export class CollectionsComponent implements OnInit {
     if(data.action === "Edit") {
       this.router.navigate(['/', URLS.collections, URLS.edit, data.row.id]);
     } else if(data.action === "Delete") {
-      this.dialog.open(CollectionDeleteDialog, {
+      let dialogRef = this.dialog.open(CollectionDeleteDialog, {
         width: "600px",
         data: {
           collections: [data.row]
         }
       });
+      dialogRef.afterClosed().subscribe(deleted => {
+        if(deleted) {
+          this.snackbar.open("Collection deleted successfuly.", "", {duration: 3000});
+          this.getCollections();
+        }
+      })
+    } else if(data.action === "Activate" || data.action === "Deactivate") {
+      this.changeCollectionStatus(data.row.id, "active", data.action === "Activate");
+    } else if(data.action === "Approve" || data.action === "Disapprove") {
+      this.changeCollectionStatus(data.row.id, "approved", data.action === "Approve");
     }
   }
 
   bulkChangeStatus() {
-    this.dialog.open(CollectionsChangeStatusDialog, {
+    let dialogRef = this.dialog.open(CollectionsChangeStatusDialog, {
       width: "600px",
       data: {
         collections: this.collectionSelection.selected
       }
     });
+
+    dialogRef.afterClosed().subscribe(updated => {
+      if(updated) {
+        this.getCollections();
+      }
+    });
   }
 
   bulkChangeApprovalStatus() {
-    this.dialog.open(CollectionsChangeApprovalStatusDialog, {
+    let dialogRef = this.dialog.open(CollectionsChangeApprovalStatusDialog, {
       width: "600px",
       data: {
         collections: this.collectionSelection.selected
+      }
+    });
+  
+    dialogRef.afterClosed().subscribe(updated => {
+      if(updated) {
+        this.getCollections();
       }
     });
   }
@@ -160,6 +191,16 @@ export class CollectionsComponent implements OnInit {
         collections: this.collectionSelection.selected
       }
     });
+  }
+
+  changeCollectionStatus(id, status: string, value: boolean) {
+    this.loading = true;
+    this.collectionsService.change_status([id], status, value).then(resp => {
+      if(resp) {
+        this.snackbar.open("Collection status updated.", "", {duration: 3000});
+        this.getCollections();
+      }
+    })
   }
 
   ngOnInit(): void {
@@ -192,8 +233,8 @@ export class CollectionsChangeStatusDialog {
     this.collectionService.change_status(ids, status, value).then(resp => {
       if(resp) {
         this.loading = false;
-        this.snackbar.open("Collection status has been updated.", "", {duration: 3000});
-        this.dialogRef.close();
+        this.snackbar.open("Collections status has been updated.", "", {duration: 3000});
+        this.dialogRef.close(true);
       }
     });
   }
@@ -205,10 +246,29 @@ export class CollectionsChangeStatusDialog {
   templateUrl: './dialogs/collection-change-approval-status-dialog.html',
 })
 export class CollectionsChangeApprovalStatusDialog {
-  constructor(public dialogRef: MatDialogRef<CollectionsChangeApprovalStatusDialog>, @Inject(MAT_DIALOG_DATA) public data) {}
+  constructor(
+    public dialogRef: MatDialogRef<CollectionsChangeApprovalStatusDialog>,
+    @Inject(MAT_DIALOG_DATA) public data,
+    private collectionService: CollectionsService,
+    private snackbar: MatSnackBar) {}
 
   loading: boolean = false;
+  status: string;
 
+  onUpdate() {
+    let 
+      ids = this.data.collections.map(collection => collection.id),
+      status = "approved",
+      value = this.status == "1";
+    this.loading = true;
+    this.collectionService.change_status(ids, status, value).then(resp => {
+      if(resp) {
+        this.loading = false;
+        this.snackbar.open("Collections approval status has been updated.", "", {duration: 3000});
+        this.dialogRef.close(true);
+      }
+    });
+  }
 }
 
 
@@ -217,10 +277,26 @@ export class CollectionsChangeApprovalStatusDialog {
   templateUrl: './dialogs/collection-delete-dialog.html',
 })
 export class CollectionDeleteDialog {
-  constructor(public dialogRef: MatDialogRef<CollectionDeleteDialog>, @Inject(MAT_DIALOG_DATA) public data) {
+  constructor(
+    public dialogRef: MatDialogRef<CollectionDeleteDialog>,
+    @Inject(MAT_DIALOG_DATA) public data,
+    private collectionsService: CollectionsService) {
+
     this.count = data.collections.length;
   }
 
   loading: boolean = false;
   count: number = 0;
+
+  deleteCollections() {
+    if(this.count === 1) {
+      this.loading = true;
+      this.collectionsService.deleteCollection(this.data.collections[0].id).then(resp => {
+        if(resp) {
+          console.log(resp.data);
+          this.dialogRef.close(true);
+        }
+      })
+    }
+  }
 }
