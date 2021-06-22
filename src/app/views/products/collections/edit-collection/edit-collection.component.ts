@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
+import { SharedService } from 'src/app/shared/shared.service';
 import URLS from 'src/app/shared/urls';
 import { VendorsService } from '../../vendors.service';
 import { CollectionsService } from '../collections.service';
@@ -17,13 +18,15 @@ export class EditCollectionComponent implements OnInit {
     private vendorService: VendorsService,
     private collectionsService: CollectionsService,
     private route: ActivatedRoute,
-    private snackbarService: MatSnackBar) {
+    private snackbarService: MatSnackBar,
+    private sharedService: SharedService) {
     this.collectionID = this.route.snapshot.paramMap.get('id');
   }
 
   URLS = URLS;
   collectionID: string;
-  loading: boolean = true;
+  loading: boolean = false;
+  file_uploading: boolean = false;
   bannerFile: File;
   vendors = [];
   editorModules = {
@@ -46,16 +49,19 @@ export class EditCollectionComponent implements OnInit {
     ]
   }
   collectionForm = this.fb.group({
-    id: [0],
     title: ['', [Validators.required]],
     description: [''],
     slug: [''],
     seo_title: [''],
     seo_description: [''],
     vendor: ['', [Validators.required]],
+    banner_image: [null],
     is_active: [false],
+    main_category: [[]],
+    sub_category: [[]],
+    super_sub_category: [[]],
     meta_data: this.fb.array([])
-  })
+  });
 
 
   addMetaField() {
@@ -72,15 +78,27 @@ export class EditCollectionComponent implements OnInit {
   }
 
   bannerImageSelect(e) {
-    const reader = new FileReader();
-    const file:File = e.target.files[0];
-    this.bannerFile = file;
-    reader.readAsDataURL(file);
+    const file = e.target.files[0];
+    this.file_uploading = true;
+    this.sharedService.uploadMedia(file).then(resp => {
+      this.file_uploading = false;
+      if(resp) {
+        console.log(resp.data);
+        this.previewImageSrc = resp.data[0].cdn_link;
+        console.log(this.previewImageSrc);
+        this.collectionForm.patchValue({
+          banner_image: resp.data[0].id
+        });
+        e.target.value = "";
+      }
+    });
+  }
 
-    reader.onload = () => {
-   
-      this.previewImageSrc = reader.result as string; 
-    }
+  removeBanner() {
+    this.previewImageSrc = "";
+    this.collectionForm.patchValue({
+      banner_image: null
+    });
   }
 
   addCondition() {

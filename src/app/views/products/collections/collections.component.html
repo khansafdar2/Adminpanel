@@ -19,22 +19,20 @@
         </div>
     </div>
 
-    <div class="page-container">
-        <mat-card class="table-wrapper-card">
-            <datatable [data]="collections"
-                      [columns]="displayedColumns"
-                      [selectable]="true"
-                      [(selection)]="collectionSelection"
-                      [searchColumns]="searchColumns"
-                      [rowActions]="rowActions"
-                      [searchable]="true"
-                      [filters]="filtersArray"
+    <mat-card class="table-wrapper-card">
+        <datatable [data]="collections"
+                    [columns]="displayedColumns"
+                    [selectable]="true"
+                    [(selection)]="collectionSelection"
+                    [searchColumns]="searchColumns"
+                    [rowActions]="rowActions"
+                    [searchable]="true"
+                    [filters]="filtersArray"
 
-                      (search)="onSearch($event)"
-                      (filter)="onFilter($event)"
-                      (cellClick)="onCellClick($event)"
-                      (rowAction)="onRowAction($event)">
-          </datatable>
-        </mat-card>
-    </div>
+                    (search)="onSearch($event)"
+                    (filter)="onFilter($event)"
+                    (cellClick)="onCellClick($event)"
+                    (rowAction)="onRowAction($event)">
+        </datatable>
+    </mat-card>
 </main>

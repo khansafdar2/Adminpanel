@@ -14,7 +14,7 @@ export class SharedService {
   uploadMedia(file: File) {
     let formData = new FormData();
     formData.append('file', file);
-    return Axios.post( environment.backend_url + '/products/product_media', formData, {
+    return Axios.post( environment.backend_url + '/products/media', formData, {
       headers: {
         Authorization: this.authService.token
       }

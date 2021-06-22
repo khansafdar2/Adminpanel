@@ -7,7 +7,7 @@
 
         <div class="header-actions">
             <a [routerLink]="['/', URLS.collections]" mat-stroked-button color="primary">Cancel</a>
-            <button mat-flat-button color="primary" (click)="onSubmit()">Save</button>
+            <button mat-flat-button color="primary" (click)="onSubmit()" [disabled]="loading">Save</button>
         </div>
     </div>
 
@@ -97,8 +97,11 @@
 
                     <mat-spinner class="file-upload-spinner" diameter="80" *ngIf="file_uploading"></mat-spinner>
                     <img [src]="previewImageSrc" class="banner-preview-image" *ngIf="previewImageSrc" />
-                    <button mat-button type="button" color="primary" (click)="bannerFileInput.click()" [disabled]="file_uploading">Upload image</button>
                     <input type="file" class="banner-file-input" accept=".png, .jpg, .jpeg" #bannerFileInput (change)="bannerImageSelect($event)" />
+                    <div class="banner-file-actions">
+                        <button mat-button type="button" color="warn" *ngIf="previewImageSrc" (click)="removeBanner()"><mat-icon>delete</mat-icon></button>
+                        <button mat-button type="button" color="primary" (click)="bannerFileInput.click()" [disabled]="file_uploading">Upload image</button>
+                    </div>
                 </mat-card>
 
                 <mat-card>
@@ -110,6 +113,24 @@
                             <mat-option *ngFor="let vendor of vendors" [value]="vendor.id">{{vendor.name}}</mat-option>
                         </mat-select>
                         <mat-error *ngIf="collectionForm.get('vendor').hasError('required')">This field is required.</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Main categories</mat-label>
+                        <mat-select multiple formControlName="main_category">
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Sub categories</mat-label>
+                        <mat-select multiple formControlName="sub_category">
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Super sub categories</mat-label>
+                        <mat-select multiple formControlName="super_sub_category">
+                        </mat-select>
                     </mat-form-field>
                 </mat-card>
     

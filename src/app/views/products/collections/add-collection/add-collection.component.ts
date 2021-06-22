@@ -26,12 +26,6 @@ export class AddCollectionComponent implements OnInit {
   file_uploading: boolean = false;
   bannerFile: File;
   vendors = [];
-  metaFields = [
-    {
-      field: "",
-      value: ""
-    }
-  ];
   editorModules = {
     toolbar: [
       ['bold', 'italic', 'underline', 'strike'],
@@ -58,14 +52,18 @@ export class AddCollectionComponent implements OnInit {
     seo_title: [''],
     seo_description: [''],
     vendor: ['', [Validators.required]],
+    banner_image: [null],
     is_active: [false],
+    main_category: [[]],
+    sub_category: [[]],
+    super_sub_category: [[]],
     meta_data: this.fb.array([
       this.fb.group({
         field: [''],
         value: ['']
       })
     ])
-  })
+  });
 
 
   addMetaField() {
@@ -82,23 +80,26 @@ export class AddCollectionComponent implements OnInit {
   }
 
   bannerImageSelect(e) {
-    // const reader = new FileReader();
-    // const file:File = e.target.files[0];
-    // this.bannerFile = file;
-    // reader.readAsDataURL(file);
-
-    // reader.onload = () => {
-    //   this.previewImageSrc = reader.result as string; 
-    // }
-
     const file = e.target.files[0];
     this.file_uploading = true;
     this.sharedService.uploadMedia(file).then(resp => {
       this.file_uploading = false;
       if(resp) {
         console.log(resp.data);
-        this.previewImageSrc = resp.data.cdn_link;
+        this.previewImageSrc = resp.data[0].cdn_link;
+        console.log(resp.data[0].id);
+        this.collectionForm.patchValue({
+          banner_image: resp.data[0].id
+        });
+        e.target.value = "";
       }
+    });
+  }
+
+  removeBanner() {
+    this.previewImageSrc = "";
+    this.collectionForm.patchValue({
+      banner_image: null
     });
   }
 
@@ -130,8 +131,9 @@ export class AddCollectionComponent implements OnInit {
       return false;
     }
 
-    console.log(this.collectionForm.value)
+    this.loading = true;
     this.collectionsService.createCollection(this.collectionForm.value).then(resp => {
+      this.loading = false;
       if(resp) {
         this.snackbarService.open('Collection created.', "", {duration: 3000});
         this.router.navigate(['', URLS.collections]);

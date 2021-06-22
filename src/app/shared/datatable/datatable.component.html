@@ -63,7 +63,7 @@
           <mat-label>{{ filter.title }}</mat-label>
           <mat-select [(ngModel)]="appliedFilters[i].value" (selectionChange)="onFilterChange($event, i)">
             <mat-option value="">All</mat-option>
-            <mat-option *ngFor="let value of filter.values" [value]="value">{{ value }}</mat-option>
+            <mat-option *ngFor="let value of filter.values" [value]="value.value ? value.value : value">{{ value.label ? value.label : value }}</mat-option>
           </mat-select>
         </mat-form-field>
         <!-- <ng-container *ngFor="let filter of filters; let i = index">

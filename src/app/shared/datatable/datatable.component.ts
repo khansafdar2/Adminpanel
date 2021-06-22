@@ -56,7 +56,8 @@ export class DatatableComponent implements OnInit, AfterViewInit {
   // Accepts string[] or a function(row: data{}): string[] to show actions toggle with each row
   @Input() rowActions: any;
 
-  // Takes array of filters to show by there column name. e.g. [{title: "Role", values: ["Admin", "User"]}, ..]
+  // Takes array of filters to show by there column name.
+  // e.g. [{title: "Role", values: ["Admin", "User"]}, {title: string, key: string, values: Object{label: string, value: string}[] | string[]}]
   @Input() filters: any[];
 
   // Show Add new button above table, calls (addNew) when button is clicked

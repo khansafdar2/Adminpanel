@@ -65,6 +65,34 @@ export class CollectionsComponent implements OnInit {
       title: "Vendor",
       key: 'vendor',
       values: []
+    },
+    {
+      title: "Status",
+      key: "status",
+      values: [
+        {
+          label: "Active",
+          value: "active"
+        },
+        {
+          label: "Inactive",
+          value: "inactive"
+        }
+      ]
+    },
+    {
+      title: "Approval status",
+      key: "approval_status",
+      values: [
+        {
+          label: "Approved",
+          value: "approved"
+        },
+        {
+          label: "Disapproved",
+          value: "disapproved"
+        }
+      ]
     }
   ]
   filterString: string = "";
@@ -104,7 +132,12 @@ export class CollectionsComponent implements OnInit {
       if(resp) {
         this.vendors = resp.data.results;
         let tempVendors = [];
-        tempVendors = this.vendors.map(vendor => vendor.name);
+        tempVendors = this.vendors.map(vendor => {
+          return {
+            label: vendor.name,
+            value: vendor.id
+          }
+        });
         this.filtersArray[0].values = tempVendors;
       }
     })
