@@ -261,7 +261,7 @@ export class DatatableComponent implements OnInit, AfterViewInit {
 
       this.appliedFilters = Object.assign([], appliedFilters);
     }
-    if(this.searchColumns.length) {
+    if(this.searchColumns && this.searchColumns.length) {
       this.searchColumn = this.searchColumns[0].value;
     }
   }

@@ -110,7 +110,6 @@ export class CollectionsComponent implements OnInit {
   }
 
   onCellClick(data) {
-    console.log(data);
     if(data.column == "title") {
       this.router.navigate(["/", URLS.collections, URLS.edit, data.row.id]);
     }
@@ -155,7 +154,6 @@ export class CollectionsComponent implements OnInit {
   }
 
   onSearch(data) {
-    console.log(data);
     let tempSearchString = "";
     if(data.query) {
       tempSearchString += "&search=" + data.query + "&column=" + data.column;
@@ -326,7 +324,6 @@ export class CollectionDeleteDialog {
       this.loading = true;
       this.collectionsService.deleteCollection(this.data.collections[0].id).then(resp => {
         if(resp) {
-          console.log(resp.data);
           this.dialogRef.close(true);
         }
       })

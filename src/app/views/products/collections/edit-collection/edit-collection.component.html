@@ -84,6 +84,25 @@
                         <button mat-button color="primary" (click)="addMetaField()">Add field</button>
                     </div>
                 </mat-card>
+
+                <mat-card>
+                    <h2>Products</h2>
+
+                    <datatable 
+                        [data]="products"
+                        [columns]="productColumns"
+                    ></datatable>
+
+                    <div fxLayout="row" fxLayoutAlign="center none">
+                        <mat-spinner *ngIf="loadingProducts" diameter="40"></mat-spinner>
+                        <button
+                            mat-button
+                            color="primary"
+                            class="load-more-button"
+                            *ngIf="products.length < productCount && !loadingProducts"
+                            (click)="loadMoreProducts()">Load more</button>
+                    </div>
+                </mat-card>
             </div>
             <div fxFlex="0 1 33.33333">
                 <mat-card>
@@ -118,18 +137,21 @@
                     <mat-form-field appearance="outline">
                         <mat-label>Main categories</mat-label>
                         <mat-select multiple formControlName="main_category">
+                            <mat-option *ngFor="let category of main_categories" [value]="category.id">{{category.name}}</mat-option>
                         </mat-select>
                     </mat-form-field>
 
                     <mat-form-field appearance="outline">
                         <mat-label>Sub categories</mat-label>
                         <mat-select multiple formControlName="sub_category">
+                            <mat-option *ngFor="let category of sub_categories" [value]="category.id">{{category.name}}</mat-option>
                         </mat-select>
                     </mat-form-field>
 
                     <mat-form-field appearance="outline">
                         <mat-label>Super sub categories</mat-label>
                         <mat-select multiple formControlName="super_sub_category">
+                            <mat-option *ngFor="let category of super_sub_categories" [value]="category.id">{{category.name}}</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </mat-card>

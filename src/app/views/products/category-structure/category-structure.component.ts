@@ -83,6 +83,16 @@ export class CategoryStructureComponent implements OnInit {
     this.categoryService.getMainCategories().then(resp => {
       if(resp) {
         console.log(resp.data);
+        this.categories = resp.data;
+        let categories = resp.data.map(category => {
+          return {
+            id: category.id,
+            name: category.name,
+            sub_loaded: false,
+            sub_category: []
+          }
+        });
+        this.categoriesAccordion = categories;
         this.loading = false;
       }
     });

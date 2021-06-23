@@ -35,16 +35,19 @@ export class AddCollectionComponent implements OnInit {
   };
   collectionType: string = "Manual";
   previewImageSrc: string = "";
-  collectionConditions = {
-    rule: "all",
-    conditions: [
-      {
-        column: "tag",
-        condition: "equal",
-        value: ""
-      }
-    ]
-  }
+  main_categories = [];
+  sub_categories = [];
+  super_sub_categories = [];
+  // collectionConditions = {
+  //   rule: "all",
+  //   conditions: [
+  //     {
+  //       column: "tag",
+  //       condition: "equal",
+  //       value: ""
+  //     }
+  //   ]
+  // }
   collectionForm = this.fb.group({
     title: ['', [Validators.required]],
     description: [''],
@@ -85,9 +88,7 @@ export class AddCollectionComponent implements OnInit {
     this.sharedService.uploadMedia(file).then(resp => {
       this.file_uploading = false;
       if(resp) {
-        console.log(resp.data);
         this.previewImageSrc = resp.data[0].cdn_link;
-        console.log(resp.data[0].id);
         this.collectionForm.patchValue({
           banner_image: resp.data[0].id
         });
@@ -103,19 +104,19 @@ export class AddCollectionComponent implements OnInit {
     });
   }
 
-  addCondition() {
-    this.collectionConditions.conditions.push({
-      column: "tag",
-      condition: "equal",
-      value: ""
-    });
-  }
+  // addCondition() {
+  //   this.collectionConditions.conditions.push({
+  //     column: "tag",
+  //     condition: "equal",
+  //     value: ""
+  //   });
+  // }
 
-  deleteCondition(index) {
-    let tempConditions = Object.assign([], this.collectionConditions.conditions);
-    tempConditions.splice(index, 1);
-    this.collectionConditions.conditions = tempConditions;
-  }
+  // deleteCondition(index) {
+  //   let tempConditions = Object.assign([], this.collectionConditions.conditions);
+  //   tempConditions.splice(index, 1);
+  //   this.collectionConditions.conditions = tempConditions;
+  // }
 
   getVendorsList() {
     this.vendorService.getVendorsList(1, 50).then(resp => {
@@ -123,6 +124,16 @@ export class AddCollectionComponent implements OnInit {
         this.vendors = resp.data.results;
       }
     })
+  }
+
+  getCategories() {
+    this.collectionsService.getCategoriesList().then(resp => {
+      if(resp) {
+        this.main_categories = resp.data.main_categories;
+        this.sub_categories = resp.data.sub_categories;
+        this.super_sub_categories = resp.data.super_sub_categories;
+      }
+    });
   }
 
   onSubmit() {
@@ -143,6 +154,7 @@ export class AddCollectionComponent implements OnInit {
 
   ngOnInit(): void {
     this.getVendorsList();
+    this.getCategories();
   }
 
 }

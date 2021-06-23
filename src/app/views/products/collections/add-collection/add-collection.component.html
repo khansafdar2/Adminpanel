@@ -117,23 +117,26 @@
 
                     <mat-form-field appearance="outline">
                         <mat-label>Main categories</mat-label>
-                        <mat-select multiple formControlName="main_category">
+                        <mat-select multiple formControlName="main_category" multiple>
+                            <mat-option *ngFor="let category of main_categories" [value]="category.id">{{category.name}}</mat-option>
                         </mat-select>
                     </mat-form-field>
 
                     <mat-form-field appearance="outline">
                         <mat-label>Sub categories</mat-label>
-                        <mat-select multiple formControlName="sub_category">
+                        <mat-select multiple formControlName="sub_category" multiple>
+                            <mat-option *ngFor="let category of sub_categories" [value]="category.id">{{category.name}}</mat-option>
                         </mat-select>
                     </mat-form-field>
 
                     <mat-form-field appearance="outline">
                         <mat-label>Super sub categories</mat-label>
-                        <mat-select multiple formControlName="super_sub_category">
+                        <mat-select multiple formControlName="super_sub_category" multiple>
+                            <mat-option *ngFor="let category of super_sub_categories" [value]="category.id">{{category.name}}</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </mat-card>
-    
+
                 <!-- <mat-card>
                     <h2>Collection type</h2>
     

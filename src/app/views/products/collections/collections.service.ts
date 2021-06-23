@@ -92,4 +92,17 @@ export class CollectionsService {
       }
     });
   }
+
+  getCategoriesList() {
+    return Axios.get( environment.backend_url + '/products/categories', {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
 }
