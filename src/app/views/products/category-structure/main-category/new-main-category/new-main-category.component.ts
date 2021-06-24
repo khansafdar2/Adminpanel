@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import URLS from 'src/app/shared/urls';
 
 @Component({
@@ -8,17 +9,13 @@ import URLS from 'src/app/shared/urls';
 })
 export class NewMainCategoryComponent implements OnInit {
 
-  constructor() { }
+  constructor(private fb: FormBuilder) { }
 
   URLS = URLS;
   loading: boolean = false;
+  file_uploading: boolean = false;
   bannerFile: File;
-  metaFields = [
-    {
-      field: "",
-      value: ""
-    }
-  ];
+  vendors = [];
   editorModules = {
     toolbar: [
       ['bold', 'italic', 'underline', 'strike'],
@@ -27,21 +24,35 @@ export class NewMainCategoryComponent implements OnInit {
     ]
   };
   previewImageSrc: string = "";
+  categoryForm = this.fb.group({
+    name: ['', [Validators.required]],
+    description: [''],
+    slug: [''],
+    seo_title: [''],
+    seo_description: [''],
+    banner_image: [null],
+    availability: [false],
+    meta_data: this.fb.array([
+      this.fb.group({
+        field: [''],
+        value: ['']
+      })
+    ])
+  });
+  // addMetaField() {
+  //   console.log("pushing")
+  //   this.metaFields.push({
+  //     field: "",
+  //     value: ""
+  //   })
+  // }
 
-  addMetaField() {
-    console.log("pushing")
-    this.metaFields.push({
-      field: "",
-      value: ""
-    })
-  }
-
-  deleteMetaField(index) {
-    console.log(index);
-    let tempFields = Object.assign([], this.metaFields);
-    tempFields.splice(index, 1);
-    this.metaFields = tempFields;
-  }
+  // deleteMetaField(index) {
+  //   console.log(index);
+  //   let tempFields = Object.assign([], this.metaFields);
+  //   tempFields.splice(index, 1);
+  //   this.metaFields = tempFields;
+  // }
 
   bannerImageSelect(e) {
     const reader = new FileReader();

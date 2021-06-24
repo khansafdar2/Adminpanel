@@ -23,4 +23,30 @@ export class CategoryService {
       }
     });
   }
+
+  getSubCategories(mainCategoryID) {
+    return Axios.get( environment.backend_url + '/products/sub_category?main_category=' + mainCategoryID, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
+  getSuperSubCategories(subCategoryID) {
+    return Axios.get( environment.backend_url + '/products/super_sub_category?sub_category=' + subCategoryID, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
 }

@@ -33,11 +33,11 @@ export class AddCollectionComponent implements OnInit {
       [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
     ]
   };
-  collectionType: string = "Manual";
   previewImageSrc: string = "";
   main_categories = [];
   sub_categories = [];
   super_sub_categories = [];
+  // collectionType: string = "Manual";
   // collectionConditions = {
   //   rule: "all",
   //   conditions: [

@@ -338,3 +338,20 @@ body {
     color: $primary;
     cursor: pointer;
 }
+.mat-expansion-panel-header-title {
+    line-height: 40px;
+}
+#category-structure {
+    .category-name {
+        .mat-list-item-content {
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+
+    .category-actions {
+        > * + * {
+            margin-left: 10px;
+        }
+    }
+}

@@ -19,76 +19,70 @@ export class CategoryStructureComponent implements OnInit {
   loading: boolean = true;
   searchField:FormControl = new FormControl("");
   filteredCategories: Observable<any[]>;
-  categories = [
-    {
-      id: 1,
-      name: "Main category 1",
-      sub_category: [
-        {
-          id: 2,
-          name: "Sub Category 1"
-        },
-        {
-          id: 3,
-          name: "Sub Category 2"
-        }
-      ]
-    },
-    {
-      id: 4,
-      name: "Main category 2",
-      sub_category: []
-    }
-  ]
+  categories = []
   categoriesAccordion: any[] = this.categories;
+  categoryActions: string[] = [];
 
   addSubCategory(index) {
     this.router.navigate(['/', URLS.categories, URLS.newSubCategory, index]);
   }
 
-  onMainCategoryOpen(event, i) {
-    console.log(event, i);
+  onMainCategoryOpen(i) {
+    if(this.categoriesAccordion[i].sub_loaded) {
+      return false;
+    }
     this.categoriesAccordion[i].loading = true;
-    let subCategories = [
-      {
-        id: 2,
-        name: "Sub Category 1"
-      },
-      {
-        id: 3,
-        name: "Sub Category 2"
+    this.categoryService.getSubCategories(this.categoriesAccordion[i].id).then(resp => {
+      if(resp) {
+        this.categoriesAccordion[i].sub_category = resp.data.map(category => {
+          return {
+            id: category.id,
+            name: category.name,
+            availability: category.availability,
+            sub_loaded: false,
+            loading: false,
+            sub_category: []
+          }
+        });
+        this.categoriesAccordion[i].sub_loaded = true;
+        this.categoriesAccordion[i].loading = false;
       }
-    ];
-    this.categoriesAccordion[i].sub_category = subCategories;
-    this.categoriesAccordion[i].loading = false;
+    });
   }
 
-  onSubCategoryOpen(event, i, j) {
-    this.categoriesAccordion[i].sub_category[j].loading = true;
-    let subCategories = [
-      {
-        id: 6,
-        name: "Sub sub Category 1"
-      },
-      {
-        id: 7,
-        name: "Sub sub Category 2"
+  onSubCategoryOpen(i, j) {
+    let subCategory = this.categoriesAccordion[i].sub_category[j];
+    if(subCategory.sub_loaded) {
+      return false;
+    }
+    subCategory.loading = true;
+    this.categoryService.getSuperSubCategories(subCategory.id).then(resp => {
+      if(resp) {
+        subCategory.sub_category = resp.data.map(category => {
+          return {
+            id: category.id,
+            name: category.name,
+            availability: category.availability
+          }
+        });
+        subCategory.sub_loaded = true;
+        subCategory.loading = false;
       }
-    ];
-    this.categoriesAccordion[i].sub_category[j].sub_category = subCategories;
-    this.categoriesAccordion[i].sub_category[j].loading = false;
+    });
   }
 
   getMainCategories() {
     this.categoryService.getMainCategories().then(resp => {
       if(resp) {
-        console.log(resp.data);
         this.categories = resp.data;
+        console.log(resp.data);
         let categories = resp.data.map(category => {
           return {
             id: category.id,
             name: category.name,
+            availability: category.availability,
             sub_loaded: false,
+            loading: false,
             sub_category: []
           }
         });
@@ -96,6 +90,13 @@ export class CategoryStructureComponent implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  rowActionsToggle(event, id, availability) {
+    event.stopPropagation();
+    let actions = ["Edit"];
+    availability ? actions.push("Make offline") : actions.push("Make online");
+    this.categoryActions = actions;
   }
 
   ngOnInit(): void {
