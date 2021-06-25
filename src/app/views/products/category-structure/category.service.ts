@@ -49,4 +49,86 @@ export class CategoryService {
       }
     });
   }
+
+  changeCatgeoryStatus(id, category_type, availability) {
+    return Axios.put( environment.backend_url + '/products/category_status_change', {
+      id,
+      category_type,
+      availability
+    }, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
+  createMainCategory(data) {
+    return Axios.post( environment.backend_url + '/products/main_category', data, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
+  getMainCategoryDetail(id) {
+    return Axios.get( environment.backend_url + '/products/main_category/' + id, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
+  updateMainCategory(data) {
+    return Axios.put( environment.backend_url + '/products/main_category', data, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
+  createSubCategory(data) {
+    return Axios.post( environment.backend_url + '/products/sub_category', data, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
+  getSubCategoryDetail(id) {
+    return Axios.get( environment.backend_url + '/products/sub_category/' + id, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
 }

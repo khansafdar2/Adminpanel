@@ -22,8 +22,10 @@ export class CategoryStructureComponent implements OnInit {
   categories = []
   categoriesAccordion: any[] = this.categories;
   categoryActions: string[] = [];
+  activeCategory = null;
 
-  addSubCategory(index) {
+  addSubCategory(event, index) {
+    event.preventDefault();
     this.router.navigate(['/', URLS.categories, URLS.newSubCategory, index]);
   }
 
@@ -75,7 +77,6 @@ export class CategoryStructureComponent implements OnInit {
     this.categoryService.getMainCategories().then(resp => {
       if(resp) {
         this.categories = resp.data;
-        console.log(resp.data);
         let categories = resp.data.map(category => {
           return {
             id: category.id,
@@ -92,11 +93,47 @@ export class CategoryStructureComponent implements OnInit {
     });
   }
 
-  rowActionsToggle(event, id, availability) {
+  rowActionsToggle(event, id, availability, type) {
     event.stopPropagation();
     let actions = ["Edit"];
     availability ? actions.push("Make offline") : actions.push("Make online");
     this.categoryActions = actions;
+    this.activeCategory = {
+      id,
+      type,
+      availability
+    }
+  }
+
+  onCategoryAction(action) {
+    console.log(this.activeCategory, action);
+    let id = this.activeCategory.id;
+    let type = this.activeCategory.type;
+    let status;
+
+    if(action === "Edit"){
+      if(type === "main") {
+        this.router.navigate(["/", URLS.categories, URLS.editMainCategory, id]);
+      } else if(type === "sub") {
+        this.router.navigate(["/", URLS.categories, URLS.editSubCategory, id]);
+      }
+    } else if(action === "Make offline") {
+      status = false;
+      this.changeCategoryStatus(id, type, status);
+    } else if(action === "Make online") {
+      status = true;
+      this.changeCategoryStatus(id, type, status);
+    }
+  }
+
+  changeCategoryStatus(id, type, status) {
+    this.categoryService.changeCatgeoryStatus(id, type, status).then(resp => {
+      if(resp) {
+        if(resp.data.detail) {
+          this.getMainCategories();
+        }
+      }
+    });
   }
 
   ngOnInit(): void {

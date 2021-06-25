@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
 import URLS from 'src/app/shared/urls';
+import { CategoryService } from '../../category.service';
 
 @Component({
   selector: 'app-edit-main-category',
@@ -8,10 +12,18 @@ import URLS from 'src/app/shared/urls';
 })
 export class EditMainCategoryComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private categoryService: CategoryService,
+    private route: ActivatedRoute,
+    private fb: FormBuilder,
+    private snackbarService: MatSnackBar) {
+    this.categoryID = this.route.snapshot.paramMap.get('id');
+  }
 
   URLS = URLS;
-  loading: boolean = false;
+  loading: boolean = true;
+  file_uploading: boolean = false;
+  categoryID = null;
   bannerFile: File;
   metaFields = [
     {
@@ -27,35 +39,79 @@ export class EditMainCategoryComponent implements OnInit {
     ]
   };
   previewImageSrc: string = "";
+  categoryForm = this.fb.group({
+    id: [null],
+    name: ['', [Validators.required]],
+    description: [''],
+    slug: [''],
+    seo_title: [''],
+    seo_description: [''],
+    banner_image: [null],
+    availability: [false],
+    meta_data: this.fb.array([])
+  });
 
   addMetaField() {
-    console.log("pushing")
-    this.metaFields.push({
-      field: "",
-      value: ""
-    })
+    (this.categoryForm.get('meta_data') as FormArray).push(
+      this.fb.group({
+        field: [''],
+        value: ['']
+      })
+    )
   }
 
   deleteMetaField(index) {
-    console.log(index);
-    let tempFields = Object.assign([], this.metaFields);
-    tempFields.splice(index, 1);
-    this.metaFields = tempFields;
+    (this.categoryForm.get('meta_data') as FormArray).removeAt(index);
   }
 
   bannerImageSelect(e) {
-    const reader = new FileReader();
-    const file:File = e.target.files[0];
-    this.bannerFile = file;
-    reader.readAsDataURL(file);
+    const file = e.target.files[0];
+    this.file_uploading = true;
+    this.sharedService.uploadMedia(file).then(resp => {
+      this.file_uploading = false;
+      if(resp) {
+        this.previewImageSrc = resp.data[0].cdn_link;
+        this.categoryForm.patchValue({
+          banner_image: resp.data[0].id
+        });
+        e.target.value = "";
+      }
+    });
+  }
 
-    reader.onload = () => {
-   
-      this.previewImageSrc = reader.result as string; 
-    }
+  getCategoryDetail() {
+    this.loading = true;
+    this.categoryService.getMainCategoryDetail(this.categoryID).then(resp =>{
+      this.loading = false;
+      if(resp) {
+        let data = resp.data;
+        let banner_image = data.banner_image;
+        if(data.meta_data.length) {
+          for (let i = 0; i < data.meta_data.length; i++) {
+            this.addMetaField()
+          }
+        }
+        if(data.banner_image) {
+          data.banner_image = banner_image.id;
+          this.previewImageSrc = banner_image.cdn_link;
+        }
+        this.categoryForm.patchValue(data);
+      }
+    });
+  }
+
+  onSubmit() {
+    this.loading = true;
+    this.categoryService.updateMainCategory(this.categoryForm.value).then(resp => {
+      this.loading = false;
+      if(resp) {
+        this.snackbarService.open("Category updated.", "", {duration: 3000});
+      }
+    })
   }
 
   ngOnInit(): void {
+    this.getCategoryDetail();
   }
 
 }
