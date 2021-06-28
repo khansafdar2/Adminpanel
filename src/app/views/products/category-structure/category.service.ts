@@ -131,4 +131,56 @@ export class CategoryService {
       }
     });
   }
+
+  updateSubCategory(data) {
+    return Axios.put( environment.backend_url + '/products/sub_category', data, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
+  createSuperSubCategory(data) {
+    return Axios.post( environment.backend_url + '/products/super_sub_category', data, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
+  getSuperSubCategoryDetail(id) {
+    return Axios.get( environment.backend_url + '/products/super_sub_category/' + id, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
+  updateSuperSubCategory(data) {
+    return Axios.put( environment.backend_url + '/products/super_sub_category', data, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
 }

@@ -7,11 +7,11 @@ import URLS from 'src/app/shared/urls';
 import { CategoryService } from '../../category.service';
 
 @Component({
-  selector: 'app-edit-sub-category',
-  templateUrl: './edit-sub-category.component.html',
-  styleUrls: ['./edit-sub-category.component.scss']
+  selector: 'app-edit-super-sub-category',
+  templateUrl: './edit-super-sub-category.component.html',
+  styleUrls: ['./edit-super-sub-category.component.scss']
 })
-export class EditSubCategoryComponent implements OnInit {
+export class EditSuperSubCategoryComponent implements OnInit {
 
   constructor(
     private categoryService: CategoryService,
@@ -37,6 +37,7 @@ export class EditSubCategoryComponent implements OnInit {
   previewImageSrc: string = "";
   categoryForm = this.fb.group({
     id: [null],
+    sub_category: [null],
     name: ['', [Validators.required]],
     description: [''],
     slug: [''],
@@ -77,7 +78,7 @@ export class EditSubCategoryComponent implements OnInit {
 
   getCategoryDetail() {
     this.loading = true;
-    this.categoryService.getSubCategoryDetail(this.categoryID).then(resp =>{
+    this.categoryService.getSuperSubCategoryDetail(this.categoryID).then(resp =>{
       this.loading = false;
       if(resp) {
         let data = resp.data;
@@ -98,7 +99,7 @@ export class EditSubCategoryComponent implements OnInit {
 
   onSubmit() {
     this.loading = true;
-    this.categoryService.updateSubCategory(this.categoryForm.value).then(resp => {
+    this.categoryService.updateSuperSubCategory(this.categoryForm.value).then(resp => {
       this.loading = false;
       if(resp) {
         this.snackbarService.open("Category updated.", "", {duration: 3000});

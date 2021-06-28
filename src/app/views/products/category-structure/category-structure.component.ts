@@ -116,6 +116,8 @@ export class CategoryStructureComponent implements OnInit {
         this.router.navigate(["/", URLS.categories, URLS.editMainCategory, id]);
       } else if(type === "sub") {
         this.router.navigate(["/", URLS.categories, URLS.editSubCategory, id]);
+      } else if(type === "supersub") {
+        this.router.navigate(["/", URLS.categories, URLS.editSuperSubCategory, id]);
       }
     } else if(action === "Make offline") {
       status = false;

@@ -60,6 +60,8 @@ import { AddProductComponent } from './views/products/add-product/add-product.co
 import { ProductGroupsComponent } from './views/products/product-groups/product-groups.component';
 import { AddProductGroupComponent } from './views/products/product-groups/add-product-group/add-product-group.component';
 import { EditProductGroupComponent } from './views/products/product-groups/edit-product-group/edit-product-group.component';
+import { NewSuperSubCategoryComponent } from './views/products/category-structure/super-sub-category/new-super-sub-category/new-super-sub-category.component';
+import { EditSuperSubCategoryComponent } from './views/products/category-structure/super-sub-category/edit-super-sub-category/edit-super-sub-category.component';
 
 @NgModule({
   declarations: [
@@ -100,7 +102,9 @@ import { EditProductGroupComponent } from './views/products/product-groups/edit-
     EditProductGroupComponent,
     CollectionsChangeStatusDialog,
     CollectionsChangeApprovalStatusDialog,
-    CollectionDeleteDialog
+    CollectionDeleteDialog,
+    NewSuperSubCategoryComponent,
+    EditSuperSubCategoryComponent
   ],
   imports: [
     BrowserModule,

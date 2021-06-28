@@ -1,0 +1,173 @@
+<app-topbar></app-topbar>
+<app-sidenav></app-sidenav>
+<main id="main">
+    <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+    <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
+        <h1>New super sub category</h1>
+
+        <div class="header-actions">
+            <a [routerLink]="['/', URLS.categories]" mat-stroked-button color="primary">Cancel</a>
+            <button mat-flat-button color="primary" [disabled]="!categoryForm.valid" (click)="onSubmit()">Save</button>
+        </div>
+    </div>
+
+    <form [formGroup]="categoryForm">
+        <div fxLayout="row">
+            <div fxFlex="0 1 66.66666">
+                <mat-card>
+                    <h2>General Information</h2>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Category name</mat-label>
+                        <input matInput formControlName="name" />
+                        <mat-error *ngIf="categoryForm.get('name').hasError('required')">This field is required.</mat-error>
+                    </mat-form-field>
+    
+                    <quill-editor [modules]="editorModules" placeholder="Category description" formControlName="description"></quill-editor>
+                </mat-card>
+    
+                <mat-card>
+                    <h2>Search Engine Preview</h2>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Slug</mat-label>
+                        <input matInput formControlName="slug" />
+                        <mat-hint>If empty, the preview shows what will be auto generated.</mat-hint>
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Search engine title</mat-label>
+                        <input matInput formControlName="seo_title" />
+                        <mat-hint>If empty, the preview shows what will be auto generated.</mat-hint>
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Search engine description</mat-label>
+                        <textarea matInput formControlName="seo_description"></textarea>
+                        <mat-hint>If empty, the preview shows what will be auto generated.</mat-hint>
+                    </mat-form-field>
+                </mat-card>
+    
+                <mat-card>
+                    <h2>Meta data</h2>
+    
+                    <table class="meta-fields-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 20%">Field</th>
+                                <th>Value</th>
+                                <th style="width: 50px"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let metaDataGroup of categoryForm.get('meta_data')['controls']; let i = index">
+                                <ng-container [formGroup]="metaDataGroup">
+                                    <td>
+                                        <mat-form-field appearance="outline">
+                                            <input matInput formControlName="field" />
+                                        </mat-form-field>
+                                    </td>
+                                    <td>
+                                        <mat-form-field appearance="outline">
+                                            <input matInput formControlName="value" />
+                                        </mat-form-field>
+                                    </td>
+                                    <td>
+                                        <button mat-icon-button color="primary" (click)="deleteMetaField(i)"><mat-icon>delete</mat-icon></button>
+                                    </td>
+                                </ng-container>
+                            </tr>
+                        </tbody>
+                    </table>
+    
+                    <div class="text-right meta-fields-bottom">
+                        <button mat-button color="primary" (click)="addMetaField()">Add field</button>
+                    </div>
+                </mat-card>
+            </div>
+            <div fxFlex="0 1 33.33333">
+                <mat-card>
+                    <h2>Availability</h2>
+    
+                    <mat-checkbox formControlName="availability">Available online</mat-checkbox>
+                </mat-card>
+    
+                <mat-card>
+                    <h2>Banner</h2>
+
+                    <mat-spinner class="file-upload-spinner" diameter="80" *ngIf="file_uploading"></mat-spinner>
+                    <img [src]="previewImageSrc" class="banner-preview-image" *ngIf="previewImageSrc" />
+                    <input type="file" class="banner-file-input" accept=".png, .jpg, .jpeg" #bannerFileInput (change)="bannerImageSelect($event)" />
+                    <div class="banner-file-actions">
+                        <button mat-button type="button" color="warn" *ngIf="previewImageSrc" (click)="removeBanner()"><mat-icon>delete</mat-icon></button>
+                        <button mat-button type="button" color="primary" (click)="bannerFileInput.click()" [disabled]="file_uploading">Upload image</button>
+                    </div>
+                </mat-card>
+
+                <mat-card>
+                    <h2>Organization</h2>
+
+                </mat-card>
+
+                <!-- <mat-card>
+                    <h2>Collection type</h2>
+    
+                    <mat-radio-group fxLayout="column" class="collection-type-radio"
+                        [(ngModel)]="collectionType">
+                        <mat-radio-button value="Manual">
+                            <p class="radio-label">Manual</p>
+                            <p class="radio-detail">Add products to this category manually.</p>
+                        </mat-radio-button>
+                        <mat-radio-button value="Automated">
+                            <p class="radio-label">Automated</p>
+                            <p class="radio-detail">Existing and future products that match the conditions you set will automatically added to this category.</p>
+                        </mat-radio-button>
+                    </mat-radio-group>
+    
+                    <div class="collection-conditions" *ngIf="collectionType == 'Automated'">
+                        <h3>Conditions</h3>
+    
+                        <mat-radio-group fxLayout="column" class="category-rule-type" [(ngModel)]="collectionConditions.rule">
+                            <label>Products must match</label>
+                            <mat-radio-button value="all">all conditions</mat-radio-button>
+                            <mat-radio-button value="Automated">any conditions</mat-radio-button>
+                        </mat-radio-group>
+    
+                        <div class="collection-conditions-wrap">
+                            <div fxLayout="row wrap" *ngFor="let condition of collectionConditions.conditions; let i = index">
+                                <div fxFlex="0 1 50%">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label></mat-label>
+                                        <mat-select [(ngModel)]="condition.column">
+                                            <mat-option value="tag">Product tag</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div fxFlex="0 1 50%">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label></mat-label>
+                                        <mat-select [(ngModel)]="condition.condition">
+                                            <mat-option value="equal">is equal to</mat-option>
+                                            <mat-option value="not equal">is not equal to</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div fxFlex="0 1 50%">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Tag</mat-label>
+                                        <input matInput [(ngModel)]="condition.value" />
+                                    </mat-form-field>
+                                </div>
+                                <div fxFlex="0 1 50%">
+                                    <button mat-icon-button color="primary" (click)="deleteCondition(i)"><mat-icon>delete</mat-icon></button>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <button mat-button color="primary" (click)="addCondition()">+ Add another</button>
+                    </div>
+                </mat-card> -->
+            </div>
+        </div>
+    </form>
+</main>

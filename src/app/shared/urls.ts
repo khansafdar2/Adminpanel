@@ -17,6 +17,8 @@ const URLS = {
     newSubCategory: 'new-sub',
     editMainCategory: 'edit-main',
     editSubCategory: 'edit-sub',
+    newSuperSubCategory: 'new-super-sub',
+    editSuperSubCategory: 'edit-super-sub',
     collections: 'collections',
     productGroups: 'product-groups',
 }

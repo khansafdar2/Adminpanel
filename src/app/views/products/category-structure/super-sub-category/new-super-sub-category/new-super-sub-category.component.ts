@@ -1,32 +1,35 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SharedService } from 'src/app/shared/shared.service';
 import URLS from 'src/app/shared/urls';
 import { CategoryService } from '../../category.service';
 
 @Component({
-  selector: 'app-edit-sub-category',
-  templateUrl: './edit-sub-category.component.html',
-  styleUrls: ['./edit-sub-category.component.scss']
+  selector: 'app-new-super-sub-category',
+  templateUrl: './new-super-sub-category.component.html',
+  styleUrls: ['./new-super-sub-category.component.scss']
 })
-export class EditSubCategoryComponent implements OnInit {
+export class NewSuperSubCategoryComponent implements OnInit {
 
   constructor(
-    private categoryService: CategoryService,
-    private route: ActivatedRoute,
-    private sharedService: SharedService,
     private fb: FormBuilder,
-    private snackbarService: MatSnackBar) {
-    this.categoryID = this.route.snapshot.paramMap.get('id');
+    private sharedService: SharedService,
+    private snackbarService: MatSnackBar,
+    private router: Router,
+    private categoryService: CategoryService,
+    private route: ActivatedRoute) {
+
+    this.subCategoryID = this.route.snapshot.paramMap.get('subID');
   }
 
+  subCategoryID = null;
   URLS = URLS;
-  loading: boolean = true;
+  loading: boolean = false;
   file_uploading: boolean = false;
-  categoryID = null;
   bannerFile: File;
+  vendors = [];
   editorModules = {
     toolbar: [
       ['bold', 'italic', 'underline', 'strike'],
@@ -36,7 +39,7 @@ export class EditSubCategoryComponent implements OnInit {
   };
   previewImageSrc: string = "";
   categoryForm = this.fb.group({
-    id: [null],
+    sub_category: [null],
     name: ['', [Validators.required]],
     description: [''],
     slug: [''],
@@ -44,7 +47,12 @@ export class EditSubCategoryComponent implements OnInit {
     seo_description: [''],
     banner_image: [null],
     availability: [false],
-    meta_data: this.fb.array([])
+    meta_data: this.fb.array([
+      this.fb.group({
+        field: [''],
+        value: ['']
+      })
+    ])
   });
 
   addMetaField() {
@@ -75,39 +83,28 @@ export class EditSubCategoryComponent implements OnInit {
     });
   }
 
-  getCategoryDetail() {
-    this.loading = true;
-    this.categoryService.getSubCategoryDetail(this.categoryID).then(resp =>{
-      this.loading = false;
-      if(resp) {
-        let data = resp.data;
-        let banner_image = data.banner_image;
-        if(data.meta_data.length) {
-          for (let i = 0; i < data.meta_data.length; i++) {
-            this.addMetaField()
-          }
-        }
-        if(data.banner_image) {
-          data.banner_image = banner_image.id;
-          this.previewImageSrc = banner_image.cdn_link;
-        }
-        this.categoryForm.patchValue(data);
-      }
+  removeBanner() {
+    this.previewImageSrc = "";
+    this.categoryForm.patchValue({
+      banner_image: null
     });
   }
 
   onSubmit() {
     this.loading = true;
-    this.categoryService.updateSubCategory(this.categoryForm.value).then(resp => {
+    this.categoryService.createSuperSubCategory(this.categoryForm.value).then(resp => {
       this.loading = false;
       if(resp) {
-        this.snackbarService.open("Category updated.", "", {duration: 3000});
+        this.snackbarService.open('Category created.', "", {duration: 3000});
+        this.router.navigate(['/', URLS.categories]);
       }
     })
   }
 
   ngOnInit(): void {
-    this.getCategoryDetail();
+    this.categoryForm.patchValue({
+      sub_category: this.subCategoryID
+    })
   }
 
 }

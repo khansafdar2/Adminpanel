@@ -26,6 +26,8 @@ import { ProductGroupsComponent } from './views/products/product-groups/product-
 import { AddProductGroupComponent } from './views/products/product-groups/add-product-group/add-product-group.component';
 import { EditProductGroupComponent } from './views/products/product-groups/edit-product-group/edit-product-group.component';
 import { DashboardGuard } from './auth/permission.guard';
+import { NewSuperSubCategoryComponent } from './views/products/category-structure/super-sub-category/new-super-sub-category/new-super-sub-category.component';
+import { EditSuperSubCategoryComponent } from './views/products/category-structure/super-sub-category/edit-super-sub-category/edit-super-sub-category.component';
 
 
 const routes: Routes = [
@@ -49,7 +51,9 @@ const routes: Routes = [
     {path: URLS.newMainCategory, component: NewMainCategoryComponent, canActivate: [LoggedInAuthGuard]},
     {path: URLS.newSubCategory + '/:mainID', component: NewSubCategoryComponent, canActivate: [LoggedInAuthGuard]},
     {path: URLS.editMainCategory + '/:id', component: EditMainCategoryComponent, canActivate: [LoggedInAuthGuard]},
-    {path: URLS.editSubCategory + '/:id', component: EditSubCategoryComponent, canActivate: [LoggedInAuthGuard]}
+    {path: URLS.editSubCategory + '/:id', component: EditSubCategoryComponent, canActivate: [LoggedInAuthGuard]},
+    {path: URLS.newSuperSubCategory + '/:subID', component: NewSuperSubCategoryComponent, canActivate: [LoggedInAuthGuard]},
+    {path: URLS.editSuperSubCategory + '/:id', component: EditSuperSubCategoryComponent, canActivate: [LoggedInAuthGuard]},
   ]},
   {path: URLS.collections, children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
