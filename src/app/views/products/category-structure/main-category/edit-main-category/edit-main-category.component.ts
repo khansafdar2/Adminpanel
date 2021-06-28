@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SharedService } from 'src/app/shared/shared.service';
 import URLS from 'src/app/shared/urls';
 import { CategoryService } from '../../category.service';
 
@@ -13,10 +14,12 @@ import { CategoryService } from '../../category.service';
 export class EditMainCategoryComponent implements OnInit {
 
   constructor(
-    private categoryService: CategoryService,
-    private route: ActivatedRoute,
     private fb: FormBuilder,
-    private snackbarService: MatSnackBar) {
+    private sharedService: SharedService,
+    private snackbarService: MatSnackBar,
+    private router: Router,
+    private route: ActivatedRoute,
+    private categoryService: CategoryService) {
     this.categoryID = this.route.snapshot.paramMap.get('id');
   }
 

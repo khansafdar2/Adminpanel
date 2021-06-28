@@ -99,6 +99,9 @@
                                                     <button mat-icon-button (click)="rowActionsToggle($event, subSubCategory.id, subSubCategory.availability, 'supersub')" [matMenuTriggerFor]="categoryActionsMenu"><mat-icon>more_horiz</mat-icon></button>
                                                 </div>
                                             </mat-list-item>
+                                            <mat-list-item class="category-name">
+                                                <a [routerLink]="['/', URLS.categories]" class="add-super-sub">+ Add Super sub category</a>
+                                            </mat-list-item>
                                         </mat-list>
                                     </ng-container>
                                 </div>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
+import { SharedService } from 'src/app/shared/shared.service';
 import URLS from 'src/app/shared/urls';
 import { CategoryService } from '../../category.service';
 
@@ -15,6 +16,7 @@ export class EditSubCategoryComponent implements OnInit {
   constructor(
     private categoryService: CategoryService,
     private route: ActivatedRoute,
+    private sharedService: SharedService,
     private fb: FormBuilder,
     private snackbarService: MatSnackBar) {
     this.categoryID = this.route.snapshot.paramMap.get('id');
@@ -25,12 +27,6 @@ export class EditSubCategoryComponent implements OnInit {
   file_uploading: boolean = false;
   categoryID = null;
   bannerFile: File;
-  metaFields = [
-    {
-      field: "",
-      value: ""
-    }
-  ];
   editorModules = {
     toolbar: [
       ['bold', 'italic', 'underline', 'strike'],
@@ -65,15 +61,18 @@ export class EditSubCategoryComponent implements OnInit {
   }
 
   bannerImageSelect(e) {
-    const reader = new FileReader();
-    const file:File = e.target.files[0];
-    this.bannerFile = file;
-    reader.readAsDataURL(file);
-
-    reader.onload = () => {
-   
-      this.previewImageSrc = reader.result as string; 
-    }
+    const file = e.target.files[0];
+    this.file_uploading = true;
+    this.sharedService.uploadMedia(file).then(resp => {
+      this.file_uploading = false;
+      if(resp) {
+        this.previewImageSrc = resp.data[0].cdn_link;
+        this.categoryForm.patchValue({
+          banner_image: resp.data[0].id
+        });
+        e.target.value = "";
+      }
+    });
   }
 
   getCategoryDetail() {

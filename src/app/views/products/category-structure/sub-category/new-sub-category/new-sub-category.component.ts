@@ -96,7 +96,7 @@ export class NewSubCategoryComponent implements OnInit {
       this.loading = false;
       if(resp) {
         this.snackbarService.open('Category created.', "", {duration: 3000});
-        this.router.navigate(['', URLS.categories]);
+        this.router.navigate(['/', URLS.categories]);
       }
     })
   }

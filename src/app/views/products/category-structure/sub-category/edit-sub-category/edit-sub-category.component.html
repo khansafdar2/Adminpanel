@@ -3,13 +3,11 @@
 <main id="main">
     <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
     <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
-        <h1>
-            Edit sub category
-        </h1>
+        <h1>Edit sub category</h1>
 
         <div class="header-actions">
             <a [routerLink]="['/', URLS.categories]" mat-stroked-button color="primary">Cancel</a>
-            <button mat-flat-button color="primary">Save</button>
+            <button mat-flat-button color="primary" (click)="onSubmit()" [disabled]="!categoryForm.valid || loading">Save</button>
         </div>
     </div>
 
