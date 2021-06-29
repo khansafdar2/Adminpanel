@@ -6,6 +6,8 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { Column } from 'src/app/shared/datatable/datatable.component';
 import { FormControl } from '@angular/forms';
 import URLS from 'src/app/shared/urls';
+import { ProductsService } from './products.service';
+import { VendorsService } from './vendors.service';
 
 @Component({
   selector: 'app-products',
@@ -14,76 +16,27 @@ import URLS from 'src/app/shared/urls';
 })
 export class ProductsComponent implements OnInit {
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog, private productsService: ProductsService, private vendorsService: VendorsService) { }
 
   loading: boolean = false;
   URLS = URLS;
-  products = [
-    {
-      id: 1,
-      image_src: "https://demo.saleor.io/media/__sized__/products/saleordemoproduct_fd_juice_06-thumbnail-255x255.png",
-      name: "Orange juice",
-      status: "Active",
-      inventory: "265 in stock for 4 variants",
-      vendor: "Juice Corner",
-      type: "Configurable",
-      price: "$225"
-    },
-    {
-      id: 2,
-      image_src: "https://demo.saleor.io/media/__sized__/products/saleordemoproduct_fd_juice_06-thumbnail-255x255.png",
-      name: "Orange juice",
-      status: "Active",
-      inventory: "265 in stock for 4 variants",
-      vendor: "Juice Corner",
-      type: "Configurable",
-      price: "$225"
-    },
-    {
-      id: 3,
-      image_src: "https://demo.saleor.io/media/__sized__/products/saleordemoproduct_fd_juice_06-thumbnail-255x255.png",
-      name: "Orange juice",
-      status: "Active",
-      inventory: "265 in stock for 4 variants",
-      vendor: "Juice Corner",
-      type: "Configurable",
-      price: "$225"
-    },
-    {
-      id: 4,
-      image_src: "https://demo.saleor.io/media/__sized__/products/saleordemoproduct_fd_juice_06-thumbnail-255x255.png",
-      name: "Orange juice",
-      status: "Active",
-      inventory: "265 in stock for 4 variants",
-      vendor: "Juice Corner",
-      type: "Configurable",
-      price: "$225"
-    },
-    {
-      id: 5,
-      image_src: "https://demo.saleor.io/media/__sized__/products/saleordemoproduct_fd_juice_06-thumbnail-255x255.png",
-      name: "Orange juice",
-      status: "Active",
-      inventory: "265 in stock for 4 variants",
-      vendor: "Juice Corner",
-      type: "Configurable",
-      price: "$225"
-    }
-  ]
+  products = [];
   displayedColumns: Column[] = [
     {
       title: "",
-      selector: "image_src",
-      cell: row => `<img src="${row.image_src}" class="table-row-thumbnail" />`,
+      selector: "image",
+      cell: row => `<img src="${row.image}" class="table-row-thumbnail" />`,
       width: "50px"
     },
     {
       title: "Name",
-      selector: "name",
+      selector: "title",
+      clickable: true
     },
     {
       title: "Status",
-      selector: "status",
+      selector: "is_active",
+      cell: row => `<span class="label ${row.is_active ? 'success' : ''}">${row.is_active ? 'Active' : 'Inactive'}</span>`
     },
     {
       title: "Inventory",
@@ -91,29 +44,25 @@ export class ProductsComponent implements OnInit {
     },
     {
       title: "Vendor",
-      selector: "vendor",
+      selector: "vendor_name",
     },
     {
       title: "Type",
-      selector: "type",
-    },
-    {
-      title: "Price",
-      selector: "price",
-    },
-  ]
-  productSelection: SelectionModel<[]> = new SelectionModel(true, []);
-  productFilters = [
-    {
-      title: "Status",
-      values: ["Active", "Inactive"]
-    },
-    {
-      title: "Type",
-      values: ["Simple", "Configurable"]
+      selector: "product_type_name",
     }
   ]
-  searchColumns = ["Name", "Vendor", "Type"];
+  productSelection: SelectionModel<[]> = new SelectionModel(true, []);
+  productFilters = [];
+  searchColumns = [
+    {
+      label: "Name",
+      value: "title"
+    }
+  ];
+  page: number = 1;
+  pageLimit: number = 50;
+  filterString: string = "";
+  searchString: string = "";
 
   importProduct() {
     this.dialog.open(ImportProductsDialog, {
@@ -166,10 +115,80 @@ export class ProductsComponent implements OnInit {
     });
   }
 
-
-  ngOnInit(): void {
+  getProducts() {
+    this.loading = true;
+    this.productsService.getProductsList(this.page, this.pageLimit, this.filterString, this.searchString).then(resp => {
+      this.loading = false;
+      if(resp) {
+        console.log(resp.data);
+        this.products = resp.data.results;
+      }
+    })
   }
 
+  getVendors() {
+    this.vendorsService.getVendorsList(1, 50).then(resp => {
+      if(resp) {
+        console.log(resp.data)
+        let filters = [
+          {
+            title: "Status",
+            key: 'status',
+            values: [
+              {
+                value: "active",
+                label: "Active"
+              },
+              {
+                value: "inactive",
+                label: "Inactive"
+              }
+            ]
+          }
+        ];
+        let vendors = [];
+        vendors = resp.data.results.map(vendor => {
+          return {
+            value: vendor.id,
+            label: vendor.name
+          }
+        });
+        console.log(vendors);
+        filters.push({
+          title: "Vendor",
+          key: "vendor",
+          values: vendors
+        });
+        this.productFilters = filters;
+      }
+    })
+  }
+
+  onFilter(filters) {
+    let tempFilterString: string = "";
+    for (let i = 0; i < filters.length; i++) {
+      if(filters[i].value) {
+        tempFilterString += '&' + filters[i].key + '=' + filters[i].value;
+      }
+    }
+    this.filterString = tempFilterString;
+    this.getProducts();
+  }
+
+  onSearch(data) {
+    let tempSearchString = "";
+    if(data.query) {
+      tempSearchString += "&search=" + data.query + "&column=" + data.column;
+    }
+    this.searchString = tempSearchString;
+    this.getProducts();
+  }
+
+
+  ngOnInit(): void {
+    this.getProducts();
+    this.getVendors();
+  }
 }
 
 

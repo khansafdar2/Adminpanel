@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import URLS from 'src/app/shared/urls';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -16,7 +16,7 @@ interface Option {
 })
 export class AddProductComponent implements OnInit {
 
-  constructor() { }
+  constructor(private fb: FormBuilder) { }
 
   loading: boolean = false;
   URLS = URLS;
@@ -57,6 +57,17 @@ export class AddProductComponent implements OnInit {
       uploadBtn: "Upload and save"
     }
   };
+  productForm = this.fb.group({
+    title: ["", [Validators.required]],
+    description: ["", []],
+    features: this.fb.array([
+      this.fb.group({
+        field: [''],
+        value: ['']
+      })
+    ]),
+    product_images: [[]]
+  })
 
   addOptionValue(event: MatChipInputEvent, index): void {
     const value = (event.value || '').trim();

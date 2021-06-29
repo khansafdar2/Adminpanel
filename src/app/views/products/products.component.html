@@ -31,7 +31,10 @@
                   [(selection)]="productSelection"
                   [searchColumns]="searchColumns"
                   [filters]="productFilters"
-                  [searchable]="true">
+                  [searchable]="true"
+                  
+                  (filter)="onFilter($event)"
+                  (search)="onSearch($event)">
       </datatable>
     </mat-card>
 </main>

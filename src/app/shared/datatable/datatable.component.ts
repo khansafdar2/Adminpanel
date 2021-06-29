@@ -58,7 +58,13 @@ export class DatatableComponent implements OnInit, AfterViewInit {
 
   // Takes array of filters to show by there column name.
   // e.g. [{title: "Role", values: ["Admin", "User"]}, {title: string, key: string, values: Object{label: string, value: string}[] | string[]}]
-  @Input() filters: any[];
+  // @Input() filters: any[];
+  @Input()
+  public set filters(val: any[]) {
+    this._filters = val;
+    this.updateFilters();
+  }
+
 
   // Show Add new button above table, calls (addNew) when button is clicked
   @Input() showAddNew: boolean;
@@ -106,6 +112,7 @@ export class DatatableComponent implements OnInit, AfterViewInit {
   displayedColumns: string[];
   initialSelection = [];
   currentRow = null;
+  _filters = [];
   displayFilters: boolean = false;
   appliedFilters = [];
   searchQuery: string;
@@ -229,6 +236,22 @@ export class DatatableComponent implements OnInit, AfterViewInit {
     }
   }
 
+  updateFilters() {
+    if(this._filters && this._filters.length) {
+      var appliedFilters = [];
+      appliedFilters = this._filters.map(filter => {
+        return {
+          title: filter.title,
+          key: filter.key,
+          value: ""
+        }
+      })
+
+      this.appliedFilters = [];
+      this.appliedFilters = appliedFilters;
+    }
+  }
+
   ngOnInit(): void {
     if(typeof this.rowActions === 'object') {
       this.rowActionsArray = this.rowActions;
@@ -249,18 +272,7 @@ export class DatatableComponent implements OnInit, AfterViewInit {
     if(this.rowActions) {
       this.displayedColumns.push("actionsColumn");
     }
-    if(this.filters && this.filters.length) {
-      let appliedFilters = [];
-      this.filters.forEach(filter => {
-        appliedFilters.push({
-          title: filter.title,
-          key: filter.key,
-          value: ""
-        });
-      });
-
-      this.appliedFilters = Object.assign([], appliedFilters);
-    }
+    this.updateFilters();
     if(this.searchColumns && this.searchColumns.length) {
       this.searchColumn = this.searchColumns[0].value;
     }
