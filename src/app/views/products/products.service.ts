@@ -23,4 +23,30 @@ export class ProductsService {
       }
     });
   }
+
+  getProductTypes() {
+    return Axios.get( environment.backend_url + '/products/product_type', {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
+  getProductGroups(page: number, limit: number, filterString: string, searchString: string) {
+    return Axios.get( environment.backend_url + '/products/product_group_list?page=' + page + '&limit=' + limit + filterString + searchString, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
 }

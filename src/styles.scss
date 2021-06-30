@@ -64,6 +64,13 @@ body {
     .mat-checkbox-layout {
         white-space: normal;
     }
+    .mt-20 {
+        margin-top: 20px;
+    }
+    .my-10 {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
 }
 [fxlayout="row"], [fxlayout="row wrap"] {
     margin: 0 -10px;
@@ -180,7 +187,13 @@ th.mat-header-cell {
 .mat-form-field + mat-form-field {
     margin-top: 10px;
 }
-.meta-fields-table, .product-features-table, .product-variants-table {
+.meta-fields-table, .product-features-table, .product-variants-table, .product-options-table {
+    width: 100%;
+    margin-bottom: 10px;
+
+    th {
+        text-align: left;
+    }
     .mat-form-field-appearance-outline .mat-form-field-wrapper {
         margin: 0;
     }
@@ -192,6 +205,10 @@ th.mat-header-cell {
             padding: 0;
         }
     }
+
+}
+.add-option {
+    margin-bottom: 10px;
 }
 .mat-radio-group {
     label {

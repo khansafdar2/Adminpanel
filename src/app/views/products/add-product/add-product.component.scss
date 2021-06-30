@@ -1,14 +1,8 @@
-.product-features-table, .product-variants-table {
+.product-options-table {
     width: 100%;
-
-    tr {
-        th {
-            border-bottom: 1px solid #e0e0e0;
-            text-align: left;
-        }
-        th, td {
-            padding: 12px;
-            vertical-align: middle;
-        }
-    }
+    margin-top: 10px;
+}
+.product-variants-table {
+    width: 100%;
+    padding-top: 10px;
 }

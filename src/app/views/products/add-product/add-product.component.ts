@@ -1,12 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import URLS from 'src/app/shared/urls';
-import { MatChipInputEvent } from '@angular/material/chips';
+import { ProductsService } from '../products.service';
+import { CollectionsService } from '../collections/collections.service';
+import { VendorsService } from '../vendors.service';
+import { BrandsService } from '../brands/brands.service';
+import { SharedService } from 'src/app/shared/shared.service';
 
 interface Option {
   name: string;
-  options: string[]
+  values: string[]
+}
+
+interface Variant {
+  title: string;
+  price: number,
+  sku: string,
+  compare_at_price: number;
+  option1: string;
+  option2: string;
+  option3: string;
+  inventory_quantity: number;
 }
 
 @Component({
@@ -16,10 +30,21 @@ interface Option {
 })
 export class AddProductComponent implements OnInit {
 
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private fb: FormBuilder,
+    private productsService: ProductsService,
+    private collectionsService: CollectionsService,
+    private vendorsService: VendorsService,
+    private brandsService: BrandsService,
+    private sharedService: SharedService) { }
 
   loading: boolean = false;
   URLS = URLS;
+  productTypes: any[] = [];
+  productGroups: any[] = [];
+  collections: any[] = [];
+  vendors: any[] = [];
+  brands: any[] = [];
   editorModules = {
     toolbar: [
       ['bold', 'italic', 'underline', 'strike'],
@@ -27,22 +52,14 @@ export class AddProductComponent implements OnInit {
       [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
     ]
   };
-  features = [
-    {
-      title: "",
-      detail: ""
-    }
-  ]
-  separatorKeysCodes: number[] = [ENTER, COMMA];
-  variants: Option[] = [
+  options: Option[] = [
     {
       name: "",
-      options: []
+      values: []
     }
   ]
-  variantOptionsInputCtrl = [
-    new FormControl()
-  ]
+  variants: Variant[] = [];
+  hasVariants: boolean = false;
   afuConfig = {
     uploadAPI: {
       url:"https://example-file-upload-api"
@@ -66,55 +83,111 @@ export class AddProductComponent implements OnInit {
         value: ['']
       })
     ]),
-    product_images: [[]]
-  })
-
-  addOptionValue(event: MatChipInputEvent, index): void {
-    const value = (event.value || '').trim();
-
-    if (value) {
-      this.variants[index].options.push(value);
-    }
-
-    this.variantOptionsInputCtrl[index].setValue(null);
-  }
-
-  removeOptionValue(tag: string, index): void {
-    const i = this.variants[index].options.indexOf(tag);
-
-    if (i >= 0) {
-      this.variants[index].options.splice(i, 1);
-    }
-  }
+    product_images: [[]],
+    product_type: [null],
+    product_group: [null],
+    product_brand: [null],
+    collection: [[]],
+    vendor: [null],
+    is_active: [false],
+    hide_out_of_stock: [false],
+    apply_shipping: [false],
+    apply_tax: [false]
+  });
 
   addOption() {
-    this.variantOptionsInputCtrl.push(new FormControl());
-
-    this.variants.push({
+    this.options.push({
       name: "",
-      options: []
+      values: []
     });
   }
 
   deleteOption(index) {
-    this.variants.splice(index, 1);
-    this.variantOptionsInputCtrl.splice(index, 1);
+    this.options.splice(index, 1);
   }
 
-  deleteFeature(index) {
-    let tempFeatures = Object.assign([], this.features);
-    tempFeatures.splice(index, 1);
-    this.features = tempFeatures;
+  makeVariantsFromOptions() {
+    var valuesArrays = this.options.map(option => option.values);
+
+    var combinations = this.sharedService.makeCombinationsFromLists(...valuesArrays);
+    console.log(combinations);
+    let variants = [];
+    combinations.forEach(title => {
+      let variant: Variant = {
+        title,
+        compare_at_price: 0,
+        price: 0,
+        inventory_quantity: 0,
+        option1: title.split("/")[0],
+        option2: title.split("/")[1],
+        option3: title.split("/")[2],
+        sku: ""
+      }
+      variants.push(variant);
+    });
+
+    this.variants = variants;
   }
 
   addFeature() {
-    this.features.push({
-      title: "",
-      detail: ""
+    (this.productForm.get('features') as FormArray).push(
+      this.fb.group({
+        field: [''],
+        value: ['']
+      })
+    )
+  }
+
+  deleteFeature(index) {
+    (this.productForm.get('features') as FormArray).removeAt(index);
+  }
+
+  getProductTypes() {
+    this.productsService.getProductTypes().then(resp => {
+      if(resp) {
+        this.productTypes = resp.data;
+      }
+    });
+  }
+
+  getProductGroups() {
+    this.productsService.getProductGroups(1, 50, "", "").then(resp => {
+      if(resp) {
+        this.productGroups = resp.data.results;
+      }
+    });
+  }
+
+  getCollections() {
+    this.collectionsService.getCollectionsList(1, 50, "", "").then(resp => {
+      if(resp) {
+        this.collections = resp.data.results;
+      }
+    })
+  }
+
+  getVendors() {
+    this.vendorsService.getVendorsList(1, 50).then(resp => {
+      if(resp) {
+        this.vendors = resp.data.results;
+      }
+    });
+  }
+
+  getBrands() {
+    this.brandsService.getBrandsList().then(resp => {
+      if(resp) {
+        this.brands = resp.data;
+      }
     });
   }
 
   ngOnInit(): void {
+    this.getProductTypes();
+    this.getProductGroups();
+    this.getCollections();
+    this.getVendors();
+    this.getBrands();
   }
 
 }

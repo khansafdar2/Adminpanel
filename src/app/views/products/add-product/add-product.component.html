@@ -14,53 +14,59 @@
 
     <div fxLayout="row">
         <div fxFlex="0 1 66.66666">
-            <mat-card>
-                <h2>General Information</h2>
+            <form action="" [formGroup]="productForm">
+                <!-- General Information -->
+                <mat-card>
+                    <h2>General Information</h2>
 
-                <mat-form-field appearance="outline">
-                    <mat-label>Collection Name</mat-label>
-                    <input matInput />
-                </mat-form-field>
-
-                <quill-editor [modules]="editorModules" placeholder="Collection description"></quill-editor>
-            </mat-card>
-
-            <mat-card>
-                <h2>Features</h2>
-
-                <table class="product-features-table">
-                    <thead>
-                        <tr>
-                            <th style="width: 20%">Field</th>
-                            <th>Value</th>
-                            <th style="width: 50px"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let obj of features; let i = index">
-                            <td>
-                                <mat-form-field appearance="outline">
-                                    <input matInput [(ngModel)]="obj.title" />
-                                </mat-form-field>
-                            </td>
-                            <td>
-                                <mat-form-field appearance="outline">
-                                    <input matInput [(ngModel)]="obj.detail" />
-                                </mat-form-field>
-                            </td>
-                            <td>
-                                <button mat-icon-button color="primary" (click)="deleteFeature(i)"><mat-icon>delete</mat-icon></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div class="text-right meta-fields-bottom">
-                    <button mat-button color="primary" (click)="addFeature()">Add feature</button>
-                </div>
-            </mat-card>
-
-            <mat-card>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Collection Name</mat-label>
+                        <input matInput formControlName="title" />
+                    </mat-form-field>
+    
+                    <quill-editor [modules]="editorModules" placeholder="Collection description" formControlName="description"></quill-editor>
+                </mat-card>
+    
+                <!-- Features -->
+                <mat-card>
+                    <h2>Features</h2>
+    
+                    <table class="product-features-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 20%">Field</th>
+                                <th>Value</th>
+                                <th style="width: 50px"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let featureGroup of productForm.get('features')['controls']; let i = index">
+                                <ng-container [formGroup]="featureGroup">
+                                    <td>
+                                        <mat-form-field appearance="outline">
+                                            <input matInput formControlName="field" />
+                                        </mat-form-field>
+                                    </td>
+                                    <td>
+                                        <mat-form-field appearance="outline">
+                                            <input matInput formControlName="value" />
+                                        </mat-form-field>
+                                    </td>
+                                    <td>
+                                        <button mat-icon-button color="primary" (click)="deleteFeature(i)"><mat-icon>delete</mat-icon></button>
+                                    </td>
+                                </ng-container>
+                            </tr>
+                        </tbody>
+                    </table>
+    
+                    <div class="text-right meta-fields-bottom">
+                        <button mat-button color="primary" (click)="addFeature()">Add feature</button>
+                    </div>
+                </mat-card>
+            </form>
+            <!-- Media -->
+            <mat-card class="mt-20">
                 <h2>Media</h2>
 
                 <angular-file-uploader
@@ -68,7 +74,8 @@
                 </angular-file-uploader>
             </mat-card>
 
-            <mat-card>
+            <!-- Inventory -->
+            <mat-card *ngIf="!hasVariants">
                 <h2>Inventory</h2>
 
                 <div fxLayout="row">
@@ -99,110 +106,154 @@
                 </div>
             </mat-card>
 
+            <!-- Variants -->
             <mat-card>
                 <h2>Variants</h2>
 
-                <mat-checkbox>This product has multiple options like size, color etc.</mat-checkbox>
+                <mat-checkbox [(ngModel)]="hasVariants">This product has multiple options like size, color etc.</mat-checkbox>
 
-                <table class="product-variants-table">
-                    <tbody>
-                        <ng-container *ngFor="let variant of variants; let i = index;">
-                            <tr>
-                                <td style="width: 200px">
-                                    <mat-form-field appearance="outline">
-                                        <mat-label>Name</mat-label>
-                                        <input matInput [(ngModel)]="variant.name" />
-                                    </mat-form-field>
-                                </td>
-                                <td>
-                                    <mat-form-field appearance="outline">
-                                        <mat-label>Options</mat-label>
-                                        <mat-chip-list #optionsList>
-                                            <mat-chip
-                                                *ngFor="let option of variant.options"
-                                                [removable]="true"
-                                                (removed)="removeOptionValue(option, i)">{{option}}</mat-chip>
+                <div *ngIf="hasVariants">
+                    <table class="product-options-table">
+                        <tbody>
+                            <ng-container *ngFor="let option of options; let i = index;">
+                                <tr>
+                                    <td style="width: 200px">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Name</mat-label>
+                                            <input matInput [(ngModel)]="option.name" />
+                                        </mat-form-field>
+                                    </td>
+                                    <td>
+                                        <tags-input
+                                            [(value)]="option.values"
+                                            (change)="makeVariantsFromOptions()"
+                                            placeholder="New option..."
+                                            label="Option"></tags-input>
+
+                                        <!-- <mat-form-field appearance="outline">
+                                            <mat-label>Options</mat-label>
+                                            <mat-chip-list #optionsList>
+                                                <mat-chip
+                                                    *ngFor="let option of variant.options"
+                                                    [removable]="true"
+                                                    (removed)="removeOptionValue(option, i)">{{option}}</mat-chip>
+
+                                                <input
+                                                    placeholder="New option..."
+                                                    #optionInput
+                                                    [formControl]="variantOptionsInputCtrl[i]"
+                                                    [matChipInputFor]="optionsList"
+                                                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                    (matChipInputTokenEnd)="addOptionValue($event, i)">
+                                            </mat-chip-list>
+                                        </mat-form-field> -->
+                                    </td>
+                                    <td style="width: 50px">
+                                        <button mat-icon-button color="primary" (click)="deleteOption(i)"><mat-icon>delete</mat-icon></button>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
     
-                                            <input
-                                                placeholder="New option..."
-                                                #optionInput
-                                                [formControl]="variantOptionsInputCtrl[i]"
-                                                [matChipInputFor]="optionsList"
-                                                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                                                (matChipInputTokenEnd)="addOptionValue($event, i)">
-                                        </mat-chip-list>
-                                    </mat-form-field>
-                                </td>
-                                <td style="width: 50px">
-                                    <button mat-icon-button color="primary" (click)="deleteOption(i)"><mat-icon>delete</mat-icon></button>
-                                </td>
-                            </tr>
-                        </ng-container>
-                    </tbody>
-                </table>
+                    <div class="add-option">
+                        <button mat-button color="primary" (click)="addOption()" *ngIf="options.length < 3">Add option</button>
+                    </div>
 
-                <div>
-                    <button mat-button color="primary" (click)="addOption()" *ngIf="variants.length < 3">Add option</button>
+                    <mat-divider></mat-divider>
+
+                    <table class="product-variants-table">
+                        <thead>
+                            <tr>
+                                <th>Variant</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>SKU</th>
+                                <th>Barcode</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let variant of variants">
+                                <td>{{variant.title}}</td>
+                                <td>{{variant.price}}</td>
+                                <td>{{variant.inventory_quantity}}</td>
+                                <td>{{variant.sku}}</td>
+                                <td>{{variant.barcode}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </mat-card>
         </div>
 
         <div fxFlex="0 1 33.33333">
-            <mat-card>
-                <h2>Availability</h2>
+            <form [formGroup]="productForm">
+                <!-- Availability -->
+                <mat-card>
+                    <h2>Availability</h2>
+    
+                    <div fxLayout="column" class="verticle-checkbox">
+                        <mat-checkbox formControlName="is_active">Active</mat-checkbox>
+                        <mat-checkbox formControlName="hide_out_of_stock">Hide when out of stock</mat-checkbox>
+                    </div>
+                </mat-card>
+                <!-- <mat-card class="mt-20">
+                    <h2>Shipped through</h2>
+    
+                    <mat-radio-group fxLayout="row">
+                        <mat-radio-button value="Kees" fxFlex="0 1 50%">Kees</mat-radio-button>
+                        <mat-radio-button value="Vendor" fxFlex="0 1 50%">Vendor</mat-radio-button>
+                    </mat-radio-group>
+                </mat-card> -->
+                <!-- Organization -->
+                <mat-card class="mt-20">
+                    <h2>Organization</h2>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Product type</mat-label>
+                        <mat-select formControlName="product_type">
+                            <mat-option [value]="type.id" *ngFor="let type of productTypes">{{type.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Product group</mat-label>
+                        <mat-select formControlName="product_group">
+                            <mat-option [value]="group.id" *ngFor="let group of productGroups">{{group.title}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Collections</mat-label>
+                        <mat-select multiple formControlName="collection">
+                            <mat-option [value]="collection.id" *ngFor="let collection of collections">{{collection.title}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Vendor</mat-label>
+                        <mat-select formControlName="vendor">
+                            <mat-option [value]="vendor.id" *ngFor="let vendor of vendors">{{vendor.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Brand</mat-label>
+                        <mat-select formControlName="product_brand">
+                            <mat-option [value]="brand.id" *ngFor="let brand of brands">{{brand.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </mat-card>
 
-                <div fxLayout="column" class="verticle-checkbox">
-                    <mat-checkbox>Active</mat-checkbox>
-                    <mat-checkbox>Hide when out of stock</mat-checkbox>
-                    <mat-checkbox>Enable 'Order through Whatsapp'</mat-checkbox>
-                </div>
-            </mat-card>
+                <mat-card class="mt-20">
+                    <h2>Shipping and Tax</h2>
 
-            <mat-card>
-                <h2>Shipped through</h2>
-
-                <mat-radio-group fxLayout="row">
-                    <mat-radio-button value="Kees" fxFlex="0 1 50%">Kees</mat-radio-button>
-                    <mat-radio-button value="Vendor" fxFlex="0 1 50%">Vendor</mat-radio-button>
-                </mat-radio-group>
-            </mat-card>
-
-            <mat-card>
-                <h2>Organization</h2>
-
-                <mat-form-field appearance="outline">
-                    <mat-label>Product type</mat-label>
-                    <mat-select>
-                        <mat-option value="Apparel">Apparel</mat-option>
-                        <mat-option value="Footwear">Footwear</mat-option>
-                        <mat-option value="Accessories">Accessories</mat-option>
-                    </mat-select>
-                </mat-form-field>
-
-                <mat-form-field appearance="outline">
-                    <mat-label>Product group</mat-label>
-                    <mat-select>
-                        <mat-option value="Laptops">Laptops</mat-option>
-                        <mat-option value="Phones">Phones</mat-option>
-                        <mat-option value="Tablets">Tablets</mat-option>
-                    </mat-select>
-                </mat-form-field>
-
-                <mat-form-field appearance="outline">
-                    <mat-label>Collections</mat-label>
-                    <mat-select multiple>
-                        <mat-option value="TCL">TCL</mat-option>
-                        <mat-option value="Samsung">Samsung</mat-option>
-                        <mat-option value="Dell">Dell</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </mat-card>
-
-            <mat-card>
-                <h2>Shipping and Tax</h2>
-
-                <mat-checkbox>Apply shipping</mat-checkbox>
-            </mat-card>
+                    <div fxLayout="column">
+                        <mat-checkbox formControlName="apply_shipping">Apply shipping</mat-checkbox>
+                        <mat-checkbox formControlName="apply_tax">Apply Tax</mat-checkbox>
+                    </div>
+                </mat-card>
+            </form>
         </div>
     </div>
 </main>
