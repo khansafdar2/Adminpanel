@@ -382,3 +382,33 @@ body {
         font-size: 15px;
     }
 }
+.image-previews {
+    margin-bottom: 20px;
+
+    .preview-wrapper {
+        width: 170px;
+        position: relative;
+
+        img {
+            display: block;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        &:hover {
+            .remove-preview-image {
+                opacity: 1;
+            }
+        }
+    }
+
+    .remove-preview-image {
+        position: absolute;
+        top: 0;
+        right: 10px;
+        opacity: 0;
+        transition: opacity 0.2s ease-out;
+    }
+}

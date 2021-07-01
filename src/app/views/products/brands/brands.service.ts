@@ -11,8 +11,8 @@ export class BrandsService {
 
   constructor(private authService: AuthService) { }
 
-  getBrandsList() {
-    return Axios.get( environment.backend_url + '/products/brand', {
+  getBrandsList(page: number, limit: number) {
+    return Axios.get( environment.backend_url + '/products/brand_list?page=' + page + '&limit=' + limit, {
       headers: {
         Authorization: this.authService.token
       }

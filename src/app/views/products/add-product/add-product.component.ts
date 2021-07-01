@@ -21,6 +21,7 @@ interface Variant {
   option2: string;
   option3: string;
   inventory_quantity: number;
+  barcode: string;
 }
 
 @Component({
@@ -59,13 +60,12 @@ export class AddProductComponent implements OnInit {
     }
   ]
   variants: Variant[] = [];
+  bannerImages = [];
   hasVariants: boolean = false;
   afuConfig = {
-    uploadAPI: {
-      url:"https://example-file-upload-api"
-    },
+    uploadAPI: this.sharedService.afuUploadAPI,
     theme: "dragNDrop",
-    multiple: false,
+    multiple: true,
     formatsAllowed: '.jpg,.jpeg,.png',
     hideResetBtn: true,
     replaceTexts: {
@@ -79,13 +79,13 @@ export class AddProductComponent implements OnInit {
     description: ["", []],
     features: this.fb.array([
       this.fb.group({
-        field: [''],
-        value: ['']
+        feature_title: [''],
+        feature_details: ['']
       })
     ]),
     product_images: [[]],
     product_type: [null],
-    product_group: [null],
+    product_group: [null, [Validators.required]],
     product_brand: [null],
     collection: [[]],
     vendor: [null],
@@ -93,6 +93,22 @@ export class AddProductComponent implements OnInit {
     hide_out_of_stock: [false],
     apply_shipping: [false],
     apply_tax: [false]
+  });
+
+  inventoryForm = this.fb.group({
+    sku: [""],
+    barcode: [null],
+    inventory_quantity: [0],
+    track_inventory: [false]
+  });
+
+  priceForm = this.fb.group({
+    price: [0],
+    compare_at_price: [0]
+  });
+
+  variantsForm = this.fb.group({
+    variants: this.fb.array([])
   });
 
   addOption() {
@@ -104,36 +120,48 @@ export class AddProductComponent implements OnInit {
 
   deleteOption(index) {
     this.options.splice(index, 1);
+    this.makeVariantsFromOptions();
   }
 
   makeVariantsFromOptions() {
     var valuesArrays = this.options.map(option => option.values);
 
     var combinations = this.sharedService.makeCombinationsFromLists(...valuesArrays);
-    console.log(combinations);
-    let variants = [];
+    (this.variantsForm.get('variants') as FormArray).clear();
     combinations.forEach(title => {
-      let variant: Variant = {
-        title,
-        compare_at_price: 0,
-        price: 0,
-        inventory_quantity: 0,
-        option1: title.split("/")[0],
-        option2: title.split("/")[1],
-        option3: title.split("/")[2],
-        sku: ""
-      }
-      variants.push(variant);
-    });
+      // let variant: Variant = {
+      //   title,
+      //   price: this.priceForm.get('price').value,
+      //   compare_at_price: this.priceForm.get('compare_at_price').value,
+      //   inventory_quantity: this.inventoryForm.get('inventory_quantity').value,
+      //   option1: title.split("/")[0] || null,
+      //   option2: title.split("/")[1] || null,
+      //   option3: title.split("/")[2] || null,
+      //   sku: this.inventoryForm.get('sku').value,
+      //   barcode: this.inventoryForm.get('barcode').value
+      // }
 
-    this.variants = variants;
+      let variant = this.fb.group({
+        title: [title],
+        price: [this.priceForm.get('price').value],
+        compare_at_price: [this.priceForm.get('compare_at_price').value],
+        inventory_quantity: [this.inventoryForm.get('inventory_quantity').value],
+        option1: [title.split("/")[0] || null],
+        option2: [title.split("/")[1] || null],
+        option3: [title.split("/")[2] || null],
+        sku: [this.inventoryForm.get('sku').value],
+        barcode: [this.inventoryForm.get('barcode').value]
+      });
+
+      (this.variantsForm.get('variants') as FormArray).push(variant);
+    });
   }
 
   addFeature() {
     (this.productForm.get('features') as FormArray).push(
       this.fb.group({
-        field: [''],
-        value: ['']
+        feature_title: [''],
+        feature_details: ['']
       })
     )
   }
@@ -175,11 +203,39 @@ export class AddProductComponent implements OnInit {
   }
 
   getBrands() {
-    this.brandsService.getBrandsList().then(resp => {
+    this.brandsService.getBrandsList(1, 50).then(resp => {
       if(resp) {
-        this.brands = resp.data;
+        this.brands = resp.data.results;
       }
     });
+  }
+
+  removeVariant(index) {
+    (this.variantsForm.get('variants') as FormArray).removeAt(index);
+  }
+
+  mediaUpload(response) {
+    console.log(response);
+    if(response.status === 200) {
+      this.bannerImages = response.body;
+      let imageIDs = response.body.map(image => image.id);
+      this.productForm.patchValue({
+        product_images: imageIDs
+      });
+    }
+  }
+
+  removeImage(index) {
+    this.bannerImages.splice(index, 1);
+    let imageIDs = this.productForm.get('product_images').value;
+    imageIDs.splice(index, 1);
+    this.productForm.patchValue({
+      product_images: imageIDs
+    });
+  }
+
+  onSubmit() {
+
   }
 
   ngOnInit(): void {

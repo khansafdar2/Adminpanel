@@ -7,7 +7,7 @@
 
         <div class="header-actions">
             <a [routerLink]="['/', URLS.products]" mat-button color="primary">Cancel</a>
-            <button mat-flat-button color="primary">Save</button>
+            <button mat-flat-button color="primary" [disabled]="!productForm.valid" (click)="onSubmit()">Save</button>
         </div>
     </div>
 
@@ -20,11 +20,12 @@
                     <h2>General Information</h2>
 
                     <mat-form-field appearance="outline">
-                        <mat-label>Collection Name</mat-label>
+                        <mat-label>Product Name</mat-label>
                         <input matInput formControlName="title" />
+                        <mat-error *ngIf="productForm.get('title').hasError('required')">Enter the name of your product.</mat-error>
                     </mat-form-field>
     
-                    <quill-editor [modules]="editorModules" placeholder="Collection description" formControlName="description"></quill-editor>
+                    <quill-editor [modules]="editorModules" placeholder="Product description" formControlName="description"></quill-editor>
                 </mat-card>
     
                 <!-- Features -->
@@ -44,12 +45,12 @@
                                 <ng-container [formGroup]="featureGroup">
                                     <td>
                                         <mat-form-field appearance="outline">
-                                            <input matInput formControlName="field" />
+                                            <input matInput formControlName="feature_title" />
                                         </mat-form-field>
                                     </td>
                                     <td>
                                         <mat-form-field appearance="outline">
-                                            <input matInput formControlName="value" />
+                                            <input matInput formControlName="feature_details" />
                                         </mat-form-field>
                                     </td>
                                     <td>
@@ -65,30 +66,39 @@
                     </div>
                 </mat-card>
             </form>
+
             <!-- Media -->
             <mat-card class="mt-20">
                 <h2>Media</h2>
 
+                <div class="image-previews" fxLayout="row wrap" fxLayoutAlign="start" *ngIf="bannerImages.length">
+                    <div class="preview-wrapper" *ngFor="let image of bannerImages; let i = index;">
+                        <img [src]="image.cdn_link" />
+                        <button mat-icon-button color="warn" class="remove-preview-image" (click)="removeImage(i)"><mat-icon>close</mat-icon></button>
+                    </div>
+                </div>
+
                 <angular-file-uploader
-                    [config]="afuConfig">
+                    [config]="afuConfig"
+                    (ApiResponse)="mediaUpload($event)">
                 </angular-file-uploader>
             </mat-card>
 
             <!-- Inventory -->
-            <mat-card *ngIf="!hasVariants">
+            <mat-card *ngIf="!hasVariants" [formGroup]="inventoryForm">
                 <h2>Inventory</h2>
 
                 <div fxLayout="row">
                     <div fxFlex="0 1 50%">
                         <mat-form-field appearance="outline">
                             <mat-label>SKU</mat-label>
-                            <input matInput />
+                            <input matInput formControlName="sku" />
                         </mat-form-field>
                     </div>
                     <div fxFlex="0 1 50%">
                         <mat-form-field appearance="outline">
                             <mat-label>Barcode</mat-label>
-                            <input matInput />
+                            <input matInput formControlName="barcode" />
                         </mat-form-field>
                     </div>
                 </div>
@@ -97,11 +107,11 @@
                     <div fxFlex="0 1 50%">
                         <mat-form-field appearance="outline">
                             <mat-label>Inventory available</mat-label>
-                            <input matInput type="number" />
+                            <input matInput type="number" formControlName="inventory_quantity" />
                         </mat-form-field>
                     </div>
                     <div fxFlex="0 1 50%">
-                        <mat-checkbox>Track inventory</mat-checkbox>
+                        <mat-checkbox formControlName="track_inventory">Track inventory</mat-checkbox>
                     </div>
                 </div>
             </mat-card>
@@ -129,27 +139,9 @@
                                             (change)="makeVariantsFromOptions()"
                                             placeholder="New option..."
                                             label="Option"></tags-input>
-
-                                        <!-- <mat-form-field appearance="outline">
-                                            <mat-label>Options</mat-label>
-                                            <mat-chip-list #optionsList>
-                                                <mat-chip
-                                                    *ngFor="let option of variant.options"
-                                                    [removable]="true"
-                                                    (removed)="removeOptionValue(option, i)">{{option}}</mat-chip>
-
-                                                <input
-                                                    placeholder="New option..."
-                                                    #optionInput
-                                                    [formControl]="variantOptionsInputCtrl[i]"
-                                                    [matChipInputFor]="optionsList"
-                                                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                                                    (matChipInputTokenEnd)="addOptionValue($event, i)">
-                                            </mat-chip-list>
-                                        </mat-form-field> -->
                                     </td>
                                     <td style="width: 50px">
-                                        <button mat-icon-button color="primary" (click)="deleteOption(i)"><mat-icon>delete</mat-icon></button>
+                                        <button mat-icon-button color="primary" (click)="deleteOption(i)" *ngIf="options.length > 1"><mat-icon>delete</mat-icon></button>
                                     </td>
                                 </tr>
                             </ng-container>
@@ -173,12 +165,33 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let variant of variants">
-                                <td>{{variant.title}}</td>
-                                <td>{{variant.price}}</td>
-                                <td>{{variant.inventory_quantity}}</td>
-                                <td>{{variant.sku}}</td>
-                                <td>{{variant.barcode}}</td>
+                            <tr *ngFor="let variantGroup of variantsForm.get('variants')['controls']; let i = index">
+                                <ng-container [formGroup]="variantGroup">
+                                    <td>{{variantGroup.get('title').value}}</td>
+                                    <td>
+                                        <mat-form-field appearance="outline">
+                                            <input matInput type="number" formControlName="price" />
+                                        </mat-form-field>
+                                    </td>
+                                    <td>
+                                        <mat-form-field appearance="outline">
+                                            <input matInput type="number" formControlName="inventory_quantity" />
+                                        </mat-form-field>
+                                    </td>
+                                    <td>
+                                        <mat-form-field appearance="outline">
+                                            <input matInput formControlName="sku" />
+                                        </mat-form-field>
+                                    </td>
+                                    <td>
+                                        <mat-form-field appearance="outline">
+                                            <input matInput formControlName="barcode" />
+                                        </mat-form-field>
+                                    </td>
+                                    <td>
+                                        <button color="warn" mat-icon-button (click)="removeVariant(i)"><mat-icon>delete</mat-icon></button>
+                                    </td>
+                                </ng-container>
                             </tr>
                         </tbody>
                     </table>
@@ -245,10 +258,25 @@
                     </mat-form-field>
                 </mat-card>
 
+                <!-- Price -->
+                <mat-card *ngIf="!hasVariants" [formGroup]="priceForm">
+                    <h2>Price</h2>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Price</mat-label>
+                        <input matInput type="number" formControlName="price" />
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Compare at price</mat-label>
+                        <input matInput type="number" formControlName="compare_at_price" />
+                    </mat-form-field>
+                </mat-card>
+
                 <mat-card class="mt-20">
                     <h2>Shipping and Tax</h2>
 
-                    <div fxLayout="column">
+                    <div fxLayout="column" class="verticle-checkbox">
                         <mat-checkbox formControlName="apply_shipping">Apply shipping</mat-checkbox>
                         <mat-checkbox formControlName="apply_tax">Apply Tax</mat-checkbox>
                     </div>

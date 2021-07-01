@@ -11,6 +11,15 @@ export class SharedService {
 
   constructor(private authService: AuthService) { }
 
+  afuUploadAPI = {
+    url: environment.backend_url + '/products/media',
+    method:"POST",
+    headers: {
+      // "Content-Type" : "multipart/form-data",
+      "Authorization" : this.authService.token
+    }
+  }
+
   uploadMedia(file: File) {
     let formData = new FormData();
     formData.append('file', file);
