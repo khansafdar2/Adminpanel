@@ -62,4 +62,17 @@ export class ProductsService {
       }
     });
   }
+
+  getProductDetail(id) {
+    return Axios.get( environment.backend_url + '/products/product/' + id, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
 }

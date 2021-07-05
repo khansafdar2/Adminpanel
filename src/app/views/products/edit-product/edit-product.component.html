@@ -65,6 +65,76 @@
                     </div>
                 </mat-card>
             </form>
+
+            <!-- Media -->
+            <mat-card class="mt-20">
+                <h2>Media</h2>
+
+                <div class="image-previews" fxLayout="row wrap" fxLayoutAlign="start" *ngIf="bannerImages.length">
+                    <div class="preview-wrapper" *ngFor="let image of bannerImages; let i = index;">
+                        <img [src]="image.cdn_link" />
+                        <button mat-icon-button color="warn" class="remove-preview-image" (click)="removeImage(i)"><mat-icon>close</mat-icon></button>
+                    </div>
+                </div>
+
+                <angular-file-uploader
+                    [config]="afuConfig"
+                    (ApiResponse)="mediaUpload($event)">
+                </angular-file-uploader>
+            </mat-card>
+        </div>
+        <div fxFlex="0 1 33.33333">
+            <form [formGroup]="productForm">
+                <!-- Availability -->
+                <mat-card>
+                    <h2>Availability</h2>
+    
+                    <div fxLayout="column" class="verticle-checkbox">
+                        <mat-checkbox formControlName="is_active">Active</mat-checkbox>
+                        <mat-checkbox formControlName="hide_out_of_stock">Hide when out of stock</mat-checkbox>
+                    </div>
+                </mat-card>
+
+                <!-- Organization -->
+                <mat-card class="mt-20">
+                    <h2>Organization</h2>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Product type</mat-label>
+                        <mat-select formControlName="product_type">
+                            <mat-option [value]="type.id" *ngFor="let type of productTypes">{{type.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Product group</mat-label>
+                        <mat-select formControlName="product_group">
+                            <mat-option [value]="group.id" *ngFor="let group of productGroups">{{group.title}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Collections</mat-label>
+                        <mat-select multiple formControlName="collection">
+                            <mat-option [value]="collection.id" *ngFor="let collection of collections">{{collection.title}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Vendor</mat-label>
+                        <mat-select formControlName="vendor">
+                            <mat-option [value]="vendor.id" *ngFor="let vendor of vendors">{{vendor.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Brand</mat-label>
+                        <mat-select formControlName="product_brand">
+                            <mat-option [value]="brand.id" *ngFor="let brand of brands">{{brand.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </mat-card>
+            </form>
         </div>
     </div>
 </main>
