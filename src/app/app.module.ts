@@ -63,6 +63,7 @@ import { EditProductGroupComponent } from './views/products/product-groups/edit-
 import { NewSuperSubCategoryComponent } from './views/products/category-structure/super-sub-category/new-super-sub-category/new-super-sub-category.component';
 import { EditSuperSubCategoryComponent } from './views/products/category-structure/super-sub-category/edit-super-sub-category/edit-super-sub-category.component';
 import { TagsInputComponent } from './shared/tags-input/tags-input.component';
+import { EditProductComponent } from './views/products/edit-product/edit-product.component';
 
 @NgModule({
   declarations: [
@@ -106,7 +107,8 @@ import { TagsInputComponent } from './shared/tags-input/tags-input.component';
     CollectionDeleteDialog,
     NewSuperSubCategoryComponent,
     EditSuperSubCategoryComponent,
-    TagsInputComponent
+    TagsInputComponent,
+    EditProductComponent
   ],
   imports: [
     BrowserModule,

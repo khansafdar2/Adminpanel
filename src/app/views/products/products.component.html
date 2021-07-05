@@ -32,7 +32,8 @@
                   [searchColumns]="searchColumns"
                   [filters]="productFilters"
                   [searchable]="true"
-                  
+
+                  (cellClick)="onCellClick($event)"
                   (filter)="onFilter($event)"
                   (search)="onSearch($event)">
       </datatable>

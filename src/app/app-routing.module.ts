@@ -28,6 +28,7 @@ import { EditProductGroupComponent } from './views/products/product-groups/edit-
 import { DashboardGuard } from './auth/permission.guard';
 import { NewSuperSubCategoryComponent } from './views/products/category-structure/super-sub-category/new-super-sub-category/new-super-sub-category.component';
 import { EditSuperSubCategoryComponent } from './views/products/category-structure/super-sub-category/edit-super-sub-category/edit-super-sub-category.component';
+import { EditProductComponent } from './views/products/edit-product/edit-product.component';
 
 
 const routes: Routes = [
@@ -64,7 +65,8 @@ const routes: Routes = [
   {path: URLS.products, children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
     {path: URLS.all, component: ProductsComponent, canActivate: [LoggedInAuthGuard]},
-    {path: URLS.add, component: AddProductComponent, canActivate: [LoggedInAuthGuard]}
+    {path: URLS.add, component: AddProductComponent, canActivate: [LoggedInAuthGuard]},
+    {path: URLS.edit + '/:id', component: EditProductComponent, canActivate: [LoggedInAuthGuard]}
   ]},
   {path: URLS.productGroups, children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},

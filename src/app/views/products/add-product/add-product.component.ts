@@ -6,6 +6,8 @@ import { CollectionsService } from '../collections/collections.service';
 import { VendorsService } from '../vendors.service';
 import { BrandsService } from '../brands/brands.service';
 import { SharedService } from 'src/app/shared/shared.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 interface Option {
   name: string;
@@ -37,7 +39,9 @@ export class AddProductComponent implements OnInit {
     private collectionsService: CollectionsService,
     private vendorsService: VendorsService,
     private brandsService: BrandsService,
-    private sharedService: SharedService) { }
+    private sharedService: SharedService,
+    private snackbarService: MatSnackBar,
+    private router: Router) { }
 
   loading: boolean = false;
   URLS = URLS;
@@ -235,7 +239,52 @@ export class AddProductComponent implements OnInit {
   }
 
   onSubmit() {
+    let productData = this.productForm.value;
+    let inventoryData = this.inventoryForm.value;
+    let priceData = this.priceForm.value;
+    let variantsData = this.variantsForm.value;
+    console.log("productData", productData);
+    console.log("inventoryData", inventoryData);
+    console.log("priceData", priceData);
+    console.log("variantsData", variantsData);
+    let variants = [];
+    let productOptions = [];
 
+    if(!this.hasVariants) {
+      let defaultVariant = {
+        title: "Detault",
+        price: priceData.price,
+        compare_at_price: priceData.compare_at_price,
+        inventory_quantity: inventoryData.inventory_quantity,
+        option1: "Default",
+        option2: null,
+        option3: null,
+        sku: inventoryData.sku,
+        barcode: inventoryData.barcode
+      }
+
+      variants.push(defaultVariant);
+    } else {
+      variants = this.variantsForm.value.variants;
+      productOptions = this.options.map(option => {
+        return {
+          name: option.name,
+          values: option.values.join(","),
+          position: 1
+        }
+      })
+    }
+
+    productData.options = productOptions;
+    productData.variants = variants;
+    this.loading = true;
+    this.productsService.createProduct(productData).then(resp => {
+      this.loading = false;
+      if(resp) {
+        this.snackbarService.open("Product created.", "", {duration: 3000});
+        this.router.navigate(["/", URLS.products]);
+      }
+    });
   }
 
   ngOnInit(): void {

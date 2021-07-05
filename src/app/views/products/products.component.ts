@@ -8,6 +8,7 @@ import { FormControl } from '@angular/forms';
 import URLS from 'src/app/shared/urls';
 import { ProductsService } from './products.service';
 import { VendorsService } from './vendors.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-products',
@@ -16,7 +17,11 @@ import { VendorsService } from './vendors.service';
 })
 export class ProductsComponent implements OnInit {
 
-  constructor(public dialog: MatDialog, private productsService: ProductsService, private vendorsService: VendorsService) { }
+  constructor(
+    public dialog: MatDialog,
+    private productsService: ProductsService,
+    private vendorsService: VendorsService,
+    private router: Router) { }
 
   loading: boolean = false;
   URLS = URLS;
@@ -25,7 +30,7 @@ export class ProductsComponent implements OnInit {
     {
       title: "",
       selector: "image",
-      cell: row => `<img src="${row.image}" class="table-row-thumbnail" />`,
+      cell: row => `<img src="${row.image ? row.image : '/assets/img/placeholder-image.png'}" class="table-row-thumbnail" />`,
       width: "50px"
     },
     {
@@ -162,6 +167,13 @@ export class ProductsComponent implements OnInit {
         this.productFilters = filters;
       }
     })
+  }
+
+  onCellClick(data) {
+    console.log(data);
+    if(data.column === "title") {
+      this.router.navigate(["/", URLS.products, URLS.edit, data.row.id]);
+    }
   }
 
   onFilter(filters) {
