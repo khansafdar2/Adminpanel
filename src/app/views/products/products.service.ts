@@ -75,4 +75,17 @@ export class ProductsService {
       }
     });
   }
+
+  deleteVariant(id) {
+    return Axios.delete( environment.backend_url + '/products/variant/' + id, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
 }

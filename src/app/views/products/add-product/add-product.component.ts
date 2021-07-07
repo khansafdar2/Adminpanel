@@ -65,7 +65,6 @@ export class AddProductComponent implements OnInit {
   ]
   variants: Variant[] = [];
   bannerImages = [];
-  hasVariants: boolean = false;
   afuConfig = {
     uploadAPI: this.sharedService.afuUploadAPI,
     theme: "dragNDrop",
@@ -96,7 +95,8 @@ export class AddProductComponent implements OnInit {
     is_active: [false],
     hide_out_of_stock: [false],
     apply_shipping: [false],
-    apply_tax: [false]
+    apply_tax: [false],
+    has_variants: [false]
   });
 
   inventoryForm = this.fb.group({
@@ -221,10 +221,11 @@ export class AddProductComponent implements OnInit {
   mediaUpload(response) {
     console.log(response);
     if(response.status === 200) {
-      this.bannerImages = response.body;
+      this.bannerImages = this.bannerImages.concat(response.body);
       let imageIDs = response.body.map(image => image.id);
+      let product_images = this.productForm.get('product_images').value;
       this.productForm.patchValue({
-        product_images: imageIDs
+        product_images: product_images.concat(imageIDs)
       });
     }
   }
@@ -250,13 +251,13 @@ export class AddProductComponent implements OnInit {
     let variants = [];
     let productOptions = [];
 
-    if(!this.hasVariants) {
+    if(!productData.has_variants) {
       let defaultVariant = {
-        title: "Detault",
+        title: "Detault Title",
         price: priceData.price,
         compare_at_price: priceData.compare_at_price,
         inventory_quantity: inventoryData.inventory_quantity,
-        option1: "Default",
+        option1: "Default Title",
         option2: null,
         option3: null,
         sku: inventoryData.sku,
@@ -277,6 +278,7 @@ export class AddProductComponent implements OnInit {
 
     productData.options = productOptions;
     productData.variants = variants;
+    productData.track_inventory = inventoryData.track_inventory,
     this.loading = true;
     this.productsService.createProduct(productData).then(resp => {
       this.loading = false;

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { ProductsService } from '../products.service';
 import URLS from 'src/app/shared/urls';
@@ -8,6 +8,21 @@ import { VendorsService } from '../vendors.service';
 import { BrandsService } from '../brands/brands.service';
 import { SharedService } from 'src/app/shared/shared.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ProductsChangeStatusDialog } from '../products.component';
+
+interface Variant {
+  id: number,
+  title: string;
+  price: number,
+  sku: string,
+  compare_at_price: number;
+  option1: string;
+  option2: string;
+  option3: string;
+  inventory_quantity: number;
+  barcode: string;
+}
 
 @Component({
   selector: 'app-edit-product',
@@ -17,6 +32,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class EditProductComponent implements OnInit {
 
   constructor(
+    public dialog: MatDialog,
     private fb: FormBuilder,
     private productsService: ProductsService,
     private route: ActivatedRoute,
@@ -37,6 +53,9 @@ export class EditProductComponent implements OnInit {
   collections: any[] = [];
   vendors: any[] = [];
   brands: any[] = [];
+  bannerImages = [];
+  productOptions = [];
+  variants: Variant[] = [];
   editorModules = {
     toolbar: [
       ['bold', 'italic', 'underline', 'strike'],
@@ -70,9 +89,21 @@ export class EditProductComponent implements OnInit {
     is_active: [false],
     hide_out_of_stock: [false],
     apply_shipping: [false],
-    apply_tax: [false]
+    apply_tax: [false],
+    has_variants: [false]
   });
-  bannerImages = [];
+
+  inventoryForm = this.fb.group({
+    sku: [""],
+    barcode: [null],
+    inventory_quantity: [0],
+    track_inventory: [false]
+  });
+
+  priceForm = this.fb.group({
+    price: [0],
+    compare_at_price: [0]
+  });
 
   addFeature() {
     (this.productForm.get('features') as FormArray).push(
@@ -158,10 +189,37 @@ export class EditProductComponent implements OnInit {
         }
         this.bannerImages = resp.data.images;
         this.productForm.patchValue(resp.data);
+        this.productOptions = resp.data.options;
+        this.variants = resp.data.variants;
       }
     });
   }
-  
+
+  deleteVariant(variant) {
+    let dialogRef = this.dialog.open(DeleteVariantConfirmDialog, {
+      width: "600px",
+      data: {
+        variant
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(data => {
+      if(data) {
+        this.loading = true;
+        this.productsService.deleteVariant(data.id).then(resp => {
+          this.loading = false;
+          if(resp) {
+            console.log(resp.data);
+            this.snackbarService.open("Variant deleted successfuly.", "", {duration: 3000});
+            if(resp.data.detail === "Deleted Variant Successfully!") {
+              this.variants = this.variants.filter(variant => variant.id !== data.id);
+            }
+          }
+        });
+      }
+    });
+  }
+
   ngOnInit(): void {
     this.getProductTypes();
     this.getProductGroups();
@@ -169,6 +227,26 @@ export class EditProductComponent implements OnInit {
     this.getVendors();
     this.getBrands();
     this.getProductDetails();
+  }
+
+}
+
+
+@Component({
+  selector: 'delete-variant-confirm-dialog',
+  templateUrl: '../dialogs/delete-variant-confirm-dialog.html',
+})
+export class DeleteVariantConfirmDialog {
+  constructor(
+    public dialogRef: MatDialogRef<ProductsChangeStatusDialog>,
+    @Inject(MAT_DIALOG_DATA) public data,
+    private productsService: ProductsService,
+    private snackBar: MatSnackBar) {}
+
+  loading: boolean = false;
+
+  deleteVariant() {
+    this.dialogRef.close(this.data.variant);
   }
 
 }

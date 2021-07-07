@@ -85,7 +85,7 @@
             </mat-card>
 
             <!-- Inventory -->
-            <mat-card *ngIf="!hasVariants" [formGroup]="inventoryForm">
+            <mat-card *ngIf="!productForm.get('has_variants').value" [formGroup]="inventoryForm">
                 <h2>Inventory</h2>
 
                 <div fxLayout="row">
@@ -120,9 +120,11 @@
             <mat-card>
                 <h2>Variants</h2>
 
-                <mat-checkbox [(ngModel)]="hasVariants">This product has multiple options like size, color etc.</mat-checkbox>
+                <div [formGroup]="productForm">
+                    <mat-checkbox formControlName="has_variants">This product has multiple options like size, color etc.</mat-checkbox>
+                </div>
 
-                <div *ngIf="hasVariants">
+                <div *ngIf="productForm.get('has_variants').value">
                     <table class="product-options-table">
                         <tbody>
                             <ng-container *ngFor="let option of options; let i = index;">
@@ -259,7 +261,7 @@
                 </mat-card>
 
                 <!-- Price -->
-                <mat-card *ngIf="!hasVariants" [formGroup]="priceForm">
+                <mat-card *ngIf="!productForm.get('has_variants').value" [formGroup]="priceForm">
                     <h2>Price</h2>
 
                     <mat-form-field appearance="outline">
@@ -273,6 +275,7 @@
                     </mat-form-field>
                 </mat-card>
 
+                <!-- Shipping and Tax -->
                 <mat-card class="mt-20">
                     <h2>Shipping and Tax</h2>
 
