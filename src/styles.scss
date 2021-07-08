@@ -412,3 +412,15 @@ body {
         transition: opacity 0.2s ease-out;
     }
 }
+.options-edit-table {
+    width: 100%;
+    
+    td {
+        padding: 0 5px;
+        vertical-align: top;
+
+        .mat-form-field {
+            margin: 0;
+        }
+    }
+}

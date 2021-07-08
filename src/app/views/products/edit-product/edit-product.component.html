@@ -117,9 +117,13 @@
 
             <!-- Variants -->
             <mat-card>
-                <h2>Variants</h2>
+                <div fxLayout="row" fxLayoutAlign="space-between">
+                    <h2>Variants</h2>
 
-                <div [formGroup]="productForm">
+                    <button mat-button color="primary" (click)="onEditOptions()">Edit options</button>
+                </div>
+
+                <div [formGroup]="productForm" *ngIf="!productForm.get('has_variants').value">
                     <mat-checkbox formControlName="has_variants">This product has multiple options like size, color etc.</mat-checkbox>
                 </div>
 
@@ -142,12 +146,12 @@
                                 <td>{{variant.sku}}</td>
                                 <td>
                                     <button mat-icon-button color="primary"><mat-icon>edit</mat-icon></button>
-                                    <button mat-icon-button color="warn" (click)="deleteVariant(variant)" *ngIf="variants.length > 1"><mat-icon>delete</mat-icon></button>
+                                    <button mat-icon-button color="warn" (click)="deleteVariant(variant)"><mat-icon>delete</mat-icon></button>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                </div>
+                </div>  
             </mat-card>
         </div>
         <div fxFlex="0 1 33.33333">

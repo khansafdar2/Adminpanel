@@ -213,11 +213,27 @@ export class EditProductComponent implements OnInit {
             this.snackbarService.open("Variant deleted successfuly.", "", {duration: 3000});
             if(resp.data.detail === "Deleted Variant Successfully!") {
               this.variants = this.variants.filter(variant => variant.id !== data.id);
+
+              if(this.variants.length === 0) {
+                this.productForm.patchValue({
+                  has_variants: false
+                });
+              }
             }
           }
         });
       }
     });
+  }
+
+  onEditOptions() {
+    this.dialog.open(EditProductOptionsDialog, {
+      width: '600px',
+      data: {
+        options: this.productOptions,
+        variants: this.variants
+      }
+    })
   }
 
   ngOnInit(): void {
@@ -239,9 +255,7 @@ export class EditProductComponent implements OnInit {
 export class DeleteVariantConfirmDialog {
   constructor(
     public dialogRef: MatDialogRef<ProductsChangeStatusDialog>,
-    @Inject(MAT_DIALOG_DATA) public data,
-    private productsService: ProductsService,
-    private snackBar: MatSnackBar) {}
+    @Inject(MAT_DIALOG_DATA) public data) {}
 
   loading: boolean = false;
 
@@ -249,4 +263,80 @@ export class DeleteVariantConfirmDialog {
     this.dialogRef.close(this.data.variant);
   }
 
+}
+
+
+@Component({
+  selector: 'edit-product-options-dialog',
+  templateUrl: '../dialogs/edit-product-options-dialog.html',
+})
+export class EditProductOptionsDialog {
+  constructor(
+    public dialogRef: MatDialogRef<ProductsChangeStatusDialog>,
+    @Inject(MAT_DIALOG_DATA) public data,
+    private productsService: ProductsService,
+    private snackBar: MatSnackBar) {
+      this.originalOptions = this.data.options.map(option => {
+        let tempOption = Object.assign({}, option);
+        tempOption.values = option.values.split(",");
+        return tempOption;
+      });
+
+      this.options = Object.assign([], this.originalOptions);
+      let tempVariants = this.data.variants.map(variant => Object.assign({}, variant));
+      this.editingVariants = Object.assign([], tempVariants);
+  }
+
+  loading: boolean = false;
+  originalOptions = [];
+  options = [];
+  editingVariants = [];
+  deletedVariants = [];
+
+  deleteVariant() {
+
+  }
+
+  removeValue(optionIndex, valueIndex) {
+    let value = this.options[optionIndex].values[valueIndex];
+    if(this.options[optionIndex].values.length === 1) {
+      // let deletedOption = Object.assign({}, this.options[optionIndex]);
+      this.options.splice(optionIndex, 1);
+      // let originalOption = this.originalOptions.find(obj => obj.id === deletedOption.id);
+      this.removeOptionFromVariants(optionIndex);
+      // if(originalOption.values.length === 1) {
+      // }
+    } else {
+      this.options[optionIndex].values.splice(valueIndex, 1);
+      this.deleteVariantsFromOption(optionIndex, value);
+    }
+  }
+
+  removeOptionFromVariants(index) {
+    for (let i = 0; i < this.editingVariants.length; i++) {
+      const editingVariant = this.editingVariants[i];
+      editingVariant['option' + (index+1)] = null;
+      if(index < 2) {
+        for (let j = index+1; j < 3; j++) {
+          editingVariant['option' + j] = editingVariant['option' + (j+1)];
+        }
+      }
+      
+    }
+
+    console.log(this.editingVariants);
+  }
+
+  deleteVariantsFromOption(optionIndex, value) {
+    let tempVariants = [];
+    this.editingVariants.forEach(variant => {
+      if(variant['option' + (optionIndex+1)] === value) {
+        this.deletedVariants.push(variant);
+      } else {
+        tempVariants.push(variant);
+      }
+    });
+    this.editingVariants = tempVariants;
+    console.log(this.editingVariants);
+  }
 }
