@@ -56,6 +56,8 @@ export class EditProductComponent implements OnInit {
   bannerImages = [];
   productOptions = [];
   variants: Variant[] = [];
+  deletedVariants: Variant[] = [];
+  creatingVariants: boolean = false;
   editorModules = {
     toolbar: [
       ['bold', 'italic', 'underline', 'strike'],
@@ -103,6 +105,10 @@ export class EditProductComponent implements OnInit {
   priceForm = this.fb.group({
     price: [0],
     compare_at_price: [0]
+  });
+
+  variantsForm = this.fb.group({
+    variants: this.fb.array([])
   });
 
   addFeature() {
@@ -189,8 +195,22 @@ export class EditProductComponent implements OnInit {
         }
         this.bannerImages = resp.data.images;
         this.productForm.patchValue(resp.data);
-        this.productOptions = resp.data.options;
-        this.variants = resp.data.variants;
+        if(resp.data.has_variants) {
+          this.productOptions = resp.data.options;
+          this.variants = resp.data.variants;
+        } else {
+          let variant = resp.data.variants[0];
+
+          this.inventoryForm.patchValue({
+            barcode: variant.barcode,
+            inventory_quantity: variant.inventory_quantity,
+            sku: variant.sku
+          });
+          this.priceForm.patchValue({
+            price: variant.price,
+            compare_at_price: variant.compare_at_price
+          });
+        }
       }
     });
   }
@@ -219,6 +239,24 @@ export class EditProductComponent implements OnInit {
                   has_variants: false
                 });
               }
+            } else if(resp.data.variants) {
+              let variant = resp.data.variants[0];
+
+              this.productForm.patchValue({
+                has_variants: false
+              });
+              this.inventoryForm.patchValue({
+                barcode: variant.barcode,
+                inventory_quantity: variant.inventory_quantity,
+                sku: variant.sku
+              });
+              this.priceForm.patchValue({
+                price: variant.price,
+                compare_at_price: variant.compare_at_price
+              });
+
+              this.productOptions = [];
+              this.variants = [];
             }
           }
         });
@@ -227,13 +265,72 @@ export class EditProductComponent implements OnInit {
   }
 
   onEditOptions() {
-    this.dialog.open(EditProductOptionsDialog, {
+    let dialogRef = this.dialog.open(EditProductOptionsDialog, {
       width: '600px',
       data: {
         options: this.productOptions,
         variants: this.variants
       }
-    })
+    });
+
+    dialogRef.afterClosed().subscribe(data => {
+      if(data) {
+        console.log(data);
+        this.variants = data.variants;
+        this.deletedVariants = data.deletedVariants;
+        this.productOptions = data.options.map(option => {
+          let tempOption = option;
+          tempOption.values = tempOption.values.join(",");
+          return tempOption;
+        });
+      }
+    });
+  }
+
+  hasVariantsChange(e) {
+    if(e.checked) {
+      this.creatingVariants = true;
+      this.addOption();
+    }
+  }
+
+  addOption() {
+    this.productOptions.push({
+      name: "",
+      values: []
+    });
+  }
+
+  deleteOption(index) {
+    this.productOptions.splice(index, 1);
+    this.makeVariantsFromOptions();
+  }
+
+  makeVariantsFromOptions() {
+    var valuesArrays = this.productOptions.map(option => option.values);
+
+    var combinations = this.sharedService.makeCombinationsFromLists(...valuesArrays);
+    (this.variantsForm.get('variants') as FormArray).clear();
+    combinations.forEach(title => {
+
+      let variant = this.fb.group({
+        title: [title],
+        price: [this.priceForm.get('price').value],
+        compare_at_price: [this.priceForm.get('compare_at_price').value],
+        inventory_quantity: [this.inventoryForm.get('inventory_quantity').value],
+        option1: [title.split("/")[0] || null],
+        option2: [title.split("/")[1] || null],
+        option3: [title.split("/")[2] || null],
+        sku: [this.inventoryForm.get('sku').value],
+        barcode: [this.inventoryForm.get('barcode').value]
+      });
+
+      (this.variantsForm.get('variants') as FormArray).push(variant);
+    });
+  }
+
+  removeVariant(index) {
+    (this.variantsForm.get('variants') as FormArray).removeAt(index);
   }
 
   ngOnInit(): void {
@@ -292,19 +389,25 @@ export class EditProductOptionsDialog {
   options = [];
   editingVariants = [];
   deletedVariants = [];
+  confirmingDelete: boolean = false;
+  formError: string = "";
 
-  deleteVariant() {
-
+  canRemoveValue() {
+    if(this.options.length > 1) {
+      return true;
+    } else {
+      return this.options[0].values.length > 1;
+    }
   }
 
   removeValue(optionIndex, valueIndex) {
     let value = this.options[optionIndex].values[valueIndex];
     if(this.options[optionIndex].values.length === 1) {
-      // let deletedOption = Object.assign({}, this.options[optionIndex]);
       this.options.splice(optionIndex, 1);
-      // let originalOption = this.originalOptions.find(obj => obj.id === deletedOption.id);
       this.removeOptionFromVariants(optionIndex);
-      // if(originalOption.values.length === 1) {
+      // if(this.options.length === 0) {
+
+      // } else {
       // }
     } else {
       this.options[optionIndex].values.splice(valueIndex, 1);
@@ -320,8 +423,16 @@ export class EditProductOptionsDialog {
         for (let j = index+1; j < 3; j++) {
           editingVariant['option' + j] = editingVariant['option' + (j+1)];
         }
+        editingVariant['option3'] = null;
       }
-      
+      this.editingVariants.forEach(variant => {
+        let variantTitle = [];
+        this.options.forEach((option, index) => {
+          let optionValue = variant['option' + (index+1)];
+          variantTitle.push(optionValue);
+        });
+        variant.title = variantTitle.join("/");
+      });
     }
 
     console.log(this.editingVariants);
@@ -338,5 +449,70 @@ export class EditProductOptionsDialog {
     });
     this.editingVariants = tempVariants;
     console.log(this.editingVariants);
+  }
+
+  addOption() {
+    this.options.push({
+      name: "",
+      new: true,
+      values: [""]
+    });
+  }
+
+  addNewOptionValue(e, optionIndex) {
+    console.log(e);
+    var value = e.target.value;
+    if(value) {
+      this.editingVariants.forEach(variant => {
+        let variantTitle = [];
+        variant['option' + (optionIndex + 1)] = value;
+        this.options.forEach((option, index) => {
+          variantTitle.push(variant['option' + (index + 1)]);
+        });
+        variant.title = variantTitle.join("/");
+      });
+    } else {
+      if(this.options.length > 1) {
+        this.options.splice(optionIndex, 1);
+        this.removeOptionFromVariants(optionIndex);
+      }
+    }
+
+    console.log(this.editingVariants);
+  }
+
+  saveOption() {
+    if(!this.confirmingDelete) {
+      this.formError = "";
+      for (let i = 0; i < this.options.length; i++) {
+        const option = this.options[i];
+        if(option.name == "") {
+          this.formError = "Please enter name for all options.";
+          return
+        }
+  
+        if(option.new) {
+          if(option.values[0] == "") {
+            this.formError = "Please enter a default value for new option.";
+            return
+          }
+        }
+      }
+      if(this.deletedVariants.length) {
+        this.confirmingDelete = true;
+      } else {
+        this.dialogRef.close({
+          variants: this.editingVariants,
+          options: this.options,
+          deletedVariants: this.deletedVariants
+        });
+      }
+    } else {
+      this.dialogRef.close({
+        variants: this.editingVariants,
+        options: this.options,
+        deletedVariants: this.deletedVariants
+      });
+    }
   }
 }

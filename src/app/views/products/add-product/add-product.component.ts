@@ -133,17 +133,6 @@ export class AddProductComponent implements OnInit {
     var combinations = this.sharedService.makeCombinationsFromLists(...valuesArrays);
     (this.variantsForm.get('variants') as FormArray).clear();
     combinations.forEach(title => {
-      // let variant: Variant = {
-      //   title,
-      //   price: this.priceForm.get('price').value,
-      //   compare_at_price: this.priceForm.get('compare_at_price').value,
-      //   inventory_quantity: this.inventoryForm.get('inventory_quantity').value,
-      //   option1: title.split("/")[0] || null,
-      //   option2: title.split("/")[1] || null,
-      //   option3: title.split("/")[2] || null,
-      //   sku: this.inventoryForm.get('sku').value,
-      //   barcode: this.inventoryForm.get('barcode').value
-      // }
 
       let variant = this.fb.group({
         title: [title],
