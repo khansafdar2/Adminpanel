@@ -284,6 +284,17 @@
                         <mat-checkbox formControlName="apply_tax">Apply Tax</mat-checkbox>
                     </div>
                 </mat-card>
+
+                <!-- Tags -->
+                <mat-card>
+                    <h2>Tags</h2>
+
+                    <tags-input
+                        label="Tags"
+                        [showRemove]="true"
+                        [(value)]="productTags">
+                    </tags-input>
+                </mat-card>
             </form>
         </div>
     </div>

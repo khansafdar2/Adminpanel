@@ -160,11 +160,14 @@
 
     <p *ngIf="dataSource.data.length === 0" class="empty-state">No records found.</p>
 
-    <!-- <mat-paginator [pageSizeOptions]="pageSizeOptions"
-                  showFirstLastButtons
-                  hidePageSize="false"
-                  pageSize="itemsPerPage"
-                  pageIndex="0"></mat-paginator> -->
+    <mat-paginator
+      *ngIf="pagination"
+      [pageSizeOptions]="pageSizeOptions"
+      [length]="count"
+      showFirstLastButtons
+      [pageSize]="itemsPerPage"
+      (page)="onPage($event)">
+    </mat-paginator>
   </div>
 
   <mat-menu #rowActionsMenu="matMenu">

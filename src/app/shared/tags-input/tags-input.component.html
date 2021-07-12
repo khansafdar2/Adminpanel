@@ -4,7 +4,10 @@
         <mat-chip
             *ngFor="let chip of value"
             [removable]="removable"
-            (removed)="removeChip(i)">{{chip}}</mat-chip>
+            (removed)="removeChip(i)">
+                {{chip}}
+                <mat-icon matChipRemove *ngIf="removable && showRemove">close</mat-icon>
+            </mat-chip>
 
         <input
             [placeholder]="placeholder"

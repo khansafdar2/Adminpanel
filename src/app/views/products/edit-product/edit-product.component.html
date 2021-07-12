@@ -7,7 +7,7 @@
 
         <div class="header-actions">
             <a [routerLink]="['/', URLS.products]" mat-stroked-button color="primary">Cancel</a>
-            <button mat-flat-button color="primary">Save</button>
+            <button mat-flat-button color="primary" [disabled]="!productForm.valid" (click)="onSubmit()">Save</button>
         </div>
     </div>
 
@@ -120,7 +120,7 @@
                 <div fxLayout="row" fxLayoutAlign="space-between">
                     <h2>Variants</h2>
 
-                    <button mat-button color="primary" (click)="onEditOptions()" *ngIf="productOptions.length">Edit options</button>
+                    <button mat-button color="primary" (click)="onEditOptions()" *ngIf="productOptions.length && !creatingVariants">Edit options</button>
                 </div>
 
                 <div [formGroup]="productForm" *ngIf="!productForm.get('has_variants').value">
@@ -304,6 +304,17 @@
                         <mat-checkbox formControlName="apply_shipping">Apply shipping</mat-checkbox>
                         <mat-checkbox formControlName="apply_tax">Apply Tax</mat-checkbox>
                     </div>
+                </mat-card>
+
+                <!-- Tags -->
+                <mat-card>
+                    <h2>Tags</h2>
+
+                    <tags-input
+                        label="Tags"
+                        [showRemove]="true"
+                        [(value)]="productTags">
+                    </tags-input>
                 </mat-card>
             </form>
         </div>

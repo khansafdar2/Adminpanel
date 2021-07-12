@@ -57,7 +57,11 @@ export class EditProductComponent implements OnInit {
   productOptions = [];
   variants: Variant[] = [];
   deletedVariants: Variant[] = [];
+  deletedImages = [];
+  originalOptions = [];
+  originalVariants: Variant[] = [];
   creatingVariants: boolean = false;
+  productTags: string[] = [];
   editorModules = {
     toolbar: [
       ['bold', 'italic', 'underline', 'strike'],
@@ -92,7 +96,8 @@ export class EditProductComponent implements OnInit {
     hide_out_of_stock: [false],
     apply_shipping: [false],
     apply_tax: [false],
-    has_variants: [false]
+    has_variants: [false],
+    tags: [""]
   });
 
   inventoryForm = this.fb.group({
@@ -138,6 +143,7 @@ export class EditProductComponent implements OnInit {
   removeImage(index) {
     this.bannerImages.splice(index, 1);
     let imageIDs = this.productForm.get('product_images').value;
+    this.deletedImages.push(imageIDs[index]);
     imageIDs.splice(index, 1);
     this.productForm.patchValue({
       product_images: imageIDs
@@ -194,9 +200,13 @@ export class EditProductComponent implements OnInit {
           this.addFeature();
         }
         this.bannerImages = resp.data.images;
+        resp.data.product_images = this.bannerImages.map(image => image.id);
+        this.productTags = resp.data.tags.split(",");
         this.productForm.patchValue(resp.data);
         if(resp.data.has_variants) {
           this.productOptions = resp.data.options;
+          this.originalOptions = resp.data.options;
+          this.originalVariants = resp.data.variants;
           this.variants = resp.data.variants;
         } else {
           let variant = resp.data.variants[0];
@@ -232,7 +242,10 @@ export class EditProductComponent implements OnInit {
             console.log(resp.data);
             this.snackbarService.open("Variant deleted successfuly.", "", {duration: 3000});
             if(resp.data.detail === "Deleted Variant Successfully!") {
-              this.variants = this.variants.filter(variant => variant.id !== data.id);
+              this.productOptions = Object.assign([], this.originalOptions);
+              this.variants = this.originalVariants.filter(variant => {
+                return variant.id !== data.id
+              });
 
               if(this.variants.length === 0) {
                 this.productForm.patchValue({
@@ -331,6 +344,31 @@ export class EditProductComponent implements OnInit {
 
   removeVariant(index) {
     (this.variantsForm.get('variants') as FormArray).removeAt(index);
+  }
+
+  onSubmit() {
+    let variants = [];
+    let productData = this.productForm.value;
+    let optionsData = this.productOptions;
+    if(this.creatingVariants) {
+      variants = this.variantsForm.value.variants;
+    } else {
+      variants = this.variants;
+    }
+
+    productData.options = optionsData;
+    productData.variants = variants;
+    productData.deleted_variants_id = this.deletedVariants.map(variant => variant.id);
+    productData.deleted_product_images = this.deletedImages;
+
+    this.loading = true;
+    this.productsService.updateProduct(productData).then(resp => {
+      this.loading = false;
+      if(resp) {
+        console.log(resp.data);
+        this.snackbarService.open("Product updated successfuly.", "", {duration: 3000});
+      }
+    });
   }
 
   ngOnInit(): void {

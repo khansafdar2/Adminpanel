@@ -3,24 +3,23 @@
 <main id="main">
     <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
     <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
-        <h1>Product groups</h1>
+        <h1>Brands</h1>
 
         <div class="header-actions">
-            <a [routerLink]="['/', URLS.productGroups, URLS.add]" mat-flat-button color="primary">Create new</a>
+            <a [routerLink]="['/', URLS.brands, URLS.add]" mat-flat-button color="primary">Create new</a>
         </div>
     </div>
 
     <mat-card class="table-wrapper-card">
         <datatable 
-            [data]="productGroups"
+            [data]="brands"
             [columns]="displayedColumns"
-            [rowActions]="rowActions"
             [pagination]="true"
             [itemsPerPage]="pageSize"
             [count]="totalCount"
 
-            (page)="onPage($event)"
-            (cellClick)="onCellClick($event)">
+            (page)="onPage($event)">
         </datatable>
     </mat-card>
+
 </main>

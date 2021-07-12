@@ -18,6 +18,7 @@ export class TagsInputComponent implements OnInit {
   @Input() placeholder: string = "New tag...";
   @Input() value: string[] = [];
   @Input() removable: boolean = true;
+  @Input() showRemove: boolean = false;
 
   @Output() valueChange = new EventEmitter<string[]>();
   @Output() change = new EventEmitter<any>();

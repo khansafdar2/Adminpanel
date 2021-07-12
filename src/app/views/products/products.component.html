@@ -32,7 +32,11 @@
                   [searchColumns]="searchColumns"
                   [filters]="productFilters"
                   [searchable]="true"
+                  [pagination]="true"
+                  [count]="totalCount"
+                  [itemsPerPage]="pageLimit"
 
+                  (page)="onPageChange($event)"
                   (cellClick)="onCellClick($event)"
                   (filter)="onFilter($event)"
                   (search)="onSearch($event)">

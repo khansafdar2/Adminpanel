@@ -50,6 +50,7 @@ export class AddProductComponent implements OnInit {
   collections: any[] = [];
   vendors: any[] = [];
   brands: any[] = [];
+  productTags:string[] = [];
   editorModules = {
     toolbar: [
       ['bold', 'italic', 'underline', 'strike'],
@@ -96,6 +97,7 @@ export class AddProductComponent implements OnInit {
     hide_out_of_stock: [false],
     apply_shipping: [false],
     apply_tax: [false],
+    tags: [""],
     has_variants: [false]
   });
 
@@ -267,6 +269,7 @@ export class AddProductComponent implements OnInit {
 
     productData.options = productOptions;
     productData.variants = variants;
+    productData.tags = this.productTags.join(",");
     productData.track_inventory = inventoryData.track_inventory,
     this.loading = true;
     this.productsService.createProduct(productData).then(resp => {

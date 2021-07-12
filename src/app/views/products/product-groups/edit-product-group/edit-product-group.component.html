@@ -7,25 +7,41 @@
 
         <div class="header-actions">
             <a [routerLink]="['/', URLS.productGroups]" mat-button color="primary">Cancel</a>
-            <button mat-flat-button color="primary">Save</button>
+            <button mat-flat-button color="primary" [disabled]="!productGroupForm.valid" (click)="onSubmit()">Save</button>
         </div>
     </div>
 
     <div class="page-container">
-        <mat-card>
-            <mat-form-field appearance="outline">
-                <mat-label>Title</mat-label>
-                <input matInput />
-            </mat-form-field>
-
-            <div fxLayout="row">
-                <div fxFlex="0 1 50%">
-                    <mat-checkbox>Active</mat-checkbox>
+        <form [formGroup]="productGroupForm">
+            <mat-card>
+                <div fxLayout="row">
+                    <div fxFlex="0 1 50%;">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Title</mat-label>
+                            <input matInput formControlName="title" />
+                            <mat-error *ngIf="productGroupForm.get('title').hasError('required')">Please give a title to your group.</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="0 1 50%;">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Vendor</mat-label>
+                            <mat-select formControlName="vendor">
+                                <mat-option *ngFor="let vendor of vendors" [value]="vendor.id">{{vendor.name}}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="productGroupForm.get('vendor').hasError('required')">Please select a vendor.</mat-error>
+                        </mat-form-field>
+                    </div>
                 </div>
-                <div fxFlex="0 1 50%">
-                    <mat-checkbox>Approved</mat-checkbox>
+    
+                <div fxLayout="row">
+                    <div fxFlex="0 1 50%">
+                        <mat-checkbox formControlName="is_active">Active</mat-checkbox>
+                    </div>
+                    <div fxFlex="0 1 50%">
+                        <mat-checkbox formControlName="is_approved">Approved</mat-checkbox>
+                    </div>
                 </div>
-            </div>
-        </mat-card>
+            </mat-card>
+        </form>
     </div>
 </main>

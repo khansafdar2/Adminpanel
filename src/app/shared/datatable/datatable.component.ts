@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Input, Output, ViewChild, AfterViewInit, TemplateRef } from '@angular/core';
 import { Sort } from '@angular/material/sort';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Debounce } from '../utils';
@@ -69,12 +69,6 @@ export class DatatableComponent implements OnInit, AfterViewInit {
   // Show Add new button above table, calls (addNew) when button is clicked
   @Input() showAddNew: boolean;
 
-  // Options of number of pages to show in pagination.
-  @Input() pageSizeOptions: number[] = [10, 20, 50, 100];
-
-  // Number of items to show per page.
-  @Input() itemsPerPage: number = 10;
-
   // Whether to show selection check boxes in first column.
   @Input() selectable: boolean = false;
 
@@ -82,7 +76,19 @@ export class DatatableComponent implements OnInit, AfterViewInit {
   @Input() selection: SelectionModel<[{}]>;
 
   // Options to show in search columns dropdown. e.g. [{ label: "Title", value: "title" }]
-  @Input() searchColumns: any[]
+  @Input() searchColumns: any[];
+
+  // Show pagination below table.
+  @Input() pagination: boolean = false;
+
+  // Options of number of pages to show in pagination.
+  @Input() pageSizeOptions: number[] = [10, 20, 50];
+
+  // Number of items to show per page.
+  @Input() itemsPerPage: number = 10;
+
+  // Total number of items.
+  @Input() count: number = 0;
 
   // When any bulk action is clicked after selection. Emits {action: string, selection: data[]}
   @Output() bulkAction = new EventEmitter<any>();
@@ -107,6 +113,9 @@ export class DatatableComponent implements OnInit, AfterViewInit {
 
   // When a filter is applied.
   @Output() filter = new EventEmitter<any>();
+
+  // When a page change or page limit is changed
+  @Output() page = new EventEmitter<PageEvent>();
 
   dataSource: MatTableDataSource<any>;
   displayedColumns: string[];
@@ -250,6 +259,10 @@ export class DatatableComponent implements OnInit, AfterViewInit {
       this.appliedFilters = [];
       this.appliedFilters = appliedFilters;
     }
+  }
+
+  onPage(e: PageEvent) {
+    this.page.emit(e);
   }
 
   ngOnInit(): void {

@@ -9,6 +9,7 @@ import URLS from 'src/app/shared/urls';
 import { ProductsService } from './products.service';
 import { VendorsService } from './vendors.service';
 import { Router } from '@angular/router';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-products',
@@ -65,7 +66,8 @@ export class ProductsComponent implements OnInit {
     }
   ];
   page: number = 1;
-  pageLimit: number = 50;
+  pageLimit: number = 10;
+  totalCount: number = 0;
   filterString: string = "";
   searchString: string = "";
 
@@ -126,6 +128,7 @@ export class ProductsComponent implements OnInit {
       this.loading = false;
       if(resp) {
         console.log(resp.data);
+        this.totalCount = resp.data.count;
         this.products = resp.data.results;
       }
     })
@@ -167,6 +170,12 @@ export class ProductsComponent implements OnInit {
         this.productFilters = filters;
       }
     })
+  }
+
+  onPageChange(event: PageEvent) {
+    this.page = event.pageIndex + 1;
+    this.pageLimit = event.pageSize;
+    this.getProducts();
   }
 
   onCellClick(data) {

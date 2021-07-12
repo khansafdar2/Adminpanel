@@ -1,28 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { Column } from 'src/app/shared/datatable/datatable.component';
 import URLS from 'src/app/shared/urls';
-
-const dataSource = [
-  {
-    id: 2,
-    title: "Electronics",
-    is_approved: true,
-    is_active: false
-  },
-  {
-    id: 3,
-    title: "Smartphones",
-    is_approved: false,
-    is_active: true
-  },
-  {
-    id: 4,
-    title: "TV",
-    is_approved: false,
-    is_active: true
-  }
-];
+import { ProductsService } from '../products.service';
 
 @Component({
   selector: 'app-product-groups',
@@ -31,9 +12,11 @@ const dataSource = [
 })
 export class ProductGroupsComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private productsService: ProductsService) { }
 
-  loading: boolean = false;
+  loading: boolean = true;
   URLS = URLS;
   displayedColumns: Column[] = [
     {
@@ -42,18 +25,25 @@ export class ProductGroupsComponent implements OnInit {
       clickable: true
     },
     {
+      title: "Vendor",
+      selector: "vendor_name"
+    },
+    {
       title: "Status",
       selector: "is_active",
-      cell: row => '<span class="label '+( row.is_active ? 'success' : 'warning' )+'">'+( row.is_active ? 'Yes' : 'No' )+'</span>'
+      cell: row => '<span class="label '+( row.is_active ? 'success' : '' )+'">'+( row.is_active ? 'Active' : 'Inactive' )+'</span>'
     },
     {
       title: "Approved",
       selector: 'is_approved',
-      cell: row => '<span class="label '+( row.is_approved ? 'success' : 'warning' )+'">'+( row.is_approved ? 'Yes' : 'No' )+'</span>'
+      cell: row => '<span class="label '+( row.is_approved ? 'success' : '' )+'">'+( row.is_approved ? 'Yes' : 'No' )+'</span>'
     }
   ]
-  productGroups = dataSource;
-  rowActions = ["Delete"]
+  productGroups = [];
+  rowActions = ["Delete"];
+  pageSize: number = 10;
+  pageNumber: number = 1;
+  totalCount: number = 0;
 
   onCellClick(data) {
     if(data.column === 'title') {
@@ -61,7 +51,26 @@ export class ProductGroupsComponent implements OnInit {
     }
   }
 
+  getProductGroups() {
+    this.loading = true;
+    this.productsService.getProductGroups(this.pageNumber, this.pageSize, "", "").then(resp => {
+      this.loading = false;
+      if(resp) {
+        console.log(resp.data);
+        this.totalCount = resp.data.count;
+        this.productGroups = resp.data.results;
+      }
+    })
+  }
+
+  onPage(event: PageEvent) {
+    this.pageSize = event.pageSize;
+    this.pageNumber = event.pageIndex + 1;
+    this.getProductGroups();
+  }
+
   ngOnInit(): void {
+    this.getProductGroups();
   }
 
 }
