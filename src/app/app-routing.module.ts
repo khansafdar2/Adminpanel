@@ -30,6 +30,8 @@ import { NewSuperSubCategoryComponent } from './views/products/category-structur
 import { EditSuperSubCategoryComponent } from './views/products/category-structure/super-sub-category/edit-super-sub-category/edit-super-sub-category.component';
 import { EditProductComponent } from './views/products/edit-product/edit-product.component';
 import { BrandsComponent } from './views/products/brands/brands.component';
+import { AddBrandComponent } from './views/products/brands/add-brand/add-brand.component';
+import { EditBrandComponent } from './views/products/brands/edit-brand/edit-brand.component';
 
 
 const routes: Routes = [
@@ -78,6 +80,8 @@ const routes: Routes = [
   {path: URLS.brands, children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
     {path: URLS.all, component: BrandsComponent, canActivate: [LoggedInAuthGuard]},
+    {path: URLS.add, component: AddBrandComponent, canActivate: [LoggedInAuthGuard]},
+    {path: URLS.edit + '/:id', component: EditBrandComponent, canActivate: [LoggedInAuthGuard]}
   ]}
 ];
 

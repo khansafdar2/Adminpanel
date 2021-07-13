@@ -1,0 +1,32 @@
+<app-topbar></app-topbar>
+<app-sidenav></app-sidenav>
+<main id="main">
+    <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+    <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
+        <h1>Add Brand</h1>
+
+        <div class="header-actions">
+            <a [routerLink]="['/', URLS.brands, URLS]" mat-stroked-button color="primary">Cancel</a>
+            <button mat-flat-button color="primary" [disabled]="!brandForm.valid || loading" (click)="onSubmit()">Save</button>
+        </div>
+    </div>
+
+    <div class="page-container">
+        <mat-card [formGroup]="brandForm">
+            <mat-form-field appearance="outline">
+                <mat-label>Name</mat-label>
+                <input matInput formControlName="name" />
+                <mat-error *ngIf="brandForm.get('name').hasError('required')">Please enter a name of brand.</mat-error>
+            </mat-form-field>
+
+            <mat-spinner class="file-upload-spinner" diameter="80" *ngIf="file_uploading"></mat-spinner>
+            <img [src]="previewImageSrc" class="banner-preview-image" *ngIf="previewImageSrc" />
+            <input type="file" class="banner-file-input" accept=".png, .jpg, .jpeg" #bannerFileInput (change)="bannerImageSelect($event)" />
+            <div class="banner-file-actions">
+                <button mat-button type="button" color="warn" *ngIf="previewImageSrc" (click)="removeBanner()"><mat-icon>delete</mat-icon></button>
+                <button mat-button type="button" color="primary" (click)="bannerFileInput.click()" [disabled]="file_uploading">Upload image</button>
+            </div>
+        </mat-card>
+    </div>
+
+</main>

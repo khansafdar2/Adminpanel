@@ -23,4 +23,43 @@ export class BrandsService {
       }
     });
   }
+
+  createBrand(data) {
+    return Axios.post( environment.backend_url + '/products/brand', data, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
+  getBrandDetail(id) {
+    return Axios.get( environment.backend_url + '/products/brand/' + id, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
+  updateBrand(data) {
+    return Axios.put( environment.backend_url + '/products/brand', data, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
 }

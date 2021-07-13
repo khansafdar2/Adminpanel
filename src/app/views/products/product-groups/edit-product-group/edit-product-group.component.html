@@ -7,7 +7,7 @@
 
         <div class="header-actions">
             <a [routerLink]="['/', URLS.productGroups]" mat-button color="primary">Cancel</a>
-            <button mat-flat-button color="primary" [disabled]="!productGroupForm.valid" (click)="onSubmit()">Save</button>
+            <button mat-flat-button color="primary" [disabled]="!productGroupForm.valid || loading" (click)="onSubmit()">Save</button>
         </div>
     </div>
 

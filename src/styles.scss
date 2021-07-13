@@ -424,3 +424,13 @@ body {
         }
     }
 }
+.banner-file-input {
+    display: none;
+}
+.banner-preview-image {
+    max-height: 150px;
+    max-width: 100%;
+    border-radius: 5px;
+    display: block;
+    margin-bottom: 10px;
+}

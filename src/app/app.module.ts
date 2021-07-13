@@ -65,6 +65,8 @@ import { EditSuperSubCategoryComponent } from './views/products/category-structu
 import { TagsInputComponent } from './shared/tags-input/tags-input.component';
 import { DeleteVariantConfirmDialog, EditProductComponent, EditProductOptionsDialog } from './views/products/edit-product/edit-product.component';
 import { BrandsComponent } from './views/products/brands/brands.component';
+import { AddBrandComponent } from './views/products/brands/add-brand/add-brand.component';
+import { EditBrandComponent } from './views/products/brands/edit-brand/edit-brand.component';
 
 @NgModule({
   declarations: [
@@ -112,7 +114,9 @@ import { BrandsComponent } from './views/products/brands/brands.component';
     EditProductComponent,
     DeleteVariantConfirmDialog,
     EditProductOptionsDialog,
-    BrandsComponent
+    BrandsComponent,
+    AddBrandComponent,
+    EditBrandComponent
   ],
   imports: [
     BrowserModule,

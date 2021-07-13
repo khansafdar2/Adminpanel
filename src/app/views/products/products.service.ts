@@ -63,6 +63,32 @@ export class ProductsService {
     });
   }
 
+  getProductGroupDetail(id) {
+    return Axios.get( environment.backend_url + '/products/product_group/' + id, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
+  updateProductGroup(data) {
+    return Axios.put( environment.backend_url + '/products/product_group' , data, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
   createProduct(data) {
     return Axios.post( environment.backend_url + '/products/product', data, {
       headers: {
