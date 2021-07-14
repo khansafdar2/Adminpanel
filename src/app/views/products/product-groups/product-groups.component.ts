@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Column } from 'src/app/shared/datatable/datatable.component';
 import URLS from 'src/app/shared/urls';
@@ -13,6 +16,7 @@ import { ProductsService } from '../products.service';
 export class ProductGroupsComponent implements OnInit {
 
   constructor(
+    public dialog: MatDialog,
     private router: Router,
     private productsService: ProductsService) { }
 
@@ -51,6 +55,23 @@ export class ProductGroupsComponent implements OnInit {
     }
   }
 
+  onRowAction(data) {
+    if(data.action === "Delete") {
+      let dialogRef = this.dialog.open(DeleteProductGroupDialog, {
+        width: "600px",
+        data: {
+          group: data.row
+        }
+      });
+
+      dialogRef.afterClosed().subscribe(deleted => {
+        if(deleted) {
+          this.getProductGroups();
+        }
+      })
+    }
+  }
+
   getProductGroups() {
     this.loading = true;
     this.productsService.getProductGroups(this.pageNumber, this.pageSize, "", "").then(resp => {
@@ -67,6 +88,52 @@ export class ProductGroupsComponent implements OnInit {
     this.pageSize = event.pageSize;
     this.pageNumber = event.pageIndex + 1;
     this.getProductGroups();
+  }
+
+  ngOnInit(): void {
+    this.getProductGroups();
+  }
+
+}
+
+
+@Component({
+  selector: 'delete-product-group-dialog',
+  templateUrl: './dialogs/delete-product-group-dialog.html',
+})
+export class DeleteProductGroupDialog {
+  constructor(
+    public dialogRef: MatDialogRef<DeleteProductGroupDialog>,
+    @Inject(MAT_DIALOG_DATA) public data,
+    private fb: FormBuilder,
+    private productsService: ProductsService,
+    private snackbarService: MatSnackBar
+  ) {}
+
+  loading: boolean = true;
+  groups = [];
+  productGroupForm = this.fb.group({
+    group: [null, [Validators.required]]
+  });
+
+  getProductGroups() {
+    this.productsService.getProductGroups(1, 50, "", "").then(resp => {
+      this.loading = false;
+      if(resp) {
+        this.groups = resp.data.results;
+      }
+    });
+  }
+
+  deleteGroup() {
+    this.loading = true;
+    this.productsService.deleteProductGroup(this.data.group.id, this.productGroupForm.value.group).then(resp => {
+      this.loading = false;
+      if(resp) {
+        this.snackbarService.open("Group deleted successfully.", "", {duration: 3000});
+        this.dialogRef.close(true);
+      }
+    })
   }
 
   ngOnInit(): void {

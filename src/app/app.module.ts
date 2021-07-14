@@ -57,7 +57,7 @@ import { AddCollectionComponent } from './views/products/collections/add-collect
 import { EditCollectionComponent } from './views/products/collections/edit-collection/edit-collection.component';
 import { DatatableComponent } from './shared/datatable/datatable.component';
 import { AddProductComponent } from './views/products/add-product/add-product.component';
-import { ProductGroupsComponent } from './views/products/product-groups/product-groups.component';
+import { DeleteProductGroupDialog, ProductGroupsComponent } from './views/products/product-groups/product-groups.component';
 import { AddProductGroupComponent } from './views/products/product-groups/add-product-group/add-product-group.component';
 import { EditProductGroupComponent } from './views/products/product-groups/edit-product-group/edit-product-group.component';
 import { NewSuperSubCategoryComponent } from './views/products/category-structure/super-sub-category/new-super-sub-category/new-super-sub-category.component';
@@ -67,6 +67,7 @@ import { DeleteVariantConfirmDialog, EditProductComponent, EditProductOptionsDia
 import { BrandsComponent } from './views/products/brands/brands.component';
 import { AddBrandComponent } from './views/products/brands/add-brand/add-brand.component';
 import { EditBrandComponent } from './views/products/brands/edit-brand/edit-brand.component';
+import { DiscountsComponent } from './views/discounts/discounts.component';
 
 @NgModule({
   declarations: [
@@ -116,7 +117,9 @@ import { EditBrandComponent } from './views/products/brands/edit-brand/edit-bran
     EditProductOptionsDialog,
     BrandsComponent,
     AddBrandComponent,
-    EditBrandComponent
+    EditBrandComponent,
+    DeleteProductGroupDialog,
+    DiscountsComponent
   ],
   imports: [
     BrowserModule,

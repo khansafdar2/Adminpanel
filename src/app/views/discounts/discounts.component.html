@@ -1,0 +1,15 @@
+<app-topbar></app-topbar>
+<app-sidenav></app-sidenav>
+<main id="main">
+    <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+    <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
+        <h1>Discounts</h1>
+
+        <div class="header-actions">
+            <a [routerLink]="['/', URLS.discounts, URLS.add]" mat-flat-button color="primary">Create new</a>
+        </div>
+    </div>
+
+    <mat-card class="table-wrapper-card">
+    </mat-card>
+</main>

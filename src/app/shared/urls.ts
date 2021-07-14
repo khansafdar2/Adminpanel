@@ -21,7 +21,8 @@ const URLS = {
     editSuperSubCategory: 'edit-super-sub',
     collections: 'collections',
     productGroups: 'product-groups',
-    brands: 'brands'
+    brands: 'brands',
+    discounts: 'discounts'
 }
 
 export default URLS;
