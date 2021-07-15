@@ -1,0 +1,85 @@
+<app-topbar></app-topbar>
+<app-sidenav></app-sidenav>
+<main id="main">
+    <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+    <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
+        <h1>Edit variant</h1>
+
+        <div class="header-actions">
+            <a [routerLink]="['/', URLS.products, URLS.edit, productID]" mat-stroked-button color="primary">Cancel</a>
+            <button mat-flat-button color="primary" [disabled]="loading || !variantAvailable">Save</button>
+        </div>
+    </div>
+
+    <div class="page-container" [formGroup]="variantForm">
+        <mat-card>
+            <h2>Options</h2>
+
+            <mat-form-field appearance="outline" *ngFor="let option of productData.options; let i = index">
+                <mat-label>{{option.name}}</mat-label>
+                <input matInput formControlName="{{'option' + (i+1)}}" (change)="checkVariantAvailability()" />
+            </mat-form-field>
+
+            <p class="form-error" *ngIf="optionsError">{{optionsError}}</p>
+        </mat-card>
+
+        <mat-card>
+            <h2>Price</h2>
+
+            <div fxLayout="row">
+                <div fxFlex="0 1 50%">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Price</mat-label>
+                        <input matInput formControlName="price" type="number" />
+                    </mat-form-field>
+                </div>
+                <div fxFlex="0 1 50%">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Compare at price</mat-label>
+                        <input matInput formControlName="compare_at_price" type="number" />
+                    </mat-form-field>
+                </div>
+            </div>
+        </mat-card>
+
+        <mat-card>
+            <h2>Inventory</h2>
+
+            <div fxLayout="row">
+                <div fxFlex="0 1 50%">
+                    <mat-form-field appearance="outline">
+                        <mat-label>SKU</mat-label>
+                        <input matInput formControlName="sku" />
+                    </mat-form-field>
+                </div>
+                <div fxFlex="0 1 50%">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Barcode</mat-label>
+                        <input matInput formControlName="barcode" />
+                    </mat-form-field>
+                </div>
+            </div>
+            <div fxLayout="row">
+                <div fxFlex="0 1 50%">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Inventory</mat-label>
+                        <input matInput formControlName="inventory_quantity" type="number" />
+                    </mat-form-field>
+                </div>
+            </div>
+        </mat-card>
+
+        <mat-card>
+            <h2>Weight</h2>
+
+            <div fxLayout="row">
+                <div fxFlex="0 1 50%">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Weight</mat-label>
+                        <input matInput formControlName="weight" type="number" />
+                    </mat-form-field>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+</main>

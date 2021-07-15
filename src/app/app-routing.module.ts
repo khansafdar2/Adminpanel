@@ -32,6 +32,7 @@ import { EditProductComponent } from './views/products/edit-product/edit-product
 import { BrandsComponent } from './views/products/brands/brands.component';
 import { AddBrandComponent } from './views/products/brands/add-brand/add-brand.component';
 import { EditBrandComponent } from './views/products/brands/edit-brand/edit-brand.component';
+import { EditVariantComponent } from './views/products/edit-variant/edit-variant.component';
 
 
 const routes: Routes = [
@@ -69,7 +70,10 @@ const routes: Routes = [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
     {path: URLS.all, component: ProductsComponent, canActivate: [LoggedInAuthGuard]},
     {path: URLS.add, component: AddProductComponent, canActivate: [LoggedInAuthGuard]},
-    {path: URLS.edit + '/:id', component: EditProductComponent, canActivate: [LoggedInAuthGuard]}
+    {path: URLS.edit + '/:id', component: EditProductComponent, canActivate: [LoggedInAuthGuard]},
+    {path: ':productID/' + URLS.variants, children: [
+      {path: ':id', component: EditVariantComponent, canActivate: [LoggedInAuthGuard]}
+    ]}
   ]},
   {path: URLS.productGroups, children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},

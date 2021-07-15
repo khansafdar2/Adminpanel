@@ -145,7 +145,11 @@
                                 <td>{{variant.inventory_quantity}}</td>
                                 <td>{{variant.sku}}</td>
                                 <td>
-                                    <button mat-icon-button color="primary"><mat-icon>edit</mat-icon></button>
+                                    <a
+                                        mat-icon-button
+                                        color="primary"
+                                        [routerLink]="['/', URLS.products, productID, URLS.variants, variant.id]"
+                                    ><mat-icon>edit</mat-icon></a>
                                     <button mat-icon-button color="warn" (click)="deleteVariant(variant)"><mat-icon>delete</mat-icon></button>
                                 </td>
                             </tr>

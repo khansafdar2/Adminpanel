@@ -68,6 +68,7 @@ import { BrandsComponent } from './views/products/brands/brands.component';
 import { AddBrandComponent } from './views/products/brands/add-brand/add-brand.component';
 import { EditBrandComponent } from './views/products/brands/edit-brand/edit-brand.component';
 import { DiscountsComponent } from './views/discounts/discounts.component';
+import { EditVariantComponent } from './views/products/edit-variant/edit-variant.component';
 
 @NgModule({
   declarations: [
@@ -119,7 +120,8 @@ import { DiscountsComponent } from './views/discounts/discounts.component';
     AddBrandComponent,
     EditBrandComponent,
     DeleteProductGroupDialog,
-    DiscountsComponent
+    DiscountsComponent,
+    EditVariantComponent
   ],
   imports: [
     BrowserModule,

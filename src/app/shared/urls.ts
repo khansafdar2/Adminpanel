@@ -12,6 +12,7 @@ const URLS = {
     tax: 'tax',
     generalInformation: 'general-information',
     products: 'products',
+    variants: 'variants',
     categories: 'categories',
     newMainCategory: 'new-main',
     newSubCategory: 'new-sub',
