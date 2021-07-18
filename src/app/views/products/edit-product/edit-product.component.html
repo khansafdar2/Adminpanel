@@ -155,6 +155,8 @@
                             </tr>
                         </tbody>
                     </table>
+
+                    <a [routerLink]="['/', URLS.products, productID, URLS.variants, URLS.add]" mat-stroked-button color="primary">+ Add variant</a>
                 </div>
 
                 <div *ngIf="creatingVariants">
@@ -189,47 +191,49 @@
 
                     <mat-divider></mat-divider>
 
-                    <table class="product-variants-table">
-                        <thead>
-                            <tr>
-                                <th>Variant</th>
-                                <th>Price</th>
-                                <th>Quantity</th>
-                                <th>SKU</th>
-                                <th>Barcode</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let variantGroup of variantsForm.get('variants')['controls']; let i = index">
-                                <ng-container [formGroup]="variantGroup">
-                                    <td>{{variantGroup.get('title').value}}</td>
-                                    <td>
-                                        <mat-form-field appearance="outline">
-                                            <input matInput type="number" formControlName="price" />
-                                        </mat-form-field>
-                                    </td>
-                                    <td>
-                                        <mat-form-field appearance="outline">
-                                            <input matInput type="number" formControlName="inventory_quantity" />
-                                        </mat-form-field>
-                                    </td>
-                                    <td>
-                                        <mat-form-field appearance="outline">
-                                            <input matInput formControlName="sku" />
-                                        </mat-form-field>
-                                    </td>
-                                    <td>
-                                        <mat-form-field appearance="outline">
-                                            <input matInput formControlName="barcode" />
-                                        </mat-form-field>
-                                    </td>
-                                    <td>
-                                        <button color="warn" mat-icon-button (click)="removeVariant(i)"><mat-icon>delete</mat-icon></button>
-                                    </td>
-                                </ng-container>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="product-variants-table-wrapper">
+                        <table class="product-variants-table">
+                            <thead>
+                                <tr>
+                                    <th>Variant</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>SKU</th>
+                                    <th>Barcode</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let variantGroup of variantsForm.get('variants')['controls']; let i = index">
+                                    <ng-container [formGroup]="variantGroup">
+                                        <td>{{variantGroup.get('title').value}}</td>
+                                        <td>
+                                            <mat-form-field appearance="outline">
+                                                <input matInput type="number" formControlName="price" />
+                                            </mat-form-field>
+                                        </td>
+                                        <td>
+                                            <mat-form-field appearance="outline">
+                                                <input matInput type="number" formControlName="inventory_quantity" />
+                                            </mat-form-field>
+                                        </td>
+                                        <td>
+                                            <mat-form-field appearance="outline">
+                                                <input matInput formControlName="sku" />
+                                            </mat-form-field>
+                                        </td>
+                                        <td>
+                                            <mat-form-field appearance="outline">
+                                                <input matInput formControlName="barcode" />
+                                            </mat-form-field>
+                                        </td>
+                                        <td>
+                                            <button color="warn" mat-icon-button (click)="removeVariant(i)"><mat-icon>delete</mat-icon></button>
+                                        </td>
+                                    </ng-container>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </mat-card>
         </div>

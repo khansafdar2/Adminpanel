@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import URLS from 'src/app/shared/urls';
 import { GeneralInformationService } from './general-information.service';
@@ -11,11 +12,16 @@ import { GeneralInformationService } from './general-information.service';
 })
 export class GeneralInformationComponent implements OnInit {
 
-  constructor(private router: Router, private generalInfoService: GeneralInformationService, private fb: FormBuilder) { }
+  constructor(
+    private router: Router,
+    private generalInfoService: GeneralInformationService,
+    private fb: FormBuilder,
+    private snackbarService: MatSnackBar) { }
 
   loading: boolean = true;
   storeInfo = {}
   storeInfoForm = this.fb.group({
+    id: [null],
     store_name: ['', [Validators.required]],
     store_contact_email: ['', [Validators.required, Validators.email]],
     sender_email: ['', [Validators.required, Validators.email]],
@@ -66,6 +72,8 @@ export class GeneralInformationComponent implements OnInit {
     this.generalInfoService.updateStoreInfo(this.storeInfoForm.value).then(resp => {
       if(resp) {
         console.log(resp.data);
+        this.snackbarService.open("Settings updated.", "", {duration: 3000});
+        this.goBack();
       }
     })
   }

@@ -25,15 +25,28 @@ export class GeneralInformationService {
   }
 
   updateStoreInfo(data) {
-    return Axios.post(environment.backend_url + '/setting/store_info', data, {
-      headers: {
-        Authorization: this.authservice.token
-      }
-    })
-    .catch(error => {
-      if (error.response.data.detail == "Session expired, Reopen the application!") {
-        this.authservice.signout();
-      }
-    });
+    if(data.id) {
+      return Axios.put(environment.backend_url + '/setting/store_info', data, {
+        headers: {
+          Authorization: this.authservice.token
+        }
+      })
+      .catch(error => {
+        if (error.response.data.detail == "Session expired, Reopen the application!") {
+          this.authservice.signout();
+        }
+      });
+    } else {
+      return Axios.post(environment.backend_url + '/setting/store_info', data, {
+        headers: {
+          Authorization: this.authservice.token
+        }
+      })
+      .catch(error => {
+        if (error.response.data.detail == "Session expired, Reopen the application!") {
+          this.authservice.signout();
+        }
+      });
+    }
   }
 }

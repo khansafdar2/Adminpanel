@@ -141,8 +141,34 @@ export class ProductsService {
     });
   }
 
+  createVariant(data) {
+    return Axios.post( environment.backend_url + '/products/variant', data, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
   getVariantDetail(id) {
     return Axios.get( environment.backend_url + '/products/variant/' + id, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
+  updateVariant(data) {
+    return Axios.put( environment.backend_url + '/products/variant', data, {
       headers: {
         Authorization: this.authService.token
       }

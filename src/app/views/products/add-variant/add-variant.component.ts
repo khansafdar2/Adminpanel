@@ -5,12 +5,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import URLS from 'src/app/shared/urls';
 import { ProductsService } from '../products.service';
 
+
 @Component({
-  selector: 'app-edit-variant',
-  templateUrl: './edit-variant.component.html',
-  styleUrls: ['./edit-variant.component.scss']
+  selector: 'app-add-variant',
+  templateUrl: './add-variant.component.html',
+  styleUrls: ['./add-variant.component.scss']
 })
-export class EditVariantComponent implements OnInit {
+export class AddVariantComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
@@ -20,13 +21,14 @@ export class EditVariantComponent implements OnInit {
     private router: Router
   ) {
     this.productID = this.route.snapshot.paramMap.get("productID");
-    this.variantID = this.route.snapshot.paramMap.get("id");
+    this.variantForm.patchValue({
+      product: this.productID
+    });
   }
 
   loading: boolean = false;
   URLS = URLS;
   productID: string;
-  variantID: string;
   optionsError: string = "";
   variantAvailable: boolean = true;
   productData = {
@@ -34,7 +36,6 @@ export class EditVariantComponent implements OnInit {
     variants: []
   };
   variantForm = this.fb.group({
-    id: [null],
     barcode: [""],
     compare_at_price: [0],
     price: [0],
@@ -47,15 +48,6 @@ export class EditVariantComponent implements OnInit {
     title: [""],
     weight: [0],
   });
-
-  getVariantDetail() {
-    this.productsService.getVariantDetail(this.variantID).then(resp => {
-      if(resp) {
-        console.log(resp.data);
-        this.variantForm.patchValue(resp.data);
-      }
-    })
-  }
 
   getProductDetail() {
     this.productsService.getProductDetail(this.productID).then(resp => {
@@ -94,17 +86,16 @@ export class EditVariantComponent implements OnInit {
 
   onSubmit() {
     this.loading = true;
-    this.productsService.updateVariant(this.variantForm.value).then(resp => {
+    this.productsService.createVariant(this.variantForm.value).then(resp => {
       this.loading = false;
       if(resp) {
-        this.snackbarService.open("Variant updated successfully.", "", {duration: 3000});
+        this.snackbarService.open("Variant created successfully.", "", {duration: 3000});
         this.router.navigate(['/', URLS.products, URLS.edit, this.productID]);
       }
     })
   }
 
   ngOnInit(): void {
-    this.getVariantDetail();
     this.getProductDetail();
   }
 

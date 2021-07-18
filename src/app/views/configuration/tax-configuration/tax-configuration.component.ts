@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import URLs from '../../../shared/urls';
 import { TaxConfigurationService } from './tax-configuration.service';
@@ -12,7 +13,12 @@ import { TaxConfigurationService } from './tax-configuration.service';
 })
 export class TaxConfigurationComponent implements OnInit {
 
-  constructor(private router: Router, private taxService: TaxConfigurationService, private fb: FormBuilder) { }
+  constructor(
+    private router: Router,
+    private taxService: TaxConfigurationService,
+    private fb: FormBuilder,
+    private snackbarService: MatSnackBar
+  ) { }
 
   loading: boolean = true;
   taxForm = this.fb.group({
@@ -45,6 +51,7 @@ export class TaxConfigurationComponent implements OnInit {
           if(resp) {
             console.log(resp.data);
             this.loading = false;
+            this.snackbarService.open("Tax settings updated.", "", {duration: 3000});
           }
         });
       } else {
@@ -52,6 +59,7 @@ export class TaxConfigurationComponent implements OnInit {
         this.taxService.postTaxInfo(data).then(resp => {
           if(resp) {
             this.loading = false;
+            this.snackbarService.open("Tax settings updated.", "", {duration: 3000});
           }
         });
       }
