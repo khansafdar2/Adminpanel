@@ -1,0 +1,64 @@
+<app-topbar></app-topbar>
+<app-sidenav></app-sidenav>
+<main id="main">
+    <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+    <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
+        <h1>Add discount</h1>
+
+        <div class="header-actions">
+            <a [routerLink]="['/', URLS.discounts, URLS.all]" mat-stroked-button color="primary">Cancel</a>
+            <button mat-flat-button color="primary" [disabled]="loading || !discountForm.valid" (click)="onSubmit()">Save</button>
+        </div>
+    </div>
+
+    <form [formGroup]="discountForm">
+        <div fxLayout="row">
+            <div fxFlex="0 1 66.66666%">
+                <mat-card>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Title</mat-label>
+                        <input matInput formControlName="title" />
+                        <mat-error *ngIf="discountForm.get('title').hasError('required')">Please enter a title for your discount.</mat-error>
+                    </mat-form-field>
+
+                    <h3>Discount type</h3>
+                    <mat-radio-group fxLayout="column" class="collection-type-radio" formControlName="discount_type" (change)="onDiscountTypeChange()">
+                        <mat-radio-button value="percentage">Percentage</mat-radio-button>
+                        <mat-radio-button value="fixed_amount">Amount</mat-radio-button>
+                    </mat-radio-group>
+        
+                    <div fxLayout="row">
+                        <div fxFlex="0 1 50%">
+                            <mat-form-field appearance="outline" style="margin-top: 20px">
+                                <mat-label>Discount value</mat-label>
+                                <input matInput formControlName="type_value" />
+                                <span matSuffix *ngIf="discountForm.get('discount_type').value === 'percentage'">%</span>
+                                <span matSuffix *ngIf="discountForm.get('discount_type').value === 'fixed_amount'">QAR</span>
+                                <mat-error *ngIf="discountForm.get('discount_type').hasError('required')">Please select a type of your discount.</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Usage</mat-label>
+                        <textarea matInput formControlName="usage"></textarea>
+                    </mat-form-field>
+                </mat-card>
+            </div>
+            <div fxFlex="0 1 33.33333%">
+                <mat-card>
+                    <h2>Status</h2>
+
+                    <mat-checkbox formControlName="is_active">Active</mat-checkbox>
+                </mat-card>
+
+                <mat-card>
+                    <h2>Website view</h2>
+
+                    <mat-checkbox formControlName="show_both_price">Show both discounted and original price on web.</mat-checkbox>
+                    <mat-checkbox formControlName="show_tag">Show tag on products</mat-checkbox>
+                </mat-card>
+            </div>
+        </div>
+    </form>
+</main>
