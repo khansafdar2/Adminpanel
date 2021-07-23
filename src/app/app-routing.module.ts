@@ -36,6 +36,7 @@ import { EditVariantComponent } from './views/products/edit-variant/edit-variant
 import { AddVariantComponent } from './views/products/add-variant/add-variant.component';
 import { DiscountsComponent } from './views/discounts/discounts.component';
 import { AddDiscountComponent } from './views/discounts/add-discount/add-discount.component';
+import { EditDiscountComponent } from './views/discounts/edit-discount/edit-discount.component';
 
 
 const routes: Routes = [
@@ -94,7 +95,8 @@ const routes: Routes = [
   {path: URLS.discounts, children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
     {path: URLS.all, component: DiscountsComponent, canActivate: [LoggedInAuthGuard]},
-    {path: URLS.add, component: AddDiscountComponent, canActivate: [LoggedInAuthGuard]}
+    {path: URLS.add, component: AddDiscountComponent, canActivate: [LoggedInAuthGuard]},
+    {path: URLS.edit + '/:id', component: EditDiscountComponent, canActivate: [LoggedInAuthGuard]}
   ]}
 ];
 

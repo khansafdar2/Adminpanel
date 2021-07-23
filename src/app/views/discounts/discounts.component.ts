@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { Router } from '@angular/router';
 import { Column } from 'src/app/shared/datatable/datatable.component';
 import URLS from 'src/app/shared/urls';
 import { DiscountsService } from './discounts.service';
@@ -12,7 +13,8 @@ import { DiscountsService } from './discounts.service';
 export class DiscountsComponent implements OnInit {
 
   constructor(
-    private discountsService: DiscountsService
+    private discountsService: DiscountsService,
+    private router: Router
   ) { }
 
   loading: boolean = false;
@@ -20,7 +22,8 @@ export class DiscountsComponent implements OnInit {
   columns: Column[] = [
     {
       title: "Title",
-      selector: "title"
+      selector: "title",
+      clickable: true
     },
     {
       title: "Type",
@@ -57,7 +60,7 @@ export class DiscountsComponent implements OnInit {
   }
 
   onCellClick(data) {
-    
+    this.router.navigate(["/", URLS.discounts, URLS.edit, data.row.id]);
   }
 
   ngOnInit(): void {

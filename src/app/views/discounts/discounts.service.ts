@@ -35,4 +35,30 @@ export class DiscountsService {
       }
     });
   }
+
+  getDiscountDetail(id) {
+    return Axios.get( environment.backend_url + '/discount/discount/' + id, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
+  updateDiscount(data) {
+    return Axios.put( environment.backend_url + '/discount/discount', data, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
 }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import Axios from 'axios';
+import URLS from 'src/app/shared/urls';
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -10,9 +12,13 @@ import { environment } from '../../../environments/environment';
 })
 export class ForgotPasswordComponent implements OnInit {
 
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private fb: FormBuilder,
+    private router: Router
+  ) { }
 
   loading: boolean = false;
+  URLS = URLS;
   emailSent: boolean = false;
   codeVerified: boolean = false;
   emailAddressForm = this.fb.group({
@@ -46,7 +52,7 @@ export class ForgotPasswordComponent implements OnInit {
     .then(resp => {
       console.log(resp.data);
       this.loading = false;
-      if(resp.data.id) {
+      if(resp.data.valid) {
         this.codeVerified = true;
         this.setPasswordForm.patchValue({
           code: this.codeVerifyForm.get('code').value
@@ -62,10 +68,11 @@ export class ForgotPasswordComponent implements OnInit {
       return;
     }
     this.loading = true;
-    Axios.post(environment.backend_url + "/authentication/reset_password", data)
+    Axios.post(environment.backend_url + "/authentication/reset_forgot_password", data)
     .then(resp => {
       console.log(resp.data);
       this.loading = false;
+      this.router.navigate(["/", URLS.signin]);
     });
   }
 

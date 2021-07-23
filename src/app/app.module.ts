@@ -71,6 +71,7 @@ import { DiscountsComponent } from './views/discounts/discounts.component';
 import { EditVariantComponent } from './views/products/edit-variant/edit-variant.component';
 import { AddVariantComponent } from './views/products/add-variant/add-variant.component';
 import { AddDiscountComponent } from './views/discounts/add-discount/add-discount.component';
+import { EditDiscountComponent } from './views/discounts/edit-discount/edit-discount.component';
 
 @NgModule({
   declarations: [
@@ -125,7 +126,8 @@ import { AddDiscountComponent } from './views/discounts/add-discount/add-discoun
     DiscountsComponent,
     EditVariantComponent,
     AddVariantComponent,
-    AddDiscountComponent
+    AddDiscountComponent,
+    EditDiscountComponent
   ],
   imports: [
     BrowserModule,
