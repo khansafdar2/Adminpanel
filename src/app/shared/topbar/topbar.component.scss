@@ -10,6 +10,8 @@
     left: 0;
     width: 100%;
     z-index: 999;
+    display: flex;
+    justify-content: space-between;
 
     .logo {
         height: 34px;

@@ -34,7 +34,6 @@ export class AuthService {
   user_permissions: UserPermission;
 
   signin(token: string, permissions: UserPermission) {
-    console.log(permissions)
     this.cookies.set('token', token, 1, '/');
     this.token = token;
     this.user_permissions = permissions;
@@ -47,6 +46,7 @@ export class AuthService {
     this.token = undefined;
     this.user_permissions = null;
     this.signedIn = false;
+    localStorage.removeItem('permissions');
     this.router.navigate([URLS.signin]);
   }
 }
