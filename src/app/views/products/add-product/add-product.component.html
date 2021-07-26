@@ -208,15 +208,16 @@
                 <!-- Availability -->
                 <mat-card>
                     <h2>Availability</h2>
-    
+
                     <div fxLayout="column" class="verticle-checkbox">
                         <mat-checkbox formControlName="is_active">Active</mat-checkbox>
                         <mat-checkbox formControlName="hide_out_of_stock">Hide when out of stock</mat-checkbox>
+                        <p class="form-error" *ngIf="!productForm.get('product_group').value">To make your product available on live store, assign it to any product group.</p>
                     </div>
                 </mat-card>
                 <!-- <mat-card class="mt-20">
                     <h2>Shipped through</h2>
-    
+
                     <mat-radio-group fxLayout="row">
                         <mat-radio-button value="Kees" fxFlex="0 1 50%">Kees</mat-radio-button>
                         <mat-radio-button value="Vendor" fxFlex="0 1 50%">Vendor</mat-radio-button>
@@ -225,35 +226,35 @@
                 <!-- Organization -->
                 <mat-card class="mt-20">
                     <h2>Organization</h2>
-    
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Vendor</mat-label>
+                        <mat-select formControlName="vendor" (selectionChange)="onVendorChange()">
+                            <mat-option [value]="vendor.id" *ngFor="let vendor of vendors">{{vendor.name}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="productForm.get('vendor').hasError('required')">Select the vendor of this product.</mat-error>
+                    </mat-form-field>
+
                     <mat-form-field appearance="outline">
                         <mat-label>Product type</mat-label>
-                        <mat-select formControlName="product_type">
-                            <mat-option [value]="type.id" *ngFor="let type of productTypes">{{type.name}}</mat-option>
-                        </mat-select>
+                        <input matInput formControlName="product_type" />
                     </mat-form-field>
-    
+
                     <mat-form-field appearance="outline">
                         <mat-label>Product group</mat-label>
-                        <mat-select formControlName="product_group">
+                        <mat-select formControlName="product_group" (selectionChange)="onProductGroupChange()">
+                            <mat-option value="">None</mat-option>
                             <mat-option [value]="group.id" *ngFor="let group of productGroups">{{group.title}}</mat-option>
                         </mat-select>
                     </mat-form-field>
-    
+
                     <mat-form-field appearance="outline">
                         <mat-label>Collections</mat-label>
                         <mat-select multiple formControlName="collection">
                             <mat-option [value]="collection.id" *ngFor="let collection of collections">{{collection.title}}</mat-option>
                         </mat-select>
                     </mat-form-field>
-    
-                    <mat-form-field appearance="outline">
-                        <mat-label>Vendor</mat-label>
-                        <mat-select formControlName="vendor">
-                            <mat-option [value]="vendor.id" *ngFor="let vendor of vendors">{{vendor.name}}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-    
+
                     <mat-form-field appearance="outline">
                         <mat-label>Brand</mat-label>
                         <mat-select formControlName="product_brand">
@@ -278,14 +279,14 @@
                 </mat-card>
 
                 <!-- Shipping and Tax -->
-                <mat-card class="mt-20">
+                <!-- <mat-card class="mt-20">
                     <h2>Shipping and Tax</h2>
 
                     <div fxLayout="column" class="verticle-checkbox">
                         <mat-checkbox formControlName="apply_shipping">Apply shipping</mat-checkbox>
                         <mat-checkbox formControlName="apply_tax">Apply Tax</mat-checkbox>
                     </div>
-                </mat-card>
+                </mat-card> -->
 
                 <!-- Tags -->
                 <mat-card>

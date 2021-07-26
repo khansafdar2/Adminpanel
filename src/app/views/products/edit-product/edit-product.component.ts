@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ProductsService } from '../products.service';
 import URLS from 'src/app/shared/urls';
 import { ActivatedRoute } from '@angular/router';
@@ -88,14 +88,12 @@ export class EditProductComponent implements OnInit {
     features: this.fb.array([]),
     product_images: [[]],
     product_type: [null],
-    product_group: [null, [Validators.required]],
+    product_group: [""],
     product_brand: [null],
     collection: [[]],
-    vendor: [null],
-    is_active: [false],
+    vendor: [null, [Validators.required]],
+    is_active: [{value: false, disabled: true}],
     hide_out_of_stock: [false],
-    apply_shipping: [false],
-    apply_tax: [false],
     has_variants: [false],
     tags: [""]
   });
@@ -159,7 +157,8 @@ export class EditProductComponent implements OnInit {
   }
 
   getProductGroups() {
-    this.productsService.getProductGroups(1, 50, "", "").then(resp => {
+    let vendor = this.productForm.get('vendor').value;
+    this.productsService.getProductGroups(1, 50, "&vendor=" + vendor, "").then(resp => {
       if(resp) {
         this.productGroups = resp.data.results;
       }
@@ -167,7 +166,8 @@ export class EditProductComponent implements OnInit {
   }
 
   getCollections() {
-    this.collectionsService.getCollectionsList(1, 50, "", "").then(resp => {
+    let vendor = this.productForm.get('vendor').value;
+    this.collectionsService.getCollectionsList(1, 50, "&vendor=" + vendor, "").then(resp => {
       if(resp) {
         this.collections = resp.data.results;
       }
@@ -203,6 +203,11 @@ export class EditProductComponent implements OnInit {
         resp.data.product_images = this.bannerImages.map(image => image.id);
         this.productTags = resp.data.tags.split(",");
         this.productForm.patchValue(resp.data);
+        this.getProductGroups();
+        this.getCollections();
+        if(resp.data.product_group) {
+          (this.productForm.controls['is_active'] as FormControl).enable();
+        }
         if(resp.data.has_variants) {
           this.productOptions = resp.data.options;
           this.originalOptions = resp.data.options;
@@ -346,6 +351,27 @@ export class EditProductComponent implements OnInit {
     (this.variantsForm.get('variants') as FormArray).removeAt(index);
   }
 
+  onVendorChange() {
+    this.productForm.patchValue({
+      product_group: "",
+      collection: []
+    });
+    this.getProductGroups();
+    this.getCollections();
+  }
+
+  onProductGroupChange() {
+    let group = this.productForm.get('product_group').value;
+    if(!group) {
+      this.productForm.patchValue({
+        is_active: false
+      });
+      (this.productForm.controls['is_active'] as FormControl).disable();
+    } else {
+      (this.productForm.controls['is_active'] as FormControl).enable();
+    }
+  }
+
   onSubmit() {
     let variants = [];
     let productData = this.productForm.value;
@@ -372,9 +398,6 @@ export class EditProductComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getProductTypes();
-    this.getProductGroups();
-    this.getCollections();
     this.getVendors();
     this.getBrands();
     this.getProductDetails();

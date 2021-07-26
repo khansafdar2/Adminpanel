@@ -33,7 +33,7 @@ export class DiscountsComponent implements OnInit {
     {
       title: "Discount value",
       selector: "type_value",
-      cell: row => row.discount_type === "percentage" ? row.type_value + "%" : row.type_value + "QAR"
+      cell: row => row.discount_type === "percentage" ? row.type_value + "%" : row.type_value + " QAR"
     }
   ];
   discounts = [];

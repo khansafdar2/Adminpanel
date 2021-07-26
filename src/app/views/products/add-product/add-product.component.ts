@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
 import URLS from 'src/app/shared/urls';
 import { ProductsService } from '../products.service';
 import { CollectionsService } from '../collections/collections.service';
@@ -89,14 +89,12 @@ export class AddProductComponent implements OnInit {
     ]),
     product_images: [[]],
     product_type: [null],
-    product_group: [null, [Validators.required]],
+    product_group: [""],
     product_brand: [null],
     collection: [[]],
-    vendor: [null],
-    is_active: [false],
+    vendor: [null, [Validators.required]],
+    is_active: [{value: false, disabled: true}],
     hide_out_of_stock: [false],
-    apply_shipping: [false],
-    apply_tax: [false],
     tags: [""],
     has_variants: [false]
   });
@@ -174,7 +172,11 @@ export class AddProductComponent implements OnInit {
   }
 
   getProductGroups() {
-    this.productsService.getProductGroups(1, 50, "", "").then(resp => {
+    this.productForm.patchValue({
+      product_group: ""
+    });
+    let vendor = this.productForm.get('vendor').value;
+    this.productsService.getProductGroups(1, 50, "&vendor=" + vendor, "").then(resp => {
       if(resp) {
         this.productGroups = resp.data.results;
       }
@@ -182,7 +184,8 @@ export class AddProductComponent implements OnInit {
   }
 
   getCollections() {
-    this.collectionsService.getCollectionsList(1, 50, "", "").then(resp => {
+    let vendor = this.productForm.get('vendor').value;
+    this.collectionsService.getCollectionsList(1, 50, "&vendor=" + vendor, "").then(resp => {
       if(resp) {
         this.collections = resp.data.results;
       }
@@ -228,6 +231,27 @@ export class AddProductComponent implements OnInit {
     this.productForm.patchValue({
       product_images: imageIDs
     });
+  }
+
+  onVendorChange() {
+    this.productForm.patchValue({
+      product_group: "",
+      collection: []
+    });
+    this.getProductGroups();
+    this.getCollections();
+  }
+
+  onProductGroupChange() {
+    let group = this.productForm.get('product_group').value;
+    if(!group) {
+      this.productForm.patchValue({
+        is_active: false
+      });
+      (this.productForm.controls['is_active'] as FormControl).disable();
+    } else {
+      (this.productForm.controls['is_active'] as FormControl).enable();
+    }
   }
 
   onSubmit() {
@@ -282,10 +306,8 @@ export class AddProductComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getProductTypes();
-    this.getProductGroups();
-    this.getCollections();
     this.getVendors();
+    this.getProductTypes();
     this.getBrands();
   }
 
