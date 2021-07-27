@@ -93,6 +93,7 @@ export class AddProductComponent implements OnInit {
     product_brand: [null],
     collection: [[]],
     vendor: [null, [Validators.required]],
+    is_physical: [true],
     is_active: [{value: false, disabled: true}],
     hide_out_of_stock: [false],
     tags: [""],
@@ -103,7 +104,8 @@ export class AddProductComponent implements OnInit {
     sku: [""],
     barcode: [null],
     inventory_quantity: [0],
-    track_inventory: [false]
+    track_inventory: [false],
+    weight: [0.1, [Validators.required, Validators.min(0.1)]]
   });
 
   priceForm = this.fb.group({
@@ -139,6 +141,7 @@ export class AddProductComponent implements OnInit {
         price: [this.priceForm.get('price').value],
         compare_at_price: [this.priceForm.get('compare_at_price').value],
         inventory_quantity: [this.inventoryForm.get('inventory_quantity').value],
+        weight: [this.inventoryForm.get('weight').value],
         option1: [title.split("/")[0] || null],
         option2: [title.split("/")[1] || null],
         option3: [title.split("/")[2] || null],
@@ -156,19 +159,11 @@ export class AddProductComponent implements OnInit {
         feature_title: [''],
         feature_details: ['']
       })
-    )
+    );
   }
 
   deleteFeature(index) {
     (this.productForm.get('features') as FormArray).removeAt(index);
-  }
-
-  getProductTypes() {
-    this.productsService.getProductTypes().then(resp => {
-      if(resp) {
-        this.productTypes = resp.data;
-      }
-    });
   }
 
   getProductGroups() {
@@ -254,6 +249,31 @@ export class AddProductComponent implements OnInit {
     }
   }
 
+  onPhysicalProductChange(event) {
+    if(event.checked) {
+      (this.inventoryForm.controls['weight'] as FormControl).setValidators([Validators.required, Validators.min(0.1)]);
+      this.inventoryForm.patchValue({
+        weight: 0.1
+      });
+    } else {
+      (this.inventoryForm.controls['weight'] as FormControl).setValidators([]);
+      this.inventoryForm.patchValue({
+        weight: 0
+      });
+    }
+  }
+
+  onWeightChange() {
+    let weight = this.inventoryForm.get('weight').value;
+    let variants = this.variantsForm.value.variants;
+    for (let i = 0; i < variants.length; i++) {
+      variants[i].weight = weight;
+    }
+    this.variantsForm.patchValue({
+      variants
+    });
+  }
+
   onSubmit() {
     let productData = this.productForm.value;
     let inventoryData = this.inventoryForm.value;
@@ -275,6 +295,7 @@ export class AddProductComponent implements OnInit {
         option1: "Default Title",
         option2: null,
         option3: null,
+        weight: inventoryData.weight,
         sku: inventoryData.sku,
         barcode: inventoryData.barcode
       }
@@ -307,7 +328,6 @@ export class AddProductComponent implements OnInit {
 
   ngOnInit(): void {
     this.getVendors();
-    this.getProductTypes();
     this.getBrands();
   }
 
