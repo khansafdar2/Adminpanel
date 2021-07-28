@@ -93,7 +93,6 @@ export class AddProductComponent implements OnInit {
     product_brand: [null],
     collection: [[]],
     vendor: [null, [Validators.required]],
-    is_physical: [true],
     is_active: [{value: false, disabled: true}],
     hide_out_of_stock: [false],
     tags: [""],
@@ -105,6 +104,7 @@ export class AddProductComponent implements OnInit {
     barcode: [null],
     inventory_quantity: [0],
     track_inventory: [false],
+    is_physical: [true],
     weight: [0.1, [Validators.required, Validators.min(0.1)]]
   });
 
@@ -292,6 +292,7 @@ export class AddProductComponent implements OnInit {
         price: priceData.price,
         compare_at_price: priceData.compare_at_price,
         inventory_quantity: inventoryData.inventory_quantity,
+        is_physical: inventoryData.is_physical,
         option1: "Default Title",
         option2: null,
         option3: null,

@@ -279,12 +279,12 @@
                 </mat-card>
 
                 <!-- Shipping and Tax -->
-                <mat-card class="mt-20">
+                <mat-card class="mt-20" [formGroup]="inventoryForm">
                     <h2>Shipping</h2>
 
                     <div fxLayout="column" class="verticle-checkbox">
                         <mat-checkbox formControlName="is_physical" (change)="onPhysicalProductChange($event)">Is a physical product.</mat-checkbox>
-                        <div [formGroup]="inventoryForm" *ngIf="productForm.get('is_physical').value">
+                        <div *ngIf="inventoryForm.get('is_physical').value">
                             <mat-form-field appearance="outline">
                                 <mat-label>Weight</mat-label>
                                 <input matInput formControlName="weight" type="number" (change)="onWeightChange()" />

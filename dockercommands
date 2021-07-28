@@ -1,12 +1,5 @@
 ng build --prod
 
-aws ecr get-login-password --region us-east-1 --profile alche_ecw | docker login --username AWS --password-stdin 599938016587.dkr.ecr.us-east-1.amazonaws.com
-docker build -t kees-angular-frontend .
-docker tag kees-angular-frontend:latest 599938016587.dkr.ecr.us-east-1.amazonaws.com/kees-angular-frontend:latest
-docker push 599938016587.dkr.ecr.us-east-1.amazonaws.com/kees-angular-frontend:latest
-aws ecs update-service  --service kees-angular-frontend --cluster shopifyapps-cluster-2 --force-new-deployment --region us-east-1 --profile alche_ecw
-
-
 
 aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 242791332842.dkr.ecr.us-east-1.amazonaws.com
 docker build -t kees-angular-frontend .

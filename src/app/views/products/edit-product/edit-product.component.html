@@ -7,7 +7,7 @@
 
         <div class="header-actions">
             <a [routerLink]="['/', URLS.products]" mat-stroked-button color="primary">Cancel</a>
-            <button mat-flat-button color="primary" [disabled]="!productForm.valid" (click)="onSubmit()">Save</button>
+            <button mat-flat-button color="primary" [disabled]="loading || !productForm.valid || !inventoryForm.valid" (click)="onSubmit()">Save</button>
         </div>
     </div>
 
@@ -306,14 +306,19 @@
                 </mat-card>
 
                 <!-- Shipping and Tax -->
-                <!-- <mat-card class="mt-20">
-                    <h2>Shipping and Tax</h2>
+                <mat-card class="mt-20" *ngIf="!productForm.get('has_variants').value || creatingVariants" [formGroup]="inventoryForm">
+                    <h2>Shipping</h2>
 
                     <div fxLayout="column" class="verticle-checkbox">
-                        <mat-checkbox formControlName="apply_shipping">Apply shipping</mat-checkbox>
-                        <mat-checkbox formControlName="apply_tax">Apply Tax</mat-checkbox>
+                        <mat-checkbox formControlName="is_physical" (change)="onPysicalChange($event)">is a physical product.</mat-checkbox>
+                        <mat-form-field appearance="outline" *ngIf="inventoryForm.get('is_physical').value">
+                            <mat-label>Weight</mat-label>
+                            <input matInput formControlName="weight" type="number" (change)="onWeightChange()" />
+                            <mat-error *ngIf="inventoryForm.get('weight').hasError('required')">Enter the weight of the product.</mat-error>
+                            <mat-error *ngIf="inventoryForm.get('weight').hasError('min')">A physical product weight can not be 0.</mat-error>
+                        </mat-form-field>
                     </div>
-                </mat-card> -->
+                </mat-card>
 
                 <!-- Tags -->
                 <mat-card>

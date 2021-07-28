@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import URLS from 'src/app/shared/urls';
+import { DiscountsService } from 'src/app/views/discounts/discounts.service';
 import { ProductsService } from '../../products.service';
 import { VendorsService } from '../../vendors.service';
 
@@ -20,7 +21,8 @@ export class EditProductGroupComponent implements OnInit {
     private productsService: ProductsService,
     private snackbarService: MatSnackBar,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private discountsService: DiscountsService
   ) {
     this.groupID = this.route.snapshot.paramMap.get("id");
   }
@@ -28,11 +30,13 @@ export class EditProductGroupComponent implements OnInit {
   groupID = null;
   loading: boolean = true;
   URLS = URLS;
-  vendors: [];
+  vendors = [];
+  discounts = [];
   productGroupForm = this.fb.group({
     id: [null],
     title: ['', [Validators.required]],
     vendor: [null, [Validators.required]],
+    discount: [""],
     is_approved: [false],
     is_active: [false]
   });
@@ -58,6 +62,14 @@ export class EditProductGroupComponent implements OnInit {
     })
   }
 
+  getDiscounts() {
+    this.discountsService.getDiscountsList().then(resp => {
+      if(resp) {
+        this.discounts = resp.data.results;
+      }
+    })
+  }
+
   onSubmit() {
     this.loading = true;
     this.productsService.updateProductGroup(this.productGroupForm.value).then(resp => {
@@ -70,6 +82,7 @@ export class EditProductGroupComponent implements OnInit {
 
   ngOnInit(): void {
     this.getVendors();
+    this.getDiscounts();
     this.getProductGroupDetails();
   }
 

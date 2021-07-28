@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import URLS from 'src/app/shared/urls';
+import { DiscountsService } from 'src/app/views/discounts/discounts.service';
 import { ProductsService } from '../../products.service';
 import { VendorsService } from '../../vendors.service';
 
@@ -18,14 +19,17 @@ export class AddProductGroupComponent implements OnInit {
     private vendorsService: VendorsService,
     private productsService: ProductsService,
     private snackbarService: MatSnackBar,
-    private router: Router) { }
+    private router: Router,
+    private discountsService: DiscountsService) { }
 
   loading: boolean = true;
   URLS = URLS;
   vendors: [];
+  discounts: [];
   productGroupForm = this.fb.group({
     title: ['', [Validators.required]],
     vendor: [null, [Validators.required]],
+    discount: [""],
     is_approved: [false],
     is_active: [false]
   });
@@ -38,6 +42,14 @@ export class AddProductGroupComponent implements OnInit {
         this.vendors = resp.data.results;
       }
     });
+  }
+
+  getDiscounts() {
+    this.discountsService.getDiscountsList().then(resp => {
+      if(resp) {
+        this.discounts = resp.data.results;
+      }
+    })
   }
 
   onSubmit() {
@@ -53,6 +65,7 @@ export class AddProductGroupComponent implements OnInit {
 
   ngOnInit(): void {
     this.getVendors();
+    this.getDiscounts();
   }
 
 }

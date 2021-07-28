@@ -22,6 +22,8 @@ interface Variant {
   option3: string;
   inventory_quantity: number;
   barcode: string;
+  is_physical: boolean;
+  weight: number;
 }
 
 @Component({
@@ -95,6 +97,7 @@ export class EditProductComponent implements OnInit {
     is_active: [{value: false, disabled: true}],
     hide_out_of_stock: [false],
     has_variants: [false],
+    track_inventory: [true],
     tags: [""]
   });
 
@@ -102,7 +105,9 @@ export class EditProductComponent implements OnInit {
     sku: [""],
     barcode: [null],
     inventory_quantity: [0],
-    track_inventory: [false]
+    track_inventory: [false],
+    is_physical: [true],
+    weight: [0.1, [Validators.required, Validators.min(0.1)]]
   });
 
   priceForm = this.fb.group({
@@ -219,7 +224,9 @@ export class EditProductComponent implements OnInit {
           this.inventoryForm.patchValue({
             barcode: variant.barcode,
             inventory_quantity: variant.inventory_quantity,
-            sku: variant.sku
+            sku: variant.sku,
+            is_physical: variant.is_physical,
+            weight: variant.weight
           });
           this.priceForm.patchValue({
             price: variant.price,
@@ -340,7 +347,9 @@ export class EditProductComponent implements OnInit {
         option2: [title.split("/")[1] || null],
         option3: [title.split("/")[2] || null],
         sku: [this.inventoryForm.get('sku').value],
-        barcode: [this.inventoryForm.get('barcode').value]
+        barcode: [this.inventoryForm.get('barcode').value],
+        is_physical: [true],
+        weight: [0.1]
       });
 
       (this.variantsForm.get('variants') as FormArray).push(variant);
@@ -369,6 +378,43 @@ export class EditProductComponent implements OnInit {
       (this.productForm.controls['is_active'] as FormControl).disable();
     } else {
       (this.productForm.controls['is_active'] as FormControl).enable();
+    }
+  }
+
+  onPysicalChange(event) {
+    if(event.checked) {
+      (this.inventoryForm.controls['weight'] as FormControl).setValidators([Validators.required, Validators.min(0.1)]);
+    } else {
+      (this.inventoryForm.controls['weight'] as FormControl).setValidators([]);
+      this.inventoryForm.patchValue({
+        weight: 0.1
+      });
+    }
+    if(this.creatingVariants) {
+      let variants = this.variantsForm.value.variants;
+      for (let i = 0; i < variants.length; i++) {
+        variants[i].is_physical = event.checked;
+      }
+      this.inventoryForm.patchValue({
+        variants
+      });
+    } else {
+      this.variants[0].is_physical = event.checked;
+    }
+  }
+
+  onWeightChange() {
+    if(this.creatingVariants) {
+      let variants = this.variantsForm.value.variants;
+      for (let i = 0; i < variants.length; i++) {
+        variants[i].weight = this.inventoryForm.get('weight').value;
+      }
+      console.log(variants);
+      this.variantsForm.patchValue({
+        variants
+      });
+    } else {
+      this.variants[0].weight = this.inventoryForm.get('weight').value;
     }
   }
 
