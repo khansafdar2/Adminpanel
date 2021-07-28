@@ -33,14 +33,8 @@ export class ProductGroupsComponent implements OnInit {
       selector: "vendor_name"
     },
     {
-      title: "Status",
-      selector: "is_active",
-      cell: row => '<span class="label '+( row.is_active ? 'success' : '' )+'">'+( row.is_active ? 'Active' : 'Inactive' )+'</span>'
-    },
-    {
-      title: "Approved",
-      selector: 'is_approved',
-      cell: row => '<span class="label '+( row.is_approved ? 'success' : '' )+'">'+( row.is_approved ? 'Yes' : 'No' )+'</span>'
+      title: "Discount",
+      selector: "discount_title"
     }
   ]
   productGroups = [];

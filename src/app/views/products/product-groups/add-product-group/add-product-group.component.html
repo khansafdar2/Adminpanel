@@ -32,7 +32,7 @@
                         </mat-form-field>
                     </div>
                 </div>
-    
+
                 <div fxLayout="row">
                     <div fxFlex="0 1 50%">
                         <mat-form-field appearance="outline">
@@ -42,12 +42,6 @@
                                 <mat-option *ngFor="let discount of discounts" [value]="discount.id">{{discount.title}}</mat-option>
                             </mat-select>
                         </mat-form-field>
-                    </div>
-                    <div fxFlex="0 1 50%">
-                        <div fxLayout="column" class="verticle-checkbox">
-                            <mat-checkbox formControlName="is_active">Active</mat-checkbox>
-                            <mat-checkbox formControlName="is_approved">Approved</mat-checkbox>
-                        </div>
                     </div>
                 </div>
             </mat-card>

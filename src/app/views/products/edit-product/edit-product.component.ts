@@ -60,6 +60,7 @@ export class EditProductComponent implements OnInit {
   variants: Variant[] = [];
   deletedVariants: Variant[] = [];
   deletedImages = [];
+  originalPrice = 0;
   originalOptions = [];
   originalVariants: Variant[] = [];
   creatingVariants: boolean = false;
@@ -220,6 +221,7 @@ export class EditProductComponent implements OnInit {
           this.variants = resp.data.variants;
         } else {
           let variant = resp.data.variants[0];
+          this.originalPrice = variant.price;
 
           this.inventoryForm.patchValue({
             barcode: variant.barcode,

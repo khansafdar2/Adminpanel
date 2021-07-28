@@ -29,9 +29,7 @@ export class AddProductGroupComponent implements OnInit {
   productGroupForm = this.fb.group({
     title: ['', [Validators.required]],
     vendor: [null, [Validators.required]],
-    discount: [""],
-    is_approved: [false],
-    is_active: [false]
+    discount: [""]
   });
 
   getVendors() {

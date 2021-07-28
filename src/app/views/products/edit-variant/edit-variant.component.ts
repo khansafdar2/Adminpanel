@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import URLS from 'src/app/shared/urls';
@@ -45,7 +45,8 @@ export class EditVariantComponent implements OnInit {
     product: [null],
     sku: [""],
     title: [""],
-    weight: [0],
+    is_physical: [true],
+    weight: [0.1, [Validators.required, Validators.min(0.1)]],
   });
 
   getVariantDetail() {
@@ -89,6 +90,15 @@ export class EditVariantComponent implements OnInit {
     } else {
       this.optionsError = "A variant with these options already exist.";
       this.variantAvailable = false;
+    }
+  }
+
+  onPhysicalProductChange(event) {
+    if(event.checked) {
+      (this.variantForm.controls['weight'] as FormControl).setValidators([Validators.required, Validators.min(0.1)]);
+      this.variantForm.get('weight').setValue(0.1);
+    } else {
+      (this.variantForm.controls['weight'] as FormControl).setValidators([]);
     }
   }
 
