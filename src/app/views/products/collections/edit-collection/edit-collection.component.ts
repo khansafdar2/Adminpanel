@@ -82,6 +82,7 @@ export class EditCollectionComponent implements OnInit {
     }
   ]
   collectionForm = this.fb.group({
+    id: [null],
     title: ['', [Validators.required]],
     description: [''],
     slug: [''],

@@ -28,8 +28,6 @@ import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
-import { TableModule } from 'primeng/table';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SigninComponent } from './auth/signin/signin.component';
@@ -160,8 +158,6 @@ import { EditDiscountComponent } from './views/discounts/edit-discount/edit-disc
     MatExpansionModule,
     MatListModule,
     MatProgressSpinnerModule,
-
-    TableModule,
   ],
   providers: [LoggedInAuthGuard, LoggedOutAuthGuard],
   bootstrap: [AppComponent]

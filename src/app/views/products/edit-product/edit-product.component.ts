@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ProductsService } from '../products.service';
 import URLS from 'src/app/shared/urls';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CollectionsService } from '../collections/collections.service';
 import { VendorsService } from '../vendors.service';
 import { BrandsService } from '../brands/brands.service';
@@ -42,7 +42,8 @@ export class EditProductComponent implements OnInit {
     private vendorsService: VendorsService,
     private brandsService: BrandsService,
     private sharedService: SharedService,
-    private snackbarService: MatSnackBar
+    private snackbarService: MatSnackBar,
+    private router: Router
   ) {
     this.productID = this.route.snapshot.paramMap.get('id');
   }
@@ -62,6 +63,7 @@ export class EditProductComponent implements OnInit {
   deletedImages = [];
   originalPrice = 0;
   originalOptions = [];
+  changingPrice: boolean = false;
   originalVariants: Variant[] = [];
   creatingVariants: boolean = false;
   productTags: string[] = [];
@@ -214,11 +216,11 @@ export class EditProductComponent implements OnInit {
         if(resp.data.product_group) {
           (this.productForm.controls['is_active'] as FormControl).enable();
         }
+        this.variants = resp.data.variants;
         if(resp.data.has_variants) {
           this.productOptions = resp.data.options;
           this.originalOptions = resp.data.options;
           this.originalVariants = resp.data.variants;
-          this.variants = resp.data.variants;
         } else {
           let variant = resp.data.variants[0];
           this.originalPrice = variant.price;
@@ -381,6 +383,7 @@ export class EditProductComponent implements OnInit {
     } else {
       (this.productForm.controls['is_active'] as FormControl).enable();
     }
+    this.checkPriceChange()
   }
 
   onPysicalChange(event) {
@@ -420,6 +423,28 @@ export class EditProductComponent implements OnInit {
     }
   }
 
+  checkPriceChange() {
+    let selectedGroup = this.productForm.get('product_group').value;
+    let discountApplied: boolean = false;
+
+    if(selectedGroup) {
+      for (let i = 0; i < this.productGroups.length; i++) {
+        if(this.productGroups[i].id == selectedGroup) {
+          discountApplied = this.productGroups[i].discount !== null;
+          break;
+        }
+      }
+
+      if(discountApplied) {
+        if(this.originalPrice != this.priceForm.get('price').value) {
+          this.changingPrice = true;
+        } else {
+          this.changingPrice = false;
+        }
+      }
+    }
+  }
+
   onSubmit() {
     let variants = [];
     let productData = this.productForm.value;
@@ -428,6 +453,14 @@ export class EditProductComponent implements OnInit {
       variants = this.variantsForm.value.variants;
     } else {
       variants = this.variants;
+    }
+    if(!productData.has_variants) {
+      variants[0].price = this.priceForm.get('price').value;
+      variants[0].compare_at_price = this.priceForm.get('compare_at_price').value;
+    }
+
+    if(this.changingPrice) {
+      productData.product_group = "";
     }
 
     productData.options = optionsData;
@@ -441,6 +474,7 @@ export class EditProductComponent implements OnInit {
       if(resp) {
         console.log(resp.data);
         this.snackbarService.open("Product updated successfuly.", "", {duration: 3000});
+        this.router.navigate(["/", URLS.products]);
       }
     });
   }
