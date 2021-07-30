@@ -23,7 +23,8 @@ const URLS = {
     collections: 'collections',
     productGroups: 'product-groups',
     brands: 'brands',
-    discounts: 'discounts'
+    discounts: 'discounts',
+    shipping: 'shipping'
 }
 
 export default URLS;

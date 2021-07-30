@@ -1,0 +1,20 @@
+<button mat-icon-button mat-dialog-close class="dialog-close"><mat-icon>close</mat-icon></button>
+<h2 mat-dialog-title>New shipping method</h2>
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="shippingForm">
+        <mat-form-field appearance="outline">
+            <mat-label>Title</mat-label>
+            <input matInput formControlName="name" />
+            <mat-error *ngIf="shippingForm.get('name').hasError('required')">Enter the title for shipping method.</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Amount</mat-label>
+            <input matInput formControlName="amount" />
+            <mat-error *ngIf="shippingForm.get('amount').hasError('required')">Enter the amount for this shipping method.</mat-error>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<div mat-dialog-actions>
+    <button mat-stroked-button color="primary" mat-dialog-close>Cancel</button>
+    <button mat-flat-button color="primary" [disabled]="loading || !shippingForm.valid" (click)="onSubmit()">Save</button>
+</div>

@@ -37,6 +37,7 @@ import { AddVariantComponent } from './views/products/add-variant/add-variant.co
 import { DiscountsComponent } from './views/discounts/discounts.component';
 import { AddDiscountComponent } from './views/discounts/add-discount/add-discount.component';
 import { EditDiscountComponent } from './views/discounts/edit-discount/edit-discount.component';
+import { ShippingComponent } from './views/configuration/shipping/shipping.component';
 
 
 const routes: Routes = [
@@ -54,6 +55,7 @@ const routes: Routes = [
   ]},
   {path: URLS.tax, component: TaxConfigurationComponent, canActivate: [LoggedInAuthGuard]},
   {path: URLS.generalInformation, component: GeneralInformationComponent, canActivate: [LoggedInAuthGuard]},
+  {path: URLS.shipping, component: ShippingComponent, canActivate: [LoggedInAuthGuard]},
   {path: URLS.categories, children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
     {path: URLS.all, component: CategoryStructureComponent, canActivate: [LoggedInAuthGuard]},

@@ -1,0 +1,24 @@
+<app-topbar></app-topbar>
+<app-sidenav></app-sidenav>
+<main id="main">
+    <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+    <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
+        <h1>Shipping methods</h1>
+
+        <div class="header-actions">
+            <button mat-flat-button color="primary" (click)="onNewShippingMethod()">New shipping method</button>
+        </div>
+    </div>
+
+    <div class="page-container">
+        <mat-card class="table-wrapper-card">
+            <datatable 
+                [data]="shippingMethods"
+                [columns]="displayedColumns"
+                [rowActions]="rowActions"
+                
+                (cellClick)="onCellClick($event)">
+            </datatable>
+        </mat-card>
+    </div>
+</main>

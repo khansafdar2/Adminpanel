@@ -28,10 +28,13 @@ export class EditVariantComponent implements OnInit {
   productID: string;
   variantID: string;
   optionsError: string = "";
+  changingPrice: boolean = false;
+  originalPrice: string = "";
   variantAvailable: boolean = true;
   productData = {
     options: [],
-    variants: []
+    variants: [],
+    is_discount: false
   };
   variantForm = this.fb.group({
     id: [null],
@@ -53,6 +56,7 @@ export class EditVariantComponent implements OnInit {
     this.productsService.getVariantDetail(this.variantID).then(resp => {
       if(resp) {
         console.log(resp.data);
+        this.originalPrice = resp.data.price;
         this.variantForm.patchValue(resp.data);
       }
     })
@@ -99,6 +103,18 @@ export class EditVariantComponent implements OnInit {
       this.variantForm.get('weight').setValue(0.1);
     } else {
       (this.variantForm.controls['weight'] as FormControl).setValidators([]);
+    }
+  }
+
+  onPriceChange() {
+    debugger;
+    if(this.productData.is_discount) {
+      let newPrice = this.variantForm.get('price').value;
+      if(newPrice != this.originalPrice) {
+        this.changingPrice = true;
+      } else {
+        this.changingPrice = false;
+      }
     }
   }
 
