@@ -17,7 +17,8 @@
                 [columns]="displayedColumns"
                 [rowActions]="rowActions"
                 
-                (cellClick)="onCellClick($event)">
+                (cellClick)="onCellClick($event)"
+                (rowAction)="onRowAction($event)">
             </datatable>
         </mat-card>
     </div>

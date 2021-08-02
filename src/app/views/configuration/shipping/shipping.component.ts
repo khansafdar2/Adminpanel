@@ -32,7 +32,7 @@ export class ShippingComponent implements OnInit {
       selector: "amount"
     }
   ];
-  rowActions = [];
+  rowActions = ["Delete"];
 
   getShippingMethods() {
     this.loading = true;
@@ -66,6 +66,21 @@ export class ShippingComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(updated => {
       if(updated) {
+        this.getShippingMethods();
+      }
+    });
+  }
+
+  onRowAction(data) {
+    let dialogRef = this.dialog.open(DeleteShippingDialog, {
+      width: "600px",
+      data: {
+        shipping: data.row
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(deleted => {
+      if(deleted) {
         this.getShippingMethods();
       }
     });
@@ -138,6 +153,37 @@ export class EditShippingDialog {
       this.loading = false;
       if(resp) {
         this.snackbar.open("Shipping method updated successfuly.", "", {duration: 3000});
+        this.dialogRef.close(true);
+      }
+    })
+  }
+}
+
+
+
+@Component({
+  selector: 'delete-shipping-dialog',
+  templateUrl: './dialogs/delete-shipping-dialog.html',
+})
+export class DeleteShippingDialog {
+  constructor(
+    public dialogRef: MatDialogRef<DeleteShippingDialog>,
+    @Inject(MAT_DIALOG_DATA) public data,
+    private shippingService: ShippingService,
+    private snackbar: MatSnackBar
+  ) {
+    this.shipping = data.shipping;
+  }
+
+  loading: boolean = false;
+  shipping = null;
+
+  onDelete() {
+    this.loading = true;
+    this.shippingService.deleteShipping(this.shipping.id).then(resp => {
+      this.loading = false;
+      if(resp) {
+        this.snackbar.open("Shipping method deleted.", "", {duration: 3000});
         this.dialogRef.close(true);
       }
     })

@@ -49,4 +49,17 @@ export class ShippingService {
       }
     });
   }
+
+  deleteShipping(id) {
+    return Axios.delete(environment.backend_url + '/setting/shipping/' + id, {
+      headers: {
+        Authorization: this.authservice.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authservice.signout();
+      }
+    });
+  }
 }

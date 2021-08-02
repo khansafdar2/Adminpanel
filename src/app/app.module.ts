@@ -70,7 +70,7 @@ import { EditVariantComponent } from './views/products/edit-variant/edit-variant
 import { AddVariantComponent } from './views/products/add-variant/add-variant.component';
 import { AddDiscountComponent } from './views/discounts/add-discount/add-discount.component';
 import { EditDiscountComponent } from './views/discounts/edit-discount/edit-discount.component';
-import { AddShippingDialog, EditShippingDialog, ShippingComponent } from './views/configuration/shipping/shipping.component';
+import { AddShippingDialog, DeleteShippingDialog, EditShippingDialog, ShippingComponent } from './views/configuration/shipping/shipping.component';
 
 @NgModule({
   declarations: [
@@ -129,7 +129,8 @@ import { AddShippingDialog, EditShippingDialog, ShippingComponent } from './view
     EditDiscountComponent,
     ShippingComponent,
     AddShippingDialog,
-    EditShippingDialog
+    EditShippingDialog,
+    DeleteShippingDialog
   ],
   imports: [
     BrowserModule,
