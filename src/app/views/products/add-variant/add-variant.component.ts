@@ -44,7 +44,7 @@ export class AddVariantComponent implements OnInit {
     option2: [null],
     option3: [null],
     product: [null],
-    sku: [""],
+    sku: ["", [Validators.required]],
     title: [""],
     is_physical: [true],
     weight: [0.1, [Validators.required, Validators.min(0.1)]],

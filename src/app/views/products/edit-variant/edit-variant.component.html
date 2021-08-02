@@ -51,6 +51,7 @@
                     <mat-form-field appearance="outline">
                         <mat-label>SKU</mat-label>
                         <input matInput formControlName="sku" />
+                        <mat-error *ngIf="variantForm.get('sku').hasError('required')">SKU is a required field.</mat-error>
                     </mat-form-field>
                 </div>
                 <div fxFlex="0 1 50%">

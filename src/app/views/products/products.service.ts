@@ -112,6 +112,7 @@ export class ProductsService {
       if (error.response.data.detail == "Session expired, Reopen the application!") {
         this.authService.signout();
       }
+      return error;
     });
   }
 
@@ -177,6 +178,7 @@ export class ProductsService {
       if (error.response.data.detail == "Session expired, Reopen the application!") {
         this.authService.signout();
       }
+      return error;
     });
   }
 

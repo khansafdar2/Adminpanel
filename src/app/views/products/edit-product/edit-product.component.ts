@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ProductsService } from '../products.service';
 import URLS from 'src/app/shared/urls';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -105,7 +105,7 @@ export class EditProductComponent implements OnInit {
   });
 
   inventoryForm = this.fb.group({
-    sku: [""],
+    sku: ["", Validators.required],
     barcode: [null],
     inventory_quantity: [0],
     track_inventory: [false],
@@ -221,10 +221,12 @@ export class EditProductComponent implements OnInit {
           this.productOptions = resp.data.options;
           this.originalOptions = resp.data.options;
           this.originalVariants = resp.data.variants;
+
+          this.inventoryForm.controls['sku'].clearValidators();
+          this.inventoryForm.controls['sku'].updateValueAndValidity();
         } else {
           let variant = resp.data.variants[0];
           this.originalPrice = variant.price;
-
           this.inventoryForm.patchValue({
             barcode: variant.barcode,
             inventory_quantity: variant.inventory_quantity,
@@ -316,10 +318,28 @@ export class EditProductComponent implements OnInit {
     });
   }
 
-  hasVariantsChange(e) {
-    if(e.checked) {
+  hasVariantsChange(event) {
+    if(event.checked) {
       this.creatingVariants = true;
       this.addOption();
+
+
+      (this.inventoryForm.controls['sku'] as FormControl).clearValidators();
+      (this.inventoryForm.controls['sku'] as FormControl).updateValueAndValidity();
+
+      for (let i = 0; i < (this.variantsForm.controls['variants'] as FormArray).controls.length; i++) {
+        const variantGroup = (this.variantsForm.controls['variants'] as FormArray).controls[i] as FormGroup;
+        variantGroup.controls['sku'].setValidators([Validators.required]);
+        variantGroup.controls['sku'].updateValueAndValidity();
+      }
+    } else {
+      (this.inventoryForm.controls['sku'] as FormControl).setValidators([Validators.required]);
+
+      for (let i = 0; i < (this.variantsForm.controls['variants'] as FormArray).controls.length; i++) {
+        const variantGroup = (this.variantsForm.controls['variants'] as FormArray).controls[i] as FormGroup;
+        variantGroup.controls['sku'].setValidators([]);
+        variantGroup.controls['sku'].updateValueAndValidity();
+      }
     }
   }
 
@@ -350,7 +370,7 @@ export class EditProductComponent implements OnInit {
         option1: [title.split("/")[0] || null],
         option2: [title.split("/")[1] || null],
         option3: [title.split("/")[2] || null],
-        sku: [this.inventoryForm.get('sku').value],
+        sku: [this.inventoryForm.get('sku').value, [Validators.required]],
         barcode: [this.inventoryForm.get('barcode').value],
         is_physical: [true],
         weight: [0.1]
@@ -457,6 +477,9 @@ export class EditProductComponent implements OnInit {
     if(!productData.has_variants) {
       variants[0].price = this.priceForm.get('price').value;
       variants[0].compare_at_price = this.priceForm.get('compare_at_price').value;
+      variants[0].sku = this.inventoryForm.get('sku').value;
+      variants[0].barcode = this.inventoryForm.get('barcode').value;
+      variants[0].inventory_quantity = this.inventoryForm.get('inventory_quantity').value;
     }
 
     if(this.changingPrice) {

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import URLS from 'src/app/shared/urls';
 import { ProductsService } from '../products.service';
 import { CollectionsService } from '../collections/collections.service';
@@ -100,7 +100,7 @@ export class AddProductComponent implements OnInit {
   });
 
   inventoryForm = this.fb.group({
-    sku: [""],
+    sku: ["", Validators.required],
     barcode: [null],
     inventory_quantity: [0],
     track_inventory: [false],
@@ -145,7 +145,7 @@ export class AddProductComponent implements OnInit {
         option1: [title.split("/")[0] || null],
         option2: [title.split("/")[1] || null],
         option3: [title.split("/")[2] || null],
-        sku: [this.inventoryForm.get('sku').value],
+        sku: [this.inventoryForm.get('sku').value, [Validators.required]],
         barcode: [this.inventoryForm.get('barcode').value]
       });
 
@@ -226,6 +226,27 @@ export class AddProductComponent implements OnInit {
     this.productForm.patchValue({
       product_images: imageIDs
     });
+  }
+
+  onHasVariantChange(event) {
+    if(event.checked) {
+      (this.inventoryForm.controls['sku'] as FormControl).clearValidators();
+      (this.inventoryForm.controls['sku'] as FormControl).updateValueAndValidity();
+
+      for (let i = 0; i < (this.variantsForm.controls['variants'] as FormArray).controls.length; i++) {
+        const variantGroup = (this.variantsForm.controls['variants'] as FormArray).controls[i] as FormGroup;
+        variantGroup.controls['sku'].setValidators([Validators.required]);
+        variantGroup.controls['sku'].updateValueAndValidity();
+      }
+    } else {
+      (this.inventoryForm.controls['sku'] as FormControl).setValidators([Validators.required]);
+
+      for (let i = 0; i < (this.variantsForm.controls['variants'] as FormArray).controls.length; i++) {
+        const variantGroup = (this.variantsForm.controls['variants'] as FormArray).controls[i] as FormGroup;
+        variantGroup.controls['sku'].setValidators([]);
+        variantGroup.controls['sku'].updateValueAndValidity();
+      }
+    }
   }
 
   onVendorChange() {
@@ -320,9 +341,15 @@ export class AddProductComponent implements OnInit {
     this.loading = true;
     this.productsService.createProduct(productData).then(resp => {
       this.loading = false;
-      if(resp) {
-        this.snackbarService.open("Product created.", "", {duration: 3000});
-        this.router.navigate(["/", URLS.products]);
+      if(resp.isAxiosError) {
+        if(resp.response.status === 404) {
+          alert("A variant with this SKU already exists.");
+        }
+      } else {
+        if(resp.data) {
+          this.snackbarService.open("Product created.", "", {duration: 3000});
+          this.router.navigate(["/", URLS.products]);
+        }
       }
     });
   }

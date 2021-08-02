@@ -7,7 +7,7 @@
 
         <div class="header-actions">
             <a [routerLink]="['/', URLS.products, URLS.edit, productID]" mat-stroked-button color="primary">Cancel</a>
-            <button mat-flat-button color="primary" [disabled]="loading || !variantAvailable" (click)="onSubmit()">Save</button>
+            <button mat-flat-button color="primary" [disabled]="loading || !variantAvailable || !variantForm.valid" (click)="onSubmit()">Save</button>
         </div>
     </div>
 
@@ -50,6 +50,7 @@
                     <mat-form-field appearance="outline">
                         <mat-label>SKU</mat-label>
                         <input matInput formControlName="sku" />
+                        <mat-error *ngIf="variantForm.get('sku').hasError('required')">SKU is a required field.</mat-error>
                     </mat-form-field>
                 </div>
                 <div fxFlex="0 1 50%">

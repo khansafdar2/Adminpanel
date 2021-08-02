@@ -46,7 +46,7 @@ export class EditVariantComponent implements OnInit {
     option2: [null],
     option3: [null],
     product: [null],
-    sku: [""],
+    sku: ["", [Validators.required]],
     title: [""],
     is_physical: [true],
     weight: [0.1, [Validators.required, Validators.min(0.1)]],
@@ -107,7 +107,6 @@ export class EditVariantComponent implements OnInit {
   }
 
   onPriceChange() {
-    debugger;
     if(this.productData.is_discount) {
       let newPrice = this.variantForm.get('price').value;
       if(newPrice != this.originalPrice) {
@@ -122,9 +121,15 @@ export class EditVariantComponent implements OnInit {
     this.loading = true;
     this.productsService.updateVariant(this.variantForm.value).then(resp => {
       this.loading = false;
-      if(resp) {
-        this.snackbarService.open("Variant updated successfully.", "", {duration: 3000});
-        this.router.navigate(['/', URLS.products, URLS.edit, this.productID]);
+      if(resp.isAxiosError) {
+        if(resp.response.status === 422) {
+          alert("A variant with this SKU already exists.");
+        }
+      } else {
+        if(resp) {
+          this.snackbarService.open("Variant updated successfully.", "", {duration: 3000});
+          this.router.navigate(['/', URLS.products, URLS.edit, this.productID]);
+        }
       }
     })
   }
