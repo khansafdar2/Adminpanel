@@ -38,6 +38,10 @@ import { DiscountsComponent } from './views/discounts/discounts.component';
 import { AddDiscountComponent } from './views/discounts/add-discount/add-discount.component';
 import { EditDiscountComponent } from './views/discounts/edit-discount/edit-discount.component';
 import { ShippingComponent } from './views/configuration/shipping/shipping.component';
+import { OrdersComponent } from './views/orders/orders.component';
+import { AddOrderComponent } from './views/orders/add-order/add-order.component';
+import { CustomersComponent } from './views/customers/customers.component';
+import { AddCustomerComponent } from './views/customers/add-customer/add-customer.component';
 
 
 const routes: Routes = [
@@ -99,6 +103,16 @@ const routes: Routes = [
     {path: URLS.all, component: DiscountsComponent, canActivate: [LoggedInAuthGuard]},
     {path: URLS.add, component: AddDiscountComponent, canActivate: [LoggedInAuthGuard]},
     {path: URLS.edit + '/:id', component: EditDiscountComponent, canActivate: [LoggedInAuthGuard]}
+  ]},
+  {path: URLS.orders, children: [
+    {path: '', redirectTo: URLS.all, pathMatch: 'full'},
+    {path: URLS.all, component: OrdersComponent, canActivate: [LoggedInAuthGuard]},
+    {path: URLS.add, component: AddOrderComponent, canActivate: [LoggedInAuthGuard]}
+  ]},
+  {path: URLS.customers, children: [
+    {path: '', redirectTo: URLS.all, pathMatch: 'full'},
+    {path: URLS.all, component: CustomersComponent, canActivate: [LoggedInAuthGuard]},
+    {path: URLS.add, component: AddCustomerComponent, canActivate: [LoggedInAuthGuard]}
   ]}
 ];
 

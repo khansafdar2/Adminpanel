@@ -24,7 +24,9 @@ const URLS = {
     productGroups: 'product-groups',
     brands: 'brands',
     discounts: 'discounts',
-    shipping: 'shipping'
+    shipping: 'shipping',
+    orders: 'orders',
+    customers: 'customers'
 }
 
 export default URLS;
