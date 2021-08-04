@@ -194,4 +194,40 @@ export class ProductsService {
       }
     });
   }
+
+  /**
+   * 
+   * @param {Object} data
+   * @param {number[]} data.ids
+   * @param {string} data.status - The status to change. Can be 'active' or 'approve'.
+   * @param {boolean} data.value
+   */
+  changeProductStatus(data) {
+    return Axios.put( environment.backend_url + '/products/products_status_change', data, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+      return error;
+    });
+  }
+
+
+  deleteProducts(ids: string) {
+    return Axios.delete(environment.backend_url + '/products/product?ids=' + ids, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+      return error;
+    });
+  }
 }

@@ -102,7 +102,7 @@ export class CollectionsComponent implements OnInit {
 
 
   rowActions(row) {
-    let actions = ["Edit"];
+    let actions = [];
     row.is_active ? actions.push("Deactivate") : actions.push("Activate");
     row.is_approved ? actions.push("Disapprove") : actions.push("Approve");
     actions.push("Delete");
@@ -163,9 +163,7 @@ export class CollectionsComponent implements OnInit {
   }
 
   onRowAction(data) {
-    if(data.action === "Edit") {
-      this.router.navigate(['/', URLS.collections, URLS.edit, data.row.id]);
-    } else if(data.action === "Delete") {
+    if(data.action === "Delete") {
       let dialogRef = this.dialog.open(CollectionDeleteDialog, {
         width: "600px",
         data: {
@@ -216,10 +214,16 @@ export class CollectionsComponent implements OnInit {
   }
 
   bulkDeleteCollections() {
-    this.dialog.open(CollectionDeleteDialog, {
+    let dialogRef = this.dialog.open(CollectionDeleteDialog, {
       width: "600px",
       data: {
         collections: this.collectionSelection.selected
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(deleted => {
+      if(deleted) {
+        this.getCollections();
       }
     });
   }
@@ -314,19 +318,21 @@ export class CollectionDeleteDialog {
     private collectionsService: CollectionsService) {
 
     this.count = data.collections.length;
+    let idsArray = [];
+    idsArray = this.data.collections.map(collection => collection.id);
+    this.ids = idsArray.join(",");
   }
 
   loading: boolean = false;
   count: number = 0;
+  ids = "";
 
   deleteCollections() {
-    if(this.count === 1) {
-      this.loading = true;
-      this.collectionsService.deleteCollection(this.data.collections[0].id).then(resp => {
-        if(resp) {
-          this.dialogRef.close(true);
-        }
-      })
-    }
+    this.loading = true;
+    this.collectionsService.deleteCollection(this.ids).then(resp => {
+      if(resp) {
+        this.dialogRef.close(true);
+      }
+    });
   }
 }

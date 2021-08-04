@@ -51,7 +51,7 @@ export class CollectionsService {
   }
 
   deleteCollection(id) {
-    return Axios.delete( environment.backend_url + '/products/collections?id=' + id, {
+    return Axios.delete( environment.backend_url + '/products/collections?ids=' + id, {
       headers: {
         Authorization: this.authService.token
       }

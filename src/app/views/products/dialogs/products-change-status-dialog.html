@@ -5,7 +5,7 @@
 
     <mat-form-field appearance="outline">
         <mat-label>Status</mat-label>
-        <mat-select>
+        <mat-select [(ngModel)]="activeStatus">
             <mat-option value="Active">Active</mat-option>
             <mat-option value="Inactive">Inactive</mat-option>
         </mat-select>
@@ -14,5 +14,5 @@
 </mat-dialog-content>
 <div mat-dialog-actions>
     <button mat-stroked-button color="primary" mat-dialog-close>Cancel</button>
-    <button mat-flat-button color="primary">Update status</button>
+    <button mat-flat-button color="primary" [disabled]="loading || !activeStatus" (click)="onSubmit()">Update status</button>
 </div>

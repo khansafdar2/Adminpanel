@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Column } from 'src/app/shared/datatable/datatable.component';
 import URLS from 'src/app/shared/urls';
@@ -14,7 +16,8 @@ export class BrandsComponent implements OnInit {
 
   constructor(
     private brandsService: BrandsService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) { }
 
   URLS = URLS;
@@ -33,6 +36,7 @@ export class BrandsComponent implements OnInit {
       clickable: true
     }
   ];
+  rowActions = ["Delete"];
   pageSize: number = 20;
   totalCount: number = 0;
   pageNumber: number = 1;
@@ -61,8 +65,52 @@ export class BrandsComponent implements OnInit {
     });
   }
 
+  onRowAction(data) {
+    let dialogRef = this.dialog.open(BrandDeleteDialog, {
+      width: "600px",
+      data: {
+        brand: data.row
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(deleted => {
+      if(deleted) {
+        this.getBrands();
+      }
+    });
+  }
+
   ngOnInit(): void {
     this.getBrands();
   }
 
+}
+
+
+
+@Component({
+  selector: 'brand-delete-dialog',
+  templateUrl: './dialogs/brand-delete-dialog.html',
+})
+export class BrandDeleteDialog {
+  constructor(
+    public dialogRef: MatDialogRef<BrandDeleteDialog>,
+    @Inject(MAT_DIALOG_DATA) public data,
+    private brandsService: BrandsService,
+    private snackBar: MatSnackBar
+  ) {
+  }
+
+  loading: boolean = false;
+
+  onDelete() {
+    this.loading = true;
+    this.brandsService.deleteBrand(this.data.brand.id).then(resp => {
+      this.loading = false;
+      if(resp) {
+        this.snackBar.open("Brand deleted successfully.", "", {duration: 3000});
+        this.dialogRef.close(true);
+      }
+    })
+  }
 }

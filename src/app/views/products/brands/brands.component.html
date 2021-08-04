@@ -18,8 +18,10 @@
                 [pagination]="true"
                 [itemsPerPage]="pageSize"
                 [count]="totalCount"
+                [rowActions]="rowActions"
 
                 (cellClick)="onCellClick($event)"
+                (rowAction)="onRowAction($event)"
                 (page)="onPage($event)">
             </datatable>
         </mat-card>

@@ -10,17 +10,19 @@
         </div>
     </div>
 
-    <mat-card class="table-wrapper-card">
-        <datatable
-            [data]="discounts"
-            [columns]="columns"
-            [pagination]="true"
-            [count]="totalCount"
-            [itemsPerPage]="pageSize"
-
-            (page)="onPageChange($event)"
-            (cellClick)="onCellClick($event)"
-        >
-      </datatable>
-    </mat-card>
+    <div class="page-container">
+        <mat-card class="table-wrapper-card">
+            <datatable
+                [data]="discounts"
+                [columns]="columns"
+                [pagination]="true"
+                [count]="totalCount"
+                [itemsPerPage]="pageSize"
+    
+                (page)="onPageChange($event)"
+                (cellClick)="onCellClick($event)"
+            >
+          </datatable>
+        </mat-card>
+    </div>
 </main>

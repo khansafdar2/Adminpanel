@@ -12,9 +12,8 @@
                     <button mat-menu-item (click)="bulkChangeStatus()">Change status</button>
                     <button mat-menu-item (click)="bulkChangeApproval()">Change approval status</button>
                     <button mat-menu-item>Organize</button>
-                    <button mat-menu-item (click)="bulkDiscount()">Apply discounts</button>
                     <button mat-menu-item (click)="bulkTags()">Add tags</button>
-                    <button mat-menu-item (click)="bulkChannels()">Available channels</button>
+                    <button mat-menu-item (click)="bulkDeleteProduct()">Delete</button>
                 </ng-template>
             </mat-menu>
 
@@ -30,6 +29,7 @@
                   [selectable]="true"
                   [(selection)]="productSelection"
                   [searchColumns]="searchColumns"
+                  [rowActions]="rowActions"
                   [filters]="productFilters"
                   [searchable]="true"
                   [pagination]="true"
@@ -38,6 +38,7 @@
 
                   (page)="onPageChange($event)"
                   (cellClick)="onCellClick($event)"
+                  (rowAction)="onRowAction($event)"
                   (filter)="onFilter($event)"
                   (search)="onSearch($event)">
       </datatable>

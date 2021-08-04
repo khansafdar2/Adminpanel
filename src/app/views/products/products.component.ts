@@ -4,12 +4,13 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Column } from 'src/app/shared/datatable/datatable.component';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import URLS from 'src/app/shared/urls';
 import { ProductsService } from './products.service';
 import { VendorsService } from './vendors.service';
 import { Router } from '@angular/router';
 import { PageEvent } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-products',
@@ -22,6 +23,7 @@ export class ProductsComponent implements OnInit {
     public dialog: MatDialog,
     private productsService: ProductsService,
     private vendorsService: VendorsService,
+    private snackbBar: MatSnackBar,
     private router: Router) { }
 
   loading: boolean = false;
@@ -58,6 +60,12 @@ export class ProductsComponent implements OnInit {
     }
   ]
   productSelection: SelectionModel<[]> = new SelectionModel(true, []);
+  rowActions = row => {
+    let actions = [];
+    actions.push(row.is_active ? "Deactivate" : "Activate");
+    actions.push("Delete");
+    return actions;
+  }
   productFilters = [];
   searchColumns = [
     {
@@ -78,28 +86,31 @@ export class ProductsComponent implements OnInit {
   }
 
   bulkChangeStatus() {
-    this.dialog.open(ProductsChangeStatusDialog, {
+    let dialogRef = this.dialog.open(ProductsChangeStatusDialog, {
       width: "600px",
       data: {
         products: this.productSelection.selected
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(updated => {
+      if(updated) {
+        this.getProducts();
       }
     });
   }
 
   bulkChangeApproval() {
-    this.dialog.open(ProductsChangeApprovalDialog, {
+    let dialogRef = this.dialog.open(ProductsChangeApprovalDialog, {
       width: "600px",
       data: {
         products: this.productSelection.selected
       }
     });
-  }
 
-  bulkDiscount() {
-    this.dialog.open(ApplyBulkDiscountDialog, {
-      width: "600px",
-      data: {
-        products: this.productSelection.selected
+    dialogRef.afterClosed().subscribe(updated => {
+      if(updated) {
+        this.getProducts();
       }
     });
   }
@@ -113,17 +124,24 @@ export class ProductsComponent implements OnInit {
     });
   }
 
-  bulkChannels() {
-    this.dialog.open(ApplyBulkChannelDialog, {
+  bulkDeleteProduct() {
+    let dialogRef = this.dialog.open(ProductsBulkDeleteDialog, {
       width: "600px",
       data: {
         products: this.productSelection.selected
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(deleted => {
+      if(deleted) {
+        this.getProducts();
       }
     });
   }
 
   getProducts() {
     this.loading = true;
+    this.productSelection.clear();
     this.productsService.getProductsList(this.page, this.pageLimit, this.filterString, this.searchString).then(resp => {
       this.loading = false;
       if(resp) {
@@ -205,6 +223,34 @@ export class ProductsComponent implements OnInit {
     this.getProducts();
   }
 
+  onRowAction(data) {
+    if(data.action === "Activate" || data.action === "Deactivate") {
+      this.loading = true;
+      this.productsService.changeProductStatus({
+        ids: [data.row.id],
+        status: "active",
+        value: data.action === "Activate"
+      }).then(resp => {
+        this.loading = false;
+        this.snackbBar.open("Product status updated", "", {duration: 3000});
+        this.getProducts();
+      });
+    } else if(data.action === "Delete") {
+      let dialogRef = this.dialog.open(ProductsBulkDeleteDialog, {
+        width: "600px",
+        data: {
+          products: [data.row]
+        }
+      });
+
+      dialogRef.afterClosed().subscribe(deleted => {
+        if(deleted) {
+          this.getProducts();
+        }
+      });
+    }
+  }
+
 
   ngOnInit(): void {
     this.getProducts();
@@ -242,10 +288,33 @@ export class ImportProductsDialog {
   templateUrl: './dialogs/products-change-status-dialog.html',
 })
 export class ProductsChangeStatusDialog {
-  constructor(public dialogRef: MatDialogRef<ProductsChangeStatusDialog>, @Inject(MAT_DIALOG_DATA) public data) {}
+  constructor(
+    public dialogRef: MatDialogRef<ProductsChangeStatusDialog>,
+    @Inject(MAT_DIALOG_DATA) public data,
+    private productsService: ProductsService,
+    private snackBar: MatSnackBar
+  ) {
+    this.ids = this.data.products.map(product => product.id);
+  }
 
   loading: boolean = false;
+  ids = [];
+  activeStatus = ""
 
+  onSubmit() {
+    this.loading = true;
+    this.productsService.changeProductStatus({
+      ids: this.ids,
+      status: "active",
+      value: this.activeStatus === "Active"
+    }).then(resp => {
+      this.loading = false;
+      if(resp) {
+        this.snackBar.open("Products status updated.", "", {duration: 3000});
+        this.dialogRef.close(true);
+      }
+    });
+  }
 }
 
 
@@ -254,22 +323,79 @@ export class ProductsChangeStatusDialog {
   templateUrl: './dialogs/products-change-approval-dialog.html',
 })
 export class ProductsChangeApprovalDialog {
-  constructor(public dialogRef: MatDialogRef<ProductsChangeStatusDialog>, @Inject(MAT_DIALOG_DATA) public data) {}
+  constructor(
+    public dialogRef: MatDialogRef<ProductsChangeApprovalDialog>,
+    @Inject(MAT_DIALOG_DATA) public data,
+    private productsService: ProductsService,
+    private snackBar: MatSnackBar
+  ) {
+    this.ids = this.data.products.map(product => product.id);
+  }
 
   loading: boolean = false;
+  ids = [];
+  approvalStatus = "";
 
+  onSubmit() {
+    this.loading = true;
+    this.productsService.changeProductStatus({
+      ids: this.ids,
+      status: "approved",
+      value: this.approvalStatus === "Approved"
+    }).then(resp => {
+      this.loading = false;
+      if(resp) {
+        this.snackBar.open("Products approval status updated.", "", {duration: 3000});
+        this.dialogRef.close(true);
+      }
+    });
+  }
 }
 
 
 @Component({
-  selector: 'apply-bulk-discount-dialog',
-  templateUrl: './dialogs/apply-bulk-discount-dialog.html',
+  selector: 'products-bulk-organize-dialog',
+  templateUrl: './dialogs/products-bulk-organize-dialog.html',
 })
-export class ApplyBulkDiscountDialog {
-  constructor(public dialogRef: MatDialogRef<ProductsChangeStatusDialog>, @Inject(MAT_DIALOG_DATA) public data) {}
+export class ProductsBulkOrganizeDialog {
+  constructor(
+    public dialogRef: MatDialogRef<ProductsBulkOrganizeDialog>,
+    @Inject(MAT_DIALOG_DATA) public data,
+    private fb: FormBuilder,
+    private productsService: ProductsService,
+    private snackBar: MatSnackBar
+  ) {
+    this.ids = this.data.products.map(product => product.id);
+  }
 
   loading: boolean = false;
+  ids = [];
+  productGroups = [];
+  organizeForm = this.fb.group({
+    product_group: [""],
+    collections: [[]]
+  });
 
+  getProductGroups
+
+  onSubmit() {
+    // this.loading = true;
+    // this.productsService.changeProductStatus({
+    //   ids: this.ids,
+    //   status: "approved",
+    //   value: this.approvalStatus === "Approved"
+    // }).then(resp => {
+    //   this.loading = false;
+    //   if(resp) {
+    //     this.snackBar.open("Products approval status updated.", "", {duration: 3000});
+    //     this.dialogRef.close(true);
+    //   }
+    // });
+  }
+
+  ngOnInit() {
+
+  }
 }
 
 
@@ -307,13 +433,33 @@ export class AddBulkTagsDialog {
 }
 
 
+
 @Component({
-  selector: 'apply-bulk-channel-dialog',
-  templateUrl: './dialogs/apply-bulk-channel-dialog.html',
+  selector: 'products-bulk-delete-dialog',
+  templateUrl: './dialogs/products-bulk-delete-dialog.html',
 })
-export class ApplyBulkChannelDialog {
-  constructor(public dialogRef: MatDialogRef<ProductsChangeStatusDialog>, @Inject(MAT_DIALOG_DATA) public data) {}
+export class ProductsBulkDeleteDialog {
+  constructor(
+    public dialogRef: MatDialogRef<ProductsBulkDeleteDialog>,
+    @Inject(MAT_DIALOG_DATA) public data,
+    private productsService: ProductsService,
+    private snackBar: MatSnackBar
+  ) {
+    let idsArray = this.data.products.map(product => product.id);
+    this.ids = idsArray.join(",");
+  }
 
   loading: boolean = false;
+  ids: string = "";
 
+  onDelete() {
+    this.loading = true;
+    this.productsService.deleteProducts(this.ids).then(resp => {
+      this.loading = false;
+      if(resp) {
+        this.snackBar.open("Product deleted successfully.", "", {duration: 3000});
+        this.dialogRef.close(true);
+      }
+    })
+  }
 }

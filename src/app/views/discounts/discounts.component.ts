@@ -25,11 +25,11 @@ export class DiscountsComponent implements OnInit {
       selector: "title",
       clickable: true
     },
-    {
-      title: "Type",
-      selector: "discount_type",
-      cell: row => row.discount_type === "percentage" ? "Percentage" : "Amount"
-    },
+    // {
+    //   title: "Type",
+    //   selector: "discount_type",
+    //   cell: row => row.discount_type === "percentage" ? "Percentage" : "Amount"
+    // },
     {
       title: "Discount value",
       selector: "type_value",

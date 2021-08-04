@@ -5,7 +5,7 @@
 
     <mat-form-field appearance="outline">
         <mat-label>Approval status</mat-label>
-        <mat-select>
+        <mat-select [(ngModel)]="approvalStatus">
             <mat-option value="Approved">Approved</mat-option>
             <mat-option value="Disapproved">Disapproved</mat-option>
         </mat-select>
@@ -14,5 +14,5 @@
 </mat-dialog-content>
 <div mat-dialog-actions>
     <button mat-stroked-button color="primary" mat-dialog-close>Cancel</button>
-    <button mat-flat-button color="primary">Update status</button>
+    <button mat-flat-button color="primary" [disabled]="loading || !approvalStatus" (click)="onSubmit()">Update status</button>
 </div>

@@ -44,7 +44,7 @@ import { AcceptInviteComponent } from './auth/accept-invite/accept-invite.compon
 import { TaxConfigurationComponent } from './views/configuration/tax-configuration/tax-configuration.component';
 import { GeneralInformationComponent } from './views/configuration/general-information/general-information.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
-import { ApplyBulkDiscountDialog, ImportProductsDialog, ProductsChangeApprovalDialog, ProductsChangeStatusDialog, ProductsComponent, AddBulkTagsDialog, ApplyBulkChannelDialog } from './views/products/products.component';
+import { ImportProductsDialog, ProductsChangeApprovalDialog, ProductsChangeStatusDialog, ProductsComponent, AddBulkTagsDialog, ProductsBulkOrganizeDialog, ProductsBulkDeleteDialog } from './views/products/products.component';
 import { CategoryStructureComponent } from './views/products/category-structure/category-structure.component';
 import { NewMainCategoryComponent } from './views/products/category-structure/main-category/new-main-category/new-main-category.component';
 import { NewSubCategoryComponent } from './views/products/category-structure/sub-category/new-sub-category/new-sub-category.component';
@@ -62,7 +62,7 @@ import { NewSuperSubCategoryComponent } from './views/products/category-structur
 import { EditSuperSubCategoryComponent } from './views/products/category-structure/super-sub-category/edit-super-sub-category/edit-super-sub-category.component';
 import { TagsInputComponent } from './shared/tags-input/tags-input.component';
 import { DeleteVariantConfirmDialog, EditProductComponent, EditProductOptionsDialog } from './views/products/edit-product/edit-product.component';
-import { BrandsComponent } from './views/products/brands/brands.component';
+import { BrandDeleteDialog, BrandsComponent } from './views/products/brands/brands.component';
 import { AddBrandComponent } from './views/products/brands/add-brand/add-brand.component';
 import { EditBrandComponent } from './views/products/brands/edit-brand/edit-brand.component';
 import { DiscountsComponent } from './views/discounts/discounts.component';
@@ -102,9 +102,9 @@ import { AddShippingDialog, DeleteShippingDialog, EditShippingDialog, ShippingCo
     ImportProductsDialog,
     ProductsChangeStatusDialog,
     ProductsChangeApprovalDialog,
-    ApplyBulkDiscountDialog,
     AddBulkTagsDialog,
-    ApplyBulkChannelDialog,
+    ProductsBulkOrganizeDialog,
+    ProductsBulkDeleteDialog,
     AddProductComponent,
     ProductGroupsComponent,
     AddProductGroupComponent,
@@ -130,7 +130,8 @@ import { AddShippingDialog, DeleteShippingDialog, EditShippingDialog, ShippingCo
     ShippingComponent,
     AddShippingDialog,
     EditShippingDialog,
-    DeleteShippingDialog
+    DeleteShippingDialog,
+    BrandDeleteDialog
   ],
   imports: [
     BrowserModule,

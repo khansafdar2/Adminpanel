@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import URLS from 'src/app/shared/urls';
+import { ShippingService } from 'src/app/views/configuration/shipping/shipping.service';
 import { DiscountsService } from 'src/app/views/discounts/discounts.service';
 import { ProductsService } from '../../products.service';
 import { VendorsService } from '../../vendors.service';
@@ -19,8 +20,8 @@ export class EditProductGroupComponent implements OnInit {
     private fb: FormBuilder,
     private vendorsService: VendorsService,
     private productsService: ProductsService,
+    private shippingService: ShippingService,
     private snackbarService: MatSnackBar,
-    private router: Router,
     private route: ActivatedRoute,
     private discountsService: DiscountsService
   ) {
@@ -32,11 +33,13 @@ export class EditProductGroupComponent implements OnInit {
   URLS = URLS;
   vendors = [];
   discounts = [];
+  shippingMethods = [];
   productGroupForm = this.fb.group({
     id: [null],
     title: ['', [Validators.required]],
     vendor: [null, [Validators.required]],
-    discount: [""]
+    discount: [""],
+    shipping: [""]
   });
 
   getVendors() {
@@ -68,6 +71,15 @@ export class EditProductGroupComponent implements OnInit {
     })
   }
 
+  getShippingMethods() {
+    this.shippingService.getShippingMethods(1, 50).then(resp => {
+      if(resp) {
+        console.log(resp.data);
+        this.shippingMethods = resp.data.results;
+      }
+    })
+  }
+
   onSubmit() {
     this.loading = true;
     this.productsService.updateProductGroup(this.productGroupForm.value).then(resp => {
@@ -81,6 +93,7 @@ export class EditProductGroupComponent implements OnInit {
   ngOnInit(): void {
     this.getVendors();
     this.getDiscounts();
+    this.getShippingMethods();
     this.getProductGroupDetails();
   }
 
