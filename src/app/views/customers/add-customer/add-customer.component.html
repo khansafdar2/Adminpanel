@@ -7,6 +7,7 @@
 
         <div class="header-actions">
             <a [routerLink]="['/', URLS.customers]" mat-stroked-button color="primary">Cancel</a>
+            <button mat-flat-button color="primary" [disabled]="loading || !customerForm.valid" (click)="onSubmit()">Save</button>
         </div>
     </div>
 
@@ -20,12 +21,14 @@
                         <mat-form-field appearance="outline">
                             <mat-label>First name</mat-label>
                             <input matInput formControlName="first_name" />
+                            <mat-error *ngIf="customerForm.get('first_name').hasError('required')">This field is required.</mat-error>
                         </mat-form-field>
                     </div>
                     <div fxFlex="0 1 50%">
                         <mat-form-field appearance="outline">
                             <mat-label>Last name</mat-label>
                             <input matInput formControlName="last_name" />
+                            <mat-error *ngIf="customerForm.get('last_name').hasError('required')">This field is required.</mat-error>
                         </mat-form-field>
                     </div>
                 </div>
@@ -54,12 +57,14 @@
                         <mat-form-field appearance="outline">
                             <mat-label>First name</mat-label>
                             <input matInput formControlName="first_name" />
+                            <mat-error *ngIf="addressForm.get('first_name').hasError('required')">This field is required.</mat-error>
                         </mat-form-field>
                     </div>
                     <div fxFlex="0 1 50%">
                         <mat-form-field appearance="outline">
                             <mat-label>Last name</mat-label>
                             <input matInput formControlName="last_name" />
+                            <mat-error *ngIf="addressForm.get('last_name').hasError('required')">This field is required.</mat-error>
                         </mat-form-field>
                     </div>
                 </div>
@@ -80,6 +85,7 @@
                 <mat-form-field appearance="outline">
                     <mat-label>Address</mat-label>
                     <input matInput formControlName="address" />
+                    <mat-error *ngIf="addressForm.get('address').hasError('required')">This field is required.</mat-error>
                 </mat-form-field>
                 <div fxLayout="row">
                     <div fxFlex="0 1 50%">
@@ -92,6 +98,7 @@
                         <mat-form-field appearance="outline">
                             <mat-label>City</mat-label>
                             <input matInput formControlName="city" />
+                            <mat-error *ngIf="addressForm.get('city').hasError('required')">This field is required.</mat-error>
                         </mat-form-field>
                     </div>
                 </div>
@@ -100,12 +107,14 @@
                         <mat-form-field appearance="outline">
                             <mat-label>Country</mat-label>
                             <input matInput formControlName="country" />
+                            <mat-error *ngIf="addressForm.get('country').hasError('required')">This field is required.</mat-error>
                         </mat-form-field>
                     </div>
                     <div fxFlex="0 1 50%">
                         <mat-form-field appearance="outline">
                             <mat-label>Postal code</mat-label>
                             <input matInput formControlName="postal_code" />
+                            <mat-error *ngIf="addressForm.get('postal_code').hasError('required')">This field is required.</mat-error>
                         </mat-form-field>
                     </div>
                 </div>
@@ -125,6 +134,7 @@
 
                 <tags-input
                     [showRemove]="true"
+                    [(value)]="tags"
                 ></tags-input>
             </mat-card>
         </div>

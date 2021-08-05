@@ -5,7 +5,7 @@
             <li *ngIf="userPermissions.theme"><a routerLink="/xyz" routerLinkActive="active"><span class="link-icon" [inlineSVG]="'/assets/img/HomeIcon.svg'"></span>Customization</a></li>
             <li *ngIf="userPermissions.products"><a (click)="toggleDrawer('products')" [class.active]="sideDrawer === 'products'"><span class="link-icon" [inlineSVG]="'/assets/img/ProductsIcon.svg'"></span>Products</a></li>
             <li *ngIf="userPermissions.orders"><a [routerLink]="['/', Urls.orders]" routerLinkActive="active"><span class="link-icon" [inlineSVG]="'/assets/img/HomeIcon.svg'"></span>Orders</a></li>
-            <li *ngIf="userPermissions.customer"><a [routerLink]="['/', Urls.customers]" routerLinkActive="active"><span class="link-icon" [inlineSVG]="'/assets/img/HomeIcon.svg'"></span>Customers</a></li>
+            <li *ngIf="userPermissions.customer"><a [routerLink]="['/', Urls.customers]" routerLinkActive="active"><span class="link-icon" [inlineSVG]="'/assets/img/CustomersIcon.svg'"></span>Customers</a></li>
             <li *ngIf="userPermissions.discounts"><a [routerLink]="'/' + Urls.discounts" routerLinkActive="active"><span class="link-icon" [inlineSVG]="'/assets/img/DiscountsIcon.svg'"></span>Discounts</a></li>
             <li *ngIf="userPermissions.configuration"><a [routerLink]="'/' + Urls.configuration" routerLinkActive="active"><span class="link-icon" [inlineSVG]="'/assets/img/SettingsIcon.svg'"></span>Configuration</a></li>
         </ul>

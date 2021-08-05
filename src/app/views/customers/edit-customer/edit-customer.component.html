@@ -1,0 +1,164 @@
+<app-topbar></app-topbar>
+<app-sidenav></app-sidenav>
+<main id="main">
+    <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+    <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
+        <h1>Edit customer</h1>
+
+        <div class="header-actions">
+            <a [routerLink]="['/', URLS.customers]" mat-stroked-button color="primary">Cancel</a>
+            <button mat-flat-button color="primary" [disabled]="loading || !customerForm.valid" (click)="onSubmit()">Save</button>
+        </div>
+    </div>
+
+    <div fxLayout="row" [formGroup]="customerForm">
+        <div fxFlex="0 1 66.6666%">
+            <mat-card>
+                <h2>Basic Information</h2>
+
+                <div fxLayout="row">
+                    <div fxFlex="0 1 50%">
+                        <mat-form-field appearance="outline">
+                            <mat-label>First name</mat-label>
+                            <input matInput formControlName="first_name" />
+                            <mat-error *ngIf="customerForm.get('first_name').hasError('required')">This field is required.</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="0 1 50%">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Last name</mat-label>
+                            <input matInput formControlName="last_name" />
+                            <mat-error *ngIf="customerForm.get('last_name').hasError('required')">This field is required.</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div fxLayout="row">
+                    <div fxFlex="0 1 50%">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Email address</mat-label>
+                            <input matInput type="email" formControlName="email" />
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="0 1 50%">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Phone number</mat-label>
+                            <input matInput type="tel" formControlName="phone" />
+                        </mat-form-field>
+                    </div>
+                </div>
+            </mat-card>
+
+            <!-- Addresses -->
+            <mat-card>
+                <h2>Addresses</h2>
+
+                <div class="address-wrapper" *ngFor="let addressGroup of customerForm.get('address')['controls']; let i = index">
+                    <div [formGroup]="addressGroup">
+                        <div fxLayout="row" fxLayoutAlign="space-between">
+                            <div>
+                                <mat-checkbox
+                                    formControlName="primary_address"
+                                    style="margin-bottom: 20px"
+                                    (change)="isDefaultChange($event)"
+                                >is default address.</mat-checkbox>
+                            </div>
+                            <div>
+                                <button
+                                    mat-icon-button
+                                    color="warn"
+                                    *ngIf="customerForm.get('address')['controls'].length > 1"
+                                    (click)="removeAddress(i)"
+                                ><mat-icon>delete</mat-icon></button>
+                            </div>
+                        </div>
+                        <div fxLayout="row">
+                            <div fxFlex="0 1 50%">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>First name</mat-label>
+                                    <input matInput formControlName="first_name" />
+                                    <mat-error *ngIf="addressGroup.get('first_name').hasError('required')">This field is required.</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="0 1 50%">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Last name</mat-label>
+                                    <input matInput formControlName="last_name" />
+                                    <mat-error *ngIf="addressGroup.get('last_name').hasError('required')">This field is required.</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div fxLayout="row">
+                            <div fxFlex="0 1 50%">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Company</mat-label>
+                                    <input matInput formControlName="company" />
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="0 1 50%">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Phone number</mat-label>
+                                    <input matInput type="tel" formControlName="phone" />
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Address</mat-label>
+                            <input matInput formControlName="address" />
+                            <mat-error *ngIf="addressGroup.get('address').hasError('required')">This field is required.</mat-error>
+                        </mat-form-field>
+                        <div fxLayout="row">
+                            <div fxFlex="0 1 50%">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Apartment</mat-label>
+                                    <input matInput formControlName="apartment" />
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="0 1 50%">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>City</mat-label>
+                                    <input matInput formControlName="city" />
+                                    <mat-error *ngIf="addressGroup.get('city').hasError('required')">This field is required.</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div fxLayout="row">
+                            <div fxFlex="0 1 50%">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Country</mat-label>
+                                    <input matInput formControlName="country" />
+                                    <mat-error *ngIf="addressGroup.get('country').hasError('required')">This field is required.</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="0 1 50%">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Postal code</mat-label>
+                                    <input matInput formControlName="postal_code" />
+                                    <mat-error *ngIf="addressGroup.get('postal_code').hasError('required')">This field is required.</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button mat-stroked-button color="primary" (click)="addAddress()">+ Add address</button>
+            </mat-card>
+        </div>
+        <div fxFlex="0 1 33.3333%">
+            <mat-card>
+                <h2>Notes</h2>
+
+                <mat-form-field appearance="outline">
+                    <textarea rows="7" placeholder="Add note" matInput formControlName="notes"></textarea>
+                </mat-form-field>
+            </mat-card>
+
+            <mat-card>
+                <h2>Tags</h2>
+
+                <tags-input
+                    [showRemove]="true"
+                    [(value)]="tags"
+                ></tags-input>
+            </mat-card>
+        </div>
+    </div>
+</main>

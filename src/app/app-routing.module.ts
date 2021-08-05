@@ -42,6 +42,7 @@ import { OrdersComponent } from './views/orders/orders.component';
 import { AddOrderComponent } from './views/orders/add-order/add-order.component';
 import { CustomersComponent } from './views/customers/customers.component';
 import { AddCustomerComponent } from './views/customers/add-customer/add-customer.component';
+import { EditCustomerComponent } from './views/customers/edit-customer/edit-customer.component';
 
 
 const routes: Routes = [
@@ -112,7 +113,8 @@ const routes: Routes = [
   {path: URLS.customers, children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
     {path: URLS.all, component: CustomersComponent, canActivate: [LoggedInAuthGuard]},
-    {path: URLS.add, component: AddCustomerComponent, canActivate: [LoggedInAuthGuard]}
+    {path: URLS.add, component: AddCustomerComponent, canActivate: [LoggedInAuthGuard]},
+    {path: URLS.edit + '/:id', component: EditCustomerComponent, canActivate: [LoggedInAuthGuard]}
   ]}
 ];
 

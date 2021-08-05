@@ -75,6 +75,7 @@ import { OrdersComponent } from './views/orders/orders.component';
 import { AddOrderComponent } from './views/orders/add-order/add-order.component';
 import { CustomersComponent } from './views/customers/customers.component';
 import { AddCustomerComponent } from './views/customers/add-customer/add-customer.component';
+import { EditCustomerComponent } from './views/customers/edit-customer/edit-customer.component';
 
 @NgModule({
   declarations: [
@@ -139,7 +140,8 @@ import { AddCustomerComponent } from './views/customers/add-customer/add-custome
     OrdersComponent,
     AddOrderComponent,
     CustomersComponent,
-    AddCustomerComponent
+    AddCustomerComponent,
+    EditCustomerComponent
   ],
   imports: [
     BrowserModule,
