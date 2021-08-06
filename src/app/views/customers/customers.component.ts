@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Column } from 'src/app/shared/datatable/datatable.component';
 import URLS from 'src/app/shared/urls';
@@ -14,7 +16,8 @@ export class CustomersComponent implements OnInit {
 
   constructor(
     private customersService: CustomersService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) { }
 
   loading: boolean = false;
@@ -39,6 +42,7 @@ export class CustomersComponent implements OnInit {
       selector: "phone"
     }
   ];
+  rowActions: string[] = ["Delete"];
 
   getCustomers() {
     this.loading = true;
@@ -61,8 +65,49 @@ export class CustomersComponent implements OnInit {
     this.router.navigate(['/', URLS.customers, URLS.edit, data.row.id]);
   }
 
+  onRowAction(data) {
+    let dialogRef = this.dialog.open(CustomerDeleteDialog, {
+      width: "600px",
+      data: {
+        customer: data.row
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(deleted => {
+      if(deleted) {
+        this.getCustomers();
+      }
+    });
+  }
+
   ngOnInit(): void {
     this.getCustomers();
   }
 
+}
+
+
+@Component({
+  selector: 'customer-delete-dialog',
+  templateUrl: './dialogs/customer-delete-dialog.html',
+})
+export class CustomerDeleteDialog {
+  constructor(
+    public dialogRef: MatDialogRef<CustomerDeleteDialog>,
+    @Inject(MAT_DIALOG_DATA) public data,
+    private snackbar: MatSnackBar,
+    private customerService: CustomersService) {
+  }
+
+  loading: boolean = false;
+
+  deleteCustomer() {
+    this.loading = true;
+    this.customerService.deleteCustomer(this.data.customer.id).then(resp => {
+      if(resp) {
+        this.snackbar.open("Customer deleted successfully.", "", {duration: 3000});
+        this.dialogRef.close(true);
+      }
+    });
+  }
 }

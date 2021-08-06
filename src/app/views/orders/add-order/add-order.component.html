@@ -3,11 +3,21 @@
 <main id="main">
     <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
     <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
-        <h1>Add Order</h1>
+        <h1>New Order</h1>
 
         <div class="header-actions">
             <a [routerLink]="['/', URLS.orders]" mat-stroked-button color="primary">Cancel</a>
         </div>
     </div>
 
+    <div fxLayout="row">
+        <div fxFlex="0 1 50%">
+            <mat-card>
+                <h3>Order details</h3>
+
+                <variant-selector></variant-selector>
+            </mat-card>
+        </div>
+        <div fxFlex="0 1 50%"></div>
+    </div>
 </main>

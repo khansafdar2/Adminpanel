@@ -73,9 +73,10 @@ import { EditDiscountComponent } from './views/discounts/edit-discount/edit-disc
 import { AddShippingDialog, DeleteShippingDialog, EditShippingDialog, ShippingComponent } from './views/configuration/shipping/shipping.component';
 import { OrdersComponent } from './views/orders/orders.component';
 import { AddOrderComponent } from './views/orders/add-order/add-order.component';
-import { CustomersComponent } from './views/customers/customers.component';
+import { CustomerDeleteDialog, CustomersComponent } from './views/customers/customers.component';
 import { AddCustomerComponent } from './views/customers/add-customer/add-customer.component';
 import { EditCustomerComponent } from './views/customers/edit-customer/edit-customer.component';
+import { VariantSelectorComponent, VariantSelectorDialog } from './shared/variant-selector/variant-selector.component';
 
 @NgModule({
   declarations: [
@@ -141,7 +142,10 @@ import { EditCustomerComponent } from './views/customers/edit-customer/edit-cust
     AddOrderComponent,
     CustomersComponent,
     AddCustomerComponent,
-    EditCustomerComponent
+    EditCustomerComponent,
+    CustomerDeleteDialog,
+    VariantSelectorComponent,
+    VariantSelectorDialog
   ],
   imports: [
     BrowserModule,

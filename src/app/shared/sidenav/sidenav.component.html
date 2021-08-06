@@ -1,16 +1,43 @@
 <div id="side-nav">
     <nav>
         <ul>
-            <li *ngIf="userPermissions.dashboard"><a [routerLink]="'/' + Urls.home" routerLinkActive="active"><span class="link-icon" [inlineSVG]="'/assets/img/HomeIcon.svg'"></span>Home</a></li>
-            <li *ngIf="userPermissions.theme"><a routerLink="/xyz" routerLinkActive="active"><span class="link-icon" [inlineSVG]="'/assets/img/HomeIcon.svg'"></span>Customization</a></li>
-            <li *ngIf="userPermissions.products"><a (click)="toggleDrawer('products')" [class.active]="sideDrawer === 'products'"><span class="link-icon" [inlineSVG]="'/assets/img/ProductsIcon.svg'"></span>Products</a></li>
-            <li *ngIf="userPermissions.orders"><a [routerLink]="['/', Urls.orders]" routerLinkActive="active"><span class="link-icon" [inlineSVG]="'/assets/img/HomeIcon.svg'"></span>Orders</a></li>
-            <li *ngIf="userPermissions.customer"><a [routerLink]="['/', Urls.customers]" routerLinkActive="active"><span class="link-icon" [inlineSVG]="'/assets/img/CustomersIcon.svg'"></span>Customers</a></li>
-            <li *ngIf="userPermissions.discounts"><a [routerLink]="'/' + Urls.discounts" routerLinkActive="active"><span class="link-icon" [inlineSVG]="'/assets/img/DiscountsIcon.svg'"></span>Discounts</a></li>
-            <li *ngIf="userPermissions.configuration"><a [routerLink]="'/' + Urls.configuration" routerLinkActive="active"><span class="link-icon" [inlineSVG]="'/assets/img/SettingsIcon.svg'"></span>Configuration</a></li>
+            <li *ngIf="userPermissions.dashboard">
+                <a [routerLink]="'/' + Urls.home" routerLinkActive="active">
+                    <span class="link-icon" [inlineSVG]="'/assets/img/HomeIcon.svg'"></span>Home
+                </a>
+            </li>
+            <li *ngIf="userPermissions.theme">
+                <a routerLink="/xyz" routerLinkActive="active">
+                    <span class="link-icon" [inlineSVG]="'/assets/img/HomeIcon.svg'"></span>Customization
+                </a>
+            </li>
+            <li *ngIf="userPermissions.products">
+                <a (click)="toggleDrawer('products')" [class.active]="sideDrawer === 'products'">
+                    <span class="link-icon" [inlineSVG]="'/assets/img/ProductsIcon.svg'"></span>Products
+                </a>
+            </li>
+            <li *ngIf="userPermissions.orders">
+                <a (click)="toggleDrawer('orders')" [class.active]="sideDrawer === 'orders'">
+                    <span class="link-icon" [inlineSVG]="'/assets/img/HomeIcon.svg'"></span>Orders
+                </a>
+            </li>
+            <li *ngIf="userPermissions.customer">
+                <a [routerLink]="['/', Urls.customers]" routerLinkActive="active">
+                    <span class="link-icon" [inlineSVG]="'/assets/img/CustomersIcon.svg'"></span>Customers
+                </a>
+            </li>
+            <li *ngIf="userPermissions.discounts">
+                <a [routerLink]="'/' + Urls.discounts" routerLinkActive="active">
+                    <span class="link-icon" [inlineSVG]="'/assets/img/DiscountsIcon.svg'"></span>Discounts
+                </a>
+            </li>
+            <li *ngIf="userPermissions.configuration">
+                <a [routerLink]="'/' + Urls.configuration" routerLinkActive="active">
+                    <span class="link-icon" [inlineSVG]="'/assets/img/SettingsIcon.svg'"></span>Configuration
+                </a>
+            </li>
         </ul>
     </nav>
-
 </div>
 <div class="sidenav-drawer" [class.show]="sideDrawer === 'products'">
     <h4 class="sidenav-title">Products</h4>
@@ -22,6 +49,17 @@
             <li><a [routerLink]="'/' + Urls.collections" routerLinkActive="active">Collections</a></li>
             <li><a [routerLink]="'/' + Urls.categories" routerLinkActive="active">Category structure</a></li>
             <li><a [routerLink]="'/' + Urls.brands" routerLinkActive="active">Brands</a></li>
+        </ul>
+    </nav>
+</div>
+
+<div class="sidenav-drawer" [class.show]="sideDrawer === 'orders'">
+    <h4 class="sidenav-title">Orders</h4>
+
+    <nav>
+        <ul>
+            <li><a [routerLink]="['/', Urls.orders]" routerLinkActive="active">All orders</a></li>
+            <li><a>Draft orders</a></li>
         </ul>
     </nav>
 </div>

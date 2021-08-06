@@ -50,4 +50,30 @@ export class CustomersService {
       }
     });
   }
+
+  updateCustomer(data) {
+    return Axios.put( environment.backend_url + '/crm/customer', data, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
+  deleteCustomer(id) {
+    return Axios.delete( environment.backend_url + '/crm/customer/' + id, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
 }

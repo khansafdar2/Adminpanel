@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import URLS from 'src/app/shared/urls';
@@ -43,6 +43,7 @@ export class EditCustomerComponent implements OnInit {
 
   addAddress(is_primary = false) {
     (this.customerForm.get('address') as FormArray).push(this.fb.group({
+      id: [null],
       primary_address: [{value: is_primary, disabled: is_primary}],
       first_name: ["", [Validators.required]],
       last_name: ["", [Validators.required]],
@@ -64,32 +65,51 @@ export class EditCustomerComponent implements OnInit {
         console.log(resp.data);
         this.tags = resp.data.tags ? resp.data.tags.split(","): [];
         for (let i = 0; i < resp.data.address.length; i++) {
-          this.addAddress();
+          this.addAddress(resp.data.address[i].primary_address);
         }
         this.customerForm.patchValue(resp.data);
       }
     });
   }
 
-  isDefaultChange(event) {
-
+  isDefaultChange(event, index) {
+    if(event.checked) {
+      for (let i = 0; i < (this.customerForm.get('address') as FormArray).controls.length; i++) {
+        const addressGroup = (this.customerForm.get('address') as FormArray).controls[i];
+        if(i !== index) {
+          if(addressGroup.get('primary_address').value) {
+            addressGroup.get('primary_address').setValue(false);
+            addressGroup.get('primary_address').enable();
+          }
+        } else {
+          addressGroup.get('primary_address').disable();
+        }
+      }
+    }
   }
 
   removeAddress(index) {
+    const addressGroup = (this.customerForm.get('address') as FormArray).controls[index];
+    let is_primary = addressGroup.get('primary_address').value;
     (this.customerForm.get('address') as FormArray).removeAt(index);
+    if(is_primary) {
+      (this.customerForm.get('address') as FormArray).controls[0].patchValue({
+        primary_address: true
+      });
+    }
   }
 
   onSubmit() {
-    // let customerData = this.customerForm.value;
-    // let addressData = this.addressForm.value;
-    // customerData.address = [addressData];
-    // customerData.notes = this.notes.join(',');
-    // this.loading = true;
-    // this.customersService.createCustomer(customerData).then(resp => {
-    //   this.loading = false;
-    //   this.snackBar.open("Customer created successfully.", "", {duration: 3000});
-    //   this.router.navigate(['/', URLS.customers]);
-    // });
+    let customerData = this.customerForm.getRawValue();
+    customerData.tags = this.tags.join(',');
+    this.loading = true;
+    this.customersService.updateCustomer(customerData).then(resp => {
+      this.loading = false;
+      if(resp) {
+        this.snackBar.open("Customer updated successfully.", "", {duration: 3000});
+        this.router.navigate(['/', URLS.customers]);
+      }
+    });
   }
 
   ngOnInit(): void {
