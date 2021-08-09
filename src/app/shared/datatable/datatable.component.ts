@@ -220,7 +220,6 @@ export class DatatableComponent implements OnInit, AfterViewInit {
   }
 
   onSearch = Debounce(() =>  {
-    console.log(this.searchQuery);
     this.search.emit({
       query: this.searchQuery,
       column: this.searchColumn
