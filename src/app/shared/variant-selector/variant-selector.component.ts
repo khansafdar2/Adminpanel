@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatListOption, MatSelectionListChange } from '@angular/material/list';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -13,6 +13,8 @@ import { VariantSelectorService } from './variant-selector.service';
 })
 export class VariantSelectorComponent implements OnInit {
 
+  @Output() addItems = new EventEmitter<any>();
+
   constructor(
     private dialog: MatDialog
   ) { }
@@ -21,10 +23,15 @@ export class VariantSelectorComponent implements OnInit {
     let dialogRef = this.dialog.open(VariantSelectorDialog, {
       width: "600px"
     });
+
+    dialogRef.afterClosed().subscribe(selectedVariants => {
+      if(selectedVariants) {
+        this.addItems.emit(selectedVariants);
+      }
+    });
   }
 
   ngOnInit(): void {
-    this.openDialog();
   }
 
 }
@@ -58,7 +65,6 @@ export class VariantSelectorDialog {
     this.variantSelectorService.getProductsWithVariants(this.pageNumber, 5, this.searchQuery).then(resp => {
       this.loading = false;
       if(resp) {
-        console.log(resp.data);
         this.products = this.products.concat(resp.data.results);
         this.productsCount = resp.data.count;
       }
@@ -82,7 +88,6 @@ export class VariantSelectorDialog {
   }
 
   onSelection(e: MatSelectionListChange) {
-    console.log(e.options[0].value);
     let variant = e.options[0].value;
     if(e.options[0].selected) {
       for (let i = 0; i < this.products.length; i++) {
@@ -104,6 +109,10 @@ export class VariantSelectorDialog {
         }
       }
     }
+  }
+
+  addItems() {
+    this.dialogRef.close(this.selectedProductsWithVariants);
   }
 
   ngOnInit() {

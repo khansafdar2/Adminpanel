@@ -15,7 +15,33 @@
             <mat-card>
                 <h3>Order details</h3>
 
-                <variant-selector></variant-selector>
+                <variant-selector
+                    (addItems)="onAddItems($event)"
+                ></variant-selector>
+                <div class="order-lineitems">
+                    <div class="lineitem-wrapper" *ngFor="let lineitemGroup of lineitemsForm.get('lineitems')['controls']; let i = index">
+                        <ng-container [formGroup]="lineitemGroup">
+                            <div class="lineitem-productdata">
+                                <img [src]="lineitemGroup.get('image').value ? lineitemGroup.get('image').value : '/assets/img/placeholder-image.png'" />
+                                <div>
+                                    <span class="product-name">{{lineitemGroup.get('product_name').value}}</span>
+                                    <span class="variant_info">{{lineitemGroup.get('vendor_name').value}}<br>{{lineitemGroup.get('variant_title').value == "Detault Title" ? "" : lineitemGroup.get('variant_title').value }}</span>
+                                </div>
+                            </div>
+                            <div class="lineitem-price-qty">
+                                {{lineitemGroup.get('price').value}} QAR x <input type="number" class="lineitem-qty" min="1" formControlName="qty" (keydown)="onQtyKeydown($event)" />
+                            </div>
+                            <div class="lineitem-subtotal">
+                                <span>{{lineitemGroup.get('price').value * lineitemGroup.get('qty').value}} QAR</span>
+                            </div>
+                            <div>
+                                <button mat-icon-button color="primary" (click)="deleteLineItem(i)"><mat-icon>delete</mat-icon></button>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+
+                <div class=""></div>
             </mat-card>
         </div>
         <div fxFlex="0 1 50%"></div>
