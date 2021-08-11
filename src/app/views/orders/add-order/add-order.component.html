@@ -7,6 +7,7 @@
 
         <div class="header-actions">
             <a [routerLink]="['/', URLS.orders]" mat-stroked-button color="primary">Cancel</a>
+            <button mat-flat-button color="primary" [disabled]="!lineitemsForm.valid">Save</button>
         </div>
     </div>
 
@@ -18,7 +19,7 @@
                 <variant-selector
                     (addItems)="onAddItems($event)"
                 ></variant-selector>
-                <div class="order-lineitems">
+                <div class="order-lineitems" *ngIf="lineitemsForm.get('lineitems')['controls'].length">
                     <div class="lineitem-wrapper" *ngFor="let lineitemGroup of lineitemsForm.get('lineitems')['controls']; let i = index">
                         <ng-container [formGroup]="lineitemGroup">
                             <div class="lineitem-productdata">
@@ -29,7 +30,7 @@
                                 </div>
                             </div>
                             <div class="lineitem-price-qty">
-                                {{lineitemGroup.get('price').value}} QAR x <input type="number" class="lineitem-qty" min="1" formControlName="qty" (keydown)="onQtyKeydown($event)" />
+                                {{lineitemGroup.get('price').value}} QAR x <input type="number" class="lineitem-qty" min="1" formControlName="qty" (keydown)="onQtyKeydown($event)" (change)="onQtyChange()" />
                             </div>
                             <div class="lineitem-subtotal">
                                 <span>{{lineitemGroup.get('price').value * lineitemGroup.get('qty').value}} QAR</span>
@@ -40,10 +41,74 @@
                         </ng-container>
                     </div>
                 </div>
+                <div *ngIf="!lineitemsForm.get('lineitems')['controls'].length">
+                    <p class="no-lineitems">Browse products to add in the order.</p>
+                </div>
 
-                <div class=""></div>
+                <div class="lineitems-total" *ngIf="lineitemsForm.get('lineitems')['controls'].length">
+                    <div fxLayout="row" fxLayoutAlign="space-between">
+                        <div>
+                            <span>Subtotal</span>
+                        </div>
+                        <div>
+                            <span>{{subTotal}} QAR</span>
+                        </div>
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="space-between">
+                        <div>
+                            <span>Shipping</span>
+                        </div>
+                        <div>
+                            <span>{{totalShipping}} QAR</span>
+                        </div>
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="space-between">
+                        <div>
+                            <span>Tax</span>
+                        </div>
+                        <div>
+                            <span>{{totalTax}} QAR</span>
+                        </div>
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="space-between" class="lineitems-total-row">
+                        <div>
+                            <span>Total</span>
+                        </div>
+                        <div>
+                            <span>{{grandTotal}} QAR</span>
+                        </div>
+                    </div>
+                </div>
+            </mat-card>
+
+            <mat-card>
+                <h3>Payment detail</h3>
+
+                <div fxLayout="row" fxLayoutAlign="space-between">
+                    <div>
+                        <span [class]="'label ' + (paymentStatus === 'Paid' ? 'success' : 'warning')">Payment: {{paymentStatus}}</span>
+                    </div>
+                    <div>
+                        <button mat-flat-button color="primary" (click)="paymentStatus = 'Paid'" *ngIf="paymentStatus === 'Pending'">Mark as Paid</button>
+                        <button mat-flat-button color="primary" (click)="paymentStatus = 'Pending'" *ngIf="paymentStatus === 'Paid'">Mark as Pending</button>
+                    </div>
+                </div>
             </mat-card>
         </div>
-        <div fxFlex="0 1 50%"></div>
+        <div fxFlex="0 1 50%">
+            <mat-card>
+                <h3>Add note</h3>
+
+                <mat-form-field appearance="outline">
+                    <textarea rows="5" matInput placeholder="Create note" [(ngModel)]="notes"></textarea>
+                </mat-form-field>
+            </mat-card>
+
+            <mat-card>
+                <h3>Add tags</h3> 
+
+                <tags-input [(value)]="tags"></tags-input>
+            </mat-card>
+        </div>
     </div>
 </main>

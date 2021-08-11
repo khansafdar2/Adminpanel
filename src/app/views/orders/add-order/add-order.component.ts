@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import URLS from 'src/app/shared/urls';
+import { TaxConfigurationService } from '../../configuration/tax-configuration/tax-configuration.service';
 
 
 @Component({
@@ -11,15 +12,33 @@ import URLS from 'src/app/shared/urls';
 export class AddOrderComponent implements OnInit {
 
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private taxService: TaxConfigurationService
   ) { }
 
   loading: boolean = false;
   URLS = URLS;
   lineitems = [];
+  taxApplied = 0;
   lineitemsForm = this.fb.group({
     lineitems: this.fb.array([])
   });
+  subTotal = 0;
+  totalShipping = 0;
+  totalTax = 0;
+  grandTotal = 0;
+  paymentStatus = "Pending";
+  notes: string = "";
+  tags: string[] = [];
+
+  getTaxConfiguration() {
+    this.taxService.getTaxInfo().then(resp => {
+      if(resp) {
+        console.log(resp.data);
+        this.taxApplied = parseFloat(resp.data.tax_percentage);
+      }
+    })
+  }
 
   onQtyKeydown(event: KeyboardEvent) {
     if(event.key === ".") {
@@ -29,6 +48,7 @@ export class AddOrderComponent implements OnInit {
 
   deleteLineItem(index) {
     (this.lineitemsForm.get('lineitems') as FormArray).removeAt(index);
+    this.updateTotals();
   }
 
   onAddItems(items) {
@@ -51,9 +71,44 @@ export class AddOrderComponent implements OnInit {
         })
       );
     }
+
+    this.updateTotals();
+  }
+
+  onQtyChange() {
+    this.updateTotals();
+  }
+
+  updateTotals() {
+    let subTotal = 0;
+    let totalShipping = 0;
+    for (let i = 0; i < (this.lineitemsForm.get('lineitems') as FormArray).length; i++) {
+      const lineItemGroup = (this.lineitemsForm.get('lineitems')['controls'] as FormArray)[i] as FormGroup;
+      // Calculate Subtotal
+      let price = lineItemGroup.get('price').value;
+      let qty = lineItemGroup.get('qty').value;
+      if(lineItemGroup.get('qty').valid) {
+        subTotal += (price * qty);
+      }
+
+      // Calculate Shipping
+      let shipping = lineItemGroup.get('shipping').value;
+      if(shipping) {
+        totalShipping += shipping;
+      }
+    }
+    this.subTotal = subTotal;
+    this.totalShipping = totalShipping;
+
+    // Calculate Tax
+    this.totalTax = this.taxApplied / 100 * (subTotal + totalShipping);
+
+    // Calculate Grand total
+    this.grandTotal = subTotal + totalShipping + this.totalTax;
   }
 
   ngOnInit(): void {
+    this.getTaxConfiguration();
   }
 
 }

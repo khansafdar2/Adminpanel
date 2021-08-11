@@ -567,3 +567,21 @@ body {
         }
     }
 }
+.mat-typography {
+    .no-lineitems {
+        margin-top: 20px;
+    }
+}
+.lineitems-total {
+    margin: 20px -16px 0;
+    padding: 20px 16px 0;
+    border-top: 1px solid #ddd;
+
+    .lineitems-total-row {
+        font-weight: 600;
+    }
+
+    > * + * {
+        margin-top: 12px;
+    }
+}
