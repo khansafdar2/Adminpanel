@@ -97,6 +97,16 @@
         </div>
         <div fxFlex="0 1 50%">
             <mat-card>
+                <h3>Add customer</h3>
+
+                <ng-select [items]="customers | async"
+                    bindLabel="first_name"
+                    bindValue="id"
+                    [(ngModel)]="selectedCustomer">
+                </ng-select>
+            </mat-card>
+
+            <mat-card>
                 <h3>Add note</h3>
 
                 <mat-form-field appearance="outline">

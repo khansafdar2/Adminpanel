@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
 import URLS from 'src/app/shared/urls';
 import { TaxConfigurationService } from '../../configuration/tax-configuration/tax-configuration.service';
+import { OrdersService } from '../orders.service';
 
 
 @Component({
@@ -13,7 +15,8 @@ export class AddOrderComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private taxService: TaxConfigurationService
+    private taxService: TaxConfigurationService,
+    private ordersService: OrdersService
   ) { }
 
   loading: boolean = false;
@@ -30,6 +33,8 @@ export class AddOrderComponent implements OnInit {
   paymentStatus = "Pending";
   notes: string = "";
   tags: string[] = [];
+  customers: Observable<any[]>;
+  selectedCustomer = null;
 
   getTaxConfiguration() {
     this.taxService.getTaxInfo().then(resp => {
@@ -38,6 +43,15 @@ export class AddOrderComponent implements OnInit {
         this.taxApplied = parseFloat(resp.data.tax_percentage);
       }
     })
+  }
+
+  getCustomers() {
+    // this.customers = this.ordersService.getCustomersList().then(resp => resp.data);
+    this.ordersService.getCustomersList().then(resp => {
+      if(resp) {
+        this.customers = resp.data.results;
+      }
+    });
   }
 
   onQtyKeydown(event: KeyboardEvent) {
@@ -109,6 +123,7 @@ export class AddOrderComponent implements OnInit {
 
   ngOnInit(): void {
     this.getTaxConfiguration();
+    this.getCustomers();
   }
 
 }

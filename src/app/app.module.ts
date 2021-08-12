@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { InlineSVGModule } from 'ng-inline-svg';
@@ -150,6 +151,7 @@ import { VariantSelectorComponent, VariantSelectorDialog } from './shared/varian
   imports: [
     BrowserModule,
     AppRoutingModule,
+    NgSelectModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
