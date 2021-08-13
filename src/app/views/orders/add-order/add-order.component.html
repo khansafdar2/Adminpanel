@@ -102,6 +102,10 @@
                 <ng-select [items]="customers | async"
                     bindLabel="first_name"
                     bindValue="id"
+                    [trackByFn]="trackByFn"
+                    [minTermLength]="2"
+                    [loading]="customersLoading"
+                    [typeahead]="customerInput"
                     [(ngModel)]="selectedCustomer">
                 </ng-select>
             </mat-card>

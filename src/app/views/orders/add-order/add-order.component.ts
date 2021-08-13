@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { concat, Observable, of, Subject, pipe } from 'rxjs';
+import { catchError, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import URLS from 'src/app/shared/urls';
 import { TaxConfigurationService } from '../../configuration/tax-configuration/tax-configuration.service';
 import { OrdersService } from '../orders.service';
@@ -34,6 +35,8 @@ export class AddOrderComponent implements OnInit {
   notes: string = "";
   tags: string[] = [];
   customers: Observable<any[]>;
+  customerInput = new Subject<string>();
+  customersLoading: boolean = false;
   selectedCustomer = null;
 
   getTaxConfiguration() {
@@ -46,12 +49,26 @@ export class AddOrderComponent implements OnInit {
   }
 
   getCustomers() {
-    // this.customers = this.ordersService.getCustomersList().then(resp => resp.data);
-    this.ordersService.getCustomersList().then(resp => {
-      if(resp) {
-        this.customers = resp.data.results;
-      }
-    });
+    this.customers = concat(
+      of([]),
+      this.customerInput.pipe(
+          distinctUntilChanged(),
+          tap(() => this.customersLoading = true),
+          switchMap(term => this.ordersService.getCustomersList(term).pipe(
+              catchError(() => of([])),
+              tap(() => this.customersLoading = false)
+          ))
+      )
+    );
+      // this.ordersService.getCustomersList().then(resp => {
+    //   if(resp) {
+    //     this.customers = resp.data.results;
+    //   }
+    // });
+  }
+
+  trackByFn(customer) {
+    return customer.id;
   }
 
   onQtyKeydown(event: KeyboardEvent) {
