@@ -11,17 +11,14 @@
     </div>
 
     <mat-card class="table-wrapper-card">
-        <!-- <datatable 
-            [data]="productGroups"
+        <datatable 
+            [data]="orders"
             [columns]="displayedColumns"
-            [rowActions]="rowActions"
             [pagination]="true"
             [itemsPerPage]="pageSize"
             [count]="totalCount"
 
-            (page)="onPage($event)"
-            (cellClick)="onCellClick($event)"
-            (rowAction)="onRowAction($event)">
-        </datatable> -->
+            (page)="onPage($event)">
+        </datatable>
     </mat-card>
 </main>

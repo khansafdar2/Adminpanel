@@ -60,11 +60,6 @@ export class AddOrderComponent implements OnInit {
           ))
       )
     );
-      // this.ordersService.getCustomersList().then(resp => {
-    //   if(resp) {
-    //     this.customers = resp.data.results;
-    //   }
-    // });
   }
 
   trackByFn(customer) {

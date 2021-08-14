@@ -106,7 +106,20 @@
                     [minTermLength]="2"
                     [loading]="customersLoading"
                     [typeahead]="customerInput"
-                    [(ngModel)]="selectedCustomer">
+                    [(ngModel)]="selectedCustomer"
+                >
+                    <ng-template ng-label-tmp let-item="item">
+                        <div class="customer-dropdown-label">
+                            <span class="customer-name">{{item.first_name}} {{item.last_name}}</span>
+                            <span class="customer-email">{{item.email}}</span>
+                        </div>
+                    </ng-template>
+                    <ng-template ng-option-tmp let-item="item">
+                        <div class="customer-dropdown-label">
+                            <span class="customer-name">{{item.first_name}} {{item.last_name}}</span>
+                            <span class="customer-email">{{item.email}}</span>
+                        </div>
+                    </ng-template>
                 </ng-select>
             </mat-card>
 

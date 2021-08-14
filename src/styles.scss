@@ -585,3 +585,42 @@ body {
         margin-top: 12px;
     }
 }
+.customer-dropdown-label {
+    .customer-name {
+        display: block;
+    }
+    .customer-email {
+        display: block;
+        font-size: 14px;
+        color: rgba(0, 0, 0, 0.54);
+    }
+}
+.ng-select {
+    &.ng-select-single.ng-select-searchable {
+        .ng-select-container {
+            .ng-value-container {
+                .ng-input {
+                    width: auto;
+                    left: 12px;
+                    right: 12px;
+                }
+            }
+        }
+    }
+    .ng-select-container {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 0 12px 10px;
+
+        &::after {
+            border: none;
+        }
+    }
+}
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+    line-height: 2em;
+    min-height: 2em;
+}
+.mat-paginator-page-size-label {
+    min-width: 100px;
+}
