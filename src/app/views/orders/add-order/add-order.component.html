@@ -86,11 +86,11 @@
 
                 <div fxLayout="row" fxLayoutAlign="space-between">
                     <div>
-                        <span [class]="'label ' + (paymentStatus === 'Paid' ? 'success' : 'warning')">Payment: {{paymentStatus}}</span>
+                        <span [class]="'label ' + (paymentStatus === 'Paid' ? 'success' : 'warning')" *ngIf="paymentStatus">Payment: {{paymentStatus}}</span>
                     </div>
                     <div>
-                        <button mat-flat-button color="primary" (click)="paymentStatus = 'Paid'" *ngIf="paymentStatus === 'Pending'">Mark as Paid</button>
-                        <button mat-flat-button color="primary" (click)="paymentStatus = 'Pending'" *ngIf="paymentStatus === 'Paid'">Mark as Pending</button>
+                        <button mat-stroked-button color="primary" (click)="paymentStatus = 'Pending'" *ngIf="paymentStatus !== 'Pending'" style="margin-right: 10px">Mark as Pending</button>
+                        <button mat-flat-button color="primary" (click)="paymentStatus = 'Paid'" *ngIf="paymentStatus !== 'Paid'">Mark as Paid</button>
                     </div>
                 </div>
             </mat-card>

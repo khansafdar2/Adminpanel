@@ -624,3 +624,25 @@ body {
 .mat-paginator-page-size-label {
     min-width: 100px;
 }
+.order-details {
+    .fulfillent-status {
+        border-top: 1px solid #ddd;
+        padding: 16px 16px 0;
+        margin: 16px -16px 0 -16px;
+    }
+}
+.order-financial-details {
+    .lineitems-total-row {
+        font-weight: 600;
+    }
+
+    > * + * {
+        margin-top: 12px;
+    }
+
+    .payment-status {
+        border-top: 1px solid #ddd;
+        padding: 16px 16px 0;
+        margin: 16px -16px 0 -16px;
+    }
+}

@@ -1,0 +1,122 @@
+<app-topbar></app-topbar>
+<app-sidenav></app-sidenav>
+<main id="main">
+    <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+    <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
+        <h1>Edit Order</h1>
+
+        <div class="header-actions">
+            <a [routerLink]="['/', URLS.orders]" mat-stroked-button color="primary">Cancel</a>
+            <button mat-flat-button color="primary">Save</button>
+        </div>
+    </div>
+
+    <div fxLayout="row">
+        <div fxFlex="0 1 50%">
+            <mat-card class="order-details">
+                <h3>Order details</h3>
+
+                <div class="order-lineitems">
+                    <div class="lineitem-wrapper" *ngFor="let lineitem of lineitems;">
+                        <div class="lineitem-productdata">
+                            <img [src]="lineitem.image ? lineitem.image : '/assets/img/placeholder-image.png'" />
+                            <div>
+                                <span class="product-name">{{lineitem.product_name}}</span>
+                                <span class="variant_info">{{lineitem.vendor_name}}<br>{{lineitem.variant_title}}</span>
+                            </div>
+                        </div>
+                        <div class="lineitem-price-qty">
+                            {{lineitem.price}} QAR x {{lineitem.quantity}}
+                        </div>
+                        <div class="lineitem-subtotal">
+                            <span>{{lineitem.subtotal}} QAR</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="fulfillent-status">
+                    <div fxLayout="row" fxLayoutAlign="space-between">
+                        <div>
+                            <span [class]="'label ' + (fulfillmentStatus === 'Fulfilled' ? 'success' : 'warning')">{{fulfillmentStatus}}</span>
+                        </div>
+                        <div>
+                            <button mat-flat-button color="primary" (click)="fulfillmentStatus = 'Fulfilled'" *ngIf="fulfillmentStatus === 'Unfulfilled'">Mark as Fulfilled</button>
+                            <button mat-stroked-button color="primary" (click)="fulfillmentStatus = 'Unfulfilled'" *ngIf="fulfillmentStatus === 'Fulfilled'">Mark as Unfulfilled</button>
+                        </div>
+                    </div>
+                </div>
+            </mat-card>
+
+            <mat-card class="order-financial-details">
+                <div fxLayout="row" fxLayoutAlign="space-between">
+                    <div>
+                        <span>Subtotal</span>
+                    </div>
+                    <div>
+                        <span>{{subTotal}} QAR</span>
+                    </div>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="space-between">
+                    <div>
+                        <span>Shipping</span>
+                    </div>
+                    <div>
+                        <span>{{totalShipping}} QAR</span>
+                    </div>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="space-between">
+                    <div>
+                        <span>Tax</span>
+                    </div>
+                    <div>
+                        <span>{{totalTax}} QAR</span>
+                    </div>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="space-between" class="lineitems-total-row">
+                    <div>
+                        <span>Total</span>
+                    </div>
+                    <div>
+                        <span>{{grandTotal}} QAR</span>
+                    </div>
+                </div>
+                <div class="payment-status">
+                    <div fxLayout="row" fxLayoutAlign="space-between">
+                        <div>
+                            <span [class]="'label ' + (paymentStatus === 'Paid' ? 'success' : 'warning')">Payment: {{paymentStatus}}</span>
+                        </div>
+                        <div>
+                            <button mat-flat-button color="primary" (click)="paymentStatus = 'Paid'" *ngIf="paymentStatus === 'Pending'">Mark as Paid</button>
+                            <button mat-stroked-button color="primary" (click)="paymentStatus = 'Pending'" *ngIf="paymentStatus === 'Paid'">Mark as Pending</button>
+                        </div>
+                    </div>
+                </div>
+            </mat-card>
+        </div>
+        <div fxFlex="0 1 50%">
+            <mat-card>
+                <h3>Customer detail</h3>
+
+                <a [routerLink]="['/', URLS.customers, URLS.edit, customer.id]" target="_blank">{{customer.first_name}} {{customer.last_name}}</a>
+            </mat-card>
+            <mat-card>
+                <h3>Contact information</h3>
+
+                <p><a href="mailto: {{customer.email}}">{{customer.email}}</a></p>
+                <p>{{customer.phone}}</p>
+            </mat-card>
+            <mat-card>
+                <h3>Notes</h3>
+
+                <mat-form-field appearance="outline">
+                    <textarea  rows="4" matInput placeholder="Add note"></textarea>
+                </mat-form-field>
+            </mat-card>
+
+            <mat-card>
+                <h3>Tags</h3>
+
+                <tags-input [(value)]="tags"></tags-input>
+            </mat-card>
+        </div>
+    </div>
+</main>

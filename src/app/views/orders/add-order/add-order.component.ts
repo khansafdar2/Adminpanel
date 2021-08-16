@@ -31,7 +31,7 @@ export class AddOrderComponent implements OnInit {
   totalShipping = 0;
   totalTax = 0;
   grandTotal = 0;
-  paymentStatus = "Pending";
+  paymentStatus = null;
   notes: string = "";
   tags: string[] = [];
   customers: Observable<any[]>;
