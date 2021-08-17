@@ -12,7 +12,7 @@
     </div>
 
     <div fxLayout="row">
-        <div fxFlex="0 1 50%">
+        <div fxFlex="0 1 60%">
             <mat-card class="order-details">
                 <h3>Order details</h3>
 
@@ -86,23 +86,54 @@
                         </div>
                         <div>
                             <button mat-flat-button color="primary" (click)="paymentStatus = 'Paid'" *ngIf="paymentStatus === 'Pending'">Mark as Paid</button>
-                            <button mat-stroked-button color="primary" (click)="paymentStatus = 'Pending'" *ngIf="paymentStatus === 'Paid'">Mark as Pending</button>
                         </div>
                     </div>
                 </div>
             </mat-card>
         </div>
-        <div fxFlex="0 1 50%">
+        <div fxFlex="0 1 40%">
             <mat-card>
-                <h3>Customer detail</h3>
+                <div class="card-section">
+                    <h3>Customer detail</h3>
 
-                <a [routerLink]="['/', URLS.customers, URLS.edit, customer.id]" target="_blank">{{customer.first_name}} {{customer.last_name}}</a>
-            </mat-card>
-            <mat-card>
-                <h3>Contact information</h3>
+                    <a [routerLink]="['/', URLS.customers, URLS.edit, customer.id]" target="_blank">{{customer.first_name}} {{customer.last_name}}</a>
+                </div>
+                <div class="card-section">
+                    <h3>Contact information</h3>
 
-                <p><a href="mailto: {{customer.email}}">{{customer.email}}</a></p>
-                <p>{{customer.phone}}</p>
+                    <p><a href="mailto: {{customer.email}}">{{customer.email}}</a></p>
+                    <p>{{customer.phone}}</p>
+                </div>
+                <div class="card-section">
+                    <div fxLayout="row" fxLayoutAlign="space-between">
+                        <div>
+                            <h3>Shipping Address</h3>
+                        </div>
+                        <div>
+                            <button mat-button color="primary">Edit</button>
+                        </div>
+                    </div>
+
+                    <p>{{shippingAddress.first_name}} {{shippingAddress.last_name}}<br/>
+                        {{shippingAddress.address}}<br/>
+                        {{shippingAddress.city}}
+                    </p>
+                </div>
+                <div class="card-section">
+                    <div fxLayout="row" fxLayoutAlign="space-between">
+                        <div>
+                            <h3>Billing Address</h3>
+                        </div>
+                        <div>
+                            <button mat-button color="primary">Edit</button>
+                        </div>
+                    </div>
+
+                    <p>{{billingAddress.first_name}} {{billingAddress.last_name}}<br/>
+                        {{billingAddress.address}}<br/>
+                        {{billingAddress.city}}
+                    </p>
+                </div>
             </mat-card>
             <mat-card>
                 <h3>Notes</h3>

@@ -19,12 +19,29 @@
                 <mat-error *ngIf="brandForm.get('name').hasError('required')">Please enter a name of brand.</mat-error>
             </mat-form-field>
 
-            <mat-spinner class="file-upload-spinner" diameter="80" *ngIf="file_uploading"></mat-spinner>
-            <img [src]="previewImageSrc" class="banner-preview-image" *ngIf="previewImageSrc" />
-            <input type="file" class="banner-file-input" accept=".png, .jpg, .jpeg" #bannerFileInput (change)="bannerImageSelect($event)" />
-            <div class="banner-file-actions">
-                <button mat-button type="button" color="warn" *ngIf="previewImageSrc" (click)="removeBanner()"><mat-icon>delete</mat-icon></button>
-                <button mat-button type="button" color="primary" (click)="bannerFileInput.click()" [disabled]="file_uploading">Upload image</button>
+            <div fxLayout="row">
+                <div fxFlex="0 1 50%">
+                    <h3>Logo image</h3>
+
+                    <mat-spinner class="file-upload-spinner" diameter="80" *ngIf="logo_uploading"></mat-spinner>
+                    <img [src]="previewLogoImageSrc" class="banner-preview-image" *ngIf="previewLogoImageSrc" />
+                    <input type="file" class="banner-file-input" accept=".png, .jpg, .jpeg" #logoFileInput (change)="logoImageSelect($event)" />
+                    <div class="banner-file-actions">
+                        <button mat-button type="button" color="warn" *ngIf="previewLogoImageSrc" (click)="removeLogo()"><mat-icon>delete</mat-icon></button>
+                        <button mat-button type="button" color="primary" (click)="logoFileInput.click()" [disabled]="logo_uploading">Upload image</button>
+                    </div>
+                </div>
+                <div fxFlex="0 1 50%">
+                    <h3>Banner image</h3>
+
+                    <mat-spinner class="file-upload-spinner" diameter="80" *ngIf="banner_uploading"></mat-spinner>
+                    <img [src]="previewBannerImageSrc" class="banner-preview-image" *ngIf="previewBannerImageSrc" />
+                    <input type="file" class="banner-file-input" accept=".png, .jpg, .jpeg" #bannerFileInput (change)="bannerImageSelect($event)" />
+                    <div class="banner-file-actions">
+                        <button mat-button type="button" color="warn" *ngIf="previewBannerImageSrc" (click)="removeBanner()"><mat-icon>delete</mat-icon></button>
+                        <button mat-button type="button" color="primary" (click)="bannerFileInput.click()" [disabled]="banner_uploading">Upload image</button>
+                    </div>
+                </div>
             </div>
         </mat-card>
     </div>

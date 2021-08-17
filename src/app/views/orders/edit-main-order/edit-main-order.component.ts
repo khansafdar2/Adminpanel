@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { concat, Observable, of, Subject, pipe } from 'rxjs';
 import { catchError, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import URLS from 'src/app/shared/urls';
@@ -43,7 +44,7 @@ export class EditMainOrderComponent implements OnInit {
     }
   ];
   fulfillmentStatus: string = "Unfulfilled";
-  paymentStatus: string = "Paid";
+  paymentStatus: string = "Pending";
   subTotal: number = 3900;
   totalShipping: number = 120;
   totalTax: number = 0;
@@ -59,6 +60,18 @@ export class EditMainOrderComponent implements OnInit {
     last_name: "Awais",
     email: "sameed.awais@alchemative.com",
     phone: "03321233455"
+  }
+  shippingAddress = {
+    first_name: "Sameed",
+    last_name: "Awais",
+    address: "3rd floor, Vogue towers, MM Alam Road, Gulberg 3",
+    city: "Lahore"
+  }
+  billingAddress = {
+    first_name: "Sameed",
+    last_name: "Awais",
+    address: "3rd floor, Vogue towers, MM Alam Road, Gulberg 3",
+    city: "Lahore"
   }
 
   getCustomers() {
@@ -83,4 +96,19 @@ export class EditMainOrderComponent implements OnInit {
     this.getCustomers();
   }
 
+}
+
+
+
+@Component({
+  selector: 'edit-shipping-address-dialog',
+  templateUrl: './dialogs/edit-shipping-address-dialog.html'
+})
+export class EditShippingAddressDialog {
+  constructor(
+    public dialogRef: MatDialogRef<EditShippingAddressDialog>,
+    @Inject(MAT_DIALOG_DATA) public data,
+  ) {}
+
+  loading: boolean = false;
 }

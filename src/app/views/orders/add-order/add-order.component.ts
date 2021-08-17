@@ -43,7 +43,7 @@ export class AddOrderComponent implements OnInit {
     this.taxService.getTaxInfo().then(resp => {
       if(resp) {
         console.log(resp.data);
-        this.taxApplied = parseFloat(resp.data.tax_percentage);
+        this.taxApplied = resp.data.tax_percentage ? parseFloat(resp.data.tax_percentage): 0;
       }
     })
   }
