@@ -1,4 +1,4 @@
-import { Component, Inject } from "@angular/core";
+import { Component, Inject, OnInit } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { OrdersService } from "../orders.service";
@@ -7,7 +7,7 @@ import { OrdersService } from "../orders.service";
   selector: 'payment-method-dialog',
   templateUrl: './PaymentMethodDialog.html'
 })
-export class PaymentMethodDialog {
+export class PaymentMethodDialog implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<PaymentMethodDialog>,
     @Inject(MAT_DIALOG_DATA) public data,
@@ -17,15 +17,20 @@ export class PaymentMethodDialog {
   }
   
   loading: boolean = false;
+  selectedPaymentMethod = null;
   paymentMethod = null;
-  paymentMethods = [];
   
   getPaymentMethods() {
     this.ordersService.getPaymentMethods().then(resp => {
+      console.log(resp);
       if(resp) {
-        this.paymentMethods = resp.data;
+        this.paymentMethod = resp.data;
       }
     });
+  }
+
+  onSubmit() {
+    this.dialogRef.close(this.paymentMethod);
   }
 
   ngOnInit(): void {

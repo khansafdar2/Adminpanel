@@ -90,6 +90,14 @@
                     </div>
                 </div>
             </mat-card>
+
+            <h2 style="margin-top: 20px">Child orders</h2>
+            <mat-card class="table-wrapper-card">
+                <datatable
+                    [data]="childOrders"
+                    [columns]="childOrderColumns"
+                ></datatable>
+            </mat-card>
         </div>
         <div fxFlex="0 1 40%">
             <mat-card>

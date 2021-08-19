@@ -22,16 +22,15 @@ export class OrdersService {
   }
 
   getPaymentMethods() {
-    return Axios.get( environment.backend_url + '/setting/payment_method', {
-        headers: {
-          Authorization: this.authService.token
-        }
-      })
-      .catch(error => {
-        if (error.response.data.detail == "Session expired, Reopen the application!") {
-          this.authService.signout();
-        }
-        return error;
-      });
+    return Axios.get(environment.backend_url + '/setting/payment_method', {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
   }
 }

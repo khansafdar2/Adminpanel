@@ -6,6 +6,7 @@ import { catchError, distinctUntilChanged, switchMap, tap } from 'rxjs/operators
 import URLS from 'src/app/shared/urls';
 import { TaxConfigurationService } from '../../configuration/tax-configuration/tax-configuration.service';
 import { CustomerAddressDialog } from '../dialogs/CustomerAddressDialog';
+import { PaymentMethodDialog } from '../dialogs/PaymentMethodDialog';
 import { OrdersService } from '../orders.service';
 
 
@@ -38,7 +39,6 @@ export class AddOrderComponent implements OnInit {
   URLS = URLS;
   lineitems = [];
   taxApplied = 0;
-  paymentMethods = [];
   lineitemsForm = this.fb.group({
     lineitems: this.fb.array([])
   });
@@ -46,6 +46,7 @@ export class AddOrderComponent implements OnInit {
   totalShipping = 0;
   totalTax = 0;
   grandTotal = 0;
+  paymentMethod = "";
   paymentStatus = null;
   notes: string = "";
   tags: string[] = [];
@@ -183,7 +184,19 @@ export class AddOrderComponent implements OnInit {
   }
 
   changePaymentStatus(status) {
-    this.paymentStatus = status;
+    let dialogRef = this.dialog.open(PaymentMethodDialog, {
+      width: "600px",
+      data: {
+        title: "Payment method"
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(method => {
+      if(method) {
+        this.paymentMethod = method;
+        this.paymentStatus = status;
+      }
+    })
   }
 
   ngOnInit(): void {

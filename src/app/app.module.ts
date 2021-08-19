@@ -80,6 +80,7 @@ import { EditCustomerComponent } from './views/customers/edit-customer/edit-cust
 import { VariantSelectorComponent, VariantSelectorDialog } from './shared/variant-selector/variant-selector.component';
 import { EditMainOrderComponent } from './views/orders/edit-main-order/edit-main-order.component';
 import { CustomerAddressDialog } from './views/orders/dialogs/CustomerAddressDialog';
+import { PaymentMethodDialog } from './views/orders/dialogs/PaymentMethodDialog';
 
 @NgModule({
   declarations: [
@@ -150,7 +151,8 @@ import { CustomerAddressDialog } from './views/orders/dialogs/CustomerAddressDia
     VariantSelectorComponent,
     VariantSelectorDialog,
     EditMainOrderComponent,
-    CustomerAddressDialog
+    CustomerAddressDialog,
+    PaymentMethodDialog
   ],
   imports: [
     BrowserModule,

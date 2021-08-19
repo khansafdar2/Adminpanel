@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { concat, Observable, of, Subject, pipe } from 'rxjs';
 import { catchError, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
+import { Column } from 'src/app/shared/datatable/datatable.component';
 import URLS from 'src/app/shared/urls';
 import { TaxConfigurationService } from '../../configuration/tax-configuration/tax-configuration.service';
 import { CustomerAddressDialog } from '../dialogs/CustomerAddressDialog';
@@ -55,7 +56,55 @@ export class EditMainOrderComponent implements OnInit {
   customers: Observable<any[]>;
   customerInput = new Subject<string>();
   customersLoading: boolean = false;
-  selectedCustomer = 2;
+  childOrders = [
+    {
+      title: "#JO4003_1",
+      vendor_name: "mobileip",
+      total: 2500,
+      payment_status: "Pending",
+      fulfillment_status: "Unfulfilled"
+    },
+    {
+      title: "#JO4003_2",
+      vendor_name: "Nike",
+      total: 1400,
+      payment_status: "Paid",
+      fulfillment_status: "Fulfilled"
+    }
+  ];
+  childOrderColumns: Column[] = [
+    {
+      title: "",
+      selector: "title",
+      clickable: true
+    },
+    {
+      title: "Vendor",
+      selector: "vendor_name"
+    },
+    {
+      title: "Total",
+      selector: "total"
+    },
+    {
+      title: "Payment",
+      selector: "payment_status",
+      label: true,
+      labelStyles: {
+        "Pending": "default",
+        "Paid": "success"
+      }
+    },
+    {
+      title: "Fulfillment",
+      selector: "fulfillment_status",
+      label: true,
+      labelStyles: {
+        "Unfulfilled": "default",
+        "Fulfilled": "success"
+      }
+    }
+  ]
   customer = {
     id: 3,
     first_name: "Sameed",

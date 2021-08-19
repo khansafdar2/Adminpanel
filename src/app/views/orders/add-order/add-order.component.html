@@ -7,7 +7,7 @@
 
         <div class="header-actions">
             <a [routerLink]="['/', URLS.orders]" mat-stroked-button color="primary">Cancel</a>
-            <button mat-flat-button color="primary" [disabled]="!lineitemsForm.valid">Save</button>
+            <button mat-flat-button color="primary" [disabled]="!lineitemsForm.valid || lineitemsForm.get('lineitems')['controls'].length < 1">Save</button>
         </div>
     </div>
 
