@@ -110,14 +110,17 @@
                             <h3>Shipping Address</h3>
                         </div>
                         <div>
-                            <button mat-button color="primary">Edit</button>
+                            <button mat-button color="primary" (click)="onShippingAddress()">{{shippingAddress ? "Edit" : "Add address"}}</button>
                         </div>
                     </div>
 
-                    <p>{{shippingAddress.first_name}} {{shippingAddress.last_name}}<br/>
-                        {{shippingAddress.address}}<br/>
-                        {{shippingAddress.city}}
-                    </p>
+                    <p *ngIf="!shippingAddress">No address assigned.</p>
+                    <div *ngIf="shippingAddress">
+                        <p>{{shippingAddress.first_name}} {{shippingAddress.last_name}}</p>
+                        <p>{{shippingAddress.apartment ? shippingAddress.apartment + ", " : ""}}{{shippingAddress.address}}</p>
+                        <p>{{shippingAddress.city}} {{shippingAddress.postal_code}}, {{shippingAddress.country}}</p>
+                        <p>{{shippingAddress.phone}}</p>
+                    </div>
                 </div>
                 <div class="card-section">
                     <div fxLayout="row" fxLayoutAlign="space-between">
@@ -125,14 +128,17 @@
                             <h3>Billing Address</h3>
                         </div>
                         <div>
-                            <button mat-button color="primary">Edit</button>
+                            <button mat-button color="primary" (click)="onBillingAddress()">{{billingAddress ? "Edit" : "Add address"}}</button>
                         </div>
                     </div>
 
-                    <p>{{billingAddress.first_name}} {{billingAddress.last_name}}<br/>
-                        {{billingAddress.address}}<br/>
-                        {{billingAddress.city}}
-                    </p>
+                    <p *ngIf="!billingAddress">No address assigned.</p>
+                    <div *ngIf="billingAddress">
+                        <p>{{billingAddress.first_name}} {{billingAddress.last_name}}</p>
+                        <p>{{billingAddress.apartment ? billingAddress.apartment + ", " : ""}}{{billingAddress.address}}</p>
+                        <p>{{billingAddress.city}} {{billingAddress.postal_code}}, {{billingAddress.country}}</p>
+                        <p>{{billingAddress.phone}}</p>
+                    </div>
                 </div>
             </mat-card>
             <mat-card>

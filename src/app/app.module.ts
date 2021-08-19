@@ -79,6 +79,7 @@ import { AddCustomerComponent } from './views/customers/add-customer/add-custome
 import { EditCustomerComponent } from './views/customers/edit-customer/edit-customer.component';
 import { VariantSelectorComponent, VariantSelectorDialog } from './shared/variant-selector/variant-selector.component';
 import { EditMainOrderComponent } from './views/orders/edit-main-order/edit-main-order.component';
+import { CustomerAddressDialog } from './views/orders/dialogs/CustomerAddressDialog';
 
 @NgModule({
   declarations: [
@@ -148,7 +149,8 @@ import { EditMainOrderComponent } from './views/orders/edit-main-order/edit-main
     CustomerDeleteDialog,
     VariantSelectorComponent,
     VariantSelectorDialog,
-    EditMainOrderComponent
+    EditMainOrderComponent,
+    CustomerAddressDialog
   ],
   imports: [
     BrowserModule,

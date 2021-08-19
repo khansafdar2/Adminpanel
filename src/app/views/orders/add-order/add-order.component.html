@@ -89,38 +89,74 @@
                         <span [class]="'label ' + (paymentStatus === 'Paid' ? 'success' : 'warning')" *ngIf="paymentStatus">Payment: {{paymentStatus}}</span>
                     </div>
                     <div>
-                        <button mat-stroked-button color="primary" (click)="paymentStatus = 'Pending'" *ngIf="paymentStatus !== 'Pending'" style="margin-right: 10px">Mark as Pending</button>
-                        <button mat-flat-button color="primary" (click)="paymentStatus = 'Paid'" *ngIf="paymentStatus !== 'Paid'">Mark as Paid</button>
+                        <button mat-stroked-button color="primary" (click)="changePaymentStatus('Pending')" *ngIf="paymentStatus !== 'Pending'" style="margin-right: 10px">Mark as Pending</button>
+                        <button mat-flat-button color="primary" (click)="changePaymentStatus('Paid')" *ngIf="paymentStatus !== 'Paid'">Mark as Paid</button>
                     </div>
                 </div>
             </mat-card>
         </div>
         <div fxFlex="0 1 50%">
             <mat-card>
-                <h3>Add customer</h3>
-
-                <ng-select [items]="customers | async"
-                    bindLabel="first_name"
-                    bindValue="id"
-                    [trackByFn]="trackByFn"
-                    [minTermLength]="2"
-                    [loading]="customersLoading"
-                    [typeahead]="customerInput"
-                    [(ngModel)]="selectedCustomer"
-                >
-                    <ng-template ng-label-tmp let-item="item">
-                        <div class="customer-dropdown-label">
-                            <span class="customer-name">{{item.first_name}} {{item.last_name}}</span>
-                            <span class="customer-email">{{item.email}}</span>
+                <div class="card-section">
+                    <h3>Add customer</h3>
+    
+                    <ng-select [items]="customers | async"
+                        bindLabel="first_name"
+                        bindValue="id"
+                        [trackByFn]="trackByFn"
+                        [minTermLength]="2"
+                        [loading]="customersLoading"
+                        [typeahead]="customerInput"
+                        [(ngModel)]="selectedCustomer"
+                    >
+                        <ng-template ng-label-tmp let-item="item">
+                            <div class="customer-dropdown-label">
+                                <span class="customer-name">{{item.first_name}} {{item.last_name}}</span>
+                                <span class="customer-email">{{item.email}}</span>
+                            </div>
+                        </ng-template>
+                        <ng-template ng-option-tmp let-item="item">
+                            <div class="customer-dropdown-label">
+                                <span class="customer-name">{{item.first_name}} {{item.last_name}}</span>
+                                <span class="customer-email">{{item.email}}</span>
+                            </div>
+                        </ng-template>
+                    </ng-select>
+                </div>
+                <div class="card-section">
+                    <div fxLayout="row" fxLayoutAlign="space-between">
+                        <div>
+                            <h3>Shipping address</h3>
                         </div>
-                    </ng-template>
-                    <ng-template ng-option-tmp let-item="item">
-                        <div class="customer-dropdown-label">
-                            <span class="customer-name">{{item.first_name}} {{item.last_name}}</span>
-                            <span class="customer-email">{{item.email}}</span>
+                        <div>
+                            <button mat-button color="primary" (click)="onShippingAddress()">{{shippingAddress ? "Edit" : "Add address"}}</button>
                         </div>
-                    </ng-template>
-                </ng-select>
+                    </div>
+                    <p *ngIf="!shippingAddress">No address assigned.</p>
+                    <div *ngIf="shippingAddress">
+                        <p>{{shippingAddress.first_name}} {{shippingAddress.last_name}}</p>
+                        <p>{{shippingAddress.apartment}}, {{shippingAddress.address}}</p>
+                        <p>{{shippingAddress.city}} {{shippingAddress.postal_code}}, {{shippingAddress.country}}</p>
+                        <p>{{shippingAddress.phone}}</p>
+                    </div>
+                </div>
+                <div class="card-section">
+                    <div fxLayout="row" fxLayoutAlign="space-between">
+                        <div>
+                            <h3>Billing address</h3>
+                        </div>
+                        <div>
+                            <button mat-button color="primary" (click)="onBillingAddress()">{{billingAddress ? "Edit" : "Add address"}}</button>
+                        </div>
+                    </div>
+                    <p *ngIf="!billingAddress">No address assigned.</p>
+                    <div *ngIf="billingAddress">
+                        <p>{{billingAddress.first_name}} {{billingAddress.last_name}}</p>
+                        <p>{{billingAddress.apartment}}, {{billingAddress.address}}</p>
+                        <p>{{billingAddress.city}} {{billingAddress.postal_code}}, {{billingAddress.country}}</p>
+                        <p>{{billingAddress.phone}}</p>
+                    </div>
+                </div>
             </mat-card>
 
             <mat-card>

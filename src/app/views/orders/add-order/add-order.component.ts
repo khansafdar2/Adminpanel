@@ -1,11 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { concat, Observable, of, Subject, pipe } from 'rxjs';
 import { catchError, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import URLS from 'src/app/shared/urls';
 import { TaxConfigurationService } from '../../configuration/tax-configuration/tax-configuration.service';
+import { CustomerAddressDialog } from '../dialogs/CustomerAddressDialog';
 import { OrdersService } from '../orders.service';
 
+
+interface Address {
+  first_name: string;
+  last_name: string;
+  address: string;
+  apartment: string;
+  city: string;
+  country: string;
+  phone: string;
+  postal_code: string;
+}
 
 @Component({
   selector: 'app-add-order',
@@ -17,13 +30,15 @@ export class AddOrderComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private taxService: TaxConfigurationService,
-    private ordersService: OrdersService
+    private ordersService: OrdersService,
+    private dialog: MatDialog
   ) { }
 
   loading: boolean = false;
   URLS = URLS;
   lineitems = [];
   taxApplied = 0;
+  paymentMethods = [];
   lineitemsForm = this.fb.group({
     lineitems: this.fb.array([])
   });
@@ -38,6 +53,8 @@ export class AddOrderComponent implements OnInit {
   customerInput = new Subject<string>();
   customersLoading: boolean = false;
   selectedCustomer = null;
+  shippingAddress: Address = null;
+  billingAddress: Address = null;
 
   getTaxConfiguration() {
     this.taxService.getTaxInfo().then(resp => {
@@ -131,6 +148,42 @@ export class AddOrderComponent implements OnInit {
 
     // Calculate Grand total
     this.grandTotal = subTotal + totalShipping + this.totalTax;
+  }
+
+  onShippingAddress() {
+    let dialogRef = this.dialog.open(CustomerAddressDialog, {
+      width: "600px",
+      data: {
+        title: "Shipping address",
+        address: this.shippingAddress
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(address => {
+      if(address) {
+        this.shippingAddress = address;
+      }
+    });
+  }
+
+  onBillingAddress() {
+    let dialogRef = this.dialog.open(CustomerAddressDialog, {
+      width: "600px",
+      data: {
+        title: "Billing address",
+        address: this.billingAddress
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(address => {
+      if(address) {
+        this.billingAddress = address;
+      }
+    });
+  }
+
+  changePaymentStatus(status) {
+    this.paymentStatus = status;
   }
 
   ngOnInit(): void {

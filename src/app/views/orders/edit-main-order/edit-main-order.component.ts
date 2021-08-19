@@ -1,10 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { concat, Observable, of, Subject, pipe } from 'rxjs';
 import { catchError, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import URLS from 'src/app/shared/urls';
 import { TaxConfigurationService } from '../../configuration/tax-configuration/tax-configuration.service';
+import { CustomerAddressDialog } from '../dialogs/CustomerAddressDialog';
 import { OrdersService } from '../orders.service';
 
 
@@ -18,7 +19,8 @@ export class EditMainOrderComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private taxService: TaxConfigurationService,
-    private ordersService: OrdersService
+    private ordersService: OrdersService,
+    private dialog: MatDialog
   ) { }
     
   loading: boolean = false;
@@ -64,14 +66,24 @@ export class EditMainOrderComponent implements OnInit {
   shippingAddress = {
     first_name: "Sameed",
     last_name: "Awais",
+    apartment: "",
     address: "3rd floor, Vogue towers, MM Alam Road, Gulberg 3",
-    city: "Lahore"
+    city: "Lahore",
+    country: "",
+    postal_code: "",
+    company: "",
+    phone: ""
   }
   billingAddress = {
     first_name: "Sameed",
     last_name: "Awais",
+    apartment: "",
     address: "3rd floor, Vogue towers, MM Alam Road, Gulberg 3",
-    city: "Lahore"
+    city: "Lahore",
+    country: "",
+    postal_code: "",
+    company: "",
+    phone: ""
   }
 
   getCustomers() {
@@ -92,23 +104,40 @@ export class EditMainOrderComponent implements OnInit {
     return customer.id;
   }
 
+  onShippingAddress() {
+    let dialogRef = this.dialog.open(CustomerAddressDialog, {
+      width: "600px",
+      data: {
+        title: "Shipping address",
+        address: this.shippingAddress
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(address => {
+      if(address) {
+        this.shippingAddress = address;
+      }
+    });
+  }
+
+  onBillingAddress() {
+    let dialogRef = this.dialog.open(CustomerAddressDialog, {
+      width: "600px",
+      data: {
+        title: "Billing address",
+        address: this.billingAddress
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(address => {
+      if(address) {
+        this.billingAddress = address;
+      }
+    });
+  }
+
   ngOnInit(): void {
     this.getCustomers();
   }
 
-}
-
-
-
-@Component({
-  selector: 'edit-shipping-address-dialog',
-  templateUrl: './dialogs/edit-shipping-address-dialog.html'
-})
-export class EditShippingAddressDialog {
-  constructor(
-    public dialogRef: MatDialogRef<EditShippingAddressDialog>,
-    @Inject(MAT_DIALOG_DATA) public data,
-  ) {}
-
-  loading: boolean = false;
 }
