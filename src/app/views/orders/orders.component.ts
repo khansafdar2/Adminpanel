@@ -3,6 +3,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { Column } from 'src/app/shared/datatable/datatable.component';
 import URLS from 'src/app/shared/urls';
+import { OrdersService } from './orders.service';
 
 @Component({
   selector: 'app-orders',
@@ -12,58 +13,24 @@ import URLS from 'src/app/shared/urls';
 export class OrdersComponent implements OnInit {
 
   constructor(
-    private router: Router
+    private router: Router,
+    private ordersService: OrdersService
   ) { }
 
-  loading: boolean = false;
+  loading: boolean = true;
   URLS = URLS;
-  orders = [
-    {
-      id: 3,
-      title: "#JO4002",
-      created_at: "Today at 5:34 pm",
-      customer_name: "Fatima Tahavi",
-      total: 12450,
-      payment_status: "Pending",
-      fulfillment_status: "Unfulfilled"
-    },
-    {
-      id: 4,
-      title: "#JO4003",
-      created_at: "Today at 5:36 pm",
-      customer_name: "Zoryan Warlani",
-      total: 456,
-      payment_status: "Pending",
-      fulfillment_status: "Unfulfilled"
-    },
-    {
-      id: 6,
-      title: "#JO4005",
-      created_at: "Today at 6:43 pm",
-      customer_name: "Imran Javaid",
-      total: 7769,
-      payment_status: "Paid",
-      fulfillment_status: "Unfulfilled"
-    },
-    {
-      id: 7,
-      title: "#JO4006",
-      created_at: "Today at 6:43 pm",
-      customer_name: "Rizwan Ghani",
-      total: 8879,
-      payment_status: "Pending",
-      fulfillment_status: "Fulfilled"
-    }
-  ];
+  orders = [];
   displayedColumns: Column[] = [
     {
       title: "",
-      selector: "title",
+      selector: "name",
       clickable: true
     },
     {
       title: "Date",
-      selector: "created_at"
+      selector: "created_at",
+      pipe: 'date',
+      dateFormat: 'h:mm a MMM d'
     },
     {
       title: "Customer",
@@ -71,7 +38,7 @@ export class OrdersComponent implements OnInit {
     },
     {
       title: "Total",
-      selector: "total"
+      selector: "total_price"
     },
     {
       title: "Payment",
@@ -92,22 +59,42 @@ export class OrdersComponent implements OnInit {
       }
     }
   ];
-  pageSize: number = 15;
-  totalCount: number = 4;
+  pageSize: number = 20;
+  totalCount: number = 0;
   page: number = 1;
+  searchString: string = "";
 
   onPage(event: PageEvent) {
     this.page = event.pageIndex + 1;
     this.pageSize = event.pageSize;
+    this.getOrders();
   }
 
   onCellClick(data) {
-    if(data.column === 'title') {
+    if(data.column === 'name') {
       this.router.navigate(["/", URLS.orders, URLS.editMainOrder, data.row.id]);
     }
   }
 
+  onSearch(data) {
+    this.searchString = data.query;
+    this.page = 1;
+    this.getOrders();
+  }
+
+  getOrders() {
+    this.loading = true;
+    this.ordersService.getOrders(this.page, this.pageSize, this.searchString).then(resp => {
+      this.loading = false;
+      if(resp) {
+        this.totalCount = resp.data.count;
+        this.orders = resp.data.results;
+      }
+    });
+  }
+
   ngOnInit(): void {
+    this.getOrders();
   }
 
 }

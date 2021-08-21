@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
 import { concat, Observable, of, Subject, pipe } from 'rxjs';
 import { catchError, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import { Column } from 'src/app/shared/datatable/datatable.component';
@@ -21,70 +22,41 @@ export class EditMainOrderComponent implements OnInit {
     private fb: FormBuilder,
     private taxService: TaxConfigurationService,
     private ordersService: OrdersService,
-    private dialog: MatDialog
-  ) { }
-    
-  loading: boolean = false;
+    private dialog: MatDialog,
+    private route: ActivatedRoute
+  ) {
+    this.orderID = this.route.snapshot.paramMap.get('id');
+  }
+
+  loading: boolean = true;
   URLS = URLS;
-  lineitems = [
-    {
-      image: 'https://ddykgwpgwgbj6.cloudfront.net/products/product_images/mildlee-fMveBTz2qWw-unsplash.jpg',
-      product_name: "Simple TV",
-      variant_title: "Medium/Red",
-      vendor_name: "mobileip",
-      price: 1250,
-      quantity: 2,
-      subtotal: 2500
-    },
-    {
-      image: null,
-      product_name: "Men T shirt",
-      variant_title: "Medium/Red",
-      vendor_name: "Nike",
-      price: 1400,
-      quantity: 1,
-      subtotal: 1400
-    }
-  ];
+  orderID = "";
+  lineitems = [];
   fulfillmentStatus: string = "Unfulfilled";
   paymentStatus: string = "Pending";
-  subTotal: number = 3900;
-  totalShipping: number = 120;
+  subTotal: number = 0;
+  totalShipping: number = 0;
   totalTax: number = 0;
-  grandTotal: number = 4020;
-  tags: string[] = ["New"];
+  grandTotal: number = 0;
+  tags: string[] = [];
   customers: Observable<any[]>;
   customerInput = new Subject<string>();
   customersLoading: boolean = false;
-  childOrders = [
-    {
-      title: "#JO4003_1",
-      vendor_name: "mobileip",
-      total: 2500,
-      payment_status: "Pending",
-      fulfillment_status: "Unfulfilled"
-    },
-    {
-      title: "#JO4003_2",
-      vendor_name: "Nike",
-      total: 1400,
-      payment_status: "Paid",
-      fulfillment_status: "Fulfilled"
-    }
-  ];
+  childOrders = [];
+  notes: string = "";
   childOrderColumns: Column[] = [
     {
       title: "",
-      selector: "title",
+      selector: "name",
       clickable: true
     },
     {
       title: "Vendor",
-      selector: "vendor_name"
+      selector: "vendor"
     },
     {
       title: "Total",
-      selector: "total"
+      selector: "total_price"
     },
     {
       title: "Payment",
@@ -106,34 +78,13 @@ export class EditMainOrderComponent implements OnInit {
     }
   ]
   customer = {
-    id: 3,
-    first_name: "Sameed",
-    last_name: "Awais",
-    email: "sameed.awais@alchemative.com",
-    phone: "03321233455"
-  }
-  shippingAddress = {
-    first_name: "Sameed",
-    last_name: "Awais",
-    apartment: "",
-    address: "3rd floor, Vogue towers, MM Alam Road, Gulberg 3",
-    city: "Lahore",
-    country: "",
-    postal_code: "",
-    company: "",
+    id: null,
+    name: "",
+    email: "",
     phone: ""
   }
-  billingAddress = {
-    first_name: "Sameed",
-    last_name: "Awais",
-    apartment: "",
-    address: "3rd floor, Vogue towers, MM Alam Road, Gulberg 3",
-    city: "Lahore",
-    country: "",
-    postal_code: "",
-    company: "",
-    phone: ""
-  }
+  shippingAddress = null;
+  billingAddress = null;
 
   getCustomers() {
     this.customers = concat(
@@ -185,8 +136,36 @@ export class EditMainOrderComponent implements OnInit {
     });
   }
 
+  getOrderDetails() {
+    this.loading = true;
+    this.ordersService.getMainOrder(this.orderID).then(resp => {
+      this.loading = false;
+      if(resp) {
+        console.log(resp.data);
+        this.lineitems = resp.data.line_items;
+        this.fulfillmentStatus = resp.data.fulfillment_status;
+        this.paymentStatus = resp.data.payment_status;
+        this.childOrders = resp.data.child_orders;
+        this.subTotal = resp.data.subtotal_price;
+        this.totalShipping = resp.data.total_shipping;
+        this.grandTotal = resp.data.total_price;
+        this.shippingAddress = resp.data.shipping_address;
+        this.billingAddress = resp.data.billing_address.address ? resp.data.billing_address : null;
+        this.customer = {
+          id: resp.data.customer_id,
+          name: resp.data.customer_name,
+          phone: resp.data.customer_phone,
+          email: resp.data.customer_email
+        }
+        this.notes = resp.data.notes;
+        this.tags = resp.data.tags.split(",");
+      }
+    });
+  }
+
   ngOnInit(): void {
     this.getCustomers();
+    this.getOrderDetails();
   }
 
 }

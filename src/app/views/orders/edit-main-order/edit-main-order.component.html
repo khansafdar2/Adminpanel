@@ -21,8 +21,8 @@
                         <div class="lineitem-productdata">
                             <img [src]="lineitem.image ? lineitem.image : '/assets/img/placeholder-image.png'" />
                             <div>
-                                <span class="product-name">{{lineitem.product_name}}</span>
-                                <span class="variant_info">{{lineitem.vendor_name}}<br>{{lineitem.variant_title}}</span>
+                                <span class="product-name">{{lineitem.product_title}}</span>
+                                <span class="variant_info">{{lineitem.vendor}}<br>{{lineitem.variant_title}}</span>
                             </div>
                         </div>
                         <div class="lineitem-price-qty">
@@ -104,7 +104,7 @@
                 <div class="card-section">
                     <h3>Customer detail</h3>
 
-                    <a [routerLink]="['/', URLS.customers, URLS.edit, customer.id]" target="_blank">{{customer.first_name}} {{customer.last_name}}</a>
+                    <a [routerLink]="['/', URLS.customers, URLS.edit, customer.id]" target="_blank">{{customer.name}}</a>
                 </div>
                 <div class="card-section">
                     <h3>Contact information</h3>
@@ -153,7 +153,7 @@
                 <h3>Notes</h3>
 
                 <mat-form-field appearance="outline">
-                    <textarea  rows="4" matInput placeholder="Add note"></textarea>
+                    <textarea  rows="4" matInput placeholder="Add note" [(ngModel)]="notes"></textarea>
                 </mat-form-field>
             </mat-card>
 

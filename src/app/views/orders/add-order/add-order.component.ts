@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { concat, Observable, of, Subject, pipe } from 'rxjs';
 import { catchError, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import URLS from 'src/app/shared/urls';
@@ -32,7 +34,9 @@ export class AddOrderComponent implements OnInit {
     private fb: FormBuilder,
     private taxService: TaxConfigurationService,
     private ordersService: OrdersService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackbar: MatSnackBar,
+    private router: Router
   ) { }
 
   loading: boolean = false;
@@ -46,7 +50,7 @@ export class AddOrderComponent implements OnInit {
   totalShipping = 0;
   totalTax = 0;
   grandTotal = 0;
-  paymentMethod = "";
+  paymentMethod = null;
   paymentStatus = null;
   notes: string = "";
   tags: string[] = [];
@@ -61,7 +65,7 @@ export class AddOrderComponent implements OnInit {
     this.taxService.getTaxInfo().then(resp => {
       if(resp) {
         console.log(resp.data);
-        this.taxApplied = resp.data.tax_percentage ? parseFloat(resp.data.tax_percentage): 0;
+        this.taxApplied = resp.data.tax_percentage ? parseFloat(resp.data.tax_percentage) : 0;
       }
     })
   }
@@ -104,6 +108,7 @@ export class AddOrderComponent implements OnInit {
         this.fb.group({
           id: item.variant.id,
           vendor_name: item.vendor_name,
+          vendor: item.vendor_id,
           product_name: item.title,
           variant_title: item.variant.title,
           image: item.image,
@@ -197,6 +202,45 @@ export class AddOrderComponent implements OnInit {
         this.paymentStatus = status;
       }
     })
+  }
+
+  onSubmit() {
+    let data:any = {
+      customer: this.selectedCustomer,
+      notes: this.notes,
+      tags: this.tags.join(",")
+    };
+    let lineitems = [];
+    lineitems = this.lineitemsForm.value['lineitems'].map(lineitem => {
+      return {
+        variant_id: lineitem.id,
+        quantity: lineitem.qty,
+        vendor: lineitem.vendor
+      }
+    });
+    data.line_items = lineitems;
+    if(this.shippingAddress) {
+      data.shipping_address = this.shippingAddress;
+    }
+    if(this.billingAddress) {
+      data.billing_address = this.billingAddress;
+    }
+    if(this.paymentStatus) {
+      data.payment_status = this.paymentStatus;
+      data.payment_method = this.paymentMethod;
+      data.open_order = true;
+    } else {
+      data.payment_status = null;
+      data.payment_method = null;
+      data.open_order = false;
+    }
+
+    this.ordersService.createOrder(data).then(resp => {
+      if(resp) {
+        this.snackbar.open("Order created successfully", "", {duration: 3000});
+        this.router.navigate(['/', URLS.orders]);
+      }
+    });
   }
 
   ngOnInit(): void {

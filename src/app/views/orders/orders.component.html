@@ -17,6 +17,8 @@
             [pagination]="true"
             [itemsPerPage]="pageSize"
             [count]="totalCount"
+            [searchable]="true"
+            (search)="onSearch($event)"
             (cellClick)="onCellClick($event)"
             (page)="onPage($event)">
         </datatable>

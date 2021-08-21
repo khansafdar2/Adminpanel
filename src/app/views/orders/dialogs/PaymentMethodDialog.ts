@@ -18,19 +18,19 @@ export class PaymentMethodDialog implements OnInit {
   
   loading: boolean = false;
   selectedPaymentMethod = null;
-  paymentMethod = null;
+  paymentMethods = [];
   
   getPaymentMethods() {
     this.ordersService.getPaymentMethods().then(resp => {
       console.log(resp);
       if(resp) {
-        this.paymentMethod = resp.data;
+        this.paymentMethods = resp.data;
       }
     });
   }
 
   onSubmit() {
-    this.dialogRef.close(this.paymentMethod);
+    this.dialogRef.close(this.selectedPaymentMethod);
   }
 
   ngOnInit(): void {

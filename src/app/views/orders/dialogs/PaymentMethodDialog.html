@@ -2,10 +2,10 @@
 <h2 mat-dialog-title>{{data.title}}</h2>
 <mat-dialog-content class="mat-typography">
     <form>
-        <mat-form-field appearance="outline" *ngIf="paymentMethod">
+        <mat-form-field appearance="outline" *ngIf="paymentMethods.length">
             <mat-label>Payment method</mat-label>
             <mat-select [(ngModel)]="selectedPaymentMethod" name="payment_method">
-                <mat-option [value]="paymentMethod.title">{{paymentMethod.title}}</mat-option>
+                <mat-option [value]="paymentMethod.title" *ngFor="let paymentMethod of paymentMethods">{{paymentMethod.title}}</mat-option>
             </mat-select>
         </mat-form-field>
     </form>
