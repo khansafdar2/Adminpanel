@@ -149,7 +149,7 @@ export class EditMainOrderComponent implements OnInit {
         this.subTotal = resp.data.subtotal_price;
         this.totalShipping = resp.data.total_shipping;
         this.grandTotal = resp.data.total_price;
-        this.shippingAddress = resp.data.shipping_address;
+        this.shippingAddress = resp.data.shipping_address.address ? resp.data.shipping_address : null;
         this.billingAddress = resp.data.billing_address.address ? resp.data.billing_address : null;
         this.customer = {
           id: resp.data.customer_id,
@@ -161,6 +161,10 @@ export class EditMainOrderComponent implements OnInit {
         this.tags = resp.data.tags.split(",");
       }
     });
+  }
+
+  onSubmit() {
+    
   }
 
   ngOnInit(): void {

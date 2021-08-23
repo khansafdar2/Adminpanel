@@ -238,7 +238,11 @@ export class AddOrderComponent implements OnInit {
     this.ordersService.createOrder(data).then(resp => {
       if(resp) {
         this.snackbar.open("Order created successfully", "", {duration: 3000});
-        this.router.navigate(['/', URLS.orders]);
+        if(data.open_order) {
+          this.router.navigate(['/', URLS.orders]);
+        } else {
+          this.router.navigate(['/', URLS.draftOrders]);
+        }
       }
     });
   }

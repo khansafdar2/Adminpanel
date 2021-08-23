@@ -297,6 +297,15 @@
                     </div>
                 </mat-card>
 
+                <!-- Warranty -->
+                <mat-card class="mt-20" [formGroup]="productForm">
+                    <h2>Warranty</h2>
+
+                    <mat-form-field appearance="outline">
+                        <input matInput type="text" formControlName="warranty" />
+                    </mat-form-field>
+                </mat-card>
+
                 <!-- Tags -->
                 <mat-card>
                     <h2>Tags</h2>

@@ -101,6 +101,7 @@ export class EditProductComponent implements OnInit {
     hide_out_of_stock: [false],
     has_variants: [false],
     track_inventory: [true],
+    warranty: [""],
     tags: [""]
   });
 

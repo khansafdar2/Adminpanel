@@ -81,6 +81,8 @@ import { VariantSelectorComponent, VariantSelectorDialog } from './shared/varian
 import { EditMainOrderComponent } from './views/orders/edit-main-order/edit-main-order.component';
 import { CustomerAddressDialog } from './views/orders/dialogs/CustomerAddressDialog';
 import { PaymentMethodDialog } from './views/orders/dialogs/PaymentMethodDialog';
+import { DraftOrdersComponent } from './views/orders/draft-orders/draft-orders.component';
+import { EditChildOrderComponent } from './views/orders/edit-child-order/edit-child-order.component';
 
 @NgModule({
   declarations: [
@@ -152,7 +154,9 @@ import { PaymentMethodDialog } from './views/orders/dialogs/PaymentMethodDialog'
     VariantSelectorDialog,
     EditMainOrderComponent,
     CustomerAddressDialog,
-    PaymentMethodDialog
+    PaymentMethodDialog,
+    DraftOrdersComponent,
+    EditChildOrderComponent
   ],
   imports: [
     BrowserModule,

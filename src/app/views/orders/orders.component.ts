@@ -63,6 +63,44 @@ export class OrdersComponent implements OnInit {
   totalCount: number = 0;
   page: number = 1;
   searchString: string = "";
+  filtersArray = [
+    {
+      title: "Fulfillment status",
+      key: 'fulfillment_status',
+      values: [
+        {
+          label: "Fulfilled",
+          value: "fulfilled"
+        },
+        {
+          label: "Partially fulfilled",
+          value: "partially_fulfilled"
+        },
+        {
+          label: "Unfulfilled",
+          value: "unfulfilled"
+        }
+      ]
+    },
+    {
+      title: "Payment status",
+      key: "payment_status",
+      values: [
+        {
+          label: "Paid",
+          value: "paid"
+        },
+        {
+          label: "Partially paid",
+          value: "partially_paid"
+        },
+        {
+          label: "Pending",
+          value: "pending"
+        }
+      ]
+    }
+  ]
 
   onPage(event: PageEvent) {
     this.page = event.pageIndex + 1;

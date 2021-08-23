@@ -27,7 +27,9 @@ const URLS = {
     shipping: 'shipping',
     customers: 'customers',
     orders: 'orders',
-    editMainOrder: 'edit-main'
+    draftOrders: 'draft-orders',
+    editMainOrder: 'edit-main',
+    editChildOrder: 'edit-child'
 }
 
 export default URLS;

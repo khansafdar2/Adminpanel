@@ -95,6 +95,7 @@ export class AddProductComponent implements OnInit {
     vendor: [null, [Validators.required]],
     is_active: [{value: false, disabled: true}],
     hide_out_of_stock: [false],
+    warranty: [""],
     tags: [""],
     has_variants: [false]
   });

@@ -72,4 +72,17 @@ export class OrdersService {
       }
     });
   }
+
+  getDraftOrders(page: number, limit: number, search: string) {
+    return Axios.get(environment.backend_url + '/order/draft_order_list?page=' + page + '&limit=' + limit + '&search=' + search, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
 }
