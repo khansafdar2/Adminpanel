@@ -118,9 +118,8 @@ const routes: Routes = [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
     {path: URLS.all, component: OrdersComponent, canActivate: [LoggedInAuthGuard]},
     {path: URLS.add, component: AddOrderComponent, canActivate: [LoggedInAuthGuard]},
-    {path: URLS.editMainOrder + '/:id', component: EditMainOrderComponent, canActivate: [LoggedInAuthGuard], children: [
-      {path: URLS.editChildOrder + '/:id', component: EditChildOrderComponent, canActivate: [LoggedInAuthGuard]}
-    ]}
+    {path: URLS.editMainOrder + '/:id', component: EditMainOrderComponent, canActivate: [LoggedInAuthGuard]},
+    {path: URLS.editChildOrder + '/:id', component: EditChildOrderComponent, canActivate: [LoggedInAuthGuard]}
   ]},
   {path: URLS.draftOrders, children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},

@@ -73,6 +73,45 @@ export class OrdersService {
     });
   }
 
+  getChildOrder(id) {
+    return Axios.get(environment.backend_url + '/order/childorder/' + id, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
+  updateMainOrder(data) {
+    return Axios.put(environment.backend_url + '/order/parent_order', data, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
+  updateChildOrder(data) {
+    return Axios.put(environment.backend_url + '/order/childorder', data, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
   getDraftOrders(page: number, limit: number, search: string) {
     return Axios.get(environment.backend_url + '/order/draft_order_list?page=' + page + '&limit=' + limit + '&search=' + search, {
       headers: {
