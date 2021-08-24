@@ -47,8 +47,8 @@ export class OrdersService {
     });
   }
 
-  getOrders(page: number, limit: number, search: string) {
-    return Axios.get(environment.backend_url + '/order/parent_order_list?page=' + page + '&limit=' + limit + '&search=' + search, {
+  getOrders(page: number, limit: number, search: string, filterScring: string) {
+    return Axios.get(environment.backend_url + '/order/parent_order_list?page=' + page + '&limit=' + limit + '&search=' + search + filterScring, {
       headers: {
         Authorization: this.authService.token
       }
@@ -86,6 +86,19 @@ export class OrdersService {
     });
   }
 
+  getDraftOrder(id) {
+    return Axios.get(environment.backend_url + '/order/draft_order/' + id, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
   updateMainOrder(data) {
     return Axios.put(environment.backend_url + '/order/parent_order', data, {
       headers: {
@@ -112,8 +125,34 @@ export class OrdersService {
     });
   }
 
+  updateDraftOrder(data) {
+    return Axios.put(environment.backend_url + '/order/draft_order', data, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
   getDraftOrders(page: number, limit: number, search: string) {
     return Axios.get(environment.backend_url + '/order/draft_order_list?page=' + page + '&limit=' + limit + '&search=' + search, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
+  changeOrderStatus(data) {
+    return Axios.put(environment.backend_url + '/order/order_status_change', data, {
       headers: {
         Authorization: this.authService.token
       }

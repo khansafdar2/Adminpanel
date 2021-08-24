@@ -111,7 +111,8 @@ export class AddProductComponent implements OnInit {
 
   priceForm = this.fb.group({
     price: [0],
-    compare_at_price: [0]
+    compare_at_price: [0],
+    cost_per_item: [0]
   });
 
   variantsForm = this.fb.group({
@@ -135,18 +136,20 @@ export class AddProductComponent implements OnInit {
 
     var combinations = this.sharedService.makeCombinationsFromLists(...valuesArrays);
     (this.variantsForm.get('variants') as FormArray).clear();
-    combinations.forEach(title => {
+    combinations.forEach((title, i) => {
 
       let variant = this.fb.group({
         title: [title],
         price: [this.priceForm.get('price').value],
         compare_at_price: [this.priceForm.get('compare_at_price').value],
+        cost_per_item: [this.priceForm.get('cost_per_item').value],
         inventory_quantity: [this.inventoryForm.get('inventory_quantity').value],
+        is_physical: [this.inventoryForm.get('is_physical').value],
         weight: [this.inventoryForm.get('weight').value],
         option1: [title.split("/")[0] || null],
         option2: [title.split("/")[1] || null],
         option3: [title.split("/")[2] || null],
-        sku: [this.inventoryForm.get('sku').value, [Validators.required]],
+        sku: [this.inventoryForm.get('sku').value + "-" + (i+1), [Validators.required]],
         barcode: [this.inventoryForm.get('barcode').value]
       });
 
@@ -313,6 +316,7 @@ export class AddProductComponent implements OnInit {
         title: "Detault Title",
         price: priceData.price,
         compare_at_price: priceData.compare_at_price,
+        cost_per_item: priceData.cost_per_item,
         inventory_quantity: inventoryData.inventory_quantity,
         is_physical: inventoryData.is_physical,
         option1: "Default Title",
@@ -337,7 +341,7 @@ export class AddProductComponent implements OnInit {
 
     productData.options = productOptions;
     productData.variants = variants;
-    productData.tags = this.productTags.join(",");
+    productData.tags = this.productTags.length ? this.productTags.join(",") : "";
     productData.track_inventory = inventoryData.track_inventory,
     this.loading = true;
     this.productsService.createProduct(productData).then(resp => {

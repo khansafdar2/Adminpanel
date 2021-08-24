@@ -29,7 +29,8 @@ export class AddUserComponent implements OnInit {
     orders: false,
     customer: false,
     discounts: false,
-    configuration: false
+    configuration: false,
+    vendor: false
   }
 
   ngOnInit(): void {

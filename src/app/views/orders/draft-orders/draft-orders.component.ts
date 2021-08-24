@@ -52,7 +52,7 @@ export class DraftOrdersComponent implements OnInit {
 
   onCellClick(data) {
     if(data.column === 'name') {
-      this.router.navigate(["/", URLS.orders, URLS.editMainOrder, data.row.id]);
+      this.router.navigate(["/", URLS.draftOrders, URLS.edit, data.row.id]);
     }
   }
 

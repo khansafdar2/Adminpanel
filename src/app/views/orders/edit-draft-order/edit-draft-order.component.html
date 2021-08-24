@@ -3,10 +3,10 @@
 <main id="main">
     <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
     <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
-        <h1>Edit Order {{orderTitle}}</h1>
+        <h1>Edit draft order {{orderTitle}}</h1>
 
         <div class="header-actions">
-            <a [routerLink]="['/', URLS.orders]" mat-stroked-button color="primary">Cancel</a>
+            <a [routerLink]="['/', URLS.draftOrders]" mat-stroked-button color="primary">Cancel</a>
             <button mat-flat-button color="primary" (click)="onSubmit()">Save</button>
         </div>
     </div>
@@ -14,14 +14,7 @@
     <div fxLayout="row">
         <div fxFlex="0 1 60%">
             <mat-card class="order-details">
-                <div fxLayout="row" fxLayoutAlign="space-between">
-                    <div>
-                        <h3>Order details</h3>
-                    </div>
-                    <div>
-                        <button mat-stroked-button color="warn" (click)="onCancelOrder()" *ngIf="orderStatus !== 'Cancelled'">Cancel order</button>
-                    </div>
-                </div>
+                <h3>Order details</h3>
 
                 <div class="order-lineitems">
                     <div class="lineitem-wrapper" *ngFor="let lineitem of lineitems;">
@@ -29,7 +22,7 @@
                             <img [src]="lineitem.image ? lineitem.image : '/assets/img/placeholder-image.png'" />
                             <div>
                                 <span class="product-name">{{lineitem.product_title}}</span>
-                                <span class="variant_info">{{lineitem.vendor}}<br>{{lineitem.variant_title}}</span>
+                                <span class="variant_info">{{lineitem.vendor_name}}<br>{{lineitem.variant_title}}</span>
                             </div>
                         </div>
                         <div class="lineitem-price-qty">
@@ -37,19 +30,6 @@
                         </div>
                         <div class="lineitem-subtotal">
                             <span>{{lineitem.subtotal}} QAR</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="fulfillent-status">
-                    <div fxLayout="row" fxLayoutAlign="space-between">
-                        <div>
-                            <span class="label"
-                                [class.success]="fulfillmentStatus === 'Fulfilled'"
-                                [class.warning]="fulfillmentStatus === 'Partially Fulfilled'">{{fulfillmentStatus}}</span>
-                        </div>
-                        <div>
-                            <button mat-flat-button color="primary" (click)="fulfillmentStatus = 'Fulfilled'" *ngIf="fulfillmentStatus !== 'Fulfilled'">Mark as Fulfilled</button>
-                            <button mat-stroked-button color="primary" (click)="fulfillmentStatus = 'Unfulfilled'" *ngIf="fulfillmentStatus !== 'Unfulfilled'" style="margin-left: 10px">Mark as Unfulfilled</button>
                         </div>
                     </div>
                 </div>
@@ -83,25 +63,16 @@
                 <div class="payment-status">
                     <div fxLayout="row" fxLayoutAlign="space-between">
                         <div>
-                            <span class="label"
+                            <span *ngIf="paymentStatus" class="label"
                                 [class.success]="paymentStatus === 'Paid'"
                                 [class.warning]="paymentStatus === 'Partially Paid'">Payment: {{paymentStatus}}</span>
                         </div>
                         <div>
-                            <button mat-flat-button color="primary" (click)="paymentStatus = 'Paid'" *ngIf="paymentStatus !== 'Paid'">Mark as Paid</button>
-                            <button mat-stroked-button color="primary" (click)="paymentStatus = 'Pending'" *ngIf="!isPaid && paymentStatus !== 'Pending'">Mark as Pending</button>
+                            <button mat-stroked-button color="primary" (click)="changePaymentStatus('Pending')" *ngIf="paymentStatus !== 'Pending'" style="margin-right: 10px">Mark as Pending</button>
+                            <button mat-flat-button color="primary" (click)="changePaymentStatus('Paid')" *ngIf="paymentStatus !== 'Paid'">Mark as Paid</button>
                         </div>
                     </div>
                 </div>
-            </mat-card>
-
-            <h2 style="margin-top: 20px">Child orders</h2>
-            <mat-card class="table-wrapper-card">
-                <datatable
-                    [data]="childOrders"
-                    [columns]="childOrderColumns"
-                    (cellClick)="onCellClick($event)"
-                ></datatable>
             </mat-card>
         </div>
         <div fxFlex="0 1 40%">

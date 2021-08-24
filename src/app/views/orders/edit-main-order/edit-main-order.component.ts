@@ -35,6 +35,7 @@ export class EditMainOrderComponent implements OnInit {
   URLS = URLS;
   orderID = "";
   orderTitle = "";
+  orderStatus = "";
   lineitems = [];
   isPaid: boolean = false;
   fulfillmentStatus: string = "Unfulfilled";
@@ -66,7 +67,8 @@ export class EditMainOrderComponent implements OnInit {
       label: true,
       labelStyles: {
         "Pending": "default",
-        "Paid": "success"
+        "Paid": "success",
+        "Partially Paid": "warning"
       }
     },
     {
@@ -75,7 +77,8 @@ export class EditMainOrderComponent implements OnInit {
       label: true,
       labelStyles: {
         "Unfulfilled": "default",
-        "Fulfilled": "success"
+        "Fulfilled": "success",
+        "Partially Fulfilled": "warning"
       }
     }
   ]
@@ -127,8 +130,9 @@ export class EditMainOrderComponent implements OnInit {
       if(resp) {
         console.log(resp.data);
         this.orderTitle = resp.data.name;
+        this.orderStatus = resp.data.order_status;
         this.lineitems = resp.data.line_items;
-        this.isPaid = resp.data.payment_status === "Paid";
+        this.isPaid = resp.data.payment_status !== "Pending";
         this.fulfillmentStatus = resp.data.fulfillment_status;
         this.paymentStatus = resp.data.payment_status;
         this.childOrders = resp.data.child_orders;
@@ -148,6 +152,21 @@ export class EditMainOrderComponent implements OnInit {
     this.router.navigate(["/", URLS.orders, URLS.editChildOrder, data.row.id]);
   }
 
+  onCancelOrder() {
+    let data = {
+      id: this.orderID,
+      order_status: "Cancelled"
+    }
+    this.loading = true;
+    this.ordersService.changeOrderStatus(data).then(resp => {
+      this.loading = false;
+      if(resp) {
+        this.snackbar.open("Order cancelled.", "", {duration: 3000});
+        this.router.navigate(["/", URLS.orders]);
+      }
+    })
+  }
+
   onSubmit() {
     let data = {
       id: this.orderID,
@@ -165,6 +184,7 @@ export class EditMainOrderComponent implements OnInit {
       if(resp) {
         console.log(resp.data);
         this.snackbar.open("Order updated.", "", {duration: 3000});
+        this.router.navigate(["/", URLS.orders]);
       }
     });
   }

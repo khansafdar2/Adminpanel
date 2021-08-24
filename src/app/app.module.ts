@@ -83,6 +83,7 @@ import { CustomerAddressDialog } from './views/orders/dialogs/CustomerAddressDia
 import { PaymentMethodDialog } from './views/orders/dialogs/PaymentMethodDialog';
 import { DraftOrdersComponent } from './views/orders/draft-orders/draft-orders.component';
 import { EditChildOrderComponent } from './views/orders/edit-child-order/edit-child-order.component';
+import { EditDraftOrderComponent } from './views/orders/edit-draft-order/edit-draft-order.component';
 
 @NgModule({
   declarations: [
@@ -156,7 +157,8 @@ import { EditChildOrderComponent } from './views/orders/edit-child-order/edit-ch
     CustomerAddressDialog,
     PaymentMethodDialog,
     DraftOrdersComponent,
-    EditChildOrderComponent
+    EditChildOrderComponent,
+    EditDraftOrderComponent
   ],
   imports: [
     BrowserModule,

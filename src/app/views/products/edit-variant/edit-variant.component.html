@@ -26,7 +26,7 @@
         <mat-card>
             <h2>Price</h2>
 
-            <div fxLayout="row">
+            <div fxLayout="row wrap">
                 <div fxFlex="0 1 50%">
                     <mat-form-field appearance="outline">
                         <mat-label>Price</mat-label>
@@ -38,6 +38,12 @@
                     <mat-form-field appearance="outline">
                         <mat-label>Compare at price</mat-label>
                         <input matInput formControlName="compare_at_price" type="number" />
+                    </mat-form-field>
+                </div>
+                <div fxFlex="0 1 50%">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Cost per item</mat-label>
+                        <input matInput formControlName="cost_per_item" type="number" />
                     </mat-form-field>
                 </div>
             </div>

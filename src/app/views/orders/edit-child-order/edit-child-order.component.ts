@@ -95,6 +95,7 @@ export class EditChildOrderComponent implements OnInit {
       if(resp) {
         console.log(resp.data);
         this.snackbar.open("Order updated.", "", {duration: 3000});
+        this.router.navigate(["/", URLS.orders, URLS.editMainOrder, this.mainOrderID]);
       }
     });
   }

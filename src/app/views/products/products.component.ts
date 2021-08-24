@@ -53,10 +53,6 @@ export class ProductsComponent implements OnInit {
     {
       title: "Vendor",
       selector: "vendor_name",
-    },
-    {
-      title: "Type",
-      selector: "product_type_name",
     }
   ]
   productSelection: SelectionModel<[]> = new SelectionModel(true, []);
@@ -116,10 +112,16 @@ export class ProductsComponent implements OnInit {
   }
 
   bulkTags() {
-    this.dialog.open(AddBulkTagsDialog, {
+    let dialogRef = this.dialog.open(AddBulkTagsDialog, {
       width: "600px",
       data: {
         products: this.productSelection.selected
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(applied => {
+      if(applied) {
+        this.productSelection.clear();
       }
     });
   }
@@ -404,13 +406,21 @@ export class ProductsBulkOrganizeDialog {
   templateUrl: './dialogs/add-bulk-tags-dialog.html',
 })
 export class AddBulkTagsDialog {
-  constructor(public dialogRef: MatDialogRef<ProductsChangeStatusDialog>, @Inject(MAT_DIALOG_DATA) public data) {}
+  constructor(
+    public dialogRef: MatDialogRef<ProductsChangeStatusDialog>,
+    @Inject(MAT_DIALOG_DATA) public data,
+    private productsService: ProductsService,
+    private snackBar: MatSnackBar
+  ) {
+    this.ids = this.data.products.map(product => product.id);
+  }
 
   loading: boolean = false;
   separatorKeysCodes: number[] = [ENTER, COMMA];
   tags = [];
   tagCtrl = new FormControl();
   tagRule: string = "append";
+  ids: number[] = [];
 
 
   add(event: MatChipInputEvent): void {
@@ -429,6 +439,23 @@ export class AddBulkTagsDialog {
     if (index >= 0) {
       this.tags.splice(index, 1);
     }
+  }
+
+  onApply() {
+    let data = {
+      ids: this.ids,
+      status: this.tagRule,
+      value: this.tags.join(",")
+    }
+    this.loading = true;
+    this.productsService.applyBulkTags(data).then(resp => {
+      this.loading = false;
+      if(resp) {
+        console.log(resp);
+        this.snackBar.open("Tags applied on selected products.", "", {duration: 3000});
+        this.dialogRef.close(true);
+      }
+    })
   }
 }
 

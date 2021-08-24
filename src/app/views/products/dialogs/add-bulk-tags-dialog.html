@@ -9,7 +9,7 @@
             <mat-chip
                 *ngFor="let tag of tags"
                 [removable]="true"
-                (removed)="remove(tag)">{{tag}}<mat-icon matChipRemove *ngIf="removable">cancel</mat-icon></mat-chip>
+                (removed)="remove(tag)">{{tag}}<mat-icon matChipRemove>cancel</mat-icon></mat-chip>
 
             <input
                 placeholder="New tag..."
@@ -29,5 +29,5 @@
 </mat-dialog-content>
 <div mat-dialog-actions>
     <button mat-stroked-button color="primary" mat-dialog-close>Cancel</button>
-    <button mat-flat-button color="primary">Apply</button>
+    <button mat-flat-button color="primary" [disabled]="loading || tags.length === 0" (click)="onApply()">Apply</button>
 </div>

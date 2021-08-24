@@ -46,6 +46,7 @@ import { EditCustomerComponent } from './views/customers/edit-customer/edit-cust
 import { EditMainOrderComponent } from './views/orders/edit-main-order/edit-main-order.component';
 import { DraftOrdersComponent } from './views/orders/draft-orders/draft-orders.component';
 import { EditChildOrderComponent } from './views/orders/edit-child-order/edit-child-order.component';
+import { EditDraftOrderComponent } from './views/orders/edit-draft-order/edit-draft-order.component';
 
 
 const routes: Routes = [
@@ -123,7 +124,8 @@ const routes: Routes = [
   ]},
   {path: URLS.draftOrders, children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
-    {path: URLS.all, component: DraftOrdersComponent, canActivate: [LoggedInAuthGuard]}
+    {path: URLS.all, component: DraftOrdersComponent, canActivate: [LoggedInAuthGuard]},
+    {path: URLS.edit + '/:id', component: EditDraftOrderComponent, canActivate: [LoggedInAuthGuard]}
   ]}
 ];
 

@@ -46,7 +46,8 @@ export class OrdersComponent implements OnInit {
       label: true,
       labelStyles: {
         "Pending": "default",
-        "Paid": "success"
+        "Paid": "success",
+        "Partially Paid": "warning"
       }
     },
     {
@@ -55,7 +56,17 @@ export class OrdersComponent implements OnInit {
       label: true,
       labelStyles: {
         "Unfulfilled": "default",
-        "Fulfilled": "success"
+        "Fulfilled": "success",
+        "Partially Fulfilled": "warning"
+      }
+    },
+    {
+      title: "Order status",
+      selector: "order_status",
+      label: true,
+      labelStyles: {
+        "Open": "success",
+        "Cancelled": "default"
       }
     }
   ];
@@ -63,6 +74,7 @@ export class OrdersComponent implements OnInit {
   totalCount: number = 0;
   page: number = 1;
   searchString: string = "";
+  filterString: string = "";
   filtersArray = [
     {
       title: "Fulfillment status",
@@ -120,9 +132,22 @@ export class OrdersComponent implements OnInit {
     this.getOrders();
   }
 
+  onFilter(appliedFilters) {
+    let filterString = "";
+    for (let i = 0; i < appliedFilters.length; i++) {
+      const filter = appliedFilters[i];
+      if(filter.value) {
+        filterString += "&" + filter.key + "=" + filter.value;
+      }
+    }
+    this.filterString = filterString;
+    this.page = 1;
+    this.getOrders();
+  }
+
   getOrders() {
     this.loading = true;
-    this.ordersService.getOrders(this.page, this.pageSize, this.searchString).then(resp => {
+    this.ordersService.getOrders(this.page, this.pageSize, this.searchString, this.filterString).then(resp => {
       this.loading = false;
       if(resp) {
         this.totalCount = resp.data.count;

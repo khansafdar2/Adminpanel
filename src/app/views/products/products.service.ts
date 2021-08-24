@@ -216,6 +216,19 @@ export class ProductsService {
     });
   }
 
+  applyBulkTags(data) {
+    return Axios.put( environment.backend_url + '/products/products_bulk_tags', data, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+      return error;
+    });
+  }
 
   deleteProducts(ids: string) {
     return Axios.delete(environment.backend_url + '/products/product?ids=' + ids, {

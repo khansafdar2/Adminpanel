@@ -41,6 +41,7 @@ export class EditVariantComponent implements OnInit {
     barcode: [""],
     compare_at_price: [0],
     price: [0],
+    cost_per_item: [0],
     inventory_quantity: [0],
     option1: [null],
     option2: [null],

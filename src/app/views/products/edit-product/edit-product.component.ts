@@ -116,7 +116,8 @@ export class EditProductComponent implements OnInit {
 
   priceForm = this.fb.group({
     price: [0],
-    compare_at_price: [0]
+    compare_at_price: [0],
+    cost_per_item: [0]
   });
 
   variantsForm = this.fb.group({
@@ -210,7 +211,7 @@ export class EditProductComponent implements OnInit {
         }
         this.bannerImages = resp.data.images;
         resp.data.product_images = this.bannerImages.map(image => image.id);
-        this.productTags = resp.data.tags.split(",");
+        this.productTags = resp.data.tags.length ? resp.data.tags.split(",").filter(tag => tag) : [];
         this.productForm.patchValue(resp.data);
         this.getProductGroups();
         this.getCollections();
@@ -237,7 +238,8 @@ export class EditProductComponent implements OnInit {
           });
           this.priceForm.patchValue({
             price: variant.price,
-            compare_at_price: variant.compare_at_price
+            compare_at_price: variant.compare_at_price,
+            cost_per_item: variant.cost_per_item
           });
         }
       }
@@ -367,6 +369,7 @@ export class EditProductComponent implements OnInit {
         title: [title],
         price: [this.priceForm.get('price').value],
         compare_at_price: [this.priceForm.get('compare_at_price').value],
+        cost_per_item: [this.priceForm.get('cost_per_item').value],
         inventory_quantity: [this.inventoryForm.get('inventory_quantity').value],
         option1: [title.split("/")[0] || null],
         option2: [title.split("/")[1] || null],
@@ -489,6 +492,7 @@ export class EditProductComponent implements OnInit {
 
     productData.options = optionsData;
     productData.variants = variants;
+    productData.tags = this.productTags.length ? this.productTags.join(",") : "";
     productData.deleted_variants_id = this.deletedVariants.map(variant => variant.id);
     productData.deleted_product_images = this.deletedImages;
 
