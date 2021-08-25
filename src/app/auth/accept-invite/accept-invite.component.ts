@@ -50,10 +50,16 @@ export class AcceptInviteComponent implements OnInit {
     data.key = this.key;
     this.usersService.signupPassword(data).then(resp => {
       if(resp) {
-        console.log(resp.data);
         this.loading = false;
         this.authService.signin(resp.data.token, resp.data.permission);
         this.router.navigate([URLS.home]);
+      }
+    }).catch(error =>{
+      this.loading = false;
+      if(error.isAxiosError) {
+        if(error.response.status === 400) {
+          this.formError = error.response.data.detail;
+        }
       }
     });
   }
