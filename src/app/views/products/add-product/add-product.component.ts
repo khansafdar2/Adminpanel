@@ -313,7 +313,7 @@ export class AddProductComponent implements OnInit {
 
     if(!productData.has_variants) {
       let defaultVariant = {
-        title: "Detault Title",
+        title: "Default Title",
         price: priceData.price,
         compare_at_price: priceData.compare_at_price,
         cost_per_item: priceData.cost_per_item,

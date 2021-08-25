@@ -475,11 +475,20 @@ export class EditProductComponent implements OnInit {
   onSubmit() {
     let variants = [];
     let productData = this.productForm.value;
-    let optionsData = this.productOptions;
+    let optionsData = [];
+    debugger;
     if(this.creatingVariants) {
       variants = this.variantsForm.value.variants;
+      optionsData = this.productOptions.map(option => {
+        return {
+          name: option.name,
+          values: option.values.join(","),
+          position: 1
+        }
+      });
     } else {
       variants = this.variants;
+      optionsData = this.productOptions;
     }
     if(!productData.has_variants) {
       variants[0].price = this.priceForm.get('price').value;
@@ -615,6 +624,7 @@ export class EditProductOptionsDialog {
   }
 
   deleteVariantsFromOption(optionIndex, value) {
+    debugger;
     let tempVariants = [];
     this.editingVariants.forEach(variant => {
       if(variant['option' + (optionIndex+1)] === value) {

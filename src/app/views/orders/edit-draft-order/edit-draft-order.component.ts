@@ -150,7 +150,7 @@ export class EditDraftOrderComponent implements OnInit {
   onSubmit() {
     let data:any = {
       id: this.orderID,
-      customer: this.customer.id,
+      customer: this.customer ? this.customer.id : null,
       notes: this.notes,
       tags: this.tags.join(",")
     };
