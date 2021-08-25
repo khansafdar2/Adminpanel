@@ -24,13 +24,13 @@ export class AddUserComponent implements OnInit {
 
   userPermissions = {
     dashboard: false,
-    theme: false,
+    theme: true,
     products: false,
     orders: false,
     customer: false,
     discounts: false,
     configuration: false,
-    vendor: false
+    vendor: true
   }
 
   ngOnInit(): void {
@@ -48,9 +48,11 @@ export class AddUserComponent implements OnInit {
     .then(resp => {
       this.loading = false;
       console.log(resp.response);
-      if(resp.response.status === 400) {
-        if(resp.response.data.email[0] === "This field must be unique.") {
-          this.snackbarService.open("An account with this email address already exists.", "", {duration: 3000});
+      if(resp.isAxiosError) {
+        if(resp.response.status === 400) {
+          if(resp.response.data.email[0] === "This field must be unique.") {
+            this.snackbarService.open("An account with this email address already exists.", "", {duration: 3000});
+          }
         }
       } else {
         if(resp) {

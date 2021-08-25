@@ -289,6 +289,9 @@ export class EditProductComponent implements OnInit {
                 compare_at_price: variant.compare_at_price
               });
 
+              this.inventoryForm.controls['sku'].setValidators([Validators.required]);
+              this.inventoryForm.controls['sku'].updateValueAndValidity();
+
               this.productOptions = [];
               this.variants = [];
             }
@@ -363,7 +366,7 @@ export class EditProductComponent implements OnInit {
 
     var combinations = this.sharedService.makeCombinationsFromLists(...valuesArrays);
     (this.variantsForm.get('variants') as FormArray).clear();
-    combinations.forEach(title => {
+    combinations.forEach((title, i) => {
 
       let variant = this.fb.group({
         title: [title],
@@ -374,7 +377,7 @@ export class EditProductComponent implements OnInit {
         option1: [title.split("/")[0] || null],
         option2: [title.split("/")[1] || null],
         option3: [title.split("/")[2] || null],
-        sku: [this.inventoryForm.get('sku').value, [Validators.required]],
+        sku: [this.inventoryForm.get('sku').value + "-" + (i+1), [Validators.required]],
         barcode: [this.inventoryForm.get('barcode').value],
         is_physical: [true],
         weight: [0.1]
@@ -481,6 +484,7 @@ export class EditProductComponent implements OnInit {
     if(!productData.has_variants) {
       variants[0].price = this.priceForm.get('price').value;
       variants[0].compare_at_price = this.priceForm.get('compare_at_price').value;
+      variants[0].cost_per_item = this.priceForm.get('cost_per_item').value;
       variants[0].sku = this.inventoryForm.get('sku').value;
       variants[0].barcode = this.inventoryForm.get('barcode').value;
       variants[0].inventory_quantity = this.inventoryForm.get('inventory_quantity').value;
@@ -488,6 +492,7 @@ export class EditProductComponent implements OnInit {
 
     if(this.changingPrice) {
       productData.product_group = "";
+      productData.is_active = false;
     }
 
     productData.options = optionsData;

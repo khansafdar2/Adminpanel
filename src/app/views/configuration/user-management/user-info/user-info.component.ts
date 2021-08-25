@@ -23,12 +23,13 @@ export class UserInfoComponent implements OnInit {
   lastNameField = new FormControl("", [Validators.required]);
   userPermissions = {
     dashboard: false,
-    theme: false,
+    theme: true,
     products: false,
     orders: false,
     customer: false,
     discounts: false,
-    configuration: false
+    configuration: false,
+    vendor: true
   }
   userDetail = {
     id: null,
