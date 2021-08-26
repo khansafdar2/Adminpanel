@@ -141,6 +141,21 @@ export class ProductsComponent implements OnInit {
     });
   }
 
+  exportProducts() {
+    let dialogRef = this.dialog.open(ProductsExportDialog, {
+      width: "600px",
+      data: {
+        products: this.productSelection.selected
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(exported => {
+      if(exported) {
+        this.productSelection.clear();
+      }
+    });
+  }
+
   getProducts() {
     this.loading = true;
     this.productSelection.clear();
@@ -485,6 +500,46 @@ export class ProductsBulkDeleteDialog {
       this.loading = false;
       if(resp) {
         this.snackBar.open("Product deleted successfully.", "", {duration: 3000});
+        this.dialogRef.close(true);
+      }
+    })
+  }
+}
+
+
+@Component({
+  selector: 'products-export-dialog',
+  templateUrl: './dialogs/products-export-dialog.html',
+})
+export class ProductsExportDialog {
+  constructor(
+    public dialogRef: MatDialogRef<ProductsExportDialog>,
+    @Inject(MAT_DIALOG_DATA) public data,
+    private productsService: ProductsService,
+    private snackBar: MatSnackBar
+  ) {
+    let idsArray = this.data.products.map(product => product.id);
+    this.ids = idsArray.join(",");
+  }
+
+  loading: boolean = false;
+  ids: string = "";
+  exportType = "all";
+
+  onExport() {
+    this.loading = true;
+    this.productsService.exportProducts(this.exportType === "all" ? "all" : this.ids).then(resp => {
+      this.loading = false;
+      if(resp) {
+        console.log(resp.data);
+        let csv_data = resp.data;
+        var fileURL = window.URL.createObjectURL(new Blob([csv_data]));
+        var fileLink = document.createElement('a');
+        fileLink.href = fileURL;
+        fileLink.setAttribute('download', 'export_products.csv');
+        document.body.appendChild(fileLink);
+        fileLink.click();
+        document.body.removeChild(fileLink);
         this.dialogRef.close(true);
       }
     })

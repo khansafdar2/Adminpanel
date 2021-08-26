@@ -20,7 +20,7 @@
                                 <mat-icon matChipRemove (click)="removeValue(i, j)" *ngIf="canRemoveValue()">close</mat-icon>
                             </mat-chip>
                         </mat-chip-list>
-    
+
                         <mat-form-field appearance="outline" *ngIf="option.new">
                             <mat-label>Default value</mat-label>
                             <input matInput [(ngModel)]="option.values[0]" (change)="addNewOptionValue($event, i)" />
@@ -29,7 +29,7 @@
                 </tr>
             </tbody>
         </table>
-    
+
         <button mat-stroked-button color="primary" *ngIf="options.length < 3" (click)="addOption()">+ Add option</button>
         <p class="form-error">{{formError}}</p>
     </div>

@@ -1,0 +1,13 @@
+<button mat-icon-button mat-dialog-close class="dialog-close"><mat-icon>close</mat-icon></button>
+<h2 mat-dialog-title>Export products</h2>
+<mat-dialog-content class="mat-typography">
+    <p>Select an option to export products:</p>
+    <mat-radio-group fxLayout="column" class="verticle-checkbox" [(ngModel)]="exportType">
+        <mat-radio-button value="all">All products</mat-radio-button>
+        <mat-radio-button value="selected" [disabled]="data.products.length == 0">{{data.products.length}} Selected products</mat-radio-button>
+    </mat-radio-group>
+</mat-dialog-content>
+<div mat-dialog-actions>
+    <button mat-stroked-button color="primary" mat-dialog-close>Cancel</button>
+    <button mat-flat-button color="primary" [disabled]="loading" (click)="onExport()">Export</button>
+</div>

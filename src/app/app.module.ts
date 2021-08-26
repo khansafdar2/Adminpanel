@@ -45,7 +45,7 @@ import { AcceptInviteComponent } from './auth/accept-invite/accept-invite.compon
 import { TaxConfigurationComponent } from './views/configuration/tax-configuration/tax-configuration.component';
 import { GeneralInformationComponent } from './views/configuration/general-information/general-information.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
-import { ImportProductsDialog, ProductsChangeApprovalDialog, ProductsChangeStatusDialog, ProductsComponent, AddBulkTagsDialog, ProductsBulkOrganizeDialog, ProductsBulkDeleteDialog } from './views/products/products.component';
+import { ImportProductsDialog, ProductsChangeApprovalDialog, ProductsChangeStatusDialog, ProductsComponent, AddBulkTagsDialog, ProductsBulkOrganizeDialog, ProductsBulkDeleteDialog, ProductsExportDialog } from './views/products/products.component';
 import { CategoryStructureComponent } from './views/products/category-structure/category-structure.component';
 import { NewMainCategoryComponent } from './views/products/category-structure/main-category/new-main-category/new-main-category.component';
 import { NewSubCategoryComponent } from './views/products/category-structure/sub-category/new-sub-category/new-sub-category.component';
@@ -158,7 +158,8 @@ import { EditDraftOrderComponent } from './views/orders/edit-draft-order/edit-dr
     PaymentMethodDialog,
     DraftOrdersComponent,
     EditChildOrderComponent,
-    EditDraftOrderComponent
+    EditDraftOrderComponent,
+    ProductsExportDialog
   ],
   imports: [
     BrowserModule,

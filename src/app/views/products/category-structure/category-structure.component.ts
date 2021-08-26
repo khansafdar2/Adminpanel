@@ -97,6 +97,7 @@ export class CategoryStructureComponent implements OnInit {
     event.stopPropagation();
     let actions = ["Edit"];
     availability ? actions.push("Make offline") : actions.push("Make online");
+    actions.push("Delete");
     this.categoryActions = actions;
     this.activeCategory = {
       id,
@@ -106,7 +107,6 @@ export class CategoryStructureComponent implements OnInit {
   }
 
   onCategoryAction(action) {
-    console.log(this.activeCategory, action);
     let id = this.activeCategory.id;
     let type = this.activeCategory.type;
     let status;
@@ -125,6 +125,9 @@ export class CategoryStructureComponent implements OnInit {
     } else if(action === "Make online") {
       status = true;
       this.changeCategoryStatus(id, type, status);
+    } else if(action === "Delete") {
+      debugger;
+      this.deleteCategory(id, type);
     }
   }
 
@@ -136,6 +139,16 @@ export class CategoryStructureComponent implements OnInit {
         }
       }
     });
+  }
+
+  deleteCategory(id, type) {
+    this.loading = true;
+    this.categoryService.deleteCatgeory(id, type).then(resp => {
+      this.loading = false;
+      if(resp) {
+        this.getMainCategories();
+      }
+    })
   }
 
   ngOnInit(): void {

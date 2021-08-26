@@ -243,4 +243,18 @@ export class ProductsService {
       return error;
     });
   }
+
+  exportProducts(IDs) {
+    return Axios.get(environment.backend_url + '/products/products_export?ids=' + IDs, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+      return error;
+    });
+  }
 }

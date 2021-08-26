@@ -10,6 +10,7 @@ import { SharedService } from 'src/app/shared/shared.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ProductsChangeStatusDialog } from '../products.component';
+import { COMMA } from '@angular/cdk/keycodes';
 
 interface Variant {
   id: number,
@@ -649,7 +650,7 @@ export class EditProductOptionsDialog {
 
   addNewOptionValue(e, optionIndex) {
     console.log(e);
-    var value = e.target.value;
+    var value = e.target.value.replaceAll(",", "");
     if(value) {
       this.editingVariants.forEach(variant => {
         let variantTitle = [];

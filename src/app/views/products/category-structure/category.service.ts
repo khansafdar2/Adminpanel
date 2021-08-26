@@ -183,4 +183,31 @@ export class CategoryService {
       }
     });
   }
+
+  deleteCatgeory(id, type) {
+    let endpoint = "";
+    switch (type) {
+      case "main":
+        endpoint = "main_category";
+        break;
+      case "sub":
+        endpoint = "sub_category";
+        break;
+      case "supersub":
+        endpoint = "super_sub_category";
+        break;
+      default:
+        break;
+    }
+    return Axios.delete( environment.backend_url + '/products/' + endpoint + "/" + id, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
 }
