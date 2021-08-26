@@ -531,10 +531,10 @@ export class ProductsExportDialog {
     this.productsService.exportProducts(this.exportType === "all" ? "all" : this.ids).then(resp => {
       this.loading = false;
       if(resp) {
-        console.log(resp.data);
         let csv_data = resp.data;
-        var fileURL = window.URL.createObjectURL(new Blob([csv_data]));
+        var fileURL = window.URL.createObjectURL(new Blob([csv_data], { type: 'text/csv;charset=utf-8;' }));
         var fileLink = document.createElement('a');
+        console.log(resp.data);
         fileLink.href = fileURL;
         fileLink.setAttribute('download', 'export_products.csv');
         document.body.appendChild(fileLink);
