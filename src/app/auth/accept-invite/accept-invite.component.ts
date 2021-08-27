@@ -51,7 +51,7 @@ export class AcceptInviteComponent implements OnInit {
     this.usersService.signupPassword(data).then(resp => {
       if(resp) {
         this.loading = false;
-        this.authService.signin(resp.data.token, resp.data.permission);
+        this.authService.signin(resp.data.token, resp.data.permission, resp.data);
         this.router.navigate([URLS.home]);
       }
     }).catch(error =>{

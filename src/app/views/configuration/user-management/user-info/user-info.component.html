@@ -53,7 +53,7 @@
                                     <p class="field-label">Email address</p>
                                     <p class="field-value">{{userDetail.email}}</p>
                                 </div>
-                                <div fxFlex="0 1 auto">
+                                <div fxFlex="0 1 auto" *ngIf="loggedInUserID == userId">
                                     <p class="field-label">Password</p>
                                     <p class="field-value text-link" (click)="openChangePasswordDialog()">Change password</p>
                                 </div>

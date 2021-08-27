@@ -127,7 +127,7 @@ export class OrdersComponent implements OnInit {
   }
 
   onSearch(data) {
-    this.searchString = data.query;
+    this.searchString = data.query.replaceAll("#", "");
     this.page = 1;
     this.getOrders();
   }

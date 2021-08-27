@@ -27,17 +27,31 @@ export class AuthService {
     if(localStorage.getItem('permissions')) {
       this.user_permissions = JSON.parse(localStorage.getItem('permissions'));
     }
+    if(localStorage.getItem('user')) {
+      this.user = JSON.parse(localStorage.getItem('user'));
+    }
   }
 
   signedIn: boolean = false;
   token: string;
   user_permissions: UserPermission;
+  user = {
+    id: null,
+    email: "",
+    first_name: "",
+    last_name: "",
+    token: "",
+    username: ""
+  };
 
-  signin(token: string, permissions: UserPermission) {
+  signin(token: string, permissions: UserPermission, user) {
     this.cookies.set('token', token, 1, '/');
     this.token = token;
     this.user_permissions = permissions;
+    delete user.permission;
+    this.user = user;
     localStorage.setItem('permissions', JSON.stringify(permissions));
+    localStorage.setItem('user', JSON.stringify(user));
     this.signedIn = true;
   }
 

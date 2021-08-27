@@ -52,7 +52,6 @@ export class GeneralInformationComponent implements OnInit {
     this.loading = true;
     this.generalInfoService.getStoreInfo().then(resp => {
       if(resp) {
-        console.log(resp.data);
         this.storeInfo = resp.data;
         this.storeInfoForm.patchValue(resp.data);
         if(resp.data.id) {
@@ -71,7 +70,6 @@ export class GeneralInformationComponent implements OnInit {
   saveInfo() {
     this.generalInfoService.updateStoreInfo(this.storeInfoForm.value).then(resp => {
       if(resp) {
-        console.log(resp.data);
         this.snackbarService.open("Settings updated.", "", {duration: 3000});
         this.goBack();
       }

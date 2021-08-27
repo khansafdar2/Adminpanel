@@ -23,26 +23,32 @@ export class EditBrandComponent implements OnInit {
     private route: ActivatedRoute
   ) {
     this.brandID = this.route.snapshot.paramMap.get('id');
+    this.brandForm.patchValue({
+      id: this.brandID
+    });
   }
 
   brandID = null;
-  loading: boolean = true;
-  URLS = URLS;
+  loading: boolean = false;
+  URLS = URLS; 
   brandForm = this.fb.group({
-    id: [null],
+    id: null,
     name: ['', [Validators.required]],
-    image: [null, [Validators.required]]
+    image: [null, [Validators.required]],
+    banner_image: [null]
   });
-  file_uploading: boolean = false;
-  previewImageSrc: string = "";
+  logo_uploading: boolean = false;
+  banner_uploading: boolean = false;
+  previewLogoImageSrc: string = "";
+  previewBannerImageSrc: string = "";
 
-  bannerImageSelect(e) {
+  logoImageSelect(e) {
     const file = e.target.files[0];
-    this.file_uploading = true;
+    this.logo_uploading = true;
     this.sharedService.uploadMedia(file).then(resp => {
-      this.file_uploading = false;
+      this.logo_uploading = false;
       if(resp) {
-        this.previewImageSrc = resp.data[0].cdn_link;
+        this.previewLogoImageSrc = resp.data[0].cdn_link;
         this.brandForm.patchValue({
           image: resp.data[0].id
         });
@@ -51,8 +57,30 @@ export class EditBrandComponent implements OnInit {
     });
   }
 
+  bannerImageSelect(e) {
+    const file = e.target.files[0];
+    this.banner_uploading = true;
+    this.sharedService.uploadMedia(file).then(resp => {
+      this.banner_uploading = false;
+      if(resp) {
+        this.previewBannerImageSrc = resp.data[0].cdn_link;
+        this.brandForm.patchValue({
+          banner_image: resp.data[0].id
+        });
+        e.target.value = "";
+      }
+    });
+  }
+
+  removeLogo() {
+    this.previewLogoImageSrc = "";
+    this.brandForm.patchValue({
+      image: null
+    });
+  }
+
   removeBanner() {
-    this.previewImageSrc = "";
+    this.previewBannerImageSrc = "";
     this.brandForm.patchValue({
       image: null
     });
@@ -70,7 +98,8 @@ export class EditBrandComponent implements OnInit {
           image: resp.data.image ? resp.data.image.id : null
         }
         this.brandForm.patchValue(data);
-        this.previewImageSrc = resp.data.image ? resp.data.image.cdn_link : "";
+        this.previewLogoImageSrc = resp.data.image ? resp.data.image.cdn_link : "";
+        this.previewBannerImageSrc = resp.data.banner_image ? resp.data.banner_image.cdn_link : "";
       }
     })
   }

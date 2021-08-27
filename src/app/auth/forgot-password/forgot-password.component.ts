@@ -40,7 +40,6 @@ export class ForgotPasswordComponent implements OnInit {
     this.loading = true;
     Axios.post(environment.backend_url + "/authentication/forgotPassword", this.emailAddressForm.value)
     .then(resp => {
-      console.log(resp.data);
       this.loading = false;
       this.emailSent = true;
     });
@@ -50,7 +49,6 @@ export class ForgotPasswordComponent implements OnInit {
     this.loading = true;
     Axios.post(environment.backend_url + "/authentication/verify_code", this.codeVerifyForm.value)
     .then(resp => {
-      console.log(resp.data);
       this.loading = false;
       if(resp.data.valid) {
         this.codeVerified = true;
@@ -70,7 +68,6 @@ export class ForgotPasswordComponent implements OnInit {
     this.loading = true;
     Axios.post(environment.backend_url + "/authentication/reset_forgot_password", data)
     .then(resp => {
-      console.log(resp.data);
       this.loading = false;
       this.router.navigate(["/", URLS.signin]);
     });

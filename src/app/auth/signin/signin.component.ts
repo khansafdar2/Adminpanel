@@ -33,7 +33,7 @@ export class SigninComponent implements OnInit {
       Axios.post(environment.backend_url + "/authentication/signin", this.signinForm.value)
       .then((response) => {
         this.loading = false;
-        this.authService.signin(response.data.token, response.data.permission);
+        this.authService.signin(response.data.token, response.data.permission, response.data);
 
         this.router.navigate(['/dashboard']);
       }, (error) => {

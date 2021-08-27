@@ -4,6 +4,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import URLS from 'src/app/shared/urls';
 import { UsersService } from '../users.service';
 import { FormControl, Validators } from '@angular/forms';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-user-info',
@@ -12,11 +13,18 @@ import { FormControl, Validators } from '@angular/forms';
 })
 export class UserInfoComponent implements OnInit {
 
-  constructor(private router: Router, private route: ActivatedRoute, private usersService: UsersService, public dialog: MatDialog) {
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private authService: AuthService,
+    private usersService: UsersService,
+    public dialog: MatDialog,
+  ) {
     this.userId = this.route.snapshot.paramMap.get('id');
   }
 
   userId = null;
+  loggedInUserID = this.authService.user.id;
   displayedColumns: string[] = ['date', 'ip_address', 'location'];
   dataSource = [];
   firstNameField = new FormControl("", [Validators.required]);

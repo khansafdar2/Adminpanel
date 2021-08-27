@@ -25,7 +25,7 @@
                                 <span class="account-initials">{{userInitials}}</span>
                             </div>
                             <mat-card-title class="account-title"><span class="text-link" (click)="openUserInfo(storeOwner.id)">{{storeOwner.first_name}} {{storeOwner.last_name}}</span></mat-card-title>
-                            <mat-card-subtitle>Last login was {{storeOwner.last_login}}</mat-card-subtitle>
+                            <mat-card-subtitle>Last login was {{storeOwner.last_login | date: 'short'}}</mat-card-subtitle>
                         </mat-card-header>
                         <mat-card-content>
                             <p class="text-link" (click)="openTransferOwnershipDialog()">Transfer ownership</p>
@@ -51,7 +51,7 @@
                                 <div fxFlex="row">
                                     <div fxFlex="0 1 66.66666%">
                                         <h4 class="text-link" (click)="openUserInfo(user.id)">{{user.first_name}} {{user.last_name}}</h4>
-                                        <p>Last login was {{user.last_login}}</p>
+                                        <p>Last login was {{user.last_login | date: 'short'}}</p>
                                     </div>
                                     <div fxFlex="0 1 33.33333%" class="text-right">
                                         <span class="access-label full" *ngIf="user.full_access">Full access</span>
