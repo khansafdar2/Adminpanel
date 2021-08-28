@@ -109,6 +109,7 @@ export class EditMainCategoryComponent implements OnInit {
       this.loading = false;
       if(resp) {
         this.snackbarService.open("Category updated.", "", {duration: 3000});
+        this.router.navigate(["/", URLS.categories]);
       }
     })
   }

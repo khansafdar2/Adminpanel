@@ -29,7 +29,8 @@ const URLS = {
     orders: 'orders',
     draftOrders: 'draft-orders',
     editMainOrder: 'edit-main',
-    editChildOrder: 'edit-child'
+    editChildOrder: 'edit-child',
+    pages: 'pages'
 }
 
 export default URLS;

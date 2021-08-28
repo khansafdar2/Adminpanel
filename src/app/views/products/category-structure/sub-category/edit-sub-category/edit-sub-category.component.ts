@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SharedService } from 'src/app/shared/shared.service';
 import URLS from 'src/app/shared/urls';
 import { CategoryService } from '../../category.service';
@@ -18,6 +18,7 @@ export class EditSubCategoryComponent implements OnInit {
     private route: ActivatedRoute,
     private sharedService: SharedService,
     private fb: FormBuilder,
+    private router: Router,
     private snackbarService: MatSnackBar) {
     this.categoryID = this.route.snapshot.paramMap.get('id');
   }
@@ -44,6 +45,7 @@ export class EditSubCategoryComponent implements OnInit {
     seo_description: [''],
     banner_image: [null],
     availability: [false],
+    main_category: [null],
     meta_data: this.fb.array([])
   });
 
@@ -102,6 +104,7 @@ export class EditSubCategoryComponent implements OnInit {
       this.loading = false;
       if(resp) {
         this.snackbarService.open("Category updated.", "", {duration: 3000});
+        this.router.navigate(["/", URLS.categories]);
       }
     })
   }

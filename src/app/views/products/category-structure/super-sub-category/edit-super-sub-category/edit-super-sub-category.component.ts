@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SharedService } from 'src/app/shared/shared.service';
 import URLS from 'src/app/shared/urls';
 import { CategoryService } from '../../category.service';
@@ -16,6 +16,7 @@ export class EditSuperSubCategoryComponent implements OnInit {
   constructor(
     private categoryService: CategoryService,
     private route: ActivatedRoute,
+    private router: Router,
     private sharedService: SharedService,
     private fb: FormBuilder,
     private snackbarService: MatSnackBar) {
@@ -103,6 +104,7 @@ export class EditSuperSubCategoryComponent implements OnInit {
       this.loading = false;
       if(resp) {
         this.snackbarService.open("Category updated.", "", {duration: 3000});
+        this.router.navigate(["/", URLS.categories]);
       }
     })
   }

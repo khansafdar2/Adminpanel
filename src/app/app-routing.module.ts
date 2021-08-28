@@ -25,7 +25,7 @@ import { AddProductComponent } from './views/products/add-product/add-product.co
 import { ProductGroupsComponent } from './views/products/product-groups/product-groups.component';
 import { AddProductGroupComponent } from './views/products/product-groups/add-product-group/add-product-group.component';
 import { EditProductGroupComponent } from './views/products/product-groups/edit-product-group/edit-product-group.component';
-import { DashboardGuard } from './auth/permission.guard';
+import { ConfigurationGuard, CustomersGuard, DashboardGuard, DiscountsGuard, OrdersGuard, ProductsGuard } from './auth/permission.guard';
 import { NewSuperSubCategoryComponent } from './views/products/category-structure/super-sub-category/new-super-sub-category/new-super-sub-category.component';
 import { EditSuperSubCategoryComponent } from './views/products/category-structure/super-sub-category/edit-super-sub-category/edit-super-sub-category.component';
 import { EditProductComponent } from './views/products/edit-product/edit-product.component';
@@ -55,78 +55,79 @@ const routes: Routes = [
   {path: URLS.forgotPassword, component: ForgotPasswordComponent, canActivate: [LoggedOutAuthGuard]},
   {path: URLS.acceptInvite + '/:key', component: AcceptInviteComponent, canActivate: [LoggedOutAuthGuard]},
   {path: URLS.home, component: DashboardComponent, canActivate: [LoggedInAuthGuard, DashboardGuard]},
-  {path: URLS.configuration, component: ConfigurationComponent, canActivate: [LoggedInAuthGuard]},
-  {path: URLS.userManagement, children: [
+  {path: URLS.configuration, component: ConfigurationComponent, canActivate: [LoggedInAuthGuard, ConfigurationGuard]},
+  {path: URLS.userManagement, canActivate:[LoggedInAuthGuard, ConfigurationGuard], children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
-    {path: URLS.all, component: UserManagementComponent, canActivate: [LoggedInAuthGuard]},
-    {path: URLS.add, component: AddUserComponent, canActivate: [LoggedInAuthGuard]},
-    {path: URLS.info + '/:id', component: UserInfoComponent, canActivate: [LoggedInAuthGuard]},
+    {path: URLS.all, component: UserManagementComponent},
+    {path: URLS.add, component: AddUserComponent},
+    {path: URLS.info + '/:id', component: UserInfoComponent},
   ]},
-  {path: URLS.tax, component: TaxConfigurationComponent, canActivate: [LoggedInAuthGuard]},
-  {path: URLS.generalInformation, component: GeneralInformationComponent, canActivate: [LoggedInAuthGuard]},
-  {path: URLS.shipping, component: ShippingComponent, canActivate: [LoggedInAuthGuard]},
-  {path: URLS.categories, children: [
+  {path: URLS.tax, component: TaxConfigurationComponent, canActivate: [LoggedInAuthGuard, ConfigurationGuard]},
+  {path: URLS.generalInformation, component: GeneralInformationComponent, canActivate: [LoggedInAuthGuard, ConfigurationGuard]},
+  {path: URLS.shipping, component: ShippingComponent, canActivate: [LoggedInAuthGuard, ConfigurationGuard]},
+  {path: URLS.categories, canActivate: [LoggedInAuthGuard, ProductsGuard], children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
-    {path: URLS.all, component: CategoryStructureComponent, canActivate: [LoggedInAuthGuard]},
-    {path: URLS.newMainCategory, component: NewMainCategoryComponent, canActivate: [LoggedInAuthGuard]},
-    {path: URLS.newSubCategory + '/:mainID', component: NewSubCategoryComponent, canActivate: [LoggedInAuthGuard]},
-    {path: URLS.editMainCategory + '/:id', component: EditMainCategoryComponent, canActivate: [LoggedInAuthGuard]},
-    {path: URLS.editSubCategory + '/:id', component: EditSubCategoryComponent, canActivate: [LoggedInAuthGuard]},
-    {path: URLS.newSuperSubCategory + '/:subID', component: NewSuperSubCategoryComponent, canActivate: [LoggedInAuthGuard]},
-    {path: URLS.editSuperSubCategory + '/:id', component: EditSuperSubCategoryComponent, canActivate: [LoggedInAuthGuard]},
+    {path: URLS.all, component: CategoryStructureComponent},
+    {path: URLS.newMainCategory, component: NewMainCategoryComponent},
+    {path: URLS.newSubCategory + '/:mainID', component: NewSubCategoryComponent},
+    {path: URLS.editMainCategory + '/:id', component: EditMainCategoryComponent},
+    {path: URLS.editSubCategory + '/:id', component: EditSubCategoryComponent},
+    {path: URLS.newSuperSubCategory + '/:subID', component: NewSuperSubCategoryComponent},
+    {path: URLS.editSuperSubCategory + '/:id', component: EditSuperSubCategoryComponent},
   ]},
-  {path: URLS.collections, children: [
+  {path: URLS.collections, canActivate: [LoggedInAuthGuard, ProductsGuard], children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
-    {path: URLS.all, component: CollectionsComponent, canActivate: [LoggedInAuthGuard]},
-    {path: URLS.add, component: AddCollectionComponent, canActivate: [LoggedInAuthGuard]},
-    {path: URLS.edit + '/:id', component: EditCollectionComponent, canActivate: [LoggedInAuthGuard]}
+    {path: URLS.all, component: CollectionsComponent},
+    {path: URLS.add, component: AddCollectionComponent},
+    {path: URLS.edit + '/:id', component: EditCollectionComponent}
   ]},
-  {path: URLS.products, children: [
+  {path: URLS.products, canActivate: [LoggedInAuthGuard, ProductsGuard], children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
-    {path: URLS.all, component: ProductsComponent, canActivate: [LoggedInAuthGuard]},
-    {path: URLS.add, component: AddProductComponent, canActivate: [LoggedInAuthGuard]},
-    {path: URLS.edit + '/:id', component: EditProductComponent, canActivate: [LoggedInAuthGuard]},
+    {path: URLS.all, component: ProductsComponent},
+    {path: URLS.add, component: AddProductComponent},
+    {path: URLS.edit + '/:id', component: EditProductComponent},
     {path: ':productID/' + URLS.variants, children: [
-      {path: URLS.add, component: AddVariantComponent, canActivate: [LoggedInAuthGuard]},
-      {path: ':id', component: EditVariantComponent, canActivate: [LoggedInAuthGuard]}
+      {path: URLS.add, component: AddVariantComponent},
+      {path: ':id', component: EditVariantComponent}
     ]}
   ]},
-  {path: URLS.productGroups, children: [
+  {path: URLS.productGroups, canActivate: [LoggedInAuthGuard, ProductsGuard], children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
-    {path: URLS.all, component: ProductGroupsComponent, canActivate: [LoggedInAuthGuard]},
-    {path: URLS.add, component: AddProductGroupComponent, canActivate: [LoggedInAuthGuard]},
-    {path: URLS.edit + '/:id', component: EditProductGroupComponent, canActivate: [LoggedInAuthGuard]}
+    {path: URLS.all, component: ProductGroupsComponent},
+    {path: URLS.add, component: AddProductGroupComponent},
+    {path: URLS.edit + '/:id', component: EditProductGroupComponent}
   ]},
-  {path: URLS.brands, children: [
+  {path: URLS.brands, canActivate: [LoggedInAuthGuard, ProductsGuard], children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
-    {path: URLS.all, component: BrandsComponent, canActivate: [LoggedInAuthGuard]},
-    {path: URLS.add, component: AddBrandComponent, canActivate: [LoggedInAuthGuard]},
-    {path: URLS.edit + '/:id', component: EditBrandComponent, canActivate: [LoggedInAuthGuard]}
+    {path: URLS.all, component: BrandsComponent},
+    {path: URLS.add, component: AddBrandComponent},
+    {path: URLS.edit + '/:id', component: EditBrandComponent}
   ]},
-  {path: URLS.discounts, children: [
+  {path: URLS.discounts, canActivate: [LoggedInAuthGuard, DiscountsGuard], children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
-    {path: URLS.all, component: DiscountsComponent, canActivate: [LoggedInAuthGuard]},
-    {path: URLS.add, component: AddDiscountComponent, canActivate: [LoggedInAuthGuard]},
-    {path: URLS.edit + '/:id', component: EditDiscountComponent, canActivate: [LoggedInAuthGuard]}
+    {path: URLS.all, component: DiscountsComponent},
+    {path: URLS.add, component: AddDiscountComponent},
+    {path: URLS.edit + '/:id', component: EditDiscountComponent}
   ]},
-  {path: URLS.customers, children: [
+  {path: URLS.customers, canActivate: [LoggedInAuthGuard, CustomersGuard], children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
-    {path: URLS.all, component: CustomersComponent, canActivate: [LoggedInAuthGuard]},
-    {path: URLS.add, component: AddCustomerComponent, canActivate: [LoggedInAuthGuard]},
-    {path: URLS.edit + '/:id', component: EditCustomerComponent, canActivate: [LoggedInAuthGuard]}
+    {path: URLS.all, component: CustomersComponent},
+    {path: URLS.add, component: AddCustomerComponent},
+    {path: URLS.edit + '/:id', component: EditCustomerComponent}
   ]},
-  {path: URLS.orders, children: [
+  {path: URLS.orders, canActivate: [LoggedInAuthGuard, OrdersGuard], children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
-    {path: URLS.all, component: OrdersComponent, canActivate: [LoggedInAuthGuard]},
-    {path: URLS.add, component: AddOrderComponent, canActivate: [LoggedInAuthGuard]},
-    {path: URLS.editMainOrder + '/:id', component: EditMainOrderComponent, canActivate: [LoggedInAuthGuard]},
-    {path: URLS.editChildOrder + '/:id', component: EditChildOrderComponent, canActivate: [LoggedInAuthGuard]}
+    {path: URLS.all, component: OrdersComponent},
+    {path: URLS.add, component: AddOrderComponent},
+    {path: URLS.editMainOrder + '/:id', component: EditMainOrderComponent},
+    {path: URLS.editChildOrder + '/:id', component: EditChildOrderComponent}
   ]},
-  {path: URLS.draftOrders, children: [
+  {path: URLS.draftOrders, canActivate: [LoggedInAuthGuard, OrdersGuard], children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
-    {path: URLS.all, component: DraftOrdersComponent, canActivate: [LoggedInAuthGuard]},
-    {path: URLS.edit + '/:id', component: EditDraftOrderComponent, canActivate: [LoggedInAuthGuard]}
-  ]}
+    {path: URLS.all, component: DraftOrdersComponent},
+    {path: URLS.edit + '/:id', component: EditDraftOrderComponent}
+  ]},
+  // {path: URLS.pages, canActivate: [LoggedInAuthGuard]}
 ];
 
 @NgModule({

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import URLs from '../../../shared/urls';
 import { UsersService } from './users.service';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-user-management',
@@ -11,7 +12,14 @@ import { UsersService } from './users.service';
 })
 export class UserManagementComponent implements OnInit {
 
-  constructor(private router: Router, public dialog: MatDialog, private userService: UsersService) { }
+  constructor(
+    private router: Router,
+    public dialog: MatDialog,
+    private authService: AuthService,
+    private userService: UsersService,
+  ) {
+    this.loggedInUser = this.authService.user;
+  }
 
   users = [];
   staff = [];
@@ -20,6 +28,7 @@ export class UserManagementComponent implements OnInit {
     first_name: "",
     last_name: ""
   };
+  loggedInUser = {};
   loading: boolean = true;
 
   ngOnInit(): void {

@@ -28,7 +28,7 @@
                             <mat-card-subtitle>Last login was {{storeOwner.last_login | date: 'short'}}</mat-card-subtitle>
                         </mat-card-header>
                         <mat-card-content>
-                            <p class="text-link" (click)="openTransferOwnershipDialog()">Transfer ownership</p>
+                            <p class="text-link" (click)="openTransferOwnershipDialog()" *ngIf="loggedInUser.owner">Transfer ownership</p>
                         </mat-card-content>
                     </mat-card>
                 </div>
