@@ -67,6 +67,10 @@ export class ProductsComponent implements OnInit {
     {
       label: "Name",
       value: "title"
+    },
+    {
+      label: "SKU",
+      value: "sku"
     }
   ];
   page: number = 1;

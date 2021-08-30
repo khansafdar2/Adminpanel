@@ -27,6 +27,10 @@ export class OrdersComponent implements OnInit {
       clickable: true
     },
     {
+      title: "Order no.",
+      selector: "order_number"
+    },
+    {
       title: "Date",
       selector: "created_at",
       pipe: 'date',

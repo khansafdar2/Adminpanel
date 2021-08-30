@@ -17,6 +17,7 @@
                 <div fxLayout="row" fxLayoutAlign="space-between">
                     <div>
                         <h3>Order details</h3>
+                        <p class="order-number">Order No. {{orderNumber}}</p>
                     </div>
                     <div>
                         <button mat-stroked-button color="warn" (click)="onCancelOrder()" *ngIf="orderStatus !== 'Cancelled'">Cancel order</button>
@@ -105,6 +106,23 @@
             </mat-card>
         </div>
         <div fxFlex="0 1 40%">
+            <mat-card>
+                <h3>Status</h3>
+
+                <mat-form-field appearance="outline">
+                    <mat-select [(ngModel)]="orderStatus">
+                        <mat-option value="Open">Open</mat-option>
+                        <mat-option value="Accepted">Accepted</mat-option>
+                        <mat-option value="In Process">In Process</mat-option>
+                        <mat-option value="Shipped">Shipped</mat-option>
+                        <mat-option value="Partial Shipped">Partial Shipped</mat-option>
+                        <mat-option value="Delivered">Delivered</mat-option>
+                        <mat-option value="Returned">Returned</mat-option>
+                        <mat-option value="Refunded">Refunded</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </mat-card>
+
             <mat-card>
                 <div class="card-section">
                     <h3>Customer detail</h3>

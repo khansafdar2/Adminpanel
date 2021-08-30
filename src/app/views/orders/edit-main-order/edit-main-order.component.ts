@@ -35,6 +35,7 @@ export class EditMainOrderComponent implements OnInit {
   URLS = URLS;
   orderID = "";
   orderTitle = "";
+  orderNumber = "";
   orderStatus = "";
   lineitems = [];
   isPaid: boolean = false;
@@ -130,6 +131,7 @@ export class EditMainOrderComponent implements OnInit {
       if(resp) {
         console.log(resp.data);
         this.orderTitle = resp.data.name;
+        this.orderNumber = resp.data.order_id;
         this.orderStatus = resp.data.order_status;
         this.lineitems = resp.data.line_items;
         this.isPaid = resp.data.payment_status !== "Pending";
@@ -171,6 +173,7 @@ export class EditMainOrderComponent implements OnInit {
     let data = {
       id: this.orderID,
       fulfillment_status: this.fulfillmentStatus,
+      order_status: this.orderStatus,
       payment_status: this.paymentStatus,
       notes: this.notes,
       tags: this.tags.length ? this.tags.join(",") : "",
