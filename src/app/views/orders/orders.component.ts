@@ -28,7 +28,7 @@ export class OrdersComponent implements OnInit {
     },
     {
       title: "Order no.",
-      selector: "order_number"
+      selector: "order_id"
     },
     {
       title: "Date",
@@ -70,6 +70,13 @@ export class OrdersComponent implements OnInit {
       label: true,
       labelStyles: {
         "Open": "success",
+        "Accepted": "success",
+        "In Process": "success",
+        "Shipped": "success",
+        "Partial Shipped": "warning",
+        "Delivered": "success",
+        "Returned": "default",
+        "Refunded": "default",
         "Cancelled": "default"
       }
     }
@@ -79,6 +86,16 @@ export class OrdersComponent implements OnInit {
   page: number = 1;
   searchString: string = "";
   filterString: string = "";
+  searchColumns = [
+    {
+      label: "Name",
+      value: "name"
+    },
+    {
+      label: "Order No.",
+      value: "order_id"
+    }
+  ];
   filtersArray = [
     {
       title: "Fulfillment status",
@@ -131,7 +148,7 @@ export class OrdersComponent implements OnInit {
   }
 
   onSearch(data) {
-    this.searchString = data.query.replaceAll("#", "");
+    this.searchString = data.query.replaceAll("#", "") + "&column=" + data.column;
     this.page = 1;
     this.getOrders();
   }

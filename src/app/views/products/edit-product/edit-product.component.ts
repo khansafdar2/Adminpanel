@@ -10,7 +10,6 @@ import { SharedService } from 'src/app/shared/shared.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ProductsChangeStatusDialog } from '../products.component';
-import { COMMA } from '@angular/cdk/keycodes';
 
 interface Variant {
   id: number,
@@ -85,7 +84,8 @@ export class EditProductComponent implements OnInit {
     replaceTexts: {
       selectFileBtn: "Select images",
       dragNDropBox: "Drop images here.",
-      uploadBtn: "Upload and save"
+      uploadBtn: "Upload and save",
+      sizeLimit: "Recommended resolution: 1600x1600, Size Limit"
     }
   };
   productForm = this.fb.group({

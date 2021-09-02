@@ -37,6 +37,7 @@ export class EditMainOrderComponent implements OnInit {
   orderTitle = "";
   orderNumber = "";
   orderStatus = "";
+  isCancelled = false;
   lineitems = [];
   isPaid: boolean = false;
   fulfillmentStatus: string = "Unfulfilled";
@@ -135,6 +136,7 @@ export class EditMainOrderComponent implements OnInit {
         this.orderStatus = resp.data.order_status;
         this.lineitems = resp.data.line_items;
         this.isPaid = resp.data.payment_status !== "Pending";
+        this.isCancelled = resp.data.order_status === "Cancelled";
         this.fulfillmentStatus = resp.data.fulfillment_status;
         this.paymentStatus = resp.data.payment_status;
         this.childOrders = resp.data.child_orders;

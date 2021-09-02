@@ -75,7 +75,8 @@ export class AddProductComponent implements OnInit {
     replaceTexts: {
       selectFileBtn: "Select images",
       dragNDropBox: "Drop images here.",
-      uploadBtn: "Upload and save"
+      uploadBtn: "Upload and save",
+      sizeLimit: "Recommended resolution: 1600x1600, Size Limit"
     }
   };
   productForm = this.fb.group({
@@ -304,10 +305,6 @@ export class AddProductComponent implements OnInit {
     let inventoryData = this.inventoryForm.value;
     let priceData = this.priceForm.value;
     let variantsData = this.variantsForm.value;
-    console.log("productData", productData);
-    console.log("inventoryData", inventoryData);
-    console.log("priceData", priceData);
-    console.log("variantsData", variantsData);
     let variants = [];
     let productOptions = [];
 

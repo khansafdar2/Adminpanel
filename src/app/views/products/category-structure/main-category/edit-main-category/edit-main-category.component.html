@@ -102,12 +102,14 @@
                         <button mat-button type="button" color="warn" *ngIf="previewImageSrc" (click)="removeBanner()"><mat-icon>delete</mat-icon></button>
                         <button mat-button type="button" color="primary" (click)="bannerFileInput.click()" [disabled]="file_uploading">Upload image</button>
                     </div>
+
+                    <p class="recommended-resolution">Recommended resolution: 1920x400</p>
                 </mat-card>
 
-                <mat-card>
+                <!-- <mat-card>
                     <h2>Organization</h2>
 
-                </mat-card>
+                </mat-card> -->
 
                 <!-- <mat-card>
                     <h2>Collection type</h2>

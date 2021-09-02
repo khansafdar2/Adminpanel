@@ -106,7 +106,7 @@
             </mat-card>
         </div>
         <div fxFlex="0 1 40%">
-            <mat-card>
+            <mat-card *ngIf="!isCancelled">
                 <h3>Status</h3>
 
                 <mat-form-field appearance="outline">
