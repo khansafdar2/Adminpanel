@@ -80,9 +80,15 @@ export class ProductsComponent implements OnInit {
   searchString: string = "";
 
   importProduct() {
-    this.dialog.open(ImportProductsDialog, {
+    let dialogRef = this.dialog.open(ImportProductsDialog, {
       width: "600px"
     });
+
+    dialogRef.afterClosed().subscribe(imported => {
+      if(imported) {
+        this.getProducts();
+      }
+    })
   }
 
   bulkChangeStatus() {
@@ -285,22 +291,56 @@ export class ProductsComponent implements OnInit {
   templateUrl: './dialogs/import-products-dialog.html'
 })
 export class ImportProductsDialog {
-  constructor(public dialogRef: MatDialogRef<ImportProductsDialog>) {}
+  constructor(
+    public dialogRef: MatDialogRef<ImportProductsDialog>,
+    private productsService: ProductsService,
+    private snackbar: MatSnackBar
+  ) {}
 
   loading: boolean = false;
-  afuConfig = {
-    uploadAPI: {
-      url:"https://example-file-upload-api"
-    },
-    theme: "dragNDrop",
-    multiple: false,
-    formatsAllowed: '.csv',
-    hideResetBtn: true,
-    replaceTexts: {
-      dragNDropBox: "Drop file here.",
-      uploadBtn: "Upload and continue"
+  fileName = "";
+  file: File = null;
+  fileError = "";
+  // afuConfig = {
+  //   uploadAPI: {
+  //     url:"https://example-file-upload-api"
+  //   },
+  //   theme: "dragNDrop",
+  //   multiple: false,
+  //   formatsAllowed: '.csv',
+  //   hideResetBtn: true,
+  //   replaceTexts: {
+  //     dragNDropBox: "Drop file here.",
+  //     uploadBtn: "Upload and continue"
+  //   }
+  // };
+  fileUploading: boolean = false;
+
+  csvFileSelect(event) {
+    this.fileError = "";
+    let fileObj: File = event.target.files[0];
+    let nameArray = fileObj.name.split(".");
+    let extension = nameArray[nameArray.length - 1];
+    if(extension === "csv") {
+      this.file = fileObj;
+      this.fileName = fileObj.name;
+    } else {
+      this.fileError = "Only CSV file supported.";
     }
-  };
+  }
+
+  onImport() {
+    let formData = new FormData;
+    formData.append("file", this.file);
+    this.loading = true;
+    this.productsService.importProducts(formData).then(resp => {
+      this.loading = false;
+      if(resp) {
+        this.snackbar.open("Products imported.", "", {duration: 3000});
+        this.dialogRef.close(true);
+      }
+    });
+  }
 }
 
 

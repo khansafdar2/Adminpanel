@@ -4,7 +4,6 @@
 @import '~quill/dist/quill.bubble.css';
 @import '~quill/dist/quill.snow.css';
 
-@import '~@angular/material/theming';
 $custom-typography: mat-typography-config(
   $font-family: 'Poppins'
 );
@@ -90,7 +89,9 @@ a, .text-link {
 #main {
     padding: 73px 25px 25px 290px;
 }
-
+.d-none {
+    display: none;
+}
 .page-header {
     position: relative;
     margin-bottom: 20px;
@@ -646,5 +647,11 @@ body {
         border-top: 1px solid #ddd;
         padding: 16px 16px 0;
         margin: 16px -16px 0 -16px;
+    }
+}
+.mat-typography {
+    .import-csv-name {
+        margin-top: 10px;
+        font-size: 16px;
     }
 }

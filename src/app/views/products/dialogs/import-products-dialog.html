@@ -3,12 +3,17 @@
 <mat-dialog-content class="mat-typography">
     <p>Download a simple CSV template to see an example of the format required.</p>
 
-    <angular-file-uploader
+    <!-- <angular-file-uploader
       [config]="afuConfig">
-    </angular-file-uploader>
+    </angular-file-uploader> -->
 
-    <mat-checkbox class="overwrite-checkbox">Overwrite any current products that have the same handle. Existing values will be used for any missing columns.</mat-checkbox>
+    <p class="import-csv-name">{{fileName}}</p>
+    <input type="file" class="d-none" accept=".csv" #csvFileInput (change)="csvFileSelect($event)" />
+    <button mat-stroked-button type="button" color="primary" (click)="csvFileInput.click()" [disabled]="fileUploading">Select file</button>
+    <p class="form-error" *ngIf="fileError" style="margin-top: 10px">{{ fileError }}</p>
+    <!-- <mat-checkbox class="overwrite-checkbox">Overwrite any current products that have the same handle. Existing values will be used for any missing columns.</mat-checkbox> -->
 </mat-dialog-content>
 <div mat-dialog-actions>
     <button mat-stroked-button color="primary" mat-dialog-close>Cancel</button>
+    <button mat-flat-button color="primary" *ngIf="file" [disabled]="loading" (click)="onImport()">Import</button>
 </div>
