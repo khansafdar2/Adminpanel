@@ -231,6 +231,7 @@ export class ProductsComponent implements OnInit {
   }
 
   onFilter(filters) {
+    this.page = 1;
     let tempFilterString: string = "";
     for (let i = 0; i < filters.length; i++) {
       if(filters[i].value) {
@@ -242,6 +243,7 @@ export class ProductsComponent implements OnInit {
   }
 
   onSearch(data) {
+    this.page = 1;
     let tempSearchString = "";
     if(data.query) {
       tempSearchString += "&search=" + data.query + "&column=" + data.column;

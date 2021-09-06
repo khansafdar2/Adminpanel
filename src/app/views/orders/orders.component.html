@@ -20,6 +20,8 @@
             [searchable]="true"
             [searchColumns]="searchColumns"
             [filters]="filtersArray"
+            [selectable]="true"
+            [(selection)]="orderSelection"
 
             (filter)="onFilter($event)"
             (search)="onSearch($event)"

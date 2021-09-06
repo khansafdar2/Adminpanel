@@ -1,3 +1,4 @@
+import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
@@ -20,6 +21,7 @@ export class OrdersComponent implements OnInit {
   loading: boolean = true;
   URLS = URLS;
   orders = [];
+  orderSelection: SelectionModel<[]> = new SelectionModel(true, []);
   displayedColumns: Column[] = [
     {
       title: "",
