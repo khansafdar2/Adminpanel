@@ -163,4 +163,18 @@ export class OrdersService {
       }
     });
   }
+
+  exportOrders(IDs) {
+    return Axios.get(environment.backend_url + '/order/orders_export?ids=' + IDs, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+      return error;
+    });
+  }
 }

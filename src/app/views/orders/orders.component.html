@@ -6,6 +6,7 @@
         <h1>Orders management</h1>
 
         <div class="header-actions">
+            <button mat-button color="primary" (click)="onExport()">Export</button>
             <a [routerLink]="['/', URLS.orders, URLS.add]" mat-flat-button color="primary">Create new</a>
         </div>
     </div>

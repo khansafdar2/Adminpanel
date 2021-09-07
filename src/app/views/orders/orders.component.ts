@@ -1,9 +1,12 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Column } from 'src/app/shared/datatable/datatable.component';
 import URLS from 'src/app/shared/urls';
+import { ProductsService } from '../products/products.service';
 import { OrdersService } from './orders.service';
 
 @Component({
@@ -15,7 +18,8 @@ export class OrdersComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private ordersService: OrdersService
+    private ordersService: OrdersService,
+    private dialog: MatDialog
   ) { }
 
   loading: boolean = true;
@@ -168,6 +172,21 @@ export class OrdersComponent implements OnInit {
     this.getOrders();
   }
 
+  onExport() {
+    let dialogRef = this.dialog.open(OrdersExportDialog, {
+      width: "600px",
+      data: {
+        orders: this.orderSelection.selected
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(exported => {
+      if(exported) {
+        this.orderSelection.clear();
+      }
+    });
+  }
+
   getOrders() {
     this.loading = true;
     this.ordersService.getOrders(this.page, this.pageSize, this.searchString, this.filterString).then(resp => {
@@ -183,4 +202,42 @@ export class OrdersComponent implements OnInit {
     this.getOrders();
   }
 
+}
+
+
+@Component({
+  selector: 'orders-export-dialog',
+  templateUrl: './dialogs/orders-export-dialog.html',
+})
+export class OrdersExportDialog {
+  constructor(
+    public dialogRef: MatDialogRef<OrdersExportDialog>,
+    @Inject(MAT_DIALOG_DATA) public data,
+    private ordersService: OrdersService
+  ) {
+    let idsArray = this.data.orders.map(order => order.id);
+    this.ids = idsArray.join(",");
+  }
+
+  loading: boolean = false;
+  ids: string = "";
+  exportType = "all";
+
+  onExport() {
+    this.loading = true;
+    this.ordersService.exportOrders(this.exportType === "all" ? "all" : this.ids).then(resp => {
+      this.loading = false;
+      if(resp) {
+        let csv_data = resp.data;
+        var fileURL = window.URL.createObjectURL(new Blob([csv_data], { type: 'text/csv;charset=utf-8;' }));
+        var fileLink = document.createElement('a');
+        fileLink.href = fileURL;
+        fileLink.setAttribute('download', 'export_orders.csv');
+        document.body.appendChild(fileLink);
+        fileLink.click();
+        document.body.removeChild(fileLink);
+        this.dialogRef.close(true);
+      }
+    });
+  }
 }

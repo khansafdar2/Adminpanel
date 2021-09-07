@@ -28,8 +28,12 @@ export class NewSubCategoryComponent implements OnInit {
   URLS = URLS;
   loading: boolean = false;
   file_uploading: boolean = false;
+  thumbnail_uploading: boolean = false;
   bannerFile: File;
+  thumbnailFile: File;
   vendors = [];
+  previewImageSrc: string = "";
+  previewThumbnailSrc: string = "";
   editorModules = {
     toolbar: [
       ['bold', 'italic', 'underline', 'strike'],
@@ -37,7 +41,6 @@ export class NewSubCategoryComponent implements OnInit {
       [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
     ]
   };
-  previewImageSrc: string = "";
   categoryForm = this.fb.group({
     main_category: [null],
     name: ['', [Validators.required]],
@@ -46,7 +49,8 @@ export class NewSubCategoryComponent implements OnInit {
     seo_title: [''],
     seo_description: [''],
     banner_image: [null],
-    availability: [false],
+    thumbnail_image: [null],
+    is_active: [false],
     meta_data: this.fb.array([
       this.fb.group({
         field: [''],
@@ -83,10 +87,32 @@ export class NewSubCategoryComponent implements OnInit {
     });
   }
 
+  thumbnailImageSelect(e) {
+    const file = e.target.files[0];
+    this.thumbnail_uploading = true;
+    this.sharedService.uploadMedia(file).then(resp => {
+      this.thumbnail_uploading = false;
+      if(resp) {
+        this.previewThumbnailSrc = resp.data[0].cdn_link;
+        this.categoryForm.patchValue({
+          thumbnail_image: resp.data[0].id
+        });
+        e.target.value = "";
+      }
+    });
+  }
+
   removeBanner() {
     this.previewImageSrc = "";
     this.categoryForm.patchValue({
       banner_image: null
+    });
+  }
+
+  removeThumbnail() {
+    this.previewThumbnailSrc = "";
+    this.categoryForm.patchValue({
+      thumbnail_image: null
     });
   }
 

@@ -40,7 +40,7 @@ export class NewMainCategoryComponent implements OnInit {
     seo_title: [''],
     seo_description: [''],
     banner_image: [null],
-    availability: [false],
+    is_active: [false],
     meta_data: this.fb.array([
       this.fb.group({
         field: [''],

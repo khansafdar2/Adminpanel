@@ -26,8 +26,11 @@ export class EditSubCategoryComponent implements OnInit {
   URLS = URLS;
   loading: boolean = true;
   file_uploading: boolean = false;
+  thumbnail_uploading: boolean = false;
   categoryID = null;
   bannerFile: File;
+  previewImageSrc: string = "";
+  previewThumbnailSrc: string = "";
   editorModules = {
     toolbar: [
       ['bold', 'italic', 'underline', 'strike'],
@@ -35,7 +38,6 @@ export class EditSubCategoryComponent implements OnInit {
       [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
     ]
   };
-  previewImageSrc: string = "";
   categoryForm = this.fb.group({
     id: [null],
     name: ['', [Validators.required]],
@@ -44,7 +46,8 @@ export class EditSubCategoryComponent implements OnInit {
     seo_title: [''],
     seo_description: [''],
     banner_image: [null],
-    availability: [false],
+    thumbnail_image: [null],
+    is_active: [false],
     main_category: [null],
     meta_data: this.fb.array([])
   });
@@ -77,6 +80,35 @@ export class EditSubCategoryComponent implements OnInit {
     });
   }
 
+  thumbnailImageSelect(e) {
+    const file = e.target.files[0];
+    this.thumbnail_uploading = true;
+    this.sharedService.uploadMedia(file).then(resp => {
+      this.thumbnail_uploading = false;
+      if(resp) {
+        this.previewThumbnailSrc = resp.data[0].cdn_link;
+        this.categoryForm.patchValue({
+          thumbnail_image: resp.data[0].id
+        });
+        e.target.value = "";
+      }
+    });
+  }
+
+  removeBanner() {
+    this.previewImageSrc = "";
+    this.categoryForm.patchValue({
+      banner_image: null
+    });
+  }
+
+  removeThumbnail() {
+    this.previewThumbnailSrc = "";
+    this.categoryForm.patchValue({
+      thumbnail_image: null
+    });
+  }
+
   getCategoryDetail() {
     this.loading = true;
     this.categoryService.getSubCategoryDetail(this.categoryID).then(resp =>{
@@ -84,6 +116,7 @@ export class EditSubCategoryComponent implements OnInit {
       if(resp) {
         let data = resp.data;
         let banner_image = data.banner_image;
+        let thumbnail_image = data.thumbnail_image;
         if(data.meta_data.length) {
           for (let i = 0; i < data.meta_data.length; i++) {
             this.addMetaField()
@@ -92,6 +125,10 @@ export class EditSubCategoryComponent implements OnInit {
         if(data.banner_image) {
           data.banner_image = banner_image.id;
           this.previewImageSrc = banner_image.cdn_link;
+        }
+        if(data.thumbnail_image) {
+          data.thumbnail_image = thumbnail_image.id;
+          this.previewThumbnailSrc = thumbnail_image.cdn_link;
         }
         this.categoryForm.patchValue(data);
       }

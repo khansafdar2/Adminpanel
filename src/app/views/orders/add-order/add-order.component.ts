@@ -6,7 +6,6 @@ import { Router } from '@angular/router';
 import { concat, Observable, of, Subject, pipe } from 'rxjs';
 import { catchError, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import URLS from 'src/app/shared/urls';
-import { TaxConfigurationService } from '../../configuration/tax-configuration/tax-configuration.service';
 import { CustomerAddressDialog } from '../dialogs/CustomerAddressDialog';
 import { PaymentMethodDialog } from '../dialogs/PaymentMethodDialog';
 import { OrdersService } from '../orders.service';
@@ -32,7 +31,6 @@ export class AddOrderComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private taxService: TaxConfigurationService,
     private ordersService: OrdersService,
     private dialog: MatDialog,
     private snackbar: MatSnackBar,
@@ -42,13 +40,11 @@ export class AddOrderComponent implements OnInit {
   loading: boolean = false;
   URLS = URLS;
   lineitems = [];
-  taxApplied = 0;
   lineitemsForm = this.fb.group({
     lineitems: this.fb.array([])
   });
   subTotal = 0;
   totalShipping = 0;
-  totalTax = 0;
   grandTotal = 0;
   paymentMethod = null;
   paymentStatus = null;
@@ -60,15 +56,6 @@ export class AddOrderComponent implements OnInit {
   selectedCustomer = null;
   shippingAddress: Address = null;
   billingAddress: Address = null;
-
-  getTaxConfiguration() {
-    this.taxService.getTaxInfo().then(resp => {
-      if(resp) {
-        console.log(resp.data);
-        this.taxApplied = resp.data.tax_percentage ? parseFloat(resp.data.tax_percentage) : 0;
-      }
-    })
-  }
 
   getCustomers() {
     this.customers = concat(
@@ -149,11 +136,8 @@ export class AddOrderComponent implements OnInit {
     this.subTotal = subTotal;
     this.totalShipping = totalShipping;
 
-    // Calculate Tax
-    this.totalTax = this.taxApplied / 100 * (subTotal + totalShipping);
-
     // Calculate Grand total
-    this.grandTotal = subTotal + totalShipping + this.totalTax;
+    this.grandTotal = subTotal + totalShipping;
   }
 
   onShippingAddress() {
@@ -248,7 +232,6 @@ export class AddOrderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getTaxConfiguration();
     this.getCustomers();
   }
 

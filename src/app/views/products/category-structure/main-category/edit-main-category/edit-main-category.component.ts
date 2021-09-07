@@ -50,7 +50,7 @@ export class EditMainCategoryComponent implements OnInit {
     seo_title: [''],
     seo_description: [''],
     banner_image: [null],
-    availability: [false],
+    is_active: [false],
     meta_data: this.fb.array([])
   });
 

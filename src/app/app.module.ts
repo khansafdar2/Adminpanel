@@ -72,7 +72,7 @@ import { AddVariantComponent } from './views/products/add-variant/add-variant.co
 import { AddDiscountComponent } from './views/discounts/add-discount/add-discount.component';
 import { EditDiscountComponent } from './views/discounts/edit-discount/edit-discount.component';
 import { AddShippingDialog, DeleteShippingDialog, EditShippingDialog, ShippingComponent } from './views/configuration/shipping/shipping.component';
-import { OrdersComponent } from './views/orders/orders.component';
+import { OrdersComponent, OrdersExportDialog } from './views/orders/orders.component';
 import { AddOrderComponent } from './views/orders/add-order/add-order.component';
 import { CustomerDeleteDialog, CustomersComponent } from './views/customers/customers.component';
 import { AddCustomerComponent } from './views/customers/add-customer/add-customer.component';
@@ -161,6 +161,7 @@ import { PagesComponent } from './views/cms/pages/pages.component';
     EditChildOrderComponent,
     EditDraftOrderComponent,
     ProductsExportDialog,
+    OrdersExportDialog,
     PagesComponent
   ],
   imports: [

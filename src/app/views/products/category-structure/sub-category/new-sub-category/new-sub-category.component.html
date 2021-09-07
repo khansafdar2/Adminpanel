@@ -89,7 +89,7 @@
                 <mat-card>
                     <h2>Availability</h2>
     
-                    <mat-checkbox formControlName="availability">Available online</mat-checkbox>
+                    <mat-checkbox formControlName="is_active">Available online</mat-checkbox>
                 </mat-card>
     
                 <mat-card>
@@ -103,6 +103,19 @@
                         <button mat-button type="button" color="primary" (click)="bannerFileInput.click()" [disabled]="file_uploading">Upload image</button>
                     </div>
                     <p class="recommended-resolution">Recommended resolution: 1920x400</p>
+                </mat-card>
+
+                <mat-card>
+                    <h2>Thumbnail image</h2>
+
+                    <mat-spinner class="file-upload-spinner" diameter="80" *ngIf="thumbnail_uploading"></mat-spinner>
+                    <img [src]="previewThumbnailSrc" class="banner-preview-image" *ngIf="previewThumbnailSrc" />
+                    <input type="file" class="banner-file-input" accept=".png, .jpg, .jpeg" #thumbnailFileInput (change)="thumbnailImageSelect($event)" />
+                    <div class="banner-file-actions">
+                        <button mat-button type="button" color="warn" *ngIf="previewThumbnailSrc" (click)="removeThumbnail()"><mat-icon>delete</mat-icon></button>
+                        <button mat-button type="button" color="primary" (click)="thumbnailFileInput.click()" [disabled]="thumbnail_uploading">Upload image</button>
+                    </div>
+                    <p class="recommended-resolution">Recommended resolution: 340x490</p>
                 </mat-card>
 
                 <!-- <mat-card>

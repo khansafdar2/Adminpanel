@@ -216,7 +216,7 @@ export class ProductsComponent implements OnInit {
       }
     })
   }
-
+  
   onPageChange(event: PageEvent) {
     this.page = event.pageIndex + 1;
     this.pageLimit = event.pageSize;
@@ -580,7 +580,6 @@ export class ProductsExportDialog {
         let csv_data = resp.data;
         var fileURL = window.URL.createObjectURL(new Blob([csv_data], { type: 'text/csv;charset=utf-8;' }));
         var fileLink = document.createElement('a');
-        console.log(resp.data);
         fileLink.href = fileURL;
         fileLink.setAttribute('download', 'export_products.csv');
         document.body.appendChild(fileLink);
@@ -588,6 +587,6 @@ export class ProductsExportDialog {
         document.body.removeChild(fileLink);
         this.dialogRef.close(true);
       }
-    })
+    });
   }
 }
