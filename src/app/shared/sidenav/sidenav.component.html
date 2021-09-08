@@ -1,4 +1,4 @@
-<div id="side-nav">
+<div id="side-nav" (click)="stopPropagation($event)">
     <nav>
         <ul>
             <li *ngIf="userPermissions.dashboard">
@@ -6,11 +6,11 @@
                     <span class="link-icon" [inlineSVG]="'/assets/img/HomeIcon.svg'"></span>Home
                 </a>
             </li>
-            <!-- <li *ngIf="userPermissions.theme">
-                <a routerLink="/xyz" routerLinkActive="active">
+            <li *ngIf="userPermissions.theme">
+                <a (click)="toggleDrawer('customization')" [class.active]="sideDrawer === 'customization'">
                     <span class="link-icon" [inlineSVG]="'/assets/img/HomeIcon.svg'"></span>Customization
                 </a>
-            </li> -->
+            </li>
             <li *ngIf="userPermissions.products">
                 <a (click)="toggleDrawer('products')" [class.active]="sideDrawer === 'products'">
                     <span class="link-icon" [inlineSVG]="'/assets/img/ProductsIcon.svg'"></span>Products
@@ -39,7 +39,7 @@
         </ul>
     </nav>
 </div>
-<div class="sidenav-drawer" [class.show]="sideDrawer === 'products'">
+<div class="sidenav-drawer" [class.show]="sideDrawer === 'products'" (click)="stopPropagation($event)">
     <h4 class="sidenav-title">Products</h4>
 
     <nav>
@@ -53,13 +53,22 @@
     </nav>
 </div>
 
-<div class="sidenav-drawer" [class.show]="sideDrawer === 'orders'">
+<div class="sidenav-drawer" [class.show]="sideDrawer === 'orders'" (click)="stopPropagation($event)">
     <h4 class="sidenav-title">Orders</h4>
 
     <nav>
         <ul>
             <li><a [routerLink]="['/', Urls.orders]" routerLinkActive="active">All orders</a></li>
             <li><a [routerLink]="['/', Urls.draftOrders]" routerLinkActive="active">Draft orders</a></li>
+        </ul>
+    </nav>
+</div>
+<div class="sidenav-drawer" [class.show]="sideDrawer === 'customization'" (click)="stopPropagation($event)">
+    <h4 class="sidenav-title">Customization</h4>
+
+    <nav>
+        <ul>
+            <li><a [routerLink]="['/', Urls.pages]" routerLinkActive="active">Pages</a></li>
         </ul>
     </nav>
 </div>

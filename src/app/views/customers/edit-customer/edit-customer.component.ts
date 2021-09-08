@@ -62,7 +62,6 @@ export class EditCustomerComponent implements OnInit {
     this.customersService.getCustomerDetail(this.customerID).then(resp => {
       this.loading = false;
       if(resp) {
-        console.log(resp.data);
         this.tags = resp.data.tags ? resp.data.tags.split(","): [];
         for (let i = 0; i < resp.data.address.length; i++) {
           this.addAddress(resp.data.address[i].primary_address);

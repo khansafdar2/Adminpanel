@@ -170,7 +170,6 @@ export class EditCollectionComponent implements OnInit {
     this.productsService.getProductsList(this.productsPage, 5, "&collection=" + this.collectionID, "").then(resp => {
       this.loadingProducts = false;
       if(resp) {
-        console.log(resp.data);
         this.products = this.products.concat(resp.data.results);
         this.productCount = resp.data.count;
       }

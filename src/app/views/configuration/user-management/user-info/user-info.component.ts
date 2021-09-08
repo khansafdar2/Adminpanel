@@ -72,7 +72,6 @@ export class UserInfoComponent implements OnInit {
   getUserDetail() {
     this.usersService.getUser(this.userId).then(resp => {
       if(resp) {
-        console.log(resp.data);
         this.userDetail = resp.data;
         this.dataSource = resp.data.last_login_list;
         this.firstNameField.setValue(resp.data.first_name);
@@ -103,7 +102,6 @@ export class UserInfoComponent implements OnInit {
 
     this.usersService.updateUser(data).then(resp => {
       if(resp) {
-        console.log(resp);
         this.loading = false;
         this.router.navigate([URLS.userManagement, URLS.all]);
       }
@@ -133,7 +131,6 @@ export class ChangePasswordDialog {
   }
 
   updatePassword() {
-    console.log(this.data.password, this.data.confirm_password);
     this.formError = "";
     if(this.data.password === "") {
       this.formError = "Please enter new password.";
@@ -144,7 +141,6 @@ export class ChangePasswordDialog {
     } else {
       this.loading = true;
       this.usersService.changePassword(this.data).then(resp => {
-        console.log(resp);
         if(resp.status === 400) {
           if(resp.data.non_field_errors) {
             this.formError = resp.data.non_field_errors[0];

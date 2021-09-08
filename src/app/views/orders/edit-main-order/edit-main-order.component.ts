@@ -130,7 +130,6 @@ export class EditMainOrderComponent implements OnInit {
     this.ordersService.getMainOrder(this.orderID).then(resp => {
       this.loading = false;
       if(resp) {
-        console.log(resp.data);
         this.orderTitle = resp.data.name;
         this.orderNumber = resp.data.order_id;
         this.orderStatus = resp.data.order_status;
@@ -187,7 +186,6 @@ export class EditMainOrderComponent implements OnInit {
     this.ordersService.updateMainOrder(data).then(resp => {
       this.loading = false;
       if(resp) {
-        console.log(resp.data);
         this.snackbar.open("Order updated.", "", {duration: 3000});
         this.router.navigate(["/", URLS.orders]);
       }

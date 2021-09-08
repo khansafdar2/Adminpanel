@@ -46,7 +46,6 @@ export class DiscountsComponent implements OnInit {
     this.discountsService.getDiscountsList().then(resp => {
       this.loading = false;
       if(resp) {
-        console.log(resp.data);
         this.discounts = resp.data.results;
         this.totalCount = resp.data.count;
       }

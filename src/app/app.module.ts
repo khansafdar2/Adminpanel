@@ -85,6 +85,8 @@ import { DraftOrdersComponent } from './views/orders/draft-orders/draft-orders.c
 import { EditChildOrderComponent } from './views/orders/edit-child-order/edit-child-order.component';
 import { EditDraftOrderComponent } from './views/orders/edit-draft-order/edit-draft-order.component';
 import { PagesComponent } from './views/cms/pages/pages.component';
+import { AddPageComponent } from './views/cms/pages/add-page/add-page.component';
+import { EditPageComponent } from './views/cms/pages/edit-page/edit-page.component';
 
 @NgModule({
   declarations: [
@@ -162,7 +164,9 @@ import { PagesComponent } from './views/cms/pages/pages.component';
     EditDraftOrderComponent,
     ProductsExportDialog,
     OrdersExportDialog,
-    PagesComponent
+    PagesComponent,
+    AddPageComponent,
+    EditPageComponent
   ],
   imports: [
     BrowserModule,

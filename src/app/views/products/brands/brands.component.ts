@@ -60,7 +60,6 @@ export class BrandsComponent implements OnInit {
       if(resp) {
         this.brands = resp.data.results;
         this.totalCount = resp.data.count;
-        console.log(resp.data);
       }
     });
   }

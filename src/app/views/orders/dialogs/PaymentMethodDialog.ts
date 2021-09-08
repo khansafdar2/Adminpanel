@@ -22,7 +22,6 @@ export class PaymentMethodDialog implements OnInit {
   
   getPaymentMethods() {
     this.ordersService.getPaymentMethods().then(resp => {
-      console.log(resp);
       if(resp) {
         this.paymentMethods = resp.data;
       }

@@ -42,7 +42,6 @@ export class UserManagementComponent implements OnInit {
   getUsers() {
     this.userService.getUsers().then(resp => {
       if(resp) {
-        console.log(resp.data);
         this.users = resp.data.users;
         resp.data.users.forEach(user => {
           if(user.is_superuser) {
@@ -94,10 +93,8 @@ export class TransferOwnershipDialog {
   formError: string = "";
 
   transferOwnership() {
-    console.log(this.transferId);
 
     this.usersService.transferOwnership(this.transferId).then(resp => {
-      console.log(resp);
       this.dialogRef.close();
     });
   }

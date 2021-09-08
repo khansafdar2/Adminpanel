@@ -47,6 +47,9 @@ import { EditMainOrderComponent } from './views/orders/edit-main-order/edit-main
 import { DraftOrdersComponent } from './views/orders/draft-orders/draft-orders.component';
 import { EditChildOrderComponent } from './views/orders/edit-child-order/edit-child-order.component';
 import { EditDraftOrderComponent } from './views/orders/edit-draft-order/edit-draft-order.component';
+import { PagesComponent } from './views/cms/pages/pages.component';
+import { AddPageComponent } from './views/cms/pages/add-page/add-page.component';
+import { EditPageComponent } from './views/cms/pages/edit-page/edit-page.component';
 
 
 const routes: Routes = [
@@ -127,7 +130,12 @@ const routes: Routes = [
     {path: URLS.all, component: DraftOrdersComponent},
     {path: URLS.edit + '/:id', component: EditDraftOrderComponent}
   ]},
-  // {path: URLS.pages, canActivate: [LoggedInAuthGuard]}
+  {path: URLS.pages, canActivate: [LoggedInAuthGuard], children: [
+    {path: '', redirectTo: URLS.all, pathMatch: 'full'},
+    {path: URLS.all, component: PagesComponent},
+    {path: URLS.add, component: AddPageComponent},
+    {path: URLS.edit + '/:id', component: EditPageComponent}
+  ]}
 ];
 
 @NgModule({

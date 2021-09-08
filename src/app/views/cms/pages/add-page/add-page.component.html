@@ -1,0 +1,27 @@
+<app-topbar></app-topbar>
+<app-sidenav></app-sidenav>
+<main id="main">
+    <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+    <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
+        <h1>New Page</h1>
+
+        <div class="header-actions">
+            <a [routerLink]="['/', URLS.pages]" mat-stroked-button color="primary">Cancel</a>
+            <button mat-flat-button color="primary" [disabled]="!pageForm.valid || loading" (click)="onSubmit()">Save</button>
+        </div>
+    </div>
+
+    <div class="page-container">
+        <form [formGroup]="pageForm">
+            <mat-card>
+                <mat-form-field appearance="outline">
+                    <mat-label>Title</mat-label>
+                    <input  matInput formControlName="title" />
+                    <mat-error *ngIf="pageForm.get('title').hasError('required')">Enter title of your page.</mat-error>
+                </mat-form-field>
+
+                <quill-editor [modules]="editorModules" placeholder="Page content" formControlName="content"></quill-editor>
+            </mat-card>
+        </form>
+    </div>
+</main>

@@ -213,7 +213,6 @@ export class AddProductComponent implements OnInit {
   }
 
   mediaUpload(response) {
-    console.log(response);
     if(response.status === 200) {
       this.bannerImages = this.bannerImages.concat(response.body);
       let imageIDs = response.body.map(image => image.id);

@@ -56,7 +56,6 @@ export class EditVariantComponent implements OnInit {
   getVariantDetail() {
     this.productsService.getVariantDetail(this.variantID).then(resp => {
       if(resp) {
-        console.log(resp.data);
         this.originalPrice = resp.data.price;
         this.variantForm.patchValue(resp.data);
       }

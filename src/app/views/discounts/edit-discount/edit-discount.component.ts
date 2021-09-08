@@ -50,7 +50,6 @@ export class EditDiscountComponent implements OnInit {
     this.discountsService.getDiscountDetail(this.discountID).then(resp => {
       this.loading = false;
       if(resp) {
-        console.log(resp.data);
         this.discountForm.patchValue(resp.data);
       }
     })

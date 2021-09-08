@@ -38,7 +38,6 @@ export class TaxConfigurationComponent implements OnInit {
         if(resp.data.id) {
           this.taxForm.patchValue(resp.data);
         }
-        console.log(resp.data);
       }
     });
   }
@@ -49,7 +48,6 @@ export class TaxConfigurationComponent implements OnInit {
       if(data.id) {
         this.taxService.updateTaxInfo(data).then(resp => {
           if(resp) {
-            console.log(resp.data);
             this.loading = false;
             this.snackbarService.open("Tax settings updated.", "", {duration: 3000});
           }

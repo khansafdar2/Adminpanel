@@ -71,7 +71,6 @@ export class ProductGroupsComponent implements OnInit {
     this.productsService.getProductGroups(this.pageNumber, this.pageSize, "", "").then(resp => {
       this.loading = false;
       if(resp) {
-        console.log(resp.data);
         this.totalCount = resp.data.count;
         this.productGroups = resp.data.results;
       }

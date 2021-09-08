@@ -20,7 +20,13 @@ export class SidenavComponent implements OnInit {
     this.sideDrawer = this.sideDrawer == drawer ? "" : drawer;
   }
 
-  ngOnInit(): void {
+  stopPropagation(event: PointerEvent) {
+    event.stopPropagation();
   }
 
+  ngOnInit(): void {
+    document.body.onclick = (event: PointerEvent) => {
+      this.sideDrawer = "";
+    }
+  }
 }

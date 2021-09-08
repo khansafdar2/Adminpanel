@@ -57,7 +57,6 @@ export class EditProductGroupComponent implements OnInit {
     this.productsService.getProductGroupDetail(this.groupID).then(resp => {
       this.loading = false;
       if(resp) {
-        console.log(resp.data);
         this.productGroupForm.patchValue(resp.data);
       }
     })
@@ -74,7 +73,6 @@ export class EditProductGroupComponent implements OnInit {
   getShippingMethods() {
     this.shippingService.getShippingMethods(1, 50).then(resp => {
       if(resp) {
-        console.log(resp.data);
         this.shippingMethods = resp.data.results;
       }
     })

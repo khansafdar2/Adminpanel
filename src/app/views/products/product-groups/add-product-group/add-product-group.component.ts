@@ -57,7 +57,6 @@ export class AddProductGroupComponent implements OnInit {
   getShippingMethods() {
     this.shippingService.getShippingMethods(1, 50).then(resp => {
       if(resp) {
-        console.log(resp.data);
         this.shippingMethods = resp.data.results;
       }
     })

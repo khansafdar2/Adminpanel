@@ -87,7 +87,6 @@ export class AddOrderComponent implements OnInit {
   }
 
   onAddItems(items) {
-    console.log(items);
     this.lineitems = this.lineitems.concat(items);
     for (let i = 0; i < items.length; i++) {
       const item = items[i];

@@ -61,7 +61,6 @@ export class EditDraftOrderComponent implements OnInit {
     this.ordersService.getDraftOrder(this.orderID).then(resp => {
       this.loading = false;
       if(resp) {
-        console.log(resp.data);
         this.orderTitle = resp.data.name;
         this.lineitems = resp.data.lineitems;
         this.paymentStatus = resp.data.payment_status;

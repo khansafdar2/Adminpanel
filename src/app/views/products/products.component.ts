@@ -172,7 +172,6 @@ export class ProductsComponent implements OnInit {
     this.productsService.getProductsList(this.page, this.pageLimit, this.filterString, this.searchString).then(resp => {
       this.loading = false;
       if(resp) {
-        console.log(resp.data);
         this.totalCount = resp.data.count;
         this.products = resp.data.results;
       }
@@ -182,7 +181,6 @@ export class ProductsComponent implements OnInit {
   getVendors() {
     this.vendorsService.getVendorsList(1, 50).then(resp => {
       if(resp) {
-        console.log(resp.data)
         let filters = [
           {
             title: "Status",
@@ -206,7 +204,6 @@ export class ProductsComponent implements OnInit {
             label: vendor.name
           }
         });
-        console.log(vendors);
         filters.push({
           title: "Vendor",
           key: "vendor",
@@ -224,7 +221,6 @@ export class ProductsComponent implements OnInit {
   }
 
   onCellClick(data) {
-    console.log(data);
     if(data.column === "title") {
       this.router.navigate(["/", URLS.products, URLS.edit, data.row.id]);
     }
@@ -512,7 +508,6 @@ export class AddBulkTagsDialog {
     this.productsService.applyBulkTags(data).then(resp => {
       this.loading = false;
       if(resp) {
-        console.log(resp);
         this.snackBar.open("Tags applied on selected products.", "", {duration: 3000});
         this.dialogRef.close(true);
       }

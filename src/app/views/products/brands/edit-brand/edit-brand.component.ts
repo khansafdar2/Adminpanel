@@ -91,7 +91,6 @@ export class EditBrandComponent implements OnInit {
     this.brandsService.getBrandDetail(this.brandID).then(resp => {
       this.loading = false;
       if(resp) {
-        console.log(resp.data);
         let data = {
           id: resp.data.id,
           name: resp.data.name,

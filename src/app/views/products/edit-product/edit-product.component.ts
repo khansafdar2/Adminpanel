@@ -140,7 +140,6 @@ export class EditProductComponent implements OnInit {
   }
 
   mediaUpload(response) {
-    console.log(response);
     if(response.status === 200) {
       this.bannerImages = response.body;
       let imageIDs = response.body.map(image => image.id);
@@ -207,7 +206,6 @@ export class EditProductComponent implements OnInit {
     this.productsService.getProductDetail(this.productID).then(resp => {
       this.loading = false;
       if(resp) {
-        console.log(resp.data);
         for (let i = 0; i < resp.data.features.length; i++) {
           this.addFeature();
         }
@@ -263,7 +261,6 @@ export class EditProductComponent implements OnInit {
         this.productsService.deleteVariant(data.id).then(resp => {
           this.loading = false;
           if(resp) {
-            console.log(resp.data);
             this.snackbarService.open("Variant deleted successfuly.", "", {duration: 3000});
             if(resp.data.detail === "Deleted Variant Successfully!") {
               this.originalVariants = this.originalVariants.filter(variant => variant.id !== data.id);
@@ -277,7 +274,6 @@ export class EditProductComponent implements OnInit {
               }
             } else if(resp.data.variants) {
               let variant = resp.data.variants[0];
-              console.log(variant);
               this.defaultVariant = variant;
 
               this.productForm.patchValue({
@@ -316,7 +312,6 @@ export class EditProductComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(data => {
       if(data) {
-        console.log(data);
         this.variants = data.variants;
         this.deletedVariants = data.deletedVariants;
         this.productOptions = data.options.map(option => {
@@ -445,7 +440,6 @@ export class EditProductComponent implements OnInit {
       for (let i = 0; i < variants.length; i++) {
         variants[i].weight = this.inventoryForm.get('weight').value;
       }
-      console.log(variants);
       this.variantsForm.patchValue({
         variants
       });
@@ -518,7 +512,6 @@ export class EditProductComponent implements OnInit {
     this.productsService.updateProduct(productData).then(resp => {
       this.loading = false;
       if(resp) {
-        console.log(resp.data);
         this.snackbarService.open("Product updated successfuly.", "", {duration: 3000});
         this.router.navigate(["/", URLS.products]);
       }
@@ -624,7 +617,6 @@ export class EditProductOptionsDialog {
       });
     }
 
-    console.log(this.editingVariants);
   }
 
   deleteVariantsFromOption(optionIndex, value) {
@@ -637,7 +629,6 @@ export class EditProductOptionsDialog {
       }
     });
     this.editingVariants = tempVariants;
-    console.log(this.editingVariants);
   }
 
   addOption() {
@@ -649,7 +640,6 @@ export class EditProductOptionsDialog {
   }
 
   addNewOptionValue(e, optionIndex) {
-    console.log(e);
     var value = e.target.value.replaceAll(",", "");
     if(value) {
       this.editingVariants.forEach(variant => {
@@ -667,7 +657,6 @@ export class EditProductOptionsDialog {
       }
     }
 
-    console.log(this.editingVariants);
   }
 
   saveOption() {
