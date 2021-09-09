@@ -65,8 +65,8 @@
                     <mat-expansion-panel-header>
                         <mat-panel-title>{{mainCategory.name}}</mat-panel-title>
                         <div class="category-actions">
-                            <span class="label" [class.success]="mainCategory.availability">{{ mainCategory.availability ? "Available" : "Offline" }}</span>
-                            <button mat-icon-button (click)="rowActionsToggle($event, mainCategory.id, mainCategory.availability, 'main')" [matMenuTriggerFor]="categoryActionsMenu"><mat-icon>more_horiz</mat-icon></button>
+                            <span class="label" [class.success]="mainCategory.is_active">{{ mainCategory.is_active ? "Available" : "Offline" }}</span>
+                            <button mat-icon-button (click)="rowActionsToggle($event, mainCategory.id, mainCategory.is_active, 'main')" [matMenuTriggerFor]="categoryActionsMenu"><mat-icon>more_horiz</mat-icon></button>
                         </div>
                     </mat-expansion-panel-header>
                     <div>
@@ -79,8 +79,8 @@
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>{{subCategory.name}}</mat-panel-title>
                                     <div class="category-actions">
-                                        <span class="label" [class.success]="subCategory.availability">{{ subCategory.availability ? "Available" : "Offline" }}</span>
-                                        <button mat-icon-button (click)="rowActionsToggle($event, subCategory.id, subCategory.availability, 'sub')" [matMenuTriggerFor]="categoryActionsMenu"><mat-icon>more_horiz</mat-icon></button>
+                                        <span class="label" [class.success]="subCategory.is_active">{{ subCategory.is_active ? "Available" : "Offline" }}</span>
+                                        <button mat-icon-button (click)="rowActionsToggle($event, subCategory.id, subCategory.is_active, 'sub')" [matMenuTriggerFor]="categoryActionsMenu"><mat-icon>more_horiz</mat-icon></button>
                                     </div>
                                 </mat-expansion-panel-header>
                                 <div>
@@ -95,8 +95,8 @@
                                                     {{subSubCategory.name}}
                                                 </span>
                                                 <div class="category-actions">
-                                                    <span class="label" [class.success]="subSubCategory.availability">{{ subSubCategory.availability ? "Available" : "Offline" }}</span>
-                                                    <button mat-icon-button (click)="rowActionsToggle($event, subSubCategory.id, subSubCategory.availability, 'supersub')" [matMenuTriggerFor]="categoryActionsMenu"><mat-icon>more_horiz</mat-icon></button>
+                                                    <span class="label" [class.success]="subSubCategory.is_active">{{ subSubCategory.is_active ? "Available" : "Offline" }}</span>
+                                                    <button mat-icon-button (click)="rowActionsToggle($event, subSubCategory.id, subSubCategory.is_active, 'supersub')" [matMenuTriggerFor]="categoryActionsMenu"><mat-icon>more_horiz</mat-icon></button>
                                                 </div>
                                             </mat-list-item>
                                             <mat-list-item class="category-name">

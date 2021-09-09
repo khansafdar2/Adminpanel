@@ -39,7 +39,8 @@ export class EditProductGroupComponent implements OnInit {
     title: ['', [Validators.required]],
     vendor: [null, [Validators.required]],
     discount: [""],
-    shipping: [""]
+    shipping: [""],
+    tat: [""]
   });
 
   getVendors() {
