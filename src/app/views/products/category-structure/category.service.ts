@@ -50,11 +50,11 @@ export class CategoryService {
     });
   }
 
-  changeCatgeoryStatus(id, category_type, availability) {
+  changeCatgeoryStatus(id, category_type, is_active) {
     return Axios.put( environment.backend_url + '/products/category_status_change', {
       id,
       category_type,
-      availability
+      is_active
     }, {
       headers: {
         Authorization: this.authService.token

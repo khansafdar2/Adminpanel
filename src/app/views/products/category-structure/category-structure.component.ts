@@ -40,7 +40,7 @@ export class CategoryStructureComponent implements OnInit {
           return {
             id: category.id,
             name: category.name,
-            availability: category.availability,
+            is_active: category.is_active,
             sub_loaded: false,
             loading: false,
             sub_category: []
@@ -64,7 +64,7 @@ export class CategoryStructureComponent implements OnInit {
           return {
             id: category.id,
             name: category.name,
-            availability: category.availability
+            is_active: category.is_active
           }
         });
         subCategory.sub_loaded = true;
@@ -81,7 +81,7 @@ export class CategoryStructureComponent implements OnInit {
           return {
             id: category.id,
             name: category.name,
-            availability: category.availability,
+            is_active: category.is_active,
             sub_loaded: false,
             loading: false,
             sub_category: []
@@ -93,16 +93,16 @@ export class CategoryStructureComponent implements OnInit {
     });
   }
 
-  rowActionsToggle(event, id, availability, type) {
+  rowActionsToggle(event, id, is_active, type) {
     event.stopPropagation();
     let actions = ["Edit"];
-    availability ? actions.push("Make offline") : actions.push("Make online");
+    is_active ? actions.push("Make offline") : actions.push("Make online");
     actions.push("Delete");
     this.categoryActions = actions;
     this.activeCategory = {
       id,
       type,
-      availability
+      is_active
     }
   }
 
