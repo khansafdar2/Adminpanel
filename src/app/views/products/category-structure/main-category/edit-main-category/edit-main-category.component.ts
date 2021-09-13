@@ -103,6 +103,13 @@ export class EditMainCategoryComponent implements OnInit {
     });
   }
 
+  removeBanner() {
+    this.previewImageSrc = "";
+    this.categoryForm.patchValue({
+      banner_image: null
+    });
+  }
+
   onSubmit() {
     this.loading = true;
     this.categoryService.updateMainCategory(this.categoryForm.value).then(resp => {

@@ -1,5 +1,32 @@
 <app-topbar></app-topbar>
 <app-sidenav></app-sidenav>
 <main id="main">
-    <p>dashboard will come here.</p>
+    <div id="dashboard-cards">
+        <div fxLayout="row">
+            <div fxFlex="0 1 25%">
+                <mat-card>
+                    <h4>Today's orders</h4>
+                    <p class="dashboard-card-value"><mat-icon color="primary">inbox</mat-icon> 47</p>
+                </mat-card>
+            </div>
+            <div fxFlex="0 1 25%">
+                <mat-card>
+                    <h4>Today's sales</h4>
+                    <p class="dashboard-card-value"><mat-icon color="primary">payments</mat-icon> {{6349 | currency: 'QAR '}}</p>
+                </mat-card>
+            </div>
+            <div fxFlex="0 1 25%">
+                <mat-card>
+                    <h4>Total orders</h4>
+                    <p class="dashboard-card-value"><mat-icon color="primary">inbox</mat-icon> 74232</p>
+                </mat-card>
+            </div>
+            <div fxFlex="0 1 25%">
+                <mat-card>
+                    <h4>Total sales</h4>
+                    <p class="dashboard-card-value"><mat-icon color="primary">payments</mat-icon> {{239893 | currency: 'QAR '}}</p>
+                </mat-card>
+            </div>
+        </div>
+    </div>
 </main>
