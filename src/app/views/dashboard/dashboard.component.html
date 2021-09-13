@@ -1,30 +1,31 @@
 <app-topbar></app-topbar>
 <app-sidenav></app-sidenav>
 <main id="main">
+    <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
     <div id="dashboard-cards">
         <div fxLayout="row">
             <div fxFlex="0 1 25%">
                 <mat-card>
                     <h4>Today's orders</h4>
-                    <p class="dashboard-card-value"><mat-icon color="primary">inbox</mat-icon> 47</p>
+                    <p class="dashboard-card-value"><mat-icon color="primary">inbox</mat-icon> {{cardsStats.today_orders}}</p>
                 </mat-card>
             </div>
             <div fxFlex="0 1 25%">
                 <mat-card>
                     <h4>Today's sales</h4>
-                    <p class="dashboard-card-value"><mat-icon color="primary">payments</mat-icon> {{6349 | currency: 'QAR '}}</p>
+                    <p class="dashboard-card-value"><mat-icon color="primary">payments</mat-icon> {{cardsStats.today_sale | currency: 'QAR '}}</p>
                 </mat-card>
             </div>
             <div fxFlex="0 1 25%">
                 <mat-card>
                     <h4>Total orders</h4>
-                    <p class="dashboard-card-value"><mat-icon color="primary">inbox</mat-icon> 74232</p>
+                    <p class="dashboard-card-value"><mat-icon color="primary">inbox</mat-icon> {{cardsStats.total_orders}}</p>
                 </mat-card>
             </div>
             <div fxFlex="0 1 25%">
                 <mat-card>
                     <h4>Total sales</h4>
-                    <p class="dashboard-card-value"><mat-icon color="primary">payments</mat-icon> {{239893 | currency: 'QAR '}}</p>
+                    <p class="dashboard-card-value"><mat-icon color="primary">payments</mat-icon> {{cardsStats.total_sale | currency: 'QAR '}}</p>
                 </mat-card>
             </div>
         </div>
