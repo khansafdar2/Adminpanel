@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import Axios from 'axios';
 import URLS from 'src/app/shared/urls';
@@ -14,7 +15,8 @@ export class ForgotPasswordComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private snackbar: MatSnackBar
   ) { }
 
   loading: boolean = false;
@@ -34,7 +36,7 @@ export class ForgotPasswordComponent implements OnInit {
     password: ['', [Validators.required]],
     confirm_password: ['', Validators.required]
   });
-  formError: string = '';
+  formError: string = ''; 
 
   verifyEmail() {
     this.loading = true;
@@ -42,6 +44,14 @@ export class ForgotPasswordComponent implements OnInit {
     .then(resp => {
       this.loading = false;
       this.emailSent = true;
+    }).catch(error => {
+      this.loading = false;
+      console.log(error.response);
+      if(error.response.status === 404) {
+        if(error.response.data.detail === "Email not found") {
+          this.snackbar.open("Wrong email address.", "", {duration: 3000});
+        }
+      }
     });
   }
 

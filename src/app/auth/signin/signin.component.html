@@ -19,10 +19,10 @@
 
                 <div fxLayout="row">
                     <div fxFlex="0 1 50%">
-                        <mat-checkbox>Remember me</mat-checkbox>
+                        <!-- <mat-checkbox>Remember me</mat-checkbox> -->
+                        <a [routerLink]="'/' + URLs.forgotPassword">Forgot Password?</a>
                     </div>
                     <div fxFlex="0 1 50%" class="text-right">
-                        <a [routerLink]="'/' + URLs.forgotPassword">Forgot Password?</a>
                     </div>
                 </div>
 
