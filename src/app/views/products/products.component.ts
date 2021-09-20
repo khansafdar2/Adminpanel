@@ -39,7 +39,8 @@ export class ProductsComponent implements OnInit {
     {
       title: "Name",
       selector: "title",
-      clickable: true
+      clickable: true,
+      width: "35%"
     },
     {
       title: "Status",
