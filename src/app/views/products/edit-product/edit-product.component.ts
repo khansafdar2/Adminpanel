@@ -194,7 +194,7 @@ export class EditProductComponent implements OnInit {
   }
 
   getBrands() {
-    this.brandsService.getBrandsList(1, 50).then(resp => {
+    this.brandsService.getBrandsList(1, 150).then(resp => {
       if(resp) {
         this.brands = resp.data.results;
       }
