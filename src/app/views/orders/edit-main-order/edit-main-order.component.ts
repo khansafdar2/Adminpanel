@@ -170,6 +170,24 @@ export class EditMainOrderComponent implements OnInit {
     })
   }
 
+  downloadInvoice() {
+    this.loading = true;
+    this.ordersService.downloadOrderInvoice(this.orderID).then(resp => {
+      this.loading = false;
+      if(resp) {
+        console.log(resp)
+        let pdf_data = resp.data;
+        var fileURL = window.URL.createObjectURL(new Blob([pdf_data], { type: 'text/pdf;charset=utf-8;' }));
+        var fileLink = document.createElement('a');
+        fileLink.href = fileURL;
+        fileLink.setAttribute('download', 'invoice_'+ this.orderNumber +'.pdf');
+        document.body.appendChild(fileLink);
+        fileLink.click();
+        document.body.removeChild(fileLink);
+      }
+    });
+  }
+
   onSubmit() {
     let data = {
       id: this.orderID,

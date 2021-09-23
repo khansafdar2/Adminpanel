@@ -177,4 +177,20 @@ export class OrdersService {
       return error;
     });
   }
+
+  downloadOrderInvoice(id) {
+    return Axios.get(environment.backend_url + '/order/orders_invoice?order_id=' + id, {
+      headers: {
+        Accept: 'application/pdf',
+        Authorization: this.authService.token
+      },
+      responseType: "blob"
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+      return error;
+    });
+  }
 }

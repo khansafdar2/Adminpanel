@@ -7,6 +7,7 @@
 
         <div class="header-actions">
             <a [routerLink]="['/', URLS.orders]" mat-stroked-button color="primary">Cancel</a>
+            <button mat-stroked-button color="primary" [matMenuTriggerFor]="actionsMenu">More actions</button>
             <button mat-flat-button color="primary" (click)="onSubmit()">Save</button>
         </div>
     </div>
@@ -187,4 +188,8 @@
             </mat-card>
         </div>
     </div>
+
+    <mat-menu #actionsMenu="matMenu">
+        <button mat-menu-item (click)="downloadInvoice()">Download invoice</button>
+    </mat-menu>
 </main>
