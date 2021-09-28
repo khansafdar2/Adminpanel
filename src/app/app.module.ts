@@ -87,6 +87,7 @@ import { EditDraftOrderComponent } from './views/orders/edit-draft-order/edit-dr
 import { PagesComponent } from './views/cms/pages/pages.component';
 import { AddPageComponent } from './views/cms/pages/add-page/add-page.component';
 import { EditPageComponent } from './views/cms/pages/edit-page/edit-page.component';
+import { HomepageComponent } from './views/cms/homepage/homepage.component';
 
 @NgModule({
   declarations: [
@@ -166,7 +167,8 @@ import { EditPageComponent } from './views/cms/pages/edit-page/edit-page.compone
     OrdersExportDialog,
     PagesComponent,
     AddPageComponent,
-    EditPageComponent
+    EditPageComponent,
+    HomepageComponent
   ],
   imports: [
     BrowserModule,

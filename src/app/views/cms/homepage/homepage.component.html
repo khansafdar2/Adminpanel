@@ -1,0 +1,20 @@
+<app-topbar></app-topbar>
+<app-sidenav></app-sidenav>
+<main id="main">
+  <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+  <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
+    <h1>Homepage</h1>
+
+    <div class="header-actions">
+      <button mat-flat-button color="primary" [disabled]="loading">Publish</button>
+    </div>
+  </div>
+
+  <div class="homepage-wrapper" fxLayout="row">
+    <div class="sections-list-wrapper" fxFlex="0 1 50%">
+      <div class="sections-list">
+        
+      </div>
+    </div>
+  </div>
+</main>

@@ -31,7 +31,7 @@
                             <img [src]="lineitem.image ? lineitem.image : '/assets/img/placeholder-image.png'" />
                             <div>
                                 <span class="product-name">{{lineitem.product_title}}</span>
-                                <span class="variant_info">{{lineitem.vendor}}<br>{{lineitem.variant_title}}</span>
+                                <span class="variant_info">{{lineitem.vendor}}<br>{{lineitem.variant_title !== "Default Title" ? lineitem.variant_title : ""}}</span>
                             </div>
                         </div>
                         <div class="lineitem-price-qty">
