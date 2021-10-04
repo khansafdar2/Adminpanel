@@ -100,6 +100,7 @@ export class EditProductComponent implements OnInit {
     collection: [[]],
     vendor: [null, [Validators.required]],
     is_active: [{value: false, disabled: true}],
+    whatsapp: [true],
     hide_out_of_stock: [false],
     has_variants: [false],
     track_inventory: [true],

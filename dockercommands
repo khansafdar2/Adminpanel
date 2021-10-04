@@ -1,6 +1,6 @@
 ng build --prod
 
-
+Alchemative Staging
 aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 242791332842.dkr.ecr.us-east-1.amazonaws.com
 docker build -t kees-angular-frontend .
 docker tag kees-angular-frontend:latest 242791332842.dkr.ecr.us-east-1.amazonaws.com/kees-angular-frontend:latest
@@ -8,9 +8,16 @@ docker push 242791332842.dkr.ecr.us-east-1.amazonaws.com/kees-angular-frontend:l
 aws ecs update-service --service kees-angular-frontend --cluster alche-shopify-cluster --force-new-deployment --region us-east-1
 
 
-
+KEES Production
 aws ecr get-login-password --region us-east-1 --profile kees | docker login --username AWS --password-stdin 510219444800.dkr.ecr.us-east-1.amazonaws.com
 docker build -t kees-angular-frontend .
 docker tag kees-angular-frontend:latest 510219444800.dkr.ecr.us-east-1.amazonaws.com/kees-angular-frontend:latest
 docker push 510219444800.dkr.ecr.us-east-1.amazonaws.com/kees-angular-frontend:latest
 aws ecs update-service --service kees-angular-frontend --cluster kees --force-new-deployment --region us-east-1 --profile kees
+
+
+UAT Staging
+aws ecr get-login-password --region us-east-1 --profile kees | docker login --username AWS --password-stdin 510219444800.dkr.ecr.us-east-1.amazonaws.com
+docker build -t uat-kees-angular-admin .
+docker tag uat-kees-angular-admin:latest 510219444800.dkr.ecr.us-east-1.amazonaws.com/uat-kees-angular-admin:latest
+docker push 510219444800.dkr.ecr.us-east-1.amazonaws.com/uat-kees-angular-admin:latest

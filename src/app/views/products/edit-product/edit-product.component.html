@@ -247,6 +247,7 @@
     
                     <div fxLayout="column" class="verticle-checkbox">
                         <mat-checkbox formControlName="is_active">Active</mat-checkbox>
+                        <mat-checkbox formControlName="whatsapp">Allow order on WhatAapp</mat-checkbox>
                         <mat-checkbox formControlName="hide_out_of_stock">Hide when out of stock</mat-checkbox>
                         <p class="form-error" *ngIf="!productForm.get('product_group').value">To make your product available on live store, assign it to any product group.</p>
                     </div>
