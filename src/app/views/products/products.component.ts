@@ -11,6 +11,7 @@ import { VendorsService } from './vendors.service';
 import { Router } from '@angular/router';
 import { PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CollectionsService } from './collections/collections.service';
 
 @Component({
   selector: 'app-products',
@@ -141,6 +142,22 @@ export class ProductsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(applied => {
       if(applied) {
         this.productSelection.clear();
+      }
+    });
+  }
+
+  bulkOrganize() {
+    let dialogRef = this.dialog.open(ProductsBulkOrganizeDialog, {
+      width: "600px",
+      data: {
+        products: this.productSelection.selected
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(applied => {
+      if(applied) {
+        this.productSelection.clear();
+        this.getProducts();
       }
     });
   }
@@ -431,38 +448,75 @@ export class ProductsBulkOrganizeDialog {
     @Inject(MAT_DIALOG_DATA) public data,
     private fb: FormBuilder,
     private productsService: ProductsService,
+    private vendorsService: VendorsService,
+    private collectionsService: CollectionsService,
     private snackBar: MatSnackBar
   ) {
     this.ids = this.data.products.map(product => product.id);
   }
 
   loading: boolean = false;
+  vendorDataLoaded: boolean = false;
   ids = [];
+  vendors = [];
   productGroups = [];
+  collections = [];
   organizeForm = this.fb.group({
+    ids: [],
+    vendor: ["", [Validators.required]],
     product_group: [""],
     collections: [[]]
   });
 
-  getProductGroups
+  getVendors() {
+    this.vendorsService.getVendorsList(1, 250).then(resp => {
+      if(resp) {
+        this.vendors = resp.data.results;
+      }
+    });
+  }
+
+  getProductGroups() {
+    let vendor = this.organizeForm.get('vendor').value;
+    this.productsService.getProductGroups(1, 250, "&vendor=" + vendor, "").then(resp => {
+      if(resp) {
+        console.log(resp.data);
+        this.productGroups = resp.data.results;
+      }
+    });
+  }
+
+  getCollections() {
+    let vendor = this.organizeForm.get('vendor').value;
+    this.collectionsService.getCollectionsList(1, 250, "&vendor=" + vendor, "").then(resp => {
+      if(resp) {
+        this.collections = resp.data.results;
+        this.vendorDataLoaded = true;
+      }
+    });
+  }
+
+  onVendorChange() {
+    this.getProductGroups();
+    this.getCollections();
+  }
 
   onSubmit() {
-    // this.loading = true;
-    // this.productsService.changeProductStatus({
-    //   ids: this.ids,
-    //   status: "approved",
-    //   value: this.approvalStatus === "Approved"
-    // }).then(resp => {
-    //   this.loading = false;
-    //   if(resp) {
-    //     this.snackBar.open("Products approval status updated.", "", {duration: 3000});
-    //     this.dialogRef.close(true);
-    //   }
-    // });
+    this.loading = true;
+    let data = this.organizeForm.value;
+    this.productsService.bulkOrganizeProducts(data).then(resp => {
+      if(resp) {
+        this.snackBar.open("Products updated.", "", {duration: 3000});
+        this.dialogRef.close(true);
+      }
+    });
   }
 
   ngOnInit() {
-
+    this.organizeForm.patchValue({
+      ids: this.ids
+    });
+    this.getVendors();
   }
 }
 

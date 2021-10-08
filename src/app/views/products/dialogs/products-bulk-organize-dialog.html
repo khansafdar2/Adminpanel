@@ -1,16 +1,35 @@
 <button mat-icon-button mat-dialog-close class="dialog-close"><mat-icon>close</mat-icon></button>
 <h2 mat-dialog-title>Organize products</h2>
 <mat-dialog-content class="mat-typography">
-    <p>Change product group and collections of {{data.products.length}} products:</p>
+    <p>You're organizing {{data.products.length}} selected products:</p>
 
     <form [formGroup]="organizeForm">
         <mat-form-field appearance="outline">
-            <mat-label>Product group</mat-label>
-            
+            <mat-label>Vendor</mat-label>
+            <mat-select formControlName="vendor" (selectionChange)="onVendorChange()">
+                <mat-option *ngFor="let vendor of vendors" [value]="vendor.id">{{vendor.name}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="organizeForm.get('vendor').hasError('required')">Vendor is required.</mat-error>
         </mat-form-field>
+
+        <div *ngIf="vendorDataLoaded">
+            <mat-form-field appearance="outline">
+                <mat-label>Product group</mat-label>
+                <mat-select formControlName="product_group">
+                    <mat-option *ngFor="let group of productGroups" [value]="group.id">{{group.title}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Collections</mat-label>
+                <mat-select formControlName="collections" multiple>
+                    <mat-option *ngFor="let collection of collections" [value]="collection.id">{{collection.title}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </form>
 </mat-dialog-content>
 <div mat-dialog-actions>
     <button mat-stroked-button color="primary" mat-dialog-close>Cancel</button>
-    <button mat-flat-button color="primary">Save</button>
+    <button mat-flat-button color="primary" [disabled]="loading || !organizeForm.valid" (click)="onSubmit()">Save</button>
 </div>

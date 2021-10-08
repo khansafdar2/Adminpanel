@@ -187,7 +187,7 @@ export class EditProductComponent implements OnInit {
   }
 
   getVendors() {
-    this.vendorsService.getVendorsList(1, 50).then(resp => {
+    this.vendorsService.getVendorsList(1, 150).then(resp => {
       if(resp) {
         this.vendors = resp.data.results;
       }
@@ -195,7 +195,7 @@ export class EditProductComponent implements OnInit {
   }
 
   getBrands() {
-    this.brandsService.getBrandsList(1, 150).then(resp => {
+    this.brandsService.getBrandsList(1, 250).then(resp => {
       if(resp) {
         this.brands = resp.data.results;
       }

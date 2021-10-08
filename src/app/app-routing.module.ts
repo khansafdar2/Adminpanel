@@ -51,6 +51,8 @@ import { PagesComponent } from './views/cms/pages/pages.component';
 import { AddPageComponent } from './views/cms/pages/add-page/add-page.component';
 import { EditPageComponent } from './views/cms/pages/edit-page/edit-page.component';
 import { HomepageComponent } from './views/cms/homepage/homepage.component';
+import { VendorsComponent } from './views/vendors/vendors.component';
+import { AddVendorComponent } from './views/vendors/add-vendor/add-vendor.component';
 
 
 const routes: Routes = [
@@ -137,7 +139,12 @@ const routes: Routes = [
     {path: URLS.add, component: AddPageComponent},
     {path: URLS.edit + '/:id', component: EditPageComponent}
   ]},
-  {path: URLS.homepage, canActivate: [LoggedInAuthGuard], component: HomepageComponent}
+  {path: URLS.homepage, canActivate: [LoggedInAuthGuard], component: HomepageComponent},
+  {path: URLS.vendors, canActivate: [LoggedInAuthGuard], children: [
+    {path: '', redirectTo: URLS.all, pathMatch: 'full'},
+    {path: URLS.all, component: VendorsComponent},
+    {path: URLS.add, component: AddVendorComponent}
+  ]}
 ];
 
 @NgModule({
