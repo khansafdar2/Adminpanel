@@ -170,7 +170,7 @@ export class EditProductComponent implements OnInit {
 
   getProductGroups() {
     let vendor = this.productForm.get('vendor').value;
-    this.productsService.getProductGroups(1, 50, "&vendor=" + vendor, "").then(resp => {
+    this.productsService.getProductGroups(1, 250, "&vendor=" + vendor, "").then(resp => {
       if(resp) {
         this.productGroups = resp.data.results;
       }
@@ -179,7 +179,7 @@ export class EditProductComponent implements OnInit {
 
   getCollections() {
     let vendor = this.productForm.get('vendor').value;
-    this.collectionsService.getCollectionsList(1, 50, "&vendor=" + vendor, "").then(resp => {
+    this.collectionsService.getCollectionsList(1, 250, "&vendor=" + vendor, "").then(resp => {
       if(resp) {
         this.collections = resp.data.results;
       }
