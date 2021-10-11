@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import URLS from 'src/app/shared/urls';
+import { VendorsService } from '../vendors.service';
 
 @Component({
   selector: 'app-add-vendor',
@@ -9,7 +11,11 @@ import URLS from 'src/app/shared/urls';
 })
 export class AddVendorComponent implements OnInit {
 
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private fb: FormBuilder,
+    private vendorsService: VendorsService,
+    private snackbar: MatSnackBar
+  ) { }
 
   loading: boolean = false;
   URLS = URLS;
@@ -35,6 +41,18 @@ export class AddVendorComponent implements OnInit {
       (this.vendorForm.get('commission_value') as FormControl).updateValueAndValidity();
 
     }
+  }
+
+  onSubmit() {
+    console.log(this.vendorForm.value);
+    this.loading = true;
+    this.vendorsService.createVendor(this.vendorForm.value).then(resp => {
+      this.loading = false;
+      if(resp) {
+        console.log(resp.data);
+        this.snackbar.open("Vendor created.", "", {duration: 3000});
+      }
+    });
   }
 
   ngOnInit(): void {

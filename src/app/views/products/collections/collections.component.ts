@@ -4,7 +4,7 @@ import { CollectionsService } from './collections.service';
 import { Column } from 'src/app/shared/datatable/datatable.component';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
-import { VendorsService } from '../vendors.service';
+import { VendorsService } from '../../vendors/vendors.service';
 import { filter } from 'rxjs/operators';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';

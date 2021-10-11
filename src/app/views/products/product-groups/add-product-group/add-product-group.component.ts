@@ -6,7 +6,7 @@ import URLS from 'src/app/shared/urls';
 import { ShippingService } from 'src/app/views/configuration/shipping/shipping.service';
 import { DiscountsService } from 'src/app/views/discounts/discounts.service';
 import { ProductsService } from '../../products.service';
-import { VendorsService } from '../../vendors.service';
+import { VendorsService } from '../../../vendors/vendors.service';
 
 @Component({
   selector: 'app-add-product-group',

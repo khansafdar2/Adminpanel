@@ -3,7 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import URLS from 'src/app/shared/urls';
 import { ProductsService } from '../products.service';
 import { CollectionsService } from '../collections/collections.service';
-import { VendorsService } from '../vendors.service';
+import { VendorsService } from '../../vendors/vendors.service';
 import { BrandsService } from '../brands/brands.service';
 import { SharedService } from 'src/app/shared/shared.service';
 import { MatSnackBar } from '@angular/material/snack-bar';

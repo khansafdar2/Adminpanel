@@ -7,11 +7,12 @@ import { Column } from 'src/app/shared/datatable/datatable.component';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import URLS from 'src/app/shared/urls';
 import { ProductsService } from './products.service';
-import { VendorsService } from './vendors.service';
+import { VendorsService } from '../vendors/vendors.service';
 import { Router } from '@angular/router';
 import { PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CollectionsService } from './collections/collections.service';
+import { BrandsService } from './brands/brands.service';
 
 @Component({
   selector: 'app-products',
@@ -450,23 +451,35 @@ export class ProductsBulkOrganizeDialog {
     private productsService: ProductsService,
     private vendorsService: VendorsService,
     private collectionsService: CollectionsService,
+    private brandsService: BrandsService,
     private snackBar: MatSnackBar
   ) {
     this.ids = this.data.products.map(product => product.id);
   }
 
-  loading: boolean = false;
+  loading: boolean = true;
   vendorDataLoaded: boolean = false;
   ids = [];
+  brands: [];
   vendors = [];
   productGroups = [];
   collections = [];
   organizeForm = this.fb.group({
     ids: [],
-    vendor: ["", [Validators.required]],
+    brand: [""],
+    vendor: [""],
     product_group: [""],
     collections: [[]]
   });
+
+  getBrands() {
+    this.brandsService.getBrandsList(1, 250).then(resp => {
+      if(resp) {
+        this.brands = resp.data.results;
+        this.loading = false;
+      }
+    });
+  }
 
   getVendors() {
     this.vendorsService.getVendorsList(1, 250).then(resp => {
@@ -501,6 +514,10 @@ export class ProductsBulkOrganizeDialog {
     this.getCollections();
   }
 
+  isSaveDisabled() {
+    return !this.organizeForm.get('brand').value && !this.organizeForm.get('vendor').value
+  }
+
   onSubmit() {
     this.loading = true;
     let data = this.organizeForm.value;
@@ -517,6 +534,7 @@ export class ProductsBulkOrganizeDialog {
       ids: this.ids
     });
     this.getVendors();
+    this.getBrands();
   }
 }
 

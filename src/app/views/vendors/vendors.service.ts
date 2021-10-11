@@ -22,4 +22,17 @@ export class VendorsService {
       }
     });
   }
+
+  createVendor(data) {
+    return Axios.post( environment.backend_url + '/vendors/vendor', data, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
 }

@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/shared/shared.service';
 import URLS from 'src/app/shared/urls';
-import { VendorsService } from '../../vendors.service';
+import { VendorsService } from '../../../vendors/vendors.service';
 import { CollectionsService } from '../collections.service';
 
 @Component({

@@ -5,11 +5,17 @@
 
     <form [formGroup]="organizeForm">
         <mat-form-field appearance="outline">
+            <mat-label>Brand</mat-label>
+            <mat-select formControlName="brand">
+                <mat-option *ngFor="let brand of brands" [value]="brand.id">{{brand.name}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
             <mat-label>Vendor</mat-label>
             <mat-select formControlName="vendor" (selectionChange)="onVendorChange()">
                 <mat-option *ngFor="let vendor of vendors" [value]="vendor.id">{{vendor.name}}</mat-option>
             </mat-select>
-            <mat-error *ngIf="organizeForm.get('vendor').hasError('required')">Vendor is required.</mat-error>
         </mat-form-field>
 
         <div *ngIf="vendorDataLoaded">
@@ -31,5 +37,5 @@
 </mat-dialog-content>
 <div mat-dialog-actions>
     <button mat-stroked-button color="primary" mat-dialog-close>Cancel</button>
-    <button mat-flat-button color="primary" [disabled]="loading || !organizeForm.valid" (click)="onSubmit()">Save</button>
+    <button mat-flat-button color="primary" [disabled]="loading || isSaveDisabled()" (click)="onSubmit()">Save</button>
 </div>

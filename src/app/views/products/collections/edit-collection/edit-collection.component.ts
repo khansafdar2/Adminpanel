@@ -6,7 +6,7 @@ import { Column } from 'src/app/shared/datatable/datatable.component';
 import { SharedService } from 'src/app/shared/shared.service';
 import URLS from 'src/app/shared/urls';
 import { ProductsService } from '../../products.service';
-import { VendorsService } from '../../vendors.service';
+import { VendorsService } from '../../../vendors/vendors.service';
 import { CollectionsService } from '../collections.service';
 
 @Component({
