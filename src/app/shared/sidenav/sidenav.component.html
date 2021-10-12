@@ -21,11 +21,11 @@
                     <span class="link-icon" [inlineSVG]="'/assets/img/OrdersIcon.svg'"></span>Orders
                 </a>
             </li>
-            <li *ngIf="userPermissions.configuration">
+            <!-- <li *ngIf="userPermissions.configuration">
                 <a [routerLink]="['/', Urls.vendors]" routerLinkActive="active">
                     <span class="link-icon" [inlineSVG]="'/assets/img/OrdersIcon.svg'"></span>Vendors
                 </a>
-            </li>
+            </li> -->
             <li *ngIf="userPermissions.customer">
                 <a [routerLink]="['/', Urls.customers]" routerLinkActive="active">
                     <span class="link-icon" [inlineSVG]="'/assets/img/CustomersIcon.svg'"></span>Customers
