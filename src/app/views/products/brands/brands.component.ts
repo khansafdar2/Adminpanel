@@ -37,6 +37,7 @@ export class BrandsComponent implements OnInit {
     }
   ];
   rowActions = ["Delete"];
+  searchString = "";
   pageSize: number = 20;
   totalCount: number = 0;
   pageNumber: number = 1;
@@ -47,6 +48,11 @@ export class BrandsComponent implements OnInit {
     }
   }
 
+  onSearch(data) {
+    this.searchString = "&column=name&search=" + data.query;
+    this.getBrands();
+  }
+
   onPage(event: PageEvent) {
     this.pageSize = event.pageSize;
     this.pageNumber = event.pageIndex + 1;
@@ -55,7 +61,7 @@ export class BrandsComponent implements OnInit {
 
   getBrands() {
     this.loading = true;
-    this.brandsService.getBrandsList(this.pageNumber, this.pageSize).then(resp => {
+    this.brandsService.getBrandsList(this.pageNumber, this.pageSize, this.searchString).then(resp => {
       this.loading = false;
       if(resp) {
         this.brands = resp.data.results;

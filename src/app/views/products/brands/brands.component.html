@@ -19,7 +19,9 @@
                 [itemsPerPage]="pageSize"
                 [count]="totalCount"
                 [rowActions]="rowActions"
+                [searchable]="true"
 
+                (search)="onSearch($event)"
                 (cellClick)="onCellClick($event)"
                 (rowAction)="onRowAction($event)"
                 (page)="onPage($event)">

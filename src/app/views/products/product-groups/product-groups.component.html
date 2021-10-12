@@ -18,7 +18,9 @@
             [pagination]="true"
             [itemsPerPage]="pageSize"
             [count]="totalCount"
+            [searchable]="true"
 
+            (search)="onSearch($event)"
             (page)="onPage($event)"
             (cellClick)="onCellClick($event)"
             (rowAction)="onRowAction($event)">

@@ -38,6 +38,7 @@ export class ProductGroupsComponent implements OnInit {
     }
   ]
   productGroups = [];
+  searchString = "";
   rowActions = ["Delete"];
   pageSize: number = 10;
   pageNumber: number = 1;
@@ -47,6 +48,12 @@ export class ProductGroupsComponent implements OnInit {
     if(data.column === 'title') {
       this.router.navigate(['/', URLS.productGroups, URLS.edit, data.row.id]);
     }
+  }
+
+  onSearch(data) {
+    console.log(data);
+    this.searchString = "&column=title&search=" + data.query;
+    this.getProductGroups();
   }
 
   onRowAction(data) {
@@ -68,7 +75,7 @@ export class ProductGroupsComponent implements OnInit {
 
   getProductGroups() {
     this.loading = true;
-    this.productsService.getProductGroups(this.pageNumber, this.pageSize, "", "").then(resp => {
+    this.productsService.getProductGroups(this.pageNumber, this.pageSize, "", this.searchString).then(resp => {
       this.loading = false;
       if(resp) {
         this.totalCount = resp.data.count;
