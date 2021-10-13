@@ -202,7 +202,7 @@ export class AddProductComponent implements OnInit {
   }
 
   getBrands() {
-    this.brandsService.getBrandsList(1, 250).then(resp => {
+    this.brandsService.getBrandsList(1, 250, "").then(resp => {
       if(resp) {
         this.brands = resp.data.results;
       }
