@@ -8,5 +8,24 @@
     <div class="header-actions">
       <a [routerLink]="['/', URLS.vendors, URLS.add]" mat-flat-button color="primary">Create new</a>
     </div>
+
   </div>
+  <mat-card class="table-wrapper-card">
+    <datatable 
+        [data]="vendors"
+        [columns]="displayedColumns"
+        [pagination]="true"
+        [itemsPerPage]="pageSize"
+        [searchColumns]="searchColumns"
+        [count]="totalCount"
+        [searchable]="true"
+        [selectable]="true"
+        [filters]="filtersArray"
+
+        (page)="onPage($event)"
+        (search)="onSearch($event)"
+        (filter)="onFilter($event)"
+        >
+    </datatable>
+</mat-card>
 </main>
