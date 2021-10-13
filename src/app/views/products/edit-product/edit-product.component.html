@@ -70,8 +70,15 @@
             <mat-card class="mt-20">
                 <h2>Media</h2>
 
-                <div class="image-previews" fxLayout="row wrap" fxLayoutAlign="start" *ngIf="bannerImages.length">
-                    <div class="preview-wrapper" *ngFor="let image of bannerImages; let i = index;">
+                <div class="image-previews"
+                    fxLayout="row wrap"
+                    fxLayoutAlign="start"
+                    *ngIf="bannerImages.length"
+                    cdkDropList
+                    cdkDropListOrientation="horizontal"
+                    (cdkDropListDropped)="imageSortChanged($event)"
+                >
+                    <div class="preview-wrapper" *ngFor="let image of bannerImages; let i = index;" cdkDrag>
                         <img [src]="image.cdn_link" />
                         <button mat-icon-button color="warn" class="remove-preview-image" (click)="removeImage(i)"><mat-icon>close</mat-icon></button>
                     </div>
