@@ -27,6 +27,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -206,6 +207,7 @@ import { AddVendorComponent } from './views/vendors/add-vendor/add-vendor.compon
     MatExpansionModule,
     MatListModule,
     MatProgressSpinnerModule,
+    DragDropModule
   ],
   providers: [LoggedInAuthGuard, LoggedOutAuthGuard],
   bootstrap: [AppComponent]

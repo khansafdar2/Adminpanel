@@ -10,6 +10,8 @@ import { SharedService } from 'src/app/shared/shared.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ProductsChangeStatusDialog } from '../products.component';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+
 
 interface Variant {
   id: number,
@@ -148,6 +150,15 @@ export class EditProductComponent implements OnInit {
         product_images: imageIDs
       });
     }
+  }
+
+  imageSortChanged(event: CdkDragDrop<string[]>) {
+    let tempImageIDs = this.productForm.get('product_images').value;
+    moveItemInArray(this.bannerImages, event.previousIndex, event.currentIndex);
+    moveItemInArray(tempImageIDs, event.previousIndex, event.currentIndex);
+    this.productForm.patchValue({
+      product_images: tempImageIDs
+    });
   }
 
   removeImage(index) {

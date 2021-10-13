@@ -8,6 +8,8 @@ import { BrandsService } from '../brands/brands.service';
 import { SharedService } from 'src/app/shared/shared.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+
 
 interface Option {
   name: string;
@@ -222,6 +224,15 @@ export class AddProductComponent implements OnInit {
         product_images: product_images.concat(imageIDs)
       });
     }
+  }
+
+  imageSortChanged(event: CdkDragDrop<string[]>) {
+    let tempImageIDs = this.productForm.get('product_images').value;
+    moveItemInArray(this.bannerImages, event.previousIndex, event.currentIndex);
+    moveItemInArray(tempImageIDs, event.previousIndex, event.currentIndex);
+    this.productForm.patchValue({
+      product_images: tempImageIDs
+    });
   }
 
   removeImage(index) {

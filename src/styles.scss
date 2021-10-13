@@ -390,33 +390,35 @@ body {
 }
 .image-previews {
     margin-bottom: 20px;
+}
+.preview-wrapper {
+    width: 170px;
+    cursor: move;
+    position: relative;
 
-    .preview-wrapper {
-        width: 170px;
-        position: relative;
-
-        img {
-            display: block;
-            width: 150px;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 4px;
-        }
-
-        &:hover {
-            .remove-preview-image {
-                opacity: 1;
-            }
-        }
+    img {
+        display: block;
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 4px;
     }
 
-    .remove-preview-image {
-        position: absolute;
-        top: 0;
-        right: 10px;
-        opacity: 0;
-        transition: opacity 0.2s ease-out;
+    &:hover {
+        .remove-preview-image {
+            opacity: 1;
+        }
     }
+}
+.remove-preview-image.mat-icon-button {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    opacity: 0;
+    transition: opacity 0.2s ease-out;
+}
+.image-previews.cdk-drop-list-dragging .preview-wrapper:not(.cdk-drag-placeholder) {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 .options-edit-table {
     width: 100%;
@@ -658,4 +660,10 @@ body {
         margin-top: 10px;
         font-size: 16px;
     }
+}
+.cdk-drag-animating {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+.cdk-drag-placeholder {
+    opacity: 0;
 }
