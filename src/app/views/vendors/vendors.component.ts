@@ -3,6 +3,8 @@ import URLS from 'src/app/shared/urls';
 import { VendorsService } from './vendors.service';
 import { Column } from 'src/app/shared/datatable/datatable.component';
 import { PageEvent } from '@angular/material/paginator';
+import { SelectionModel } from '@angular/cdk/collections';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-vendors',
@@ -12,7 +14,8 @@ import { PageEvent } from '@angular/material/paginator';
 export class VendorsComponent implements OnInit {
 
   constructor(
-    private vendorsService: VendorsService
+    private vendorsService: VendorsService,
+    private router: Router,
   ) { }
 
   loading: boolean = false;
@@ -23,6 +26,8 @@ export class VendorsComponent implements OnInit {
   page: number = 1;
   vendors = []; 
   filterString = '';
+
+  orderSelection: SelectionModel<[]> = new SelectionModel(true, []);
 
   displayedColumns: Column[] = [
     {
@@ -105,6 +110,12 @@ export class VendorsComponent implements OnInit {
     this.getVendors();
   }
 
+  onCellClick(data) {
+    // if(data.column === 'name') {
+      this.router.navigate(["/", URLS.vendors, URLS.edit, data.row.id]);
+    // }
+  }
+
   onSearch(data) {
     this.searchString = data.query.replaceAll("#", "") + "&column=" + data.column;
     this.page = 1;
@@ -128,6 +139,8 @@ export class VendorsComponent implements OnInit {
       }
     });
   }
+
+  
 
   ngOnInit(): void {
     this.getVendors();

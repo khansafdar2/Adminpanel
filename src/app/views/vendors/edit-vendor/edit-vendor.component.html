@@ -1,0 +1,88 @@
+<app-topbar></app-topbar>
+<app-sidenav></app-sidenav>
+
+<main id="main">
+    <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+    <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
+        <h1>Edit Vendor</h1>
+
+        <div class="header-actions">
+          <a [routerLink]="['/', URLS.vendors]" mat-stroked-button color="primary">Cancel</a>
+          <button mat-flat-button color="primary" (click)="onSubmit()" >Save</button>
+      </div>
+    </div>
+    <form [formGroup]="vendorForm">
+      <div fxLayout="row">
+        <div fxFlex="0 1 66.6666%">
+          <mat-card>
+            <div fxLayout="row">
+              <div fxFlex="0 1 50%">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Name</mat-label>
+                    <input matInput formControlName="name" />
+                    <mat-error *ngIf="vendorForm.get('name').hasError('required')">Enter name of the vendor.</mat-error>
+                  </mat-form-field>
+              </div>
+              <div fxFlex="0 1 50%">
+                <mat-form-field appearance="outline">
+                  <mat-label>Email address</mat-label>
+                  <input matInput formControlName="email" [(value)]="vendorEmail" />
+                </mat-form-field>
+              </div>
+            </div>
+            <div fxLayout="row">
+              <div fxFlex="0 1 50%">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Phone number</mat-label>
+                    <input matInput formControlName="phone" [(value)]="vendorPhone" />
+                  </mat-form-field>
+              </div>
+              <div fxFlex="0 1 50%">
+                <mat-form-field appearance="outline">
+                  <mat-label>City</mat-label>
+                  <input matInput formControlName="city" [(value)]="vendorCity" />
+                </mat-form-field>
+              </div>
+            </div>
+            <mat-form-field appearance="outline">
+              <mat-label>Address</mat-label>
+              <input matInput formControlName="address" [(value)]="vendorAddress" />
+            </mat-form-field>
+            <div fxLayout="row">
+              <div fxFlex="0 1 50%">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Commission</mat-label>
+                    <mat-select formControlName="commission_type" [(value)]="commissionType" (selectionChange)="commisionTypeChange($event)">
+                      <mat-option value="percentage">Percentage</mat-option>
+                      <mat-option value="fixed">Fixed amount</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+              </div>
+              <div fxFlex="0 1 50%">
+                <mat-form-field appearance="outline">
+                  <mat-label>Commission value</mat-label>
+                  <input matInput type="number" [(value)]="commissionValue" formControlName="commission_value" />
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+        <div fxFlex="0 1 33.3333%">
+          <mat-card>
+            <h4>Status</h4>
+            <mat-checkbox [(checked)]="vendorStatus"  formControlName="is_active">Active</mat-checkbox>
+          </mat-card>
+  
+          <mat-card>
+            <h4>Notes</h4>
+            <mat-form-field appearance="outline">
+              <textarea rows="8" placeholder="Add notes" matInput formControlName="notes" [(value)]="notes"></textarea>
+            </mat-form-field>
+          </mat-card>
+        </div>
+      </div>
+    </form>
+
+    
+</main>
+

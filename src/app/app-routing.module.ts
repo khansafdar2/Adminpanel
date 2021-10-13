@@ -53,6 +53,7 @@ import { EditPageComponent } from './views/cms/pages/edit-page/edit-page.compone
 import { HomepageComponent } from './views/cms/homepage/homepage.component';
 import { VendorsComponent } from './views/vendors/vendors.component';
 import { AddVendorComponent } from './views/vendors/add-vendor/add-vendor.component';
+import { EditVendorComponent } from './views/vendors/edit-vendor/edit-vendor.component';
 
 
 const routes: Routes = [
@@ -143,7 +144,8 @@ const routes: Routes = [
   {path: URLS.vendors, canActivate: [LoggedInAuthGuard], children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
     {path: URLS.all, component: VendorsComponent},
-    {path: URLS.add, component: AddVendorComponent}
+    {path: URLS.add, component: AddVendorComponent},
+    {path: URLS.edit + '/:id', component: EditVendorComponent}
   ]}
 ];
 

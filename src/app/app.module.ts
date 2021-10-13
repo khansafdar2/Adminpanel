@@ -90,6 +90,7 @@ import { EditPageComponent } from './views/cms/pages/edit-page/edit-page.compone
 import { HomepageComponent } from './views/cms/homepage/homepage.component';
 import { VendorsComponent } from './views/vendors/vendors.component';
 import { AddVendorComponent } from './views/vendors/add-vendor/add-vendor.component';
+import { EditVendorComponent } from './views/vendors/edit-vendor/edit-vendor.component';
 
 @NgModule({
   declarations: [
@@ -172,7 +173,8 @@ import { AddVendorComponent } from './views/vendors/add-vendor/add-vendor.compon
     EditPageComponent,
     HomepageComponent,
     VendorsComponent,
-    AddVendorComponent
+    AddVendorComponent,
+    EditVendorComponent
   ],
   imports: [
     BrowserModule,
