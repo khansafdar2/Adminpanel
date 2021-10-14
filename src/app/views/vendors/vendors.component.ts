@@ -1,10 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import URLS from 'src/app/shared/urls';
 import { VendorsService } from './vendors.service';
 import { Column } from 'src/app/shared/datatable/datatable.component';
 import { PageEvent } from '@angular/material/paginator';
 import { SelectionModel } from '@angular/cdk/collections';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+
 
 @Component({
   selector: 'app-vendors',
@@ -16,6 +21,8 @@ export class VendorsComponent implements OnInit {
   constructor(
     private vendorsService: VendorsService,
     private router: Router,
+    public dialog: MatDialog,
+
   ) { }
 
   loading: boolean = false;
@@ -27,7 +34,17 @@ export class VendorsComponent implements OnInit {
   vendors = []; 
   filterString = '';
 
+  favoriteSeason: string;
+  seasons: string[] = ['Winter', 'Spring', 'Summer', 'Autumn'];
+
   orderSelection: SelectionModel<[]> = new SelectionModel(true, []);
+
+  rowActions = row => {
+    let actions = [];
+    // actions.push(row.is_active ? "Deactivate" : "Activate");
+    actions.push("Delete");
+    return actions;
+  }
 
   displayedColumns: Column[] = [
     {
@@ -49,6 +66,7 @@ export class VendorsComponent implements OnInit {
       title: "Is Active",
       selector: "is_active",
       label: true,
+      cell: row => `<span class="label ${row.is_active ? 'success' : ''}">${row.is_active ? 'Active' : 'Inactive'}</span>`,
       labelStyles: {
         "false": "default",
         "true": "success"
@@ -71,21 +89,7 @@ export class VendorsComponent implements OnInit {
         }
       ]
     }
-    // ,
-    // {
-    //   title: "Approval status",
-    //   key: "approval_status",
-    //   values: [
-    //     {
-    //       label: "Approved",
-    //       value: "approved"
-    //     },
-    //     {
-    //       label: "Disapproved",
-    //       value: "disapproved"
-    //     }
-    //   ]
-    // }
+    
   ]
 
   searchColumns = [
@@ -111,9 +115,27 @@ export class VendorsComponent implements OnInit {
   }
 
   onCellClick(data) {
-    // if(data.column === 'name') {
-      this.router.navigate(["/", URLS.vendors, URLS.edit, data.row.id]);
-    // }
+    this.router.navigate(["/", URLS.vendors, URLS.edit, data.row.id]);
+  }
+
+  
+  onRowAction(data) {
+    if(data.action === "Delete") {
+      
+      let dialogRef = this.dialog.open(DeleteVendorDialog, {
+        width: "600px",
+        data: {
+          vendorID: [data.row]
+        }
+      });
+  
+      dialogRef.afterClosed().subscribe(applied => {
+        if(applied) {
+          // this.productSelection.clear();
+          // this.getProducts();
+        }
+      });
+    }
   }
 
   onSearch(data) {
@@ -146,4 +168,88 @@ export class VendorsComponent implements OnInit {
     this.getVendors();
   }
 
+}
+
+@Component({
+  selector: 'delete-vendor-dialog',
+  templateUrl: '/dialogs/delete-vendor-dialog.html',
+})
+export class DeleteVendorDialog {
+  constructor(
+    public dialogRef: MatDialogRef<DeleteVendorDialog>,
+    @Inject(MAT_DIALOG_DATA) public data,
+    private vendorsService: VendorsService,
+    private snackBar: MatSnackBar,
+    private fb: FormBuilder,
+
+  ) {
+    this.vendorID = this.data.vendorID[0].id
+  }
+
+  vendorDeleteForm = this.fb.group({
+    vendorChoice : [''],
+    vendorToAssign : [''],
+    products : [''],
+    proGroups : [''],
+    collection : [''],
+
+  });
+
+  onSubmit(){
+    this.loading = true;
+    this.apiString = this.vendorID 
+    if (this.vendorDeleteForm.get('vendorChoice').value == 'reassign')
+    {
+      
+      this.apiString += '?new_vendor=' + this.vendorDeleteForm.get('vendorToAssign').value
+      this.apiString += this.vendorDeleteForm.get('products').value ? '&products=reassign'  : '&products=delete' 
+      this.apiString += this.vendorDeleteForm.get('proGroups').value ? '&product_groups=reassign'  : '&product_groups=delete' 
+      this.apiString += this.vendorDeleteForm.get('products').value ? '&collections=reassign'  : '&collections=delete' 
+    }
+    console.log( 'api string', this.apiString)
+    this.vendorsService.deleteVendor(this.apiString).then((resp) => {
+      this.loading = false;
+      if(resp) {
+        this.snackBar.open("vendor Deleted successfully.", "", {duration: 3000});
+        this.dialogRef.close(true);
+        
+
+      }
+
+    })
+  }
+  
+  onActionChange() {
+    if (this.vendorDeleteForm.value.vendorChoice == 'delete')
+    {
+      this.btnDissabled = false 
+      this.showAssignOptions = false
+    }
+    else {
+      this.btnDissabled = true 
+      this.showAssignOptions = true
+      this.vendorsService.getVendorsList(1, 100).then(resp => {
+        if(resp) {
+          console.log(resp.data.results)
+          this.vendors = resp.data.results
+        }
+      })
+    }
+  }
+
+  vendorSelect(){
+    this.btnDissabled = false
+  }
+
+  btnDissabled = true
+  vendorChoice = ''
+  apiString = ''
+  vendors = []
+  vendorID = ''
+  loading = false
+  showAssignOptions = false
+  
+  onApply() {
+  
+  }
 }

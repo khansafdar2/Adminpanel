@@ -1,0 +1,53 @@
+<button mat-icon-button mat-dialog-close class="dialog-close"><mat-icon>close</mat-icon></button>
+<h2 mat-dialog-title>Delete Vendor</h2>
+<mat-dialog-content class="mat-typography">
+    
+    
+
+  <form [formGroup]="vendorDeleteForm">
+    <!-- <mat-form-field appearance="outline">
+        <mat-label>Brand</mat-label>
+        <mat-select formControlName="brand">
+            <mat-option *ngFor="let brand of brands" [value]="brand.id">{{brand.name}}</mat-option>
+        </mat-select>
+    </mat-form-field> -->
+
+    <mat-form-field appearance="outline">
+        <mat-label>Select Action</mat-label>
+        <mat-select formControlName="vendorChoice" (selectionChange)="onActionChange()">
+            <mat-option value="delete">Delete</mat-option>
+            <mat-option value="reassign">Reassign Before deleting</mat-option>
+        </mat-select>
+    </mat-form-field>
+    {{vendorChoice}}
+
+    <div *ngIf="showAssignOptions">
+        <mat-form-field appearance="outline">
+            <mat-label>Assign to </mat-label>
+            <mat-select formControlName="vendorToAssign">
+              <div *ngFor="let vendor of vendors" >
+                <mat-option *ngIf="vendor.id != vendorID" (click)="vendorSelect()"  [value]="vendor.id"> <span >{{vendor.name}}</span> </mat-option>
+
+              </div>
+            </mat-select>
+        </mat-form-field>
+
+        <div>
+          <mat-checkbox *ngIf="vendorDeleteForm.get('vendorToAssign').value" class="example-margin"  formControlName="products" [value]="products">Products</mat-checkbox>
+        </div>
+        <div>
+          <mat-checkbox *ngIf="vendorDeleteForm.get('vendorToAssign').value" class="example-margin" formControlName="proGroups" [value]="proGroups">Product Groups</mat-checkbox>
+        </div>
+        <div>
+          <mat-checkbox *ngIf="vendorDeleteForm.get('vendorToAssign').value" class="example-margin" formControlName="collection" [value]="collection">Collections</mat-checkbox>
+        </div>
+
+    </div>
+</form>
+</mat-dialog-content>
+<div mat-dialog-actions>
+    <button mat-stroked-button color="primary" mat-dialog-close>Cancel</button>
+    <button mat-flat-button color="primary" [disabled]="btnDissabled" (click)="onSubmit()" >Delete</button>
+    <!-- (click)="onSubmit()"
+     -->
+</div>

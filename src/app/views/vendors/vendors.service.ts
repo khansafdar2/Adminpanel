@@ -23,6 +23,19 @@ export class VendorsService {
     });
   }
 
+  deleteVendor(urlString){
+    return Axios.delete( environment.backend_url + '/vendors/vendor/' + urlString , {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
   createVendor(data) {
     return Axios.post( environment.backend_url + '/vendors/vendor', data, {
       headers: {

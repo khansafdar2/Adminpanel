@@ -89,9 +89,10 @@ import { PagesComponent } from './views/cms/pages/pages.component';
 import { AddPageComponent } from './views/cms/pages/add-page/add-page.component';
 import { EditPageComponent } from './views/cms/pages/edit-page/edit-page.component';
 import { HomepageComponent } from './views/cms/homepage/homepage.component';
-import { VendorsComponent } from './views/vendors/vendors.component';
+import { VendorsComponent, DeleteVendorDialog } from './views/vendors/vendors.component';
 import { AddVendorComponent } from './views/vendors/add-vendor/add-vendor.component';
 import { EditVendorComponent } from './views/vendors/edit-vendor/edit-vendor.component';
+
 
 @NgModule({
   declarations: [
@@ -175,7 +176,8 @@ import { EditVendorComponent } from './views/vendors/edit-vendor/edit-vendor.com
     HomepageComponent,
     VendorsComponent,
     AddVendorComponent,
-    EditVendorComponent
+    EditVendorComponent,
+    DeleteVendorDialog
   ],
   imports: [
     BrowserModule,

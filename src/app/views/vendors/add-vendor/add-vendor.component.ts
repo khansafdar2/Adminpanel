@@ -3,6 +3,8 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import URLS from 'src/app/shared/urls';
 import { VendorsService } from '../vendors.service';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-add-vendor',
@@ -14,7 +16,9 @@ export class AddVendorComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private vendorsService: VendorsService,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
+    private router: Router,
+
   ) { }
 
   loading: boolean = false;
@@ -51,6 +55,8 @@ export class AddVendorComponent implements OnInit {
       if(resp) {
         console.log(resp.data);
         this.snackbar.open("Vendor created.", "", {duration: 3000});
+        this.router.navigate(["/", URLS.vendors]);
+
       }
     });
   }

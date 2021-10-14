@@ -18,13 +18,14 @@
         [itemsPerPage]="pageSize"
         [searchColumns]="searchColumns"
         [count]="totalCount"
+        [rowActions]="rowActions"
         [searchable]="true"
-        [selectable]="true"
         [filters]="filtersArray"
 
         (page)="onPage($event)"
         (search)="onSearch($event)"
         (filter)="onFilter($event)"
+        (rowAction)="onRowAction($event)" 
         (cellClick)="onCellClick($event)"
         >
     </datatable>
