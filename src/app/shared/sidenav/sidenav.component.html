@@ -21,7 +21,7 @@
                     <span class="link-icon" [inlineSVG]="'/assets/img/OrdersIcon.svg'"></span>Orders
                 </a>
             </li>
-            <li *ngIf="userPermissions.configuration">
+            <li *ngIf="userPermissions.vendor">
                 <a [routerLink]="['/', Urls.vendors]" routerLinkActive="active">
                     <span class="link-icon" [inlineSVG]="'/assets/img/OrdersIcon.svg'"></span>Vendors
                 </a>

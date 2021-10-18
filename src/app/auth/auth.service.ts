@@ -12,6 +12,7 @@ interface UserPermission {
   customer: boolean;
   discounts: boolean;
   configuration: boolean;
+  vendor: boolean;
 }
 
 @Injectable({

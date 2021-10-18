@@ -9,6 +9,6 @@ export class AppComponent implements OnInit {
   title = 'kees-dashboard';
 
   ngOnInit() {
-    console.log("Dev Ops ka Bara issue.");
+    console.log("Version 3.7");
   }
 }
