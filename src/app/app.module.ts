@@ -92,6 +92,8 @@ import { HomepageComponent } from './views/cms/homepage/homepage.component';
 import { VendorsComponent, DeleteVendorDialog } from './views/vendors/vendors.component';
 import { AddVendorComponent } from './views/vendors/add-vendor/add-vendor.component';
 import { EditVendorComponent } from './views/vendors/edit-vendor/edit-vendor.component';
+import { NavigationsComponent } from './views/cms/navigations/navigations.component';
+
 
 
 @NgModule({
@@ -178,7 +180,8 @@ import { EditVendorComponent } from './views/vendors/edit-vendor/edit-vendor.com
     AddVendorComponent,
     EditVendorComponent,
     DeleteVendorDialog,
-    VideoPreviewDialog
+    VideoPreviewDialog,
+    NavigationsComponent
   ],
   imports: [
     BrowserModule,
