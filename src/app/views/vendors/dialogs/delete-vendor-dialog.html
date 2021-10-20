@@ -1,17 +1,7 @@
 <button mat-icon-button mat-dialog-close class="dialog-close"><mat-icon>close</mat-icon></button>
 <h2 mat-dialog-title>Delete Vendor</h2>
 <mat-dialog-content class="mat-typography">
-    
-    
-
   <form [formGroup]="vendorDeleteForm">
-    <!-- <mat-form-field appearance="outline">
-        <mat-label>Brand</mat-label>
-        <mat-select formControlName="brand">
-            <mat-option *ngFor="let brand of brands" [value]="brand.id">{{brand.name}}</mat-option>
-        </mat-select>
-    </mat-form-field> -->
-
     <mat-form-field appearance="outline">
         <mat-label>Select Action</mat-label>
         <mat-select formControlName="vendorChoice" (selectionChange)="onActionChange()">
@@ -48,6 +38,4 @@
 <div mat-dialog-actions>
     <button mat-stroked-button color="primary" mat-dialog-close>Cancel</button>
     <button mat-flat-button color="primary" [disabled]="btnDissabled" (click)="onSubmit()" >Delete</button>
-    <!-- (click)="onSubmit()"
-     -->
 </div>

@@ -41,6 +41,11 @@
                     <span class="link-icon" [inlineSVG]="'/assets/img/SettingsIcon.svg'"></span>Configuration
                 </a>
             </li>
+            <!-- <li *ngIf="userPermissions.configuration">
+                <a [routerLink]="['/', Urls.navigations]" routerLinkActive="active">
+                    <span class="link-icon" [inlineSVG]="'/assets/img/OrdersIcon.svg'"></span>Navigation
+                </a>
+            </li> -->
         </ul>
     </nav>
 </div>
@@ -73,7 +78,7 @@
 
     <nav>
         <ul>
-            <!-- <li><a [routerLink]="['/', Urls.homepage]" routerLinkActive="active">Homepage</a></li> -->
+            <li><a [routerLink]="['/', Urls.homepage]" routerLinkActive="active">Homepage</a></li>
             <li><a [routerLink]="['/', Urls.pages]" routerLinkActive="active">Pages</a></li>
         </ul>
     </nav>

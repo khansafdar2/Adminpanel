@@ -54,6 +54,7 @@ import { HomepageComponent } from './views/cms/homepage/homepage.component';
 import { VendorsComponent } from './views/vendors/vendors.component';
 import { AddVendorComponent } from './views/vendors/add-vendor/add-vendor.component';
 import { EditVendorComponent } from './views/vendors/edit-vendor/edit-vendor.component';
+import { NavigationsComponent } from './views/cms/navigations/navigations.component';
 
 
 const routes: Routes = [
@@ -146,6 +147,12 @@ const routes: Routes = [
     {path: URLS.all, component: VendorsComponent},
     {path: URLS.add, component: AddVendorComponent},
     {path: URLS.edit + '/:id', component: EditVendorComponent}
+  ]},
+  {path: URLS.navigations, canActivate: [LoggedInAuthGuard], children: [
+    {path: '', redirectTo: URLS.all, pathMatch: 'full'},
+    {path: URLS.all, component: NavigationsComponent},
+    // {path: URLS.add, component: AddVendorComponent},
+    // {path: URLS.edit + '/:id', component: EditVendorComponent}
   ]}
 ];
 
