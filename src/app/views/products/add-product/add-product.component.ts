@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import URLS from 'src/app/shared/urls';
 import { ProductsService } from '../products.service';
@@ -9,6 +9,7 @@ import { SharedService } from 'src/app/shared/shared.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 
 interface Option {
@@ -43,6 +44,7 @@ export class AddProductComponent implements OnInit {
     private brandsService: BrandsService,
     private sharedService: SharedService,
     private snackbarService: MatSnackBar,
+    private dialog: MatDialog,
     private router: Router) { }
 
   loading: boolean = false;
@@ -256,6 +258,15 @@ export class AddProductComponent implements OnInit {
     });
   }
 
+  videoThumbnailClick(videoURL) {
+    this.dialog.open(VideoPreviewDialog, {
+      width: "800px",
+      data: {
+        videoURL
+      }
+    });
+  }
+
   onHasVariantChange(event) {
     if(event.checked) {
       (this.inventoryForm.controls['sku'] as FormControl).clearValidators();
@@ -383,5 +394,23 @@ export class AddProductComponent implements OnInit {
     this.getVendors();
     this.getBrands();
   }
+
+}
+
+
+@Component({
+  selector: 'video-preview-dialog',
+  templateUrl: '../dialogs/video-preview-dialog.html',
+})
+export class VideoPreviewDialog {
+  constructor(
+    public dialogRef: MatDialogRef<VideoPreviewDialog>,
+    @Inject(MAT_DIALOG_DATA) public data,
+    private productsService: ProductsService,
+    private snackBar: MatSnackBar
+  ) {}
+
+  loading: boolean = false;
+
 
 }

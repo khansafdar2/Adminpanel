@@ -56,7 +56,7 @@ import { CollectionDeleteDialog, CollectionsChangeApprovalStatusDialog, Collecti
 import { AddCollectionComponent } from './views/products/collections/add-collection/add-collection.component';
 import { EditCollectionComponent } from './views/products/collections/edit-collection/edit-collection.component';
 import { DatatableComponent } from './shared/datatable/datatable.component';
-import { AddProductComponent } from './views/products/add-product/add-product.component';
+import { AddProductComponent, VideoPreviewDialog } from './views/products/add-product/add-product.component';
 import { DeleteProductGroupDialog, ProductGroupsComponent } from './views/products/product-groups/product-groups.component';
 import { AddProductGroupComponent } from './views/products/product-groups/add-product-group/add-product-group.component';
 import { EditProductGroupComponent } from './views/products/product-groups/edit-product-group/edit-product-group.component';
@@ -177,7 +177,8 @@ import { EditVendorComponent } from './views/vendors/edit-vendor/edit-vendor.com
     VendorsComponent,
     AddVendorComponent,
     EditVendorComponent,
-    DeleteVendorDialog
+    DeleteVendorDialog,
+    VideoPreviewDialog
   ],
   imports: [
     BrowserModule,

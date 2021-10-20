@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ProductsChangeStatusDialog } from '../products.component';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { VideoPreviewDialog } from '../add-product/add-product.component';
 
 
 interface Variant {
@@ -81,7 +82,8 @@ export class EditProductComponent implements OnInit {
     uploadAPI: this.sharedService.afuUploadAPI,
     theme: "dragNDrop",
     multiple: true,
-    formatsAllowed: '.jpg,.jpeg,.png',
+    formatsAllowed: '.jpg,.jpeg,.png,.mp4',
+    maxSize: "50",
     hideResetBtn: true,
     replaceTexts: {
       selectFileBtn: "Select images",
@@ -144,10 +146,22 @@ export class EditProductComponent implements OnInit {
 
   mediaUpload(response) {
     if(response.status === 200) {
-      this.bannerImages = response.body;
+      let medias = response.body.map(media => {
+        let nameArray = media.file_name.split(".");
+        let extension = nameArray[nameArray.length - 1];
+        if(extension === "mp4") {
+          media.type = "video";
+        } else {
+          media.type = "image";
+        }
+        return media;
+      });
+
+      this.bannerImages = this.bannerImages.concat(medias);
       let imageIDs = response.body.map(image => image.id);
+      let product_images = this.productForm.get('product_images').value;
       this.productForm.patchValue({
-        product_images: imageIDs
+        product_images: product_images.concat(imageIDs)
       });
     }
   }
@@ -168,6 +182,15 @@ export class EditProductComponent implements OnInit {
     imageIDs.splice(index, 1);
     this.productForm.patchValue({
       product_images: imageIDs
+    });
+  }
+
+  videoThumbnailClick(videoURL) {
+    this.dialog.open(VideoPreviewDialog, {
+      width: "800px",
+      data: {
+        videoURL
+      }
     });
   }
 
@@ -221,8 +244,20 @@ export class EditProductComponent implements OnInit {
         for (let i = 0; i < resp.data.features.length; i++) {
           this.addFeature();
         }
-        this.bannerImages = resp.data.images;
+        // Product images
+        let medias = resp.data.images.map(media => {
+          let nameArray = media.file_name.split(".");
+          let extension = nameArray[nameArray.length - 1];
+          if(extension === "mp4") {
+            media.type = "video";
+          } else {
+            media.type = "image";
+          }
+          return media;
+        });
+        this.bannerImages = medias;
         resp.data.product_images = this.bannerImages.map(image => image.id);
+
         this.productTags = resp.data.tags.length ? resp.data.tags.split(",").filter(tag => tag) : [];
         this.productForm.patchValue(resp.data);
         this.getProductGroups();

@@ -409,6 +409,13 @@ body {
             opacity: 1;
         }
     }
+
+    .video-thumbnail {
+        cursor: pointer;
+    }
+}
+.preview-dialog-video {
+    width: 100%;
 }
 .remove-preview-image.mat-icon-button {
     position: absolute;
