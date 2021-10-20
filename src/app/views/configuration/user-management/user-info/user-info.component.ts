@@ -54,7 +54,8 @@ export class UserInfoComponent implements OnInit {
       orders: false,
       customer: false,
       discounts: false,
-      configuration: false
+      configuration: false,
+      vendor: false
     }
   };
   nameInitials: string = "";

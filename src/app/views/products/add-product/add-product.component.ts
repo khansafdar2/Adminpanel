@@ -72,7 +72,8 @@ export class AddProductComponent implements OnInit {
     uploadAPI: this.sharedService.afuUploadAPI,
     theme: "dragNDrop",
     multiple: true,
-    formatsAllowed: '.jpg,.jpeg,.png',
+    formatsAllowed: '.jpg,.jpeg,.png,.mp4',
+    maxSize: "50",
     hideResetBtn: true,
     replaceTexts: {
       selectFileBtn: "Select images",
@@ -217,7 +218,18 @@ export class AddProductComponent implements OnInit {
 
   mediaUpload(response) {
     if(response.status === 200) {
-      this.bannerImages = this.bannerImages.concat(response.body);
+      let medias = response.body.map(media => {
+        let nameArray = media.file_name.split(".");
+        let extension = nameArray[nameArray.length - 1];
+        if(extension === "mp4") {
+          media.type = "video";
+        } else {
+          media.type = "image";
+        }
+        return media;
+      });
+
+      this.bannerImages = this.bannerImages.concat(medias);
       let imageIDs = response.body.map(image => image.id);
       let product_images = this.productForm.get('product_images').value;
       this.productForm.patchValue({
