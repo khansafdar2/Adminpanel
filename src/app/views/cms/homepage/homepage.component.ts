@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import URLS from 'src/app/shared/urls';
+import { HomepageService } from './homepage.service';
 
 @Component({
   selector: 'app-homepage',
@@ -8,12 +9,25 @@ import URLS from 'src/app/shared/urls';
 })
 export class HomepageComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private homepageService: HomepageService
+  ) { }
 
   URLS = URLS;
-  loading: boolean = false;
+  loading: boolean = true;
+
+  getHomepageData() {
+    this.loading = true;
+    this.homepageService.getHomepage().then(resp => {
+      if(resp) {
+        this.loading = false;
+        console.log(resp.data);
+      }
+    });
+  }
 
   ngOnInit(): void {
+    this.getHomepageData();
   }
 
 }
