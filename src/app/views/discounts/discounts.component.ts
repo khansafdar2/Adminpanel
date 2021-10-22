@@ -36,6 +36,7 @@ export class DiscountsComponent implements OnInit {
       cell: row => row.discount_type === "percentage" ? row.type_value + "%" : row.type_value + " QAR"
     }
   ];
+  rowActions = ["Delete"]
   discounts = [];
   totalCount: number = 0;
   pageNumber: number = 1;
@@ -60,6 +61,10 @@ export class DiscountsComponent implements OnInit {
 
   onCellClick(data) {
     this.router.navigate(["/", URLS.discounts, URLS.edit, data.row.id]);
+  }
+
+  onRowAction(data) {
+    
   }
 
   ngOnInit(): void {

@@ -15,15 +15,26 @@ export class HomepageComponent implements OnInit {
 
   URLS = URLS;
   loading: boolean = true;
+  homepage = {
+    sections: []
+  }
+  activeSection = null;
+  activeSectionIndex = null;
 
   getHomepageData() {
     this.loading = true;
     this.homepageService.getHomepage().then(resp => {
       if(resp) {
+        this.homepage = resp.data;
         this.loading = false;
         console.log(resp.data);
       }
     });
+  }
+
+  setActiveSection(section, index) {
+    this.activeSection = section;
+    this.activeSectionIndex = index;
   }
 
   ngOnInit(): void {

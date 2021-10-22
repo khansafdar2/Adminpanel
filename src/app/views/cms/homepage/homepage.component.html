@@ -11,10 +11,21 @@
   </div>
 
   <div class="homepage-wrapper" fxLayout="row">
-    <div class="sections-list-wrapper" fxFlex="0 1 50%">
+    <div class="sections-list-wrapper" fxFlex="1 0 40%">
       <div class="sections-list">
-        
+        <mat-card
+          class="section-name-wrapper"
+          *ngFor="let section of homepage.sections; let i = index"
+          [class.active]="activeSectionIndex === i"
+          [class.mat-elevation-z3]="activeSectionIndex === i"
+          (click)="setActiveSection(section, i)"
+        >
+          {{ section.title }}
+        </mat-card>
       </div>
+    </div>
+    <div class="section-settings-wrapper" fxFlex="1 0 60%">
+      <p class="no-section-text" *ngIf="!activeSection">Select a section from left to edit.</p>
     </div>
   </div>
 </main>

@@ -22,3 +22,4 @@ $warn: mat-color($app-warn);
 
 $textColor: rgba(0,0,0,0.85);
 $primaryColor: #CC8A00;
+$primaryHighlight: mat-color($app-primary, default, 0.15);
