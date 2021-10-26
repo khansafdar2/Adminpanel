@@ -1,6 +1,21 @@
 <h2>Slides</h2>
 <div class="slides-wrapper">
-    <div class="slide" *ngFor="let slide of data.slides">
-        <img [src]="slide.desktop_img" height="200" />
-    </div>
+    <mat-card class="slide" *ngFor="let slide of data.slides">
+        <div fxLayout="row">
+            <div fxFlex="1 0 50%">
+                <h4>Desktop image</h4>
+                <image-selector
+                    [(files)]="slide.desktop_img"
+                    valueType="url"
+                ></image-selector>
+            </div>
+            <div fxFlex="1 0 50%">
+                <h4>Mobile image</h4>
+                <image-selector
+                    [(files)]="slide.mobile_img"
+                    valueType="url"
+                ></image-selector>
+            </div>
+        </div>
+    </mat-card>
 </div>

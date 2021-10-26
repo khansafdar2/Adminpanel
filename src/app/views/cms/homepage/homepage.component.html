@@ -12,6 +12,8 @@
 
   <div class="homepage-wrapper" fxLayout="row">
     <div class="sections-list-wrapper" fxFlex="1 0 40%">
+      <!-- <image-selector [(url)]="bannerImage"></image-selector> -->
+
       <div class="sections-list">
         <mat-card
           class="section-name-wrapper"
@@ -24,6 +26,7 @@
         </mat-card>
       </div>
     </div>
+
     <div class="section-settings-wrapper" fxFlex="1 0 60%">
       <p class="no-section-text" *ngIf="!activeSection">Select a section from left to edit.</p>
       <ng-container *ngIf="activeSection">
@@ -31,6 +34,7 @@
           <homepage-slider-section [data]="activeSection"></homepage-slider-section>
         </ng-container>
       </ng-container>
+
     </div>
   </div>
 </main>

@@ -85,6 +85,7 @@ export class EditProductComponent implements OnInit {
     formatsAllowed: '.jpg,.jpeg,.png,.mp4',
     maxSize: "50",
     hideResetBtn: true,
+    autoUpload: true,
     replaceTexts: {
       selectFileBtn: "Select images",
       dragNDropBox: "Drop images here.",

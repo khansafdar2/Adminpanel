@@ -1,0 +1,19 @@
+<div class="image-previews"
+    fxLayout="row wrap"
+    fxLayoutAlign="start"
+    *ngIf="medias.length"
+    cdkDropList
+    cdkDropListOrientation="horizontal"
+    (cdkDropListDropped)="mediaSortChanged($event)"
+>
+    <div class="preview-wrapper" *ngFor="let media of medias; let i = index;" cdkDrag>
+        <img [src]="media.cdn_link" *ngIf="media.type === 'image'" />
+        <!-- <img src="assets/img/play-button.png" class="video-thumbnail" *ngIf="media.type === 'video'" /> -->
+        <button mat-icon-button color="warn" class="remove-preview-image" (click)="removeMedia(i)"><mat-icon>close</mat-icon></button>
+    </div>
+</div>
+
+<angular-file-uploader
+    [config]="afuConfig"
+    (ApiResponse)="mediaUploaded($event)">
+</angular-file-uploader>

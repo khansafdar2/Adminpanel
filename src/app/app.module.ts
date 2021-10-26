@@ -28,6 +28,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -94,6 +95,7 @@ import { AddVendorComponent } from './views/vendors/add-vendor/add-vendor.compon
 import { EditVendorComponent } from './views/vendors/edit-vendor/edit-vendor.component';
 import { NavigationsComponent } from './views/cms/navigations/navigations.component';
 import { HomepageSliderSection } from './views/cms/homepage/homepage-sections.components';
+import { ImageSelectorComponent } from './shared/image-selector/image-selector.component';
 
 
 @NgModule({
@@ -183,7 +185,8 @@ import { HomepageSliderSection } from './views/cms/homepage/homepage-sections.co
     VideoPreviewDialog,
     NavigationsComponent,
     HomepageSliderSection,
-    DiscountDeleteDialog
+    DiscountDeleteDialog,
+    ImageSelectorComponent
   ],
   imports: [
     BrowserModule,
@@ -217,7 +220,8 @@ import { HomepageSliderSection } from './views/cms/homepage/homepage-sections.co
     MatExpansionModule,
     MatListModule,
     MatProgressSpinnerModule,
-    DragDropModule
+    DragDropModule,
+    NgxDropzoneModule
   ],
   providers: [LoggedInAuthGuard, LoggedOutAuthGuard],
   bootstrap: [AppComponent]
