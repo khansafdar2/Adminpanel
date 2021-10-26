@@ -1,1 +1,6 @@
-<p>Homepage slider </p>
+<h2>Slides</h2>
+<div class="slides-wrapper">
+    <div class="slide" *ngFor="let slide of data.slides">
+        <img [src]="slide.desktop_img" height="200" />
+    </div>
+</div>

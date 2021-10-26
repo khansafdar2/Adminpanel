@@ -28,7 +28,7 @@
       <p class="no-section-text" *ngIf="!activeSection">Select a section from left to edit.</p>
       <ng-container *ngIf="activeSection">
         <ng-container *ngIf="activeSection.type === 'banner_slider'">
-          <homepage-slider-section></homepage-slider-section>
+          <homepage-slider-section [data]="activeSection"></homepage-slider-section>
         </ng-container>
       </ng-container>
     </div>

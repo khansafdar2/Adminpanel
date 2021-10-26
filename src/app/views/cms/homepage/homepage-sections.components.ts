@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 // import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
@@ -8,6 +8,11 @@ import { Component, Inject, OnInit } from '@angular/core';
 export class HomepageSliderSection implements OnInit {
   constructor() { }
 
+  @Input()data:any = {
+    slides: []
+  };
+
   ngOnInit(): void {
+    console.log(this.data);
   }
 }
