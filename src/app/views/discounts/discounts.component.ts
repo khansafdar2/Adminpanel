@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Column } from 'src/app/shared/datatable/datatable.component';
 import URLS from 'src/app/shared/urls';
+import { ProductsService } from '../products/products.service';
 import { DiscountsService } from './discounts.service';
 
 @Component({
@@ -14,7 +17,8 @@ export class DiscountsComponent implements OnInit {
 
   constructor(
     private discountsService: DiscountsService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) { }
 
   loading: boolean = false;
@@ -64,11 +68,50 @@ export class DiscountsComponent implements OnInit {
   }
 
   onRowAction(data) {
-    
+    if(data.action === "Delete") {
+      let dialogRef = this.dialog.open(DiscountDeleteDialog, {
+        width: "600px",
+        data: {
+          discount: data.row
+        }
+      });
+
+      dialogRef.afterClosed().subscribe(deleted => {
+        if(deleted) {
+          this.getDiscountsList();
+        }
+      });
+    }
   }
 
   ngOnInit(): void {
     this.getDiscountsList();
   }
 
+}
+
+
+@Component({
+  selector: 'discount-delete-dialog',
+  templateUrl: './dialogs/discount-delete-dialog.html',
+})
+export class DiscountDeleteDialog {
+  constructor(
+    public dialogRef: MatDialogRef<DiscountDeleteDialog>,
+    @Inject(MAT_DIALOG_DATA) public data,
+    private discountService: DiscountsService,
+    private snackBar: MatSnackBar
+  ) {}
+
+  loading: boolean = false;
+
+  onDelete() {
+    this.loading = true;
+    this.discountService.deleteDiscount(this.data.discount.id).then(resp => {
+      if(resp) {
+        this.snackBar.open("Discount deleted.", "", {duration: 2000});
+        this.dialogRef.close(true);
+      }
+    })
+  }
 }

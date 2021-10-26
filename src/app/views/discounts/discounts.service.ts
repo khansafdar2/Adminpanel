@@ -61,4 +61,17 @@ export class DiscountsService {
       }
     });
   }
+
+  deleteDiscount(id) {
+    return Axios.delete( environment.backend_url + '/discount/discount/' + id, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
 }

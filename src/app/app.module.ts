@@ -67,7 +67,7 @@ import { DeleteVariantConfirmDialog, EditProductComponent, EditProductOptionsDia
 import { BrandDeleteDialog, BrandsComponent } from './views/products/brands/brands.component';
 import { AddBrandComponent } from './views/products/brands/add-brand/add-brand.component';
 import { EditBrandComponent } from './views/products/brands/edit-brand/edit-brand.component';
-import { DiscountsComponent } from './views/discounts/discounts.component';
+import { DiscountsComponent, DiscountDeleteDialog } from './views/discounts/discounts.component';
 import { EditVariantComponent } from './views/products/edit-variant/edit-variant.component';
 import { AddVariantComponent } from './views/products/add-variant/add-variant.component';
 import { AddDiscountComponent } from './views/discounts/add-discount/add-discount.component';
@@ -182,7 +182,8 @@ import { HomepageSliderSection } from './views/cms/homepage/homepage-sections.co
     DeleteVendorDialog,
     VideoPreviewDialog,
     NavigationsComponent,
-    HomepageSliderSection
+    HomepageSliderSection,
+    DiscountDeleteDialog
   ],
   imports: [
     BrowserModule,

@@ -19,10 +19,10 @@
                 [count]="totalCount"
                 [itemsPerPage]="pageSize"
                 [rowActions]="rowActions"
-    
+
                 (page)="onPageChange($event)"
                 (cellClick)="onCellClick($event)"
-                (rowAction)="onRowAction"
+                (rowAction)="onRowAction($event)"
             >
           </datatable>
         </mat-card>
