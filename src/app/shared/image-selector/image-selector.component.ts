@@ -26,6 +26,7 @@ export class ImageSelectorComponent implements OnInit {
   @Input() multiple: boolean = false;
   @Input() formats: string = ".jpg,.jpeg,.png";
   @Input() maxSize: string = "5";
+  @Input() theme: string = "dragNDrop";
   @Input() sortable: boolean = false;
   @Input() valueType: string = "object";
 
@@ -35,7 +36,7 @@ export class ImageSelectorComponent implements OnInit {
 
   afuConfig = {
     uploadAPI: this.sharedService.afuUploadAPI,
-    theme: "dragNDrop",
+    theme: this.theme,
     multiple: this.multiple,
     formatsAllowed: this.formats,
     maxSize: this.maxSize,

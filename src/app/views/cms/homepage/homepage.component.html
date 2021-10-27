@@ -12,7 +12,6 @@
 
   <div class="homepage-wrapper" fxLayout="row">
     <div class="sections-list-wrapper" fxFlex="1 0 40%">
-      <!-- <image-selector [(url)]="bannerImage"></image-selector> -->
 
       <div class="sections-list">
         <mat-card
@@ -32,6 +31,10 @@
       <ng-container *ngIf="activeSection">
         <ng-container *ngIf="activeSection.type === 'banner_slider'">
           <homepage-slider-section [data]="activeSection"></homepage-slider-section>
+        </ng-container>
+
+        <ng-container *ngIf="activeSection.type === 'categories_carousel'">
+          <homepage-categories-carousel [data]="activeSection"></homepage-categories-carousel>
         </ng-container>
       </ng-container>
 

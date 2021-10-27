@@ -1,0 +1,22 @@
+<mat-card>
+    <mat-form-field appearance="outline">
+        <mat-label>Title</mat-label>
+        <input matInput [(ngModel)]="data.title" />
+    </mat-form-field>
+</mat-card>
+
+<h4 style="margin-top: 20px">Categories</h4>
+
+<div>
+    <mat-card *ngFor="let category of data.categories">
+        <mat-form-field appearance="outline">
+            <mat-label>Name</mat-label>
+            <input matInput [(ngModel)]="category.name" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Handle</mat-label>
+            <input matInput [(ngModel)]="category.handle" />
+        </mat-form-field>
+    </mat-card>
+</div>
