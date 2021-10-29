@@ -36,6 +36,10 @@
         <ng-container *ngIf="activeSection.type === 'categories_carousel'">
           <homepage-categories-carousel [data]="activeSection"></homepage-categories-carousel>
         </ng-container>
+
+        <ng-container *ngIf="activeSection.type === 'brands_slider'">
+          <homepage-brands [data]="activeSection"></homepage-brands>
+        </ng-container>
       </ng-container>
 
     </div>

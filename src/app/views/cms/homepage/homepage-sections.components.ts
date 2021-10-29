@@ -1,16 +1,12 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { BrandsService } from '../../products/brands/brands.service';
 
 
 @Component({
   selector: 'homepage-slider-section',
-  templateUrl: './templates/homepage-slider-section.html',
-  styles: [`
-    .slide-sort-handle {
-      cursor: grab;
-    }
-  `]
+  templateUrl: './templates/homepage-slider-section.html'
 })
 export class HomepageSliderSection implements OnInit {
   constructor(
@@ -46,8 +42,7 @@ export class HomepageSliderSection implements OnInit {
 
 @Component({
   selector: 'homepage-categories-carousel',
-  templateUrl: './templates/homepage-categories-carousel.html',
-  styles: [``]
+  templateUrl: './templates/homepage-categories-carousel.html'
 })
 export class HomepageCategoriesCarousel implements OnInit {
   constructor(
@@ -59,7 +54,85 @@ export class HomepageCategoriesCarousel implements OnInit {
     categories: []
   };
 
+  sortChanged(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.data.categories, event.previousIndex, event.currentIndex);
+  }
+
+  addCategory() {
+    this.data.categories.push({
+      handle: "",
+      name: "",
+      products: [
+        {
+          "img": "url",
+          "name": "text",
+          "handle": "text",
+          "price": {
+            "original_price": "number",
+            "compare_price": "number"
+          }
+        }
+      ]
+    });
+  }
+
+  removeCategory(index) {
+    this.data.categories.splice(index, 1);
+  }
+
   ngOnInit(): void {
     console.log(this.data);
+  }
+}
+
+
+
+@Component({
+  selector: 'homepage-brands',
+  templateUrl: './templates/homepage-brands.html'
+})
+export class HomepageBrands implements OnInit {
+  constructor(
+    private snackbar: MatSnackBar,
+    private brandsService: BrandsService
+  ) { }
+
+  
+  @Input()data:any = {
+    title: "",
+    brands: []
+  };
+  
+  loading: boolean = true;
+  brands = [];
+
+  getBrands() {
+    this.loading = true;
+    this.brandsService.getBrandsList(1, 250, "").then(resp => {
+      this.loading = false;
+      if(resp) {
+        this.brands = resp.data.results;
+      }
+    })
+  }
+
+  addBrand() {
+    this.data.brands.push({
+      brand_logo: "",
+      brand_handle: ""
+    });
+  }
+
+  sortChanged(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.data.brands, event.previousIndex, event.currentIndex);
+  }
+
+  removeBrand(index) {
+    this.data.brands.splice(index, 1);
+  }
+
+  ngOnInit(): void {
+    console.log(this.data);
+    this.getBrands();
   }
 }

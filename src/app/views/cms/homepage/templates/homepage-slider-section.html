@@ -6,7 +6,7 @@
     >
         <mat-card class="slide" *ngFor="let slide of data.slides; let i = index" cdkDrag>
             <div fxLayout="row" fxLayoutAlign="space-between center">
-                <mat-icon cdkDragHandle class="slide-sort-handle">expand</mat-icon>
+                <mat-icon cdkDragHandle class="sort-handle">expand</mat-icon>
                 <button mat-icon-button color="warn" (click)="removeSlide(i)">
                     <mat-icon>delete</mat-icon>
                 </button>
