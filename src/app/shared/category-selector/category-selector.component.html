@@ -1,0 +1,28 @@
+<div class="category-selector">
+  <mat-list>
+    <mat-list-item
+    *ngFor="let mainCategory of mainCategories"
+    (click)="setActiveMainCategory(mainCategory)"
+    >
+      <div>
+        <mat-checkbox
+          (change)="onCategorySelectionChange($event, mainCategory, 'main')"
+          (click)="onCheckboxClick($event)"
+          [checked]="isCategorySelected(mainCategory)"
+        ></mat-checkbox>
+        {{mainCategory.name}}
+      </div>
+      <mat-icon>chevron_right</mat-icon>
+    </mat-list-item>
+  </mat-list>
+
+  <div class="subcategories" *ngIf="activeMainCategory" [@slideInOut]>
+    <div class="category-list-title" (click)="backToMainCategories()"><mat-icon>chevron_left</mat-icon> {{activeMainCategory.name}}</div>
+    <mat-progress-bar *ngIf="subCategoriesLoading" color="primary" mode="indeterminate"></mat-progress-bar>
+    <mat-list>
+      <mat-list-item
+        *ngFor="let subCategory of subCategories"
+      >{{subCategory.name}} <mat-icon>chevron_right</mat-icon></mat-list-item>
+    </mat-list>
+  </div>
+</div>

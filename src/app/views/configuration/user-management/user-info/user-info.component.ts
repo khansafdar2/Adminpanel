@@ -1,3 +1,4 @@
+import { environment } from '../../../../../environments/environment';
 import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -23,6 +24,7 @@ export class UserInfoComponent implements OnInit {
     this.userId = this.route.snapshot.paramMap.get('id');
   }
 
+  clientName: string = environment.client_name;
   userId = null;
   loggedInUserID = this.authService.user.id;
   displayedColumns: string[] = ['date', 'ip_address', 'location'];

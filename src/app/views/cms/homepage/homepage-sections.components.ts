@@ -108,7 +108,7 @@ export class HomepageBrands implements OnInit {
 
   getBrands() {
     this.loading = true;
-    this.brandsService.getBrandsList(1, 250, "").then(resp => {
+    this.brandsService.getBrandsList(1, 1000, "").then(resp => {
       this.loading = false;
       if(resp) {
         this.brands = resp.data.results;

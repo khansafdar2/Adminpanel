@@ -96,6 +96,7 @@ import { EditVendorComponent } from './views/vendors/edit-vendor/edit-vendor.com
 import { NavigationsComponent } from './views/cms/navigations/navigations.component';
 import { HomepageSliderSection, HomepageCategoriesCarousel, HomepageBrands } from './views/cms/homepage/homepage-sections.components';
 import { ImageSelectorComponent } from './shared/image-selector/image-selector.component';
+import { CategorySelectorComponent } from './shared/category-selector/category-selector.component';
 
 
 @NgModule({
@@ -188,7 +189,8 @@ import { ImageSelectorComponent } from './shared/image-selector/image-selector.c
     DiscountDeleteDialog,
     ImageSelectorComponent,
     HomepageCategoriesCarousel,
-    HomepageBrands
+    HomepageBrands,
+    CategorySelectorComponent
   ],
   imports: [
     BrowserModule,

@@ -18,6 +18,8 @@ export class SigninComponent implements OnInit {
 
   loading: boolean = false;
   formError: string = "";
+  logo_img: string = `assets/${environment.client_img_folder}/logo.png`;
+  clientName: string = environment.client_name;
   signinForm = this.fb.group({
     username_or_email: ['', [Validators.required]],
     password: ['', [Validators.required]],

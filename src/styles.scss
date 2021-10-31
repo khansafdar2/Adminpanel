@@ -677,3 +677,10 @@ body {
 .sort-handle {
     cursor: grab;
 }
+.category-selector {
+    .mat-list {
+        .mat-list-item-content {
+            justify-content: space-between;
+        }
+    }
+}

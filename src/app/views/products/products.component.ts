@@ -473,7 +473,7 @@ export class ProductsBulkOrganizeDialog {
   });
 
   getBrands() {
-    this.brandsService.getBrandsList(1, 250, "").then(resp => {
+    this.brandsService.getBrandsList(1, 1000, "").then(resp => {
       if(resp) {
         this.brands = resp.data.results;
         this.loading = false;

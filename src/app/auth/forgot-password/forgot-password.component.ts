@@ -20,6 +20,7 @@ export class ForgotPasswordComponent implements OnInit {
   ) { }
 
   loading: boolean = false;
+  logo_img: string = `assets/${environment.client_img_folder}/logo.png`;
   URLS = URLS;
   emailSent: boolean = false;
   codeVerified: boolean = false;

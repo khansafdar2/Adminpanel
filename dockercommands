@@ -1,5 +1,3 @@
-ng build --prod
-
 Alchemative Staging
 aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 242791332842.dkr.ecr.us-east-1.amazonaws.com
 docker build -t kees-angular-frontend .
@@ -24,8 +22,16 @@ docker push 510219444800.dkr.ecr.us-east-1.amazonaws.com/uat-kees-angular-admin:
 
 
 Celebshop
-aws ecr get-login-password --region us-east-1 --profile celebshop | docker login --username AWS --password-stdin 570325721812.dkr.ecr.us-east-1.amazonaws.com
+aws ecr get-login-password --region us-east-1 --profile ces | docker login --username AWS --password-stdin 570325721812.dkr.ecr.us-east-1.amazonaws.com
 docker build -t celebshop-angular-admin .
 docker tag celebshop-angular-admin:latest 570325721812.dkr.ecr.us-east-1.amazonaws.com/celebshop-angular-admin:latest
 docker push 570325721812.dkr.ecr.us-east-1.amazonaws.com/celebshop-angular-admin:latest
-aws ecs update-service  --service  celebshop-angular-admin --cluster ces-cluster --force-new-deployment --region us-east-1 --profile celebshop
+aws ecs update-service  --service  celebshop-angular-admin --cluster ces-cluster --force-new-deployment --region us-east-1 --profile ces
+
+
+Shams
+ng build -c shams
+aws ecr get-login-password --region us-east-1 --profile ces | docker login --username AWS --password-stdin 570325721812.dkr.ecr.us-east-1.amazonaws.com
+docker build -t shams-angular-admin .
+docker tag shams-angular-admin:latest 570325721812.dkr.ecr.us-east-1.amazonaws.com/shams-angular-admin:latest
+docker push 570325721812.dkr.ecr.us-east-1.amazonaws.com/shams-angular-admin:latest

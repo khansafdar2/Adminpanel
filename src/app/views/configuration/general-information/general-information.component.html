@@ -98,6 +98,7 @@
                                     <mat-form-field appearance="outline">
                                         <mat-label>Country/Region</mat-label>
                                         <mat-select formControlName="country">
+                                            <mat-option value="Pakistan">Pakistan</mat-option>
                                             <mat-option value="Qatar">Qatar</mat-option>
                                         </mat-select>
                                         <mat-error *ngIf="storeInfoForm.get('country').hasError('required')">This field is required.</mat-error>
@@ -127,6 +128,7 @@
                             <mat-form-field appearance="outline">
                                 <mat-label>Time zone</mat-label>
                                 <mat-select formControlName="time_zone">
+                                    <mat-option value="PKT (GMT+5)">PKT (GMT+5)</mat-option>
                                     <mat-option value="Qatar (GMT+3)">Qatar (GMT+3)</mat-option>
                                 </mat-select>
                                 <mat-error *ngIf="storeInfoForm.get('time_zone').hasError('required')">This field is required.</mat-error>
@@ -191,6 +193,7 @@
                             <mat-form-field appearance="outline">
                                 <mat-label>Store currency</mat-label>
                                 <mat-select formControlName="store_currency">
+                                    <mat-option value="PKR">PKR</mat-option>
                                     <mat-option value="QAR">QAR</mat-option>
                                 </mat-select>
                                 <mat-error *ngIf="storeInfoForm.get('store_currency').hasError('required')">This field is requried.</mat-error>
