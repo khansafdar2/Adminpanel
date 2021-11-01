@@ -2,6 +2,7 @@
   position: relative;
   overflow: hidden;
   background-color: #ffffff;
+  transition: height 0.2s ease-out;
 
   .mat-list-base {
     padding: 0;
@@ -41,7 +42,7 @@
     }
   }
 }
-.subcategories {
+.subcategories, .super-subcategories {
   position: absolute;
   left: 0;
   top: 0;

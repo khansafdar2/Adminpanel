@@ -13,7 +13,7 @@ export class HomepageSliderSection implements OnInit {
     private snackbar: MatSnackBar
   ) { }
 
-  @Input()data:any = {
+  @Input() data:any = {
     slides: []
   };
 
@@ -49,7 +49,7 @@ export class HomepageCategoriesCarousel implements OnInit {
     private snackbar: MatSnackBar
   ) { }
 
-  @Input()data:any = {
+  @Input() data:any = {
     title: "",
     categories: []
   };
@@ -93,12 +93,11 @@ export class HomepageCategoriesCarousel implements OnInit {
 })
 export class HomepageBrands implements OnInit {
   constructor(
-    private snackbar: MatSnackBar,
     private brandsService: BrandsService
   ) { }
 
   
-  @Input()data:any = {
+  @Input() data:any = {
     title: "",
     brands: []
   };
@@ -134,5 +133,46 @@ export class HomepageBrands implements OnInit {
   ngOnInit(): void {
     console.log(this.data);
     this.getBrands();
+  }
+}
+
+
+
+@Component({
+  selector: 'homepage-products-carousel',
+  templateUrl: './templates/homepage-products-carousel.html'
+})
+export class HomepageProductsCarousel implements OnInit {
+
+  constructor() { }
+
+  @Input() data:any = {
+    title: "",
+    category_handle: ''
+  };
+
+  ngOnInit() {
+    console.log(this.data);
+  }
+}
+
+
+
+@Component({
+  selector: 'homepage-single-banner',
+  templateUrl: './templates/homepage-single-banner.html'
+})
+export class HomepageSingleBanner implements OnInit {
+
+  constructor() { }
+
+  @Input() data:any = {
+    desktop_img: "",
+    mobile_img: "",
+    link: ""
+  };
+
+  ngOnInit() {
+    console.log(this.data);
   }
 }

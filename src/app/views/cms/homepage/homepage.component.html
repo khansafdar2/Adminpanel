@@ -10,11 +10,7 @@
     </div>
   </div>
 
-  <div class="page-container" style="width: 600px">
-    <category-selector></category-selector>
-  </div>
-
-  <!-- <div class="homepage-wrapper" fxLayout="row">
+  <div class="homepage-wrapper" fxLayout="row">
     <div class="sections-list-wrapper" fxFlex="1 0 40%">
 
       <div class="sections-list">
@@ -44,8 +40,15 @@
         <ng-container *ngIf="activeSection.type === 'brands_slider'">
           <homepage-brands [data]="activeSection"></homepage-brands>
         </ng-container>
-      </ng-container>
 
+        <ng-container *ngIf="activeSection.type === 'products_carousel'">
+          <homepage-products-carousel [data]="activeSection"></homepage-products-carousel>
+        </ng-container>
+
+        <ng-container *ngIf="activeSection.type === 'single_banner'">
+          <homepage-single-banner [data]="activeSection"></homepage-single-banner>
+        </ng-container>
+      </ng-container>
     </div>
-  </div> -->
+  </div>
 </main>

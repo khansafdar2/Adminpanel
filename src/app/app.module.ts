@@ -94,7 +94,7 @@ import { VendorsComponent, DeleteVendorDialog } from './views/vendors/vendors.co
 import { AddVendorComponent } from './views/vendors/add-vendor/add-vendor.component';
 import { EditVendorComponent } from './views/vendors/edit-vendor/edit-vendor.component';
 import { NavigationsComponent } from './views/cms/navigations/navigations.component';
-import { HomepageSliderSection, HomepageCategoriesCarousel, HomepageBrands } from './views/cms/homepage/homepage-sections.components';
+import { HomepageSliderSection, HomepageCategoriesCarousel, HomepageBrands, HomepageProductsCarousel, HomepageSingleBanner } from './views/cms/homepage/homepage-sections.components';
 import { ImageSelectorComponent } from './shared/image-selector/image-selector.component';
 import { CategorySelectorComponent } from './shared/category-selector/category-selector.component';
 
@@ -190,7 +190,9 @@ import { CategorySelectorComponent } from './shared/category-selector/category-s
     ImageSelectorComponent,
     HomepageCategoriesCarousel,
     HomepageBrands,
-    CategorySelectorComponent
+    CategorySelectorComponent,
+    HomepageProductsCarousel,
+    HomepageSingleBanner
   ],
   imports: [
     BrowserModule,

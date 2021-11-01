@@ -1,4 +1,4 @@
-<div class="category-selector">
+<div class="category-selector" #selector>
   <mat-list>
     <mat-list-item
     *ngFor="let mainCategory of mainCategories"
@@ -16,13 +16,43 @@
     </mat-list-item>
   </mat-list>
 
-  <div class="subcategories" *ngIf="activeMainCategory" [@slideInOut]>
+  <div class="subcategories" *ngIf="activeMainCategory" [@slideInOut] #subCategoryWrapper>
     <div class="category-list-title" (click)="backToMainCategories()"><mat-icon>chevron_left</mat-icon> {{activeMainCategory.name}}</div>
     <mat-progress-bar *ngIf="subCategoriesLoading" color="primary" mode="indeterminate"></mat-progress-bar>
     <mat-list>
       <mat-list-item
         *ngFor="let subCategory of subCategories"
-      >{{subCategory.name}} <mat-icon>chevron_right</mat-icon></mat-list-item>
+        (click)="setActiveSubCategory(subCategory)"
+      >
+        <div>
+          <mat-checkbox
+            (change)="onCategorySelectionChange($event, subCategory, 'sub')"
+            (click)="onCheckboxClick($event)"
+            [checked]="isCategorySelected(subCategory)"
+          ></mat-checkbox>
+          {{subCategory.name}}
+        </div>
+        <mat-icon>chevron_right</mat-icon>
+      </mat-list-item>
+    </mat-list>
+  </div>
+
+  <div class="super-subcategories" *ngIf="activeSubCategory" [@slideInOut] #superSubCategoryWrapper>
+    <div class="category-list-title" (click)="backToSubCategories()"><mat-icon>chevron_left</mat-icon> {{activeSubCategory.name}}</div>
+    <mat-progress-bar *ngIf="superSubCategoriesLoading" color="primary" mode="indeterminate"></mat-progress-bar>
+    <mat-list>
+      <mat-list-item
+        *ngFor="let superSubCategory of superSubCategories"
+      >
+        <div>
+          <mat-checkbox
+            (change)="onCategorySelectionChange($event, superSubCategory, 'superSub')"
+            (click)="onCheckboxClick($event)"
+            [checked]="isCategorySelected(superSubCategory)"
+          ></mat-checkbox>
+          {{superSubCategory.name}}
+        </div>
+      </mat-list-item>
     </mat-list>
   </div>
 </div>

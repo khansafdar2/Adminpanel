@@ -1,0 +1,12 @@
+<mat-card>
+    <mat-form-field appearance="outline">
+        <mat-label>Title</mat-label>
+        <input matInput [(ngModel)]="data.title" />
+    </mat-form-field>
+
+    <h4>Category</h4>
+    <category-selector
+        [(value)]="data.category_handle"
+        valueType="handle"
+    ></category-selector>
+</mat-card>

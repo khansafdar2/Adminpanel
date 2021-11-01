@@ -21,7 +21,8 @@ docker tag uat-kees-angular-admin:latest 510219444800.dkr.ecr.us-east-1.amazonaw
 docker push 510219444800.dkr.ecr.us-east-1.amazonaws.com/uat-kees-angular-admin:latest
 
 
-Celebshop
+CES
+ng b -c production
 aws ecr get-login-password --region us-east-1 --profile ces | docker login --username AWS --password-stdin 570325721812.dkr.ecr.us-east-1.amazonaws.com
 docker build -t celebshop-angular-admin .
 docker tag celebshop-angular-admin:latest 570325721812.dkr.ecr.us-east-1.amazonaws.com/celebshop-angular-admin:latest
