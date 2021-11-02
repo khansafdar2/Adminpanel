@@ -48,6 +48,10 @@
         <ng-container *ngIf="activeSection.type === 'single_banner'">
           <homepage-single-banner [data]="activeSection"></homepage-single-banner>
         </ng-container>
+
+        <ng-container *ngIf="activeSection.type === 'categories_tabs'">
+          <homepage-categories-tabs [data]="activeSection"></homepage-categories-tabs>
+        </ng-container>
       </ng-container>
     </div>
   </div>

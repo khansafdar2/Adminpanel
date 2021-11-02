@@ -176,3 +176,28 @@ export class HomepageSingleBanner implements OnInit {
     console.log(this.data);
   }
 }
+
+
+
+@Component({
+  selector: 'homepage-categories-tabs',
+  templateUrl: './templates/homepage-categories-tabs.html'
+})
+export class HomepageCategoriesTabs implements OnInit {
+
+  constructor() { }
+
+  @Input() data:any = {
+    title: "",
+    banner_img: "",
+    categories: []
+  };
+
+  changeCategory() {
+
+  }
+
+  ngOnInit() {
+    console.log(this.data);
+  }
+}
