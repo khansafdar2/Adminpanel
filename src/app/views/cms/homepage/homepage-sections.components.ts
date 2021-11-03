@@ -1,6 +1,8 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, Inject, Input, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CategorySelectorDialogComponent } from 'src/app/shared/category-selector-dialog/category-selector-dialog.component';
 import { BrandsService } from '../../products/brands/brands.service';
 
 
@@ -185,7 +187,9 @@ export class HomepageSingleBanner implements OnInit {
 })
 export class HomepageCategoriesTabs implements OnInit {
 
-  constructor() { }
+  constructor(
+    private dialog: MatDialog
+  ) { }
 
   @Input() data:any = {
     title: "",
@@ -193,8 +197,50 @@ export class HomepageCategoriesTabs implements OnInit {
     categories: []
   };
 
-  changeCategory() {
+  activeIndex = null;
 
+  changeCategory(currentCategory, index) {
+    this.activeIndex = index;
+    let dialogRef = this.dialog.open(CategorySelectorDialogComponent, {
+      width: "600px",
+      data: {
+        selected: currentCategory.handle,
+        valueType: "object.handle"
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(value => {
+      console.log(value);
+      this.data.categories[index].handle = value.handle;
+      this.data.categories[index].title = value.name;
+    });
+  }
+
+  sortChanged(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.data.categories, event.previousIndex, event.currentIndex);
+  }
+
+  removeCategory(index) {
+    this.data.categories.splice(index, 1);
+  }
+
+  addCategory() {
+    this.data.categories.push({
+      handle: '',
+      name: '',
+      products: [
+        {
+            "img": "url",
+            "name": "text",
+            "handle": "text",
+            "price": {
+                "original_price": "number",
+                "compare_price": "number"
+            }
+        }
+      ],
+      title: ''
+    });
   }
 
   ngOnInit() {

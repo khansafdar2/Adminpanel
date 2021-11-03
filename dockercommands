@@ -36,3 +36,4 @@ aws ecr get-login-password --region us-east-1 --profile ces | docker login --use
 docker build -t shams-angular-admin .
 docker tag shams-angular-admin:latest 570325721812.dkr.ecr.us-east-1.amazonaws.com/shams-angular-admin:latest
 docker push 570325721812.dkr.ecr.us-east-1.amazonaws.com/shams-angular-admin:latest
+aws ecs update-service  --service  shams-angular-admin --cluster ces-cluster --force-new-deployment --region us-east-1 --profile ces

@@ -31,10 +31,10 @@ export class CategorySelectorComponent implements OnInit {
   @ViewChild('superSubCategoryWrapper') superSubCategoryWrapper;
 
   @Input() value = null;
-
   @Output() valueChange = new EventEmitter<any>();
 
-  valueType = 'handle';
+  @Input() valueType = 'handle';
+
   mainCategories = [];
   subCategories = [];
   superSubCategories = [];
@@ -103,8 +103,9 @@ export class CategorySelectorComponent implements OnInit {
       if(this.valueType === 'id') {
         this.value = category.id;
       } else if(this.valueType === 'handle') {
-        // this.value = category.handle;
         this.valueChange.emit(category.handle);
+      } else if(this.valueType === 'object.handle') {
+        this.valueChange.emit(category);
       }
     }
   }
@@ -113,6 +114,8 @@ export class CategorySelectorComponent implements OnInit {
     if(this.valueType === 'id'){
     } else if(this.valueType === 'handle') {
       return this.value === category.handle;
+    } else if(this.valueType === 'object.handle') {
+      return this.value.handle === category.handle;
     }
   }
 

@@ -97,6 +97,7 @@ import { NavigationsComponent } from './views/cms/navigations/navigations.compon
 import { HomepageSliderSection, HomepageCategoriesCarousel, HomepageBrands, HomepageProductsCarousel, HomepageSingleBanner, HomepageCategoriesTabs } from './views/cms/homepage/homepage-sections.components';
 import { ImageSelectorComponent } from './shared/image-selector/image-selector.component';
 import { CategorySelectorComponent } from './shared/category-selector/category-selector.component';
+import { CategorySelectorDialogComponent } from './shared/category-selector-dialog/category-selector-dialog.component';
 
 
 @NgModule({
@@ -193,7 +194,8 @@ import { CategorySelectorComponent } from './shared/category-selector/category-s
     CategorySelectorComponent,
     HomepageProductsCarousel,
     HomepageSingleBanner,
-    HomepageCategoriesTabs
+    HomepageCategoriesTabs,
+    CategorySelectorDialogComponent
   ],
   imports: [
     BrowserModule,

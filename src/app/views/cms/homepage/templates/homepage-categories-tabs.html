@@ -14,9 +14,37 @@
 
 <h4 style="margin-top: 20px">Categories ({{data.categories.length}}/14)</h4>
 
-<div style="margin-top: 20px">
-    <mat-card *ngFor="let category of data.categories">
-        <p>{{category.name}}</p>
-        <button mat-stroked-button color="primary">Change category</button>
+<div
+    style="margin-top: 20px"
+    cdkDropList
+    (cdkDropListDropped)="sortChanged($event)"
+>
+    <mat-card *ngFor="let category of data.categories; let i = index" cdkDrag>
+        <div fxLayout="row" fxLayoutAlign="space-between center" style="margin-bottom: 20px">
+            <div>
+                <mat-icon cdkDragHandle class="sort-handle">expand</mat-icon>
+            </div>
+            <div>
+                <button mat-icon-button color="warn" (click)="removeCategory(i)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
+        </div>
+        <div fxLayout="row">
+            <div fxFlex="0 1 50%">
+                <mat-form-field appearance="outline">
+                    <mat-label>Name</mat-label>
+                    <input matInput [(ngModel)]="category.name" />
+                </mat-form-field>
+            </div>
+            <div fxFlex="0 1 50%">
+                <p>{{category.title}}</p>
+                <button mat-stroked-button color="primary" (click)="changeCategory(category, i)">Change category</button>
+            </div>
+        </div>
     </mat-card>
 </div>
+
+<mat-card *ngIf="data.categories.length < 14" style="margin-top: 20px">
+    <button mat-stroked-button color="primary" (click)="addCategory()">+ Add category</button>
+</mat-card>
