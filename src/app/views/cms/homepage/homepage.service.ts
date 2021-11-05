@@ -24,4 +24,18 @@ export class HomepageService {
       return error;
     });
   }
+
+  updateHomepage(data) {
+    return Axios.put( environment.backend_url + '/cms/homepage', data, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+      return error;
+    });
+  }
 }

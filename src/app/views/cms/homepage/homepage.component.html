@@ -6,7 +6,7 @@
     <h1>Homepage</h1>
 
     <div class="header-actions">
-      <button mat-flat-button color="primary" [disabled]="loading">Publish</button>
+      <button mat-flat-button color="primary" [disabled]="loading" (click)="onPublish()">Publish</button>
     </div>
   </div>
 
@@ -51,6 +51,14 @@
 
         <ng-container *ngIf="activeSection.type === 'categories_tabs'">
           <homepage-categories-tabs [data]="activeSection"></homepage-categories-tabs>
+        </ng-container>
+
+        <ng-container *ngIf="activeSection.type === 'two_banners'">
+          <homepage-two-banners [data]="activeSection"></homepage-two-banners>
+        </ng-container>
+
+        <ng-container *ngIf="activeSection.type === 'features_icons'">
+          <homepage-feature-icons [data]="activeSection"></homepage-feature-icons>
         </ng-container>
       </ng-container>
     </div>

@@ -247,3 +247,66 @@ export class HomepageCategoriesTabs implements OnInit {
     console.log(this.data);
   }
 }
+
+
+
+@Component({
+  selector: 'homepage-two-banners',
+  templateUrl: './templates/homepage-two-banners.html'
+})
+export class HomepageTwoBanners implements OnInit {
+
+  constructor() { }
+
+  @Input() data:any = {
+    first_banner: {
+      desktop_img: "",
+      mobile_img: "",
+      link: ""
+    },
+    second_banner: {
+      desktop_img: "",
+      mobile_img: "",
+      link: ""
+    }
+  };
+
+  ngOnInit() {
+    console.log(this.data);
+  }
+}
+
+
+
+@Component({
+  selector: 'homepage-feature-icons',
+  templateUrl: './templates/homepage-feature-icons.html'
+})
+export class HomepageFeatureIcons implements OnInit {
+
+  constructor() { }
+
+  @Input() data:any = {
+    features: []
+  };
+
+  sortChanged(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.data.features, event.previousIndex, event.currentIndex);
+  }
+
+  removeFeature(index) {
+    this.data.features.splice(index, 1);
+  }
+
+  addFeature() {
+    this.data.features.push({
+      icon_img: "",
+      small_text: "",
+      title: ""
+    });
+  }
+
+  ngOnInit() {
+    console.log(this.data);
+  }
+}

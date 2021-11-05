@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import URLS from 'src/app/shared/urls';
 import { HomepageService } from './homepage.service';
 
@@ -10,7 +11,8 @@ import { HomepageService } from './homepage.service';
 export class HomepageComponent implements OnInit {
 
   constructor(
-    private homepageService: HomepageService
+    private homepageService: HomepageService,
+    private snackbar: MatSnackBar
   ) { }
 
   URLS = URLS;
@@ -35,6 +37,16 @@ export class HomepageComponent implements OnInit {
   setActiveSection(section, index) {
     this.activeSection = section;
     this.activeSectionIndex = index;
+  }
+
+  onPublish() {
+    this.loading = true;
+    this.homepageService.updateHomepage(this.homepage).then(resp => {
+      this.loading = false;
+      if(resp) {
+        this.snackbar.open("Homepage settings updated.", "", {duration: 2000});
+      }
+    });
   }
 
   ngOnInit(): void {
