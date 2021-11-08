@@ -7,6 +7,7 @@ aws ecs update-service --service kees-angular-frontend --cluster alche-shopify-c
 
 
 KEES Production
+ng build -c kees
 aws ecr get-login-password --region us-east-1 --profile kees | docker login --username AWS --password-stdin 510219444800.dkr.ecr.us-east-1.amazonaws.com
 docker build -t kees-angular-frontend .
 docker tag kees-angular-frontend:latest 510219444800.dkr.ecr.us-east-1.amazonaws.com/kees-angular-frontend:latest
