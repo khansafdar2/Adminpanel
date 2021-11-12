@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import URLS from 'src/app/shared/urls';
 import { DiscountsService } from '../discounts.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-add-discount',
@@ -21,6 +22,7 @@ export class AddDiscountComponent implements OnInit {
 
   loading: boolean = false;
   URLS = URLS;
+  storeCurrency = environment.currency;
   discountForm = this.fb.group({
     title: ["", [Validators.required]],
     discount_type: ["", [Validators.required]],

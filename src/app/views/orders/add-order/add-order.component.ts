@@ -9,6 +9,7 @@ import URLS from 'src/app/shared/urls';
 import { CustomerAddressDialog } from '../dialogs/CustomerAddressDialog';
 import { PaymentMethodDialog } from '../dialogs/PaymentMethodDialog';
 import { OrdersService } from '../orders.service';
+import { environment } from 'src/environments/environment';
 
 
 interface Address {
@@ -39,6 +40,7 @@ export class AddOrderComponent implements OnInit {
 
   loading: boolean = false;
   URLS = URLS;
+  storeCurrency = environment.currency;
   lineitems = [];
   lineitemsForm = this.fb.group({
     lineitems: this.fb.array([])

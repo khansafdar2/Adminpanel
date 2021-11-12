@@ -26,10 +26,10 @@
                             </div>
                         </div>
                         <div class="lineitem-price-qty">
-                            {{lineitem.price}} QAR x {{lineitem.quantity}}
+                            {{lineitem.price}} {{storeCurrency}} x {{lineitem.quantity}}
                         </div>
                         <div class="lineitem-subtotal">
-                            <span>{{lineitem.subtotal}} QAR</span>
+                            <span>{{lineitem.subtotal}} {{storeCurrency}}</span>
                         </div>
                     </div>
                 </div>
@@ -41,7 +41,7 @@
                         <span>Subtotal</span>
                     </div>
                     <div>
-                        <span>{{subTotal}} QAR</span>
+                        <span>{{subTotal}} {{storeCurrency}}</span>
                     </div>
                 </div>
                 <div fxLayout="row" fxLayoutAlign="space-between">
@@ -49,7 +49,7 @@
                         <span>Shipping</span>
                     </div>
                     <div>
-                        <span>{{totalShipping}} QAR</span>
+                        <span>{{totalShipping}} {{storeCurrency}}</span>
                     </div>
                 </div>
                 <div fxLayout="row" fxLayoutAlign="space-between" class="lineitems-total-row">
@@ -57,7 +57,7 @@
                         <span>Total</span>
                     </div>
                     <div>
-                        <span>{{grandTotal}} QAR</span>
+                        <span>{{grandTotal}} {{storeCurrency}}</span>
                     </div>
                 </div>
                 <div class="payment-status">

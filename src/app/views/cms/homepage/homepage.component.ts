@@ -1,3 +1,4 @@
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import URLS from 'src/app/shared/urls';
@@ -20,6 +21,7 @@ export class HomepageComponent implements OnInit {
   homepage = {
     sections: []
   }
+  allowedSections = [];
   activeSection = null;
   activeSectionIndex = null;
 
@@ -27,7 +29,8 @@ export class HomepageComponent implements OnInit {
     this.loading = true;
     this.homepageService.getHomepage().then(resp => {
       if(resp) {
-        this.homepage = resp.data;
+        this.homepage = resp.data.homepage;
+        this.allowedSections = resp.data.allowed_sections;
         this.loading = false;
         console.log(resp.data);
       }
@@ -37,6 +40,22 @@ export class HomepageComponent implements OnInit {
   setActiveSection(section, index) {
     this.activeSection = section;
     this.activeSectionIndex = index;
+  }
+
+  sortChanged(event: CdkDragDrop<string[]>) {
+    this.activeSection = null;
+    this.activeSectionIndex = null;
+    moveItemInArray(this.homepage.sections, event.previousIndex, event.currentIndex);
+  }
+
+  removeSection(index) {
+    this.activeSection = null;
+    this.activeSectionIndex = null;
+    this.homepage.sections.splice(index, 1);
+  }
+
+  onAddSectionClick() {
+
   }
 
   onPublish() {
@@ -53,4 +72,15 @@ export class HomepageComponent implements OnInit {
     this.getHomepageData();
   }
 
+}
+
+
+@Component({
+  selector: 'homepage-add-section-dialog',
+  templateUrl: './templates/homepage-add-section-dialog.html'
+})
+export class HomepageAddSectionDialog implements OnInit {
+  constructor() { }
+
+  ngOnInit(): void { }
 }

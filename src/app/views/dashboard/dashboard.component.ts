@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DashboardService } from './dashboard.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,6 +14,7 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   loading: boolean = true;
+  storeCurrency = environment.currency;
   cardsStats = {
     total_orders: 0,
     total_sale: 0,

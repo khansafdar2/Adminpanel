@@ -16,6 +16,7 @@ aws ecs update-service --service kees-angular-frontend --cluster kees --force-ne
 
 
 UAT Staging
+ng b -c staging
 aws ecr get-login-password --region us-east-1 --profile kees | docker login --username AWS --password-stdin 510219444800.dkr.ecr.us-east-1.amazonaws.com
 docker build -t uat-kees-angular-admin .
 docker tag uat-kees-angular-admin:latest 510219444800.dkr.ecr.us-east-1.amazonaws.com/uat-kees-angular-admin:latest

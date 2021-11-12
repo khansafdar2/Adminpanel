@@ -7,6 +7,7 @@ import { Column } from 'src/app/shared/datatable/datatable.component';
 import URLS from 'src/app/shared/urls';
 import { ProductsService } from '../products/products.service';
 import { DiscountsService } from './discounts.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-discounts',
@@ -23,6 +24,7 @@ export class DiscountsComponent implements OnInit {
 
   loading: boolean = false;
   URLS = URLS;
+  storeCurrency = environment.currency;
   columns: Column[] = [
     {
       title: "Title",
@@ -37,7 +39,7 @@ export class DiscountsComponent implements OnInit {
     {
       title: "Discount value",
       selector: "type_value",
-      cell: row => row.discount_type === "percentage" ? row.type_value + "%" : row.type_value + " QAR"
+      cell: row => row.discount_type === "percentage" ? row.type_value + "%" : row.type_value + " " + this.storeCurrency
     }
   ];
   rowActions = ["Delete"]

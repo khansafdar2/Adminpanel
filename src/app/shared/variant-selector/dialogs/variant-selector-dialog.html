@@ -25,7 +25,7 @@
                     <mat-list-option *ngFor="let variant of product.variants" [value]="variant">
                         <span class="variant-title">{{variant.title === "Default Title" ? "Default variant" : variant.title}}</span>
                         <span class="variant-qty">{{variant.inventory_quantity}} available</span>
-                        <span class="variant-price">{{variant.price}} QAR</span>
+                        <span class="variant-price">{{variant.price}} {{store_currency}}</span>
                     </mat-list-option>
                 </div>
             </div>

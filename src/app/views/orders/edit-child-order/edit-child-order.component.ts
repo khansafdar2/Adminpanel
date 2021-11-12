@@ -3,13 +3,10 @@ import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { concat, Observable, of, Subject } from 'rxjs';
-import { catchError, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
-import { Column } from 'src/app/shared/datatable/datatable.component';
 import URLS from 'src/app/shared/urls';
 import { TaxConfigurationService } from '../../configuration/tax-configuration/tax-configuration.service';
-import { CustomerAddressDialog } from '../dialogs/CustomerAddressDialog';
 import { OrdersService } from '../orders.service';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -33,6 +30,7 @@ export class EditChildOrderComponent implements OnInit {
 
   loading: boolean = true;
   URLS = URLS;
+  storeCurrency = environment.currency;
   orderID = "";
   mainOrderID = "";
   orderTitle = "";

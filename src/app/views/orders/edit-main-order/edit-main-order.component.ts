@@ -10,6 +10,7 @@ import URLS from 'src/app/shared/urls';
 import { TaxConfigurationService } from '../../configuration/tax-configuration/tax-configuration.service';
 import { CustomerAddressDialog } from '../dialogs/CustomerAddressDialog';
 import { OrdersService } from '../orders.service';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -33,6 +34,7 @@ export class EditMainOrderComponent implements OnInit {
 
   loading: boolean = true;
   URLS = URLS;
+  storeCurrency = environment.currency;
   orderID = "";
   orderTitle = "";
   orderNumber = "";

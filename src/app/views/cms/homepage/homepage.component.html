@@ -13,17 +13,27 @@
   <div class="homepage-wrapper" fxLayout="row">
     <div class="sections-list-wrapper" fxFlex="1 0 40%">
 
-      <div class="sections-list">
+      <div
+        class="sections-list"
+        cdkDropList
+        (cdkDropListDropped)="sortChanged($event)"
+      >
         <mat-card
           class="section-name-wrapper"
+          cdkDrag
           *ngFor="let section of homepage.sections; let i = index"
           [class.active]="activeSectionIndex === i"
           [class.mat-elevation-z3]="activeSectionIndex === i"
           (click)="setActiveSection(section, i)"
         >
-          {{ section.title }}
+          <span><mat-icon cdkDragHandle>drag_indicator</mat-icon> {{ section.title }}</span>
+          <button type="button" mat-icon-button color="warn" (click)="removeSection(i)"><mat-icon>delete</mat-icon></button>
         </mat-card>
       </div>
+
+      <!-- <div fxLayout="row" fxLayoutAlign="center center" style="margin-top: 20px">
+        <button mat-stroked-button color="primary" (click)="onAddSectionClick()">+ Add Section</button>
+      </div> -->
     </div>
 
     <div class="section-settings-wrapper" fxFlex="1 0 60%">

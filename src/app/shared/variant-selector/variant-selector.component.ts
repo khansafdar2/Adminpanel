@@ -1,10 +1,10 @@
-import { SelectionModel } from '@angular/cdk/collections';
 import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatListOption, MatSelectionListChange } from '@angular/material/list';
+import { MatSelectionListChange } from '@angular/material/list';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Debounce } from '../utils';
 import { VariantSelectorService } from './variant-selector.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'variant-selector',
@@ -59,6 +59,7 @@ export class VariantSelectorDialog {
   productsCount = 0;
   pageNumber: number = 1;
   selectedProductsWithVariants = [];
+  store_currency = environment.currency;
 
   getProducts() {
     this.loading = true;

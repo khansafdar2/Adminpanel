@@ -11,6 +11,7 @@ import { TaxConfigurationService } from '../../configuration/tax-configuration/t
 import { CustomerAddressDialog } from '../dialogs/CustomerAddressDialog';
 import { PaymentMethodDialog } from '../dialogs/PaymentMethodDialog';
 import { OrdersService } from '../orders.service';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -34,6 +35,7 @@ export class EditDraftOrderComponent implements OnInit {
 
   loading: boolean = true;
   URLS = URLS;
+  storeCurrency = environment.currency;
   orderID = "";
   orderTitle = "";
   lineitems = [];

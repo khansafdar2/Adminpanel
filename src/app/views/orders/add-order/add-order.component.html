@@ -30,10 +30,10 @@
                                 </div>
                             </div>
                             <div class="lineitem-price-qty">
-                                {{lineitemGroup.get('price').value}} QAR x <input type="number" class="lineitem-qty" min="1" formControlName="qty" (keydown)="onQtyKeydown($event)" (change)="onQtyChange()" />
+                                {{lineitemGroup.get('price').value}} {{storeCurrency}} x <input type="number" class="lineitem-qty" min="1" formControlName="qty" (keydown)="onQtyKeydown($event)" (change)="onQtyChange()" />
                             </div>
                             <div class="lineitem-subtotal">
-                                <span>{{lineitemGroup.get('price').value * lineitemGroup.get('qty').value}} QAR</span>
+                                <span>{{lineitemGroup.get('price').value * lineitemGroup.get('qty').value}} {{storeCurrency}}</span>
                             </div>
                             <div>
                                 <button mat-icon-button color="primary" (click)="deleteLineItem(i)"><mat-icon>delete</mat-icon></button>
@@ -51,7 +51,7 @@
                             <span>Subtotal</span>
                         </div>
                         <div>
-                            <span>{{subTotal}} QAR</span>
+                            <span>{{subTotal}} {{storeCurrency}}</span>
                         </div>
                     </div>
                     <div fxLayout="row" fxLayoutAlign="space-between">
@@ -59,7 +59,7 @@
                             <span>Shipping</span>
                         </div>
                         <div>
-                            <span>{{totalShipping}} QAR</span>
+                            <span>{{totalShipping}} {{storeCurrency}}</span>
                         </div>
                     </div>
                     <div fxLayout="row" fxLayoutAlign="space-between" class="lineitems-total-row">
@@ -67,7 +67,7 @@
                             <span>Total</span>
                         </div>
                         <div>
-                            <span>{{grandTotal}} QAR</span>
+                            <span>{{grandTotal}} {{storeCurrency}}</span>
                         </div>
                     </div>
                 </div>

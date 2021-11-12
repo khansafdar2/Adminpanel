@@ -33,7 +33,7 @@
                                 <mat-label>Discount value</mat-label>
                                 <input matInput formControlName="type_value" />
                                 <span matSuffix *ngIf="discountForm.get('discount_type').value === 'percentage'">%</span>
-                                <span matSuffix *ngIf="discountForm.get('discount_type').value === 'fixed_amount'">QAR</span>
+                                <span matSuffix *ngIf="discountForm.get('discount_type').value === 'fixed_amount'">{{storeCurrency}}</span>
                                 <mat-error *ngIf="discountForm.get('discount_type').hasError('required')">Please select a type of your discount.</mat-error>
                             </mat-form-field>
                         </div>

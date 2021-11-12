@@ -1,6 +1,6 @@
 @import '~@angular/material/theming';
 
-@import './environments/environment.scss';
+@import 'theme_colors';
 
 @include angular-material-theme($app-theme);
 
