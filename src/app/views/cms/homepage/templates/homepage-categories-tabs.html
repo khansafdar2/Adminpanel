@@ -1,7 +1,10 @@
 <mat-card>
     <div fxLayout="row">
         <div fxFlex="0 1 50%">
-            <image-selector [(files)]="data.banner_img"></image-selector>
+            <image-selector
+                [(files)]="data.banner_img"
+                valueType="url"
+            ></image-selector>
         </div>
         <div fxFlex="0 1 50%">
             <mat-form-field appearance="outline">

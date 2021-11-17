@@ -15,7 +15,10 @@
         </div>
         <div fxLayout="row">
             <div fxFlex="0 1 50%">
-                <image-selector [(files)]="feature.icon_img"></image-selector>
+                <image-selector
+                    [(files)]="feature.icon_img"
+                    valueType="url"
+                ></image-selector>
             </div>
             <div fxFlex="0 1 50%">
                 <mat-form-field appearance="outline">

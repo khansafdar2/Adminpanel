@@ -1,0 +1,16 @@
+<button mat-icon-button mat-dialog-close class="dialog-close"><mat-icon>close</mat-icon></button>
+<h2 mat-dialog-title>Add section</h2>
+<mat-dialog-content class="mat-typography">
+    <div class="add-sections-list" fxLayout="row wrap">
+        <div fxFlex="33.3333%" *ngFor="let section of _defaultSections">
+            <ng-container *ngIf="data.allowedSections.indexOf(section.type) > -1">
+                <div class="add-section-card" (click)="addSection(section)">
+                    {{ section.title }}
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</mat-dialog-content>
+<div mat-dialog-actions>
+    <button mat-stroked-button color="primary" mat-dialog-close>Cancel</button>
+</div>

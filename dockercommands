@@ -21,6 +21,7 @@ aws ecr get-login-password --region us-east-1 --profile kees | docker login --us
 docker build -t uat-kees-angular-admin .
 docker tag uat-kees-angular-admin:latest 510219444800.dkr.ecr.us-east-1.amazonaws.com/uat-kees-angular-admin:latest
 docker push 510219444800.dkr.ecr.us-east-1.amazonaws.com/uat-kees-angular-admin:latest
+aws ecs update-service --service staging-kees-angular-admin --cluster kees --force-new-deployment --region us-east-1 --profile kees
 
 
 CES

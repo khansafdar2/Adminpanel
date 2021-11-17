@@ -1,5 +1,6 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import URLS from 'src/app/shared/urls';
 import { HomepageService } from './homepage.service';
@@ -13,6 +14,7 @@ export class HomepageComponent implements OnInit {
 
   constructor(
     private homepageService: HomepageService,
+    private dialog: MatDialog,
     private snackbar: MatSnackBar
   ) { }
 
@@ -30,9 +32,8 @@ export class HomepageComponent implements OnInit {
     this.homepageService.getHomepage().then(resp => {
       if(resp) {
         this.homepage = resp.data.homepage;
-        this.allowedSections = resp.data.allowed_sections;
+        this.allowedSections = resp.data.allowed_sections.allowed_sections;
         this.loading = false;
-        console.log(resp.data);
       }
     });
   }
@@ -55,7 +56,18 @@ export class HomepageComponent implements OnInit {
   }
 
   onAddSectionClick() {
+    let dialogRef = this.dialog.open(HomepageAddSectionDialog, {
+      width: "600px",
+      data: {
+        allowedSections: this.allowedSections
+      }
+    });
 
+    dialogRef.afterClosed().subscribe(section => {
+      if(section) {
+        this.homepage.sections.push(section);
+      }
+    });
   }
 
   onPublish() {
@@ -80,7 +92,83 @@ export class HomepageComponent implements OnInit {
   templateUrl: './templates/homepage-add-section-dialog.html'
 })
 export class HomepageAddSectionDialog implements OnInit {
-  constructor() { }
+  constructor(
+    public dialogRef: MatDialogRef<HomepageAddSectionDialog>,
+    @Inject(MAT_DIALOG_DATA) public data,
+    private snackbar: MatSnackBar
+  ) { }
 
-  ngOnInit(): void { }
+  _defaultSections = [
+    {
+      type: "banner_slider",
+      title: "Banner slider",
+      slides: []
+    },
+    {
+      type: "categories_carousel",
+      title: "Categories carousel",
+      categories: []
+    },
+    {
+      type: "brands_slider",
+      title: "Brands",
+      brands: []
+    },
+    {
+      type: "products_carousel",
+      title: "Products carousel",
+      category_handle: "",
+      products: [
+        {
+          "img": "url",
+          "name": "text",
+          "handle": "text",
+          "price": {
+            "original_price": "number",
+            "compare_price": "number"
+          }
+        }
+      ]
+    },
+    {
+      type: "single_banner",
+      title: "Banner section",
+      desktop_img: "",
+      mobile_img: "",
+      link: ""
+    },
+    {
+      type: "categories_tabs",
+      title: "Categories tabs",
+      banner_img: "",
+      categories: []
+    },
+    {
+      type: "two_banners",
+      title: "Two banners section",
+      first_banner: {
+        desktop_img: "",
+        mobile_img: "",
+        link: ""
+      },
+      second_banner: {
+        desktop_img: "",
+        mobile_img: "",
+        link: ""
+      }
+    },
+    {
+      type: "features_icons",
+      title: "Feature icons",
+      features: []
+    }
+  ]
+
+  addSection(section) {
+    this.snackbar.open("Section added.", "", {duration: 1000});
+    this.dialogRef.close(section);
+  }
+
+  ngOnInit(): void {
+  }
 }

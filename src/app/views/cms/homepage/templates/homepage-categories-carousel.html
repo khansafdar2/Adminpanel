@@ -27,10 +27,13 @@
             <input matInput [(ngModel)]="category.name" />
         </mat-form-field>
 
-        <mat-form-field appearance="outline">
+        <h4>Categeory</h4>
+        <p>{{category.category_name}}</p>
+        <button mat-stroked-button color="primary" (click)="changeCategory(category, i)">Change category</button>
+        <!-- <mat-form-field appearance="outline">
             <mat-label>Handle</mat-label>
             <input matInput [(ngModel)]="category.handle" />
-        </mat-form-field>
+        </mat-form-field> -->
     </mat-card>
 
     <mat-card *ngIf="data.categories.length < 5">

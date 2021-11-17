@@ -3,11 +3,17 @@
     <div fxLayout="row">
         <div fxFlex="0 1 50%">
             <h4>Desktop image</h4>
-            <image-selector [(files)]="data.first_banner.desktop_img"></image-selector>
+            <image-selector
+                [(files)]="data.first_banner.desktop_img"
+                valueType="url"
+            ></image-selector>
         </div>
         <div fxFlex="0 1 50%">
             <h4>Mobile image</h4>
-            <image-selector [(files)]="data.first_banner.mobile_img"></image-selector>
+            <image-selector
+                [(files)]="data.first_banner.mobile_img"
+                valueType="url"
+            ></image-selector>
         </div>
     </div>
 
@@ -22,11 +28,17 @@
     <div fxLayout="row">
         <div fxFlex="0 1 50%">
             <h4>Desktop image</h4>
-            <image-selector [(files)]="data.second_banner.desktop_img"></image-selector>
+            <image-selector
+                [(files)]="data.second_banner.desktop_img"
+                valueType="url"
+            ></image-selector>
         </div>
         <div fxFlex="0 1 50%">
             <h4>Mobile image</h4>
-            <image-selector [(files)]="data.second_banner.mobile_img"></image-selector>
+            <image-selector
+                [(files)]="data.second_banner.mobile_img"
+                valueType="url"
+            ></image-selector>
         </div>
     </div>
 

@@ -48,13 +48,16 @@ export class HomepageSliderSection implements OnInit {
 })
 export class HomepageCategoriesCarousel implements OnInit {
   constructor(
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
+    private dialog: MatDialog
   ) { }
 
   @Input() data:any = {
     title: "",
     categories: []
   };
+
+  activeIndex: number = null;
 
   sortChanged(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.data.categories, event.previousIndex, event.currentIndex);
@@ -80,6 +83,22 @@ export class HomepageCategoriesCarousel implements OnInit {
 
   removeCategory(index) {
     this.data.categories.splice(index, 1);
+  }
+
+  changeCategory(currentCategory, index) {
+    this.activeIndex = index;
+    let dialogRef = this.dialog.open(CategorySelectorDialogComponent, {
+      width: "600px",
+      data: {
+        selected: currentCategory.handle,
+        valueType: "object.handle"
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(value => {
+      this.data.categories[index].handle = value.handle;
+      this.data.categories[index].category_name = value.name;
+    });
   }
 
   ngOnInit(): void {
