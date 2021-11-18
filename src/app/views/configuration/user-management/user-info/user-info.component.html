@@ -57,6 +57,10 @@
                                     <p class="field-label">Password</p>
                                     <p class="field-value text-link" (click)="openChangePasswordDialog()">Change password</p>
                                 </div>
+                                <div fxFlex="0 1 auto">
+                                    <p class="field-label">Username</p>
+                                    <p class="field-value">{{userDetail.username}}</p>
+                                </div>
                             </div>
                             <mat-divider></mat-divider>
                             <p class="field-label notification-label">Notifications</p>
@@ -108,7 +112,7 @@
             </div>
         </div>
 
-        <div class="settings-section permissions">
+        <div class="settings-section permissions" *ngIf="isPermissionsEditable">
             <div fxLayout="row">
                 <div fxFlex="0 1 33.33333%">
                     <h2>Permissions</h2>
@@ -118,13 +122,13 @@
                     <mat-card>
                         <div fxLayout="row">
                             <div fxFlex="0 1 50%">
-                                <mat-checkbox [(ngModel)]="userPermissions.dashboard">Dashboard</mat-checkbox>
-                                <mat-checkbox [(ngModel)]="userPermissions.configuration">Configuration</mat-checkbox>
-                                <mat-checkbox [(ngModel)]="userPermissions.products">Products</mat-checkbox>
-                                <mat-checkbox [(ngModel)]="userPermissions.orders">Orders</mat-checkbox>
-                                <mat-checkbox [(ngModel)]="userPermissions.vendor">Vendor</mat-checkbox>
-                                <mat-checkbox [(ngModel)]="userPermissions.discounts">Discounts</mat-checkbox>
-                                <mat-checkbox [(ngModel)]="userPermissions.customer">Customer</mat-checkbox>
+                                <mat-checkbox [(ngModel)]="userDetail.permissions.dashboard">Dashboard</mat-checkbox>
+                                <mat-checkbox [(ngModel)]="userDetail.permissions.configuration">Configuration</mat-checkbox>
+                                <mat-checkbox [(ngModel)]="userDetail.permissions.products">Products</mat-checkbox>
+                                <mat-checkbox [(ngModel)]="userDetail.permissions.orders">Orders</mat-checkbox>
+                                <mat-checkbox [(ngModel)]="userDetail.permissions.vendor">Vendor</mat-checkbox>
+                                <mat-checkbox [(ngModel)]="userDetail.permissions.discounts">Discounts</mat-checkbox>
+                                <mat-checkbox [(ngModel)]="userDetail.permissions.customer">Customer</mat-checkbox>
                             </div>
                         </div>
                     </mat-card>

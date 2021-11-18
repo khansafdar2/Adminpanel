@@ -21,7 +21,10 @@ export class UserInfoComponent implements OnInit {
     private usersService: UsersService,
     public dialog: MatDialog,
   ) {
-    this.userId = this.route.snapshot.paramMap.get('id');
+    this.userId = parseInt(this.route.snapshot.paramMap.get('id'));
+    if(this.userId !== this.loggedInUserID) {
+      this.isPermissionsEditable = true;
+    }
   }
 
   clientName: string = environment.client_name;
@@ -31,16 +34,6 @@ export class UserInfoComponent implements OnInit {
   dataSource = [];
   firstNameField = new FormControl("", [Validators.required]);
   lastNameField = new FormControl("", [Validators.required]);
-  userPermissions = {
-    dashboard: false,
-    theme: true,
-    products: false,
-    orders: false,
-    customer: false,
-    discounts: false,
-    configuration: false,
-    vendor: true
-  }
   userDetail = {
     id: null,
     first_name: "",
@@ -61,6 +54,7 @@ export class UserInfoComponent implements OnInit {
     }
   };
   nameInitials: string = "";
+  isPermissionsEditable: boolean = false;
   loading: boolean = true;
 
   ngOnInit(): void {
@@ -79,9 +73,12 @@ export class UserInfoComponent implements OnInit {
         this.dataSource = resp.data.last_login_list;
         this.firstNameField.setValue(resp.data.first_name);
         this.lastNameField.setValue(resp.data.last_name);
+        if(!resp.data.is_superuser && this.userId !== this.loggedInUserID) {
+          this.isPermissionsEditable = true;
+        }
         this.loading = false;
       }
-    })
+    });
   }
 
   saveInfo() {
