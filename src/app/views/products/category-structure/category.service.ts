@@ -210,4 +210,21 @@ export class CategoryService {
       }
     });
   }
+
+  updateCategoryPosition(type, categoryData) {
+    let data = {
+      type,
+      category_data: categoryData
+    }
+    return Axios.put( environment.backend_url + '/products/category_position', data, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
 }
