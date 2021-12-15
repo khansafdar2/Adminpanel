@@ -1,3 +1,4 @@
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../../../../environments/environment';
 import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute, Route, Router } from '@angular/router';
@@ -44,6 +45,7 @@ export class UserInfoComponent implements OnInit {
     permissions: {
       id: null,
       dashboard: false,
+      customization:false,
       theme: false,
       products: false,
       orders: false,
@@ -108,12 +110,28 @@ export class UserInfoComponent implements OnInit {
     });
   }
 
+  openRemoveUserDialog(){
+  
+      this.dialog.open(RemoveUserDialog, {
+        width: "400px",
+        data: {
+          userId: this.userId
+        }
+      });
+  }
+
   openChangePasswordDialog() {
     this.dialog.open(ChangePasswordDialog, {
       width: '600px'
     });
   }
+
+
+
 }
+
+
+
 
 
 @Component({
@@ -150,6 +168,38 @@ export class ChangePasswordDialog {
         }
         this.loading = false;
       });
+    }
+  }
+}
+
+
+@Component({
+  selector: 'remove-user-dialog',
+  templateUrl: '../dialogs/remove-user.html',
+})
+export class RemoveUserDialog {
+  constructor(public dialogRef: MatDialogRef<RemoveUserDialog>,
+    private usersService: UsersService,
+    @Inject(MAT_DIALOG_DATA) public data,
+    private router:Router,
+    private snackbar:MatSnackBar
+    ) {}
+
+  loading: boolean = false;
+  
+  deleteUser(id:any){
+    if (this.data.userId) {
+      this.loading = true;
+      this.usersService.deleteUser(id).then(resp =>{
+        this.loading = false;
+        this.dialogRef.close();
+        this.snackbar.open("User deleted.", "", {duration: 2000});
+        this.router.navigate([URLS.userManagement, URLS.all]);
+      })
+    } else {
+      this.loading = false;
+      this.dialogRef.close();
+      
     }
   }
 }

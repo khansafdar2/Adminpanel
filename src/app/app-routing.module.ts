@@ -25,7 +25,7 @@ import { AddProductComponent } from './views/products/add-product/add-product.co
 import { ProductGroupsComponent } from './views/products/product-groups/product-groups.component';
 import { AddProductGroupComponent } from './views/products/product-groups/add-product-group/add-product-group.component';
 import { EditProductGroupComponent } from './views/products/product-groups/edit-product-group/edit-product-group.component';
-import { ConfigurationGuard, CustomersGuard, DashboardGuard, DiscountsGuard, OrdersGuard, ProductsGuard } from './auth/permission.guard';
+import { ConfigurationGuard, CustomersGuard, CustomizationGuard, DashboardGuard, DiscountsGuard, OrdersGuard, ProductsGuard } from './auth/permission.guard';
 import { NewSuperSubCategoryComponent } from './views/products/category-structure/super-sub-category/new-super-sub-category/new-super-sub-category.component';
 import { EditSuperSubCategoryComponent } from './views/products/category-structure/super-sub-category/edit-super-sub-category/edit-super-sub-category.component';
 import { EditProductComponent } from './views/products/edit-product/edit-product.component';
@@ -135,13 +135,13 @@ const routes: Routes = [
     {path: URLS.all, component: DraftOrdersComponent},
     {path: URLS.edit + '/:id', component: EditDraftOrderComponent}
   ]},
-  {path: URLS.pages, canActivate: [LoggedInAuthGuard], children: [
+  {path: URLS.pages, canActivate: [LoggedInAuthGuard, CustomizationGuard], children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
     {path: URLS.all, component: PagesComponent},
     {path: URLS.add, component: AddPageComponent},
     {path: URLS.edit + '/:id', component: EditPageComponent}
   ]},
-  {path: URLS.homepage, canActivate: [LoggedInAuthGuard], component: HomepageComponent},
+  {path: URLS.homepage, canActivate: [LoggedInAuthGuard, CustomizationGuard], component: HomepageComponent},
   {path: URLS.vendors, canActivate: [LoggedInAuthGuard], children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
     {path: URLS.all, component: VendorsComponent},

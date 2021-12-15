@@ -24,13 +24,14 @@ export class AddUserComponent implements OnInit {
 
   userPermissions = {
     dashboard: false,
+    customization:false,
     theme: true,
     products: false,
     orders: false,
     customer: false,
     discounts: false,
     configuration: false,
-    vendor: true
+    vendor: false
   }
 
   ngOnInit(): void {

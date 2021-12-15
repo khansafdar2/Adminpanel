@@ -6,6 +6,7 @@ import URLS from '../shared/urls';
 interface UserPermission {
   id: number;
   dashboard: boolean;
+  customization: boolean
   theme: boolean;
   products: boolean;
   orders: boolean;

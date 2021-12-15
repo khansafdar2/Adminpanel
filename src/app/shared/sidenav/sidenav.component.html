@@ -6,7 +6,7 @@
                     <span class="link-icon" [inlineSVG]="'/assets/img/HomeIcon.svg'"></span>Home
                 </a>
             </li>
-            <li *ngIf="userPermissions.theme">
+            <li *ngIf="userPermissions.customization">
                 <a (click)="toggleDrawer('customization')" [class.active]="sideDrawer === 'customization'">
                     <span class="link-icon" [inlineSVG]="'/assets/img/CustomizationIcon.svg'"></span>Customization
                 </a>

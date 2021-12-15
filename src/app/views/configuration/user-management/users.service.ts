@@ -71,6 +71,19 @@ export class UsersService {
     });
   }
 
+  deleteUser(id) {
+    return Axios.delete(environment.backend_url + '/authentication/users/'+ id, {
+      headers: {
+        Authorization: this.authservice.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authservice.signout();
+      }
+    });
+  }
+
   changePassword(data) {
     return Axios.put(environment.backend_url + '/authentication/change_password', data, {
       headers: {
