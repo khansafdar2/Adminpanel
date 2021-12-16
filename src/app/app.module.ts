@@ -86,7 +86,7 @@ import { PaymentMethodDialog } from './views/orders/dialogs/PaymentMethodDialog'
 import { DraftOrdersComponent } from './views/orders/draft-orders/draft-orders.component';
 import { EditChildOrderComponent } from './views/orders/edit-child-order/edit-child-order.component';
 import { EditDraftOrderComponent } from './views/orders/edit-draft-order/edit-draft-order.component';
-import { PagesComponent } from './views/cms/pages/pages.component';
+import { PageDeleteDialog, PagesComponent } from './views/cms/pages/pages.component';
 import { AddPageComponent } from './views/cms/pages/add-page/add-page.component';
 import { EditPageComponent } from './views/cms/pages/edit-page/edit-page.component';
 import { HomepageComponent, HomepageAddSectionDialog } from './views/cms/homepage/homepage.component';
@@ -117,6 +117,7 @@ import { CategorySelectorDialogComponent } from './shared/category-selector-dial
     TaxConfigurationComponent,
     GeneralInformationComponent,
     ChangePasswordDialog,
+    PageDeleteDialog,
     RemoveUserDialog,
     ForgotPasswordComponent,
     ProductsComponent,
