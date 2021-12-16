@@ -1,0 +1,103 @@
+<app-topbar></app-topbar>
+<app-sidenav></app-sidenav>
+<main id="main">
+    <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+    <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
+        <h1>
+            Header
+        </h1>
+
+        <div class="header-actions">
+            <button mat-flat-button color="primary" (click)="onSubmit()"
+                [disabled]="!customizationHeaderForm.valid || loading">Save</button>
+        </div>
+    </div>
+
+    <form  [formGroup]="customizationHeaderForm">
+
+
+        <mat-card formGroupName= "header">
+            <h4>General</h4>
+            <div fxLayout="row">
+                <div fxFlex="0 1 33.333333%">
+                    <h4>Logo image</h4>
+                    <image-selector 
+                    [(files)]="logoImage"
+                    [multiple]="false"
+                    valueType="url"
+                    (filesChange)= fetchlogolink($event)
+                    ></image-selector>
+                </div>
+                <div>
+                    <mat-checkbox formControlName= "show_vender_signup">Show vendor signup</mat-checkbox>
+                </div>
+            </div>
+        </mat-card>
+
+        <mat-card formGroupName= "announcement_bar">
+            <h4>Announcement bar</h4>
+            <div class="checkbox-container" fxLayout="row">
+                <mat-checkbox formControlName= "enable">Enable</mat-checkbox>
+                <mat-checkbox formControlName= "show_language">Show language switcher</mat-checkbox>
+            </div>
+
+            <div fxLayout="row">
+                <div fxFlex="0 1 33.333333%">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Phone number</mat-label>
+                        <input matInput name="phone_number" formControlName="phone_number" />
+                    </mat-form-field>
+                </div>
+                <div fxFlex="0 1 33.333333%">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Announcement Text</mat-label>
+                        <input matInput name="announcement_text" formControlName="announcement_text" />
+                    </mat-form-field>
+                </div>
+                <div fxFlex="0 1 33.333333%">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Background color</mat-label>
+                        <input matInput name="background_color" formControlName="background_color" />
+                    </mat-form-field>
+                </div>
+            </div>
+        </mat-card>
+
+        <mat-card formGroupName="navigation_bar" >
+            <h4>Navigation</h4>
+            <div fxLayout="row" class="checkbox-container">
+                <mat-checkbox formControlName= "show_category_structure">Show category structure</mat-checkbox>
+                <mat-checkbox formControlName= "show_track_order">Show track order</mat-checkbox>
+            </div>
+            <div fxLayout="row">
+                <div fxFlex="0 1 33.333333%">
+                    <h4>Mega menu image</h4>
+                    <image-selector 
+                    [(files)]="megaMenuImage"
+                    [multiple]="false"
+                    valueType="url"
+                    (filesChange)= fetchMegamenuink($event)
+                    
+                    ></image-selector>
+                </div>
+
+                <div fxFlex="0 1 33.333333%">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Mega menu image link</mat-label>
+                        <input matInput name="mega_menu_image_link" formControlName="mega_menu_image_link" />
+                    </mat-form-field>
+                </div>
+
+                <div fxFlex="0 1 33.333333%">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Navigation</mat-label>
+                        <mat-select formControlName="navigation">
+                            <!-- Options to be added here!! -->
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+
+        </mat-card>
+    </form>
+</main>

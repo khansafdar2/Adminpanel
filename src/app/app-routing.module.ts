@@ -1,3 +1,4 @@
+import { CustomizationHeaderComponent } from './views/cms/customization-header/customization-header.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes, UrlSegment } from '@angular/router';
 import { LoggedOutAuthGuard, LoggedInAuthGuard } from './auth/auth.guard';
@@ -139,14 +140,16 @@ const routes: Routes = [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
     {path: URLS.all, component: PagesComponent},
     {path: URLS.add, component: AddPageComponent},
-    {path: URLS.edit + '/:id', component: EditPageComponent}
+    {path: URLS.edit + '/:id', component: EditPageComponent},
   ]},
+  {path: URLS.customizeHeader, component: CustomizationHeaderComponent,  canActivate: [LoggedInAuthGuard, CustomizationGuard]},
+
   {path: URLS.homepage, canActivate: [LoggedInAuthGuard, CustomizationGuard], component: HomepageComponent},
   {path: URLS.vendors, canActivate: [LoggedInAuthGuard], children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
     {path: URLS.all, component: VendorsComponent},
     {path: URLS.add, component: AddVendorComponent},
-    {path: URLS.edit + '/:id', component: EditVendorComponent}
+    {path: URLS.edit + '/:id', component: EditVendorComponent},
   ]},
   {path: URLS.navigations, canActivate: [LoggedInAuthGuard], children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
