@@ -12,7 +12,7 @@
 
         <div class="header-actions">
             <button mat-stroked-button color="primary" (click)="goBack()">Cancel</button>
-            <button mat-flat-button color="primary" (click)="onSubmit()" [disabled]="!userForm.valid || loading">Save</button>
+            <button mat-flat-button color="primary" (click)="onSubmit()" [disabled]="!userForm.valid || loading ">Save</button>
         </div>
     </div>
 
@@ -45,18 +45,26 @@
                             <div fxLayout="row">
                                 <div fxFlex="0 1 50%">
                                     <mat-form-field appearance="outline">
-                                        <mat-label>Username</mat-label>
-                                        <input matInput name="username" formControlName="username" />
-                                        <mat-error *ngIf="userForm.get('username').hasError('required')">Enter the username of user.</mat-error>
-                                    </mat-form-field>
-                                </div>
-                                <div fxFlex="0 1 50%">
-                                    <mat-form-field appearance="outline">
                                         <mat-label>Email</mat-label>
-                                        <input matInput name="email" formControlName="email" type="email" />
+                                        <input matInput name="email" (keyup)="checkAfterDebounceEmail()" formControlName="email" type="email" #email />
                                         <mat-error *ngIf="userForm.get('email').hasError('required')">Enter the email address.</mat-error>
                                     </mat-form-field>
+                                    <p class="error-response" > {{errorRespnse==='email already exist'? "Email already exist": ""}}</p>
+
+
+
                                 </div>
+
+                                <div fxFlex="0 1 50%">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Username</mat-label>
+                                        <input matInput name="username"  (keyup)="checkAfterDebounceUsername()" formControlName="username" #username />
+                                        <mat-error *ngIf="userForm.get('username').hasError('required')">Enter the username of user.</mat-error>
+                                    </mat-form-field>
+                                    <p class="error-response" >{{errorResponseUserName==='username already exist'? "Username already exist": ""}}</p>
+
+                                </div>
+
                             </div>
                         </mat-card>
                     </div>

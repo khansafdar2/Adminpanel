@@ -42,7 +42,6 @@ export class CustomizationHeaderComponent implements OnInit {
       navigation: [null],
       show_track_order: [false]
     })
-
   });
 
 
