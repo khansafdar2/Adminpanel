@@ -135,13 +135,13 @@ export class AddUserComponent implements OnInit {
   checkAfterDebounceEmail = Debounce(() => {
     let email = this.userForm.get("email").value;
     let username = this.userForm.get("username").value;
-    this.checkEmail(email, username = '')
+    this.checkEmail(email, username = '');
   }, 500)
 
   checkAfterDebounceUsername = Debounce(() => {
     let email = this.userForm.get("email").value;
     let username = this.userForm.get("username").value;
-    this.checkUsername(email = '', username)
+    this.checkUsername(email = '', username);
   }, 500)
 
 
