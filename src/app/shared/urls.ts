@@ -34,6 +34,7 @@ const URLS = {
     homepage: 'homepage',
     vendors: 'vendors',
     navigations: 'navigations'
+    
 }
 
 export default URLS;

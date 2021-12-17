@@ -1,0 +1,41 @@
+<app-topbar></app-topbar>
+<app-sidenav></app-sidenav>
+
+<main id="main">
+  <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+  <div cdkDropListGroup>
+    <div class="example-container">
+      <h2>To do</h2>
+  
+     <div
+        cdkDropList
+        [cdkDropListData]="todo"
+        class="example-list"
+        (cdkDropListDropped)="drop($event)"
+        [cdkDropListConnectedTo]="dls">
+        <div class="example-box" *ngFor="let item of todo" cdkDrag >
+          <div *ngIf="!isArray(item); else arrayView">{{item}}</div>
+          <ng-template #arrayView>
+              <div class="example-container">
+                <div
+                  cdkDropList
+                  [cdkDropListData]="item"
+                  class="example-list"
+                  (cdkDropListDropped)="drop($event)"
+                  [cdkDropListConnectedTo]="dls">
+                  <div class="example-box" *ngFor="let innerItem of item" cdkDrag>{{innerItem}}</div>
+                </div>
+              </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  
+  </div>
+  
+  
+  <!-- Copyright 2019 Google Inc. All Rights Reserved.
+      Use of this source code is governed by an MIT-style license that
+      can be found in the LICENSE file at http://angular.io/license -->
+  
+</main>

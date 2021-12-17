@@ -1,0 +1,95 @@
+<app-topbar></app-topbar>
+<app-sidenav></app-sidenav>
+
+<main id="main">
+  <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+  <div cdkDropListGroup class="edit-nav-main-conatainer">
+
+    <div class="example-container">
+      <h2>Create New Navigation</h2>
+      
+      <div
+        cdkDropList
+        [cdkDropListData]="todo"
+        class="example-list drop-container"
+        (cdkDropListDropped)="drop($event)"
+        [cdkDropListConnectedTo]="dls">
+        <div class="example-box navigation-drag-drop-container" *ngFor="let item of todo; let i = index" cdkDrag >
+          <div *ngIf="!isArray(item); else arrayView">
+            <div>
+              {{item.title}}
+            </div> 
+            <div>
+              <button mat-button color="primary" *ngIf="!isArray(todo[i + 1]) " value="item.index" [attr.data-index]="i" (click)="createNestedNavigation(i)"> + </button>
+              <button mat-button color="primary" (click)="editNav(i)" >Edit</button>
+            </div>
+          </div>
+          <ng-template  #arrayView  >
+            
+              <div class="example-container " >
+                <div
+                  cdkDropList
+                  [cdkDropListData]="item"
+                  class="example-list drop-container"
+                  (cdkDropListDropped)="drop($event)"
+                  [cdkDropListConnectedTo]="dls">
+                  <div class="example-box" *ngFor="let innerItem of item; let j = index" cdkDrag>
+                    <!-- {{innerItem}} -->
+                    <div *ngIf="!isArray(innerItem); else subarrayView">
+                      <div>
+                        {{innerItem.title}} 
+                      </div>
+                      <div>
+                        <button mat-button color="primary" *ngIf="!isArray(item[j + 1])" [attr.data-index]="i +','+ j" (click)="createNestedNavigation(i +','+ j)">+</button> 
+                        <button mat-button color="primary">Edit</button>
+                      </div>
+                    </div>
+                    <ng-template #subarrayView>
+
+                      <div class="example-container">
+                        <div
+                        
+                          cdkDropList
+                          [cdkDropListData]="innerItem"
+                          class="example-list drop-container"
+                          (cdkDropListDropped)="drop($event)"
+                          [cdkDropListConnectedTo]="dls">
+                          <div class="example-box" *ngFor="let subinnerItem of innerItem; let k = index" cdkDrag>
+                            <!-- {{subinnerItem}} -->
+                            <div *ngIf="!isArray(subinnerItem)" >
+                              <div>{{subinnerItem.title}}</div>
+                              <div>
+                                <button mat-button color="primary" *ngIf="k == innerItem.length - 1 " [attr.data-index]="i +','+ j" (click)="create3rdLevelNestedSibling(i +','+ j)">+</button> 
+                                <button mat-button color="primary">Edit</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </ng-template>
+                  </div>
+                  <button mat-button color="primary" (click)="createSiblingNavigation(i)">+ </button>
+                  
+                </div>
+                
+              </div>
+          </ng-template>
+        </div>
+        <button mat-button color="primary" (click)="createNavigation()">+ </button>
+      </div>
+      
+      
+    </div>
+    <div>
+      <app-edit-navigation-node [nav]='todo' [navIndex]="navIndexToUpdate"  ></app-edit-navigation-node>
+    </div>
+  
+  </div>
+  
+  
+  <!-- Copyright 2019 Google Inc. All Rights Reserved.
+      Use of this source code is governed by an MIT-style license that
+      can be found in the LICENSE file at http://angular.io/license -->
+  
+</main>

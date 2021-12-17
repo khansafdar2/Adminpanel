@@ -94,10 +94,14 @@ import { VendorsComponent, DeleteVendorDialog } from './views/vendors/vendors.co
 import { AddVendorComponent } from './views/vendors/add-vendor/add-vendor.component';
 import { EditVendorComponent } from './views/vendors/edit-vendor/edit-vendor.component';
 import { NavigationsComponent } from './views/cms/navigations/navigations.component';
+import { AddNavigationComponent } from './views/cms/navigations/add-navigation/add-navigation.component';
+import { EditNavigationComponent } from './views/cms/navigations/edit-navigation/edit-navigation.component';
+import { EditNavigationNodeComponent } from './views/cms/navigations/edit-navigation-node/edit-navigation-node.component';
 import { HomepageSliderSection, HomepageCategoriesCarousel, HomepageBrands, HomepageProductsCarousel, HomepageSingleBanner, HomepageCategoriesTabs, HomepageTwoBanners, HomepageFeatureIcons } from './views/cms/homepage/homepage-sections.components';
 import { ImageSelectorComponent } from './shared/image-selector/image-selector.component';
 import { CategorySelectorComponent } from './shared/category-selector/category-selector.component';
 import { CategorySelectorDialogComponent } from './shared/category-selector-dialog/category-selector-dialog.component';
+
 
 
 @NgModule({
@@ -186,6 +190,7 @@ import { CategorySelectorDialogComponent } from './shared/category-selector-dial
     DeleteVendorDialog,
     VideoPreviewDialog,
     NavigationsComponent,
+    AddNavigationComponent,
     HomepageSliderSection,
     DiscountDeleteDialog,
     ImageSelectorComponent,
@@ -198,7 +203,9 @@ import { CategorySelectorDialogComponent } from './shared/category-selector-dial
     CategorySelectorDialogComponent,
     HomepageTwoBanners,
     HomepageFeatureIcons,
-    HomepageAddSectionDialog
+    HomepageAddSectionDialog,
+    EditNavigationComponent,
+    EditNavigationNodeComponent
   ],
   imports: [
     BrowserModule,

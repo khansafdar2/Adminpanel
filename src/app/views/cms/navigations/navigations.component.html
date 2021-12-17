@@ -1,52 +1,37 @@
 <app-topbar></app-topbar>
-<app-sidenav></app-sidenav>\
-<ng-template #tmplNode let-node="node">
-  <div class="node-item" [attr.data-id]="node.id" [attr.id]="'node-'+node.id">
-    
-    <div class="node-title" (click)="node.isExpanded=!node.isExpanded">
-      {{node.children.length ? (node.isExpanded?'-&nbsp;':'+') : '&nbsp;&nbsp;&nbsp;'}} &nbsp;&nbsp;&nbsp; {{node.id}} <span class="item-notes"> ({{node.children.length}}{{node.children.length?', expanded: ' + !!node.isExpanded:''}})</span>
-    </div>
-
-    <div *ngIf="node.isExpanded && node.children.length" class="node-children"
-         cdkDropList [cdkDropListData]="node.children"
-         [id]="node.id" [cdkDropListConnectedTo]="dropTargetIds"
-         (cdkDropListDropped)="drop($event)"
-         [cdkDropListSortingDisabled]="true">
-
-      <div *ngFor="let child of node.children" cdkDrag [cdkDragData]="child.id" 
-           (cdkDragMoved)="dragMoved($event)">
-        <ng-container *ngTemplateOutlet="tmplNode,context:{node:child}"></ng-container>  
-      </div>
-
-    </div>
-
-  </div>
-</ng-template>
-
-<div cdkDropList [cdkDropListData]="nodes"
-     [id]="'main'" [cdkDropListConnectedTo]="dropTargetIds"
-     (cdkDropListDropped)="drop($event)"
-     [cdkDropListSortingDisabled]="true">
-     
-  <div *ngFor="let node of nodes" cdkDrag [cdkDragData]="node.id"      
-     (cdkDragMoved)="dragMoved($event)">
-
-    <ng-container *ngTemplateOutlet="tmplNode,context:{node:node}"></ng-container>
-
-  </div>
-</div>
+<app-sidenav></app-sidenav>
 <main id="main">
-  <!-- <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar> -->
-  <!-- <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center"> -->
-    
-    
-     <hr />
-    <p><strong>current drag drop action:</strong></p>
-    <pre>{{dropActionTodo|json}}</pre>
-    <hr />
-    <p><strong>tree data</strong></p>
-    <pre>{{nodes|json}}</pre>
+  
+  <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+    <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
+        <h1>Navigations</h1>
 
-   
-  <!-- </div>  -->
+        <div class="header-actions">
+            <!-- <button mat-button color="primary" [matMenuTriggerFor]="bulkActionsMenu" *ngIf="productSelection.selected.length">Bulk Actions <mat-icon>arrow_drop_down</mat-icon></button> -->
+            <!-- <mat-menu #bulkActionsMenu="matMenu">
+                <ng-template matMenuContent>
+                    <button mat-menu-item (click)="bulkChangeStatus()">Change status</button>
+                    <button mat-menu-item (click)="bulkChangeApproval()">Change approval status</button>
+                    <button mat-menu-item (click)="bulkTags()">Add tags</button>
+                    <button mat-menu-item (click)="bulkOrganize()">Organize</button>
+                    <button mat-menu-item (click)="bulkDeleteProduct()">Delete</button>
+                </ng-template>
+            </mat-menu> -->
+
+            <!-- <button mat-button color="primary" (click)="exportProducts()">Export</button>
+            <button mat-button color="primary" (click)="importProduct()">Import</button> -->
+            <a [routerLink]="['/', URLS.navigations, URLS.add]" mat-flat-button color="primary">Create new </a>
+        </div>
+    </div>
+
+    <mat-card class="table-wrapper-card">
+        <datatable  [data]="allNavigations.data"
+          [columns]="displayedColumns"
+
+          (cellClick)="onCellClick($event)"
+        >
+      </datatable>
+    </mat-card>
+  
+  
 </main>
