@@ -12,34 +12,12 @@ import { asapScheduler, asyncScheduler } from 'rxjs';
 })
 export class AddNavigationComponent {
   loading = false
-  // todo = [
-  //   'Get to work',
-  //   [
-  //     'Get up',
-  //     'Brush teeth',
-  //     'Take a shower',
-  //     'Check e-mail',
-  //     'Walk dog',
-  //     'Walk dog 123',
-  //     [
-  //       'Walk dog 123'
-  //     ]
-      
-  //   ],
-  //   [
-  //     'Preare for work',
-  //     'Drive to office',
-  //     'Üark car'
-  //   ],
-  //   'Pick up groceries',
-  //   'Go home',
-  //   'Fall asleep'
-  // ];
-  todo : any[] = [
-    {title:"ahmad", url:"www.google.com"}
-  ];
+  navigation : any[] = [];
+  
   navIndexToUpdate : any
-
+  navNodeToUpdate = null
+  
+  placeholderNavNode : NavigationNode = {title:'New', url:''};
 
   @ViewChildren(CdkDropList)
   private dlq: QueryList<CdkDropList>;
@@ -57,14 +35,40 @@ export class AddNavigationComponent {
         event.currentIndex);
     }
   }
-
+  addItem(e)
+  {
+    debugger
+  }
   isArray(item: any): boolean {
     return Array.isArray(item);
   }
   editNav(index)
   {
+    debugger
     this.navIndexToUpdate = index
     console.log('index : '+index)
+
+    if (typeof(index) != 'number' )
+    {
+      var count = (index.match(/,/g) || []).length;
+      if (count == 1)
+      {
+        let indexes = index.split(',')
+        let subArray = this.navigation[indexes[0]][indexes[1]]
+        this.navNodeToUpdate = subArray
+      }
+      else if (count == 2)
+      { 
+        let indexes = index.split(',')
+        let subArray = this.navigation[indexes[0]][indexes[1]][indexes[2]]
+        this.navNodeToUpdate = subArray
+      }
+    }
+    else{
+      this.navNodeToUpdate = this.navigation[index];
+    }
+    this.updateDropList()
+
   }
   ngAfterViewInit() {
     this.updateDropList()
@@ -80,34 +84,45 @@ export class AddNavigationComponent {
   }
 
   createNavigation(){
-    this.todo.push({title:'New', url:''})
+    let placeholderNode: NavigationNode = {title:'New', url:''};
+    this.navigation.push(placeholderNode);
     this.updateDropList()
   }
   createSiblingNavigation(index){
-    this.todo[index].push({title:'New', url:''})
+    let placeholderNode: NavigationNode = {title:'New', url:''};
+    this.navigation[index].push(placeholderNode)
     this.updateDropList()
   }
   create3rdLevelNestedSibling(index){
+    
     let indexes = index.split(',')
-    let subArray = this.todo[indexes[0]]
-    subArray[indexes[1]].push({title:'New', url:''})
+    let subArray = this.navigation[parseInt(indexes[0])]
+    let placeholderNode: NavigationNode = {title:'New', url:''};
+    subArray[parseInt(indexes[1])].push(placeholderNode)
     this.updateDropList()
   }
   createNestedNavigation(event)
   {
+    debugger
+    let placeholderNode: NavigationNode = {title:'New', url:''};
     let index = event
     if (typeof(index) != 'number' )
     {
       let indexes = index.split(',')
-      let subArray = this.todo[indexes[0]]
-      subArray.splice(indexes[1] + 1, 0, [{title:'New', url:''}])
+      let subArray = this.navigation[parseInt(indexes[0])]
+      subArray.splice(parseInt(indexes[1]) + 1, 0, [placeholderNode])
       
     }
     else{
-      this.todo.splice(index + 1, 0, [{title:'New', url:''}]);  
+      // this.navigation.push(placeholderNode);
+      this.navigation.splice(index + 1, 0, [placeholderNode]);
     }
     this.updateDropList()
   }
   
   
+}
+export interface NavigationNode {
+  title: string;
+  url : string;
 }

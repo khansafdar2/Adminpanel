@@ -3,25 +3,32 @@
 
 <main id="main">
   <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+  <div fxLayout="row" fxLayoutAlign="space-between center" >
+    <h2>Create New Navigation</h2>
+    <div>
+      <button mat-flat-button color="primary" [disabled]="loading">Publish</button>
+      
+    </div>
+  </div>
   <div cdkDropListGroup class="edit-nav-main-conatainer">
 
     <div class="example-container">
-      <h2>Create New Navigation</h2>
       
       <div
         cdkDropList
-        [cdkDropListData]="todo"
+        [cdkDropListData]="navigation"
         class="example-list drop-container"
         (cdkDropListDropped)="drop($event)"
         [cdkDropListConnectedTo]="dls">
-        <div class="example-box navigation-drag-drop-container" *ngFor="let item of todo; let i = index" cdkDrag >
-          <div *ngIf="!isArray(item); else arrayView">
+        <div class="example-box navigation-drag-drop-container" *ngFor="let item of navigation; let i = index" cdkDrag >
+          <div (click)="editNav(i)" *ngIf="!isArray(item); else arrayView">
             <div>
               {{item.title}}
             </div> 
             <div>
-              <button mat-button color="primary" *ngIf="!isArray(todo[i + 1]) " value="item.index" [attr.data-index]="i" (click)="createNestedNavigation(i)"> + </button>
-              <button mat-button color="primary" (click)="editNav(i)" >Edit</button>
+              <button mat-button color="primary" *ngIf="!isArray(navigation[i + 1]) " value="item.index" [attr.data-index]="i" (click)="createNestedNavigation(i)"> + </button>
+              <!-- <button mat-button color="primary" (click)="editNav(i)" >Edit</button> -->
+              
             </div>
           </div>
           <ng-template  #arrayView  >
@@ -35,13 +42,13 @@
                   [cdkDropListConnectedTo]="dls">
                   <div class="example-box" *ngFor="let innerItem of item; let j = index" cdkDrag>
                     <!-- {{innerItem}} -->
-                    <div *ngIf="!isArray(innerItem); else subarrayView">
+                    <div (click)="editNav(i +','+ j)" *ngIf="!isArray(innerItem); else subarrayView">
                       <div>
                         {{innerItem.title}} 
                       </div>
                       <div>
                         <button mat-button color="primary" *ngIf="!isArray(item[j + 1])" [attr.data-index]="i +','+ j" (click)="createNestedNavigation(i +','+ j)">+</button> 
-                        <button mat-button color="primary">Edit</button>
+                        <!-- <button mat-button color="primary" (click)="editNav(i +','+ j)">Edit</button> -->
                       </div>
                     </div>
                     <ng-template #subarrayView>
@@ -56,11 +63,11 @@
                           [cdkDropListConnectedTo]="dls">
                           <div class="example-box" *ngFor="let subinnerItem of innerItem; let k = index" cdkDrag>
                             <!-- {{subinnerItem}} -->
-                            <div *ngIf="!isArray(subinnerItem)" >
+                            <div (click)="editNav(i +','+ j + ',' + k)" *ngIf="!isArray(subinnerItem)" >
                               <div>{{subinnerItem.title}}</div>
                               <div>
                                 <button mat-button color="primary" *ngIf="k == innerItem.length - 1 " [attr.data-index]="i +','+ j" (click)="create3rdLevelNestedSibling(i +','+ j)">+</button> 
-                                <button mat-button color="primary">Edit</button>
+                                <!-- <button mat-button color="primary" (click)="editNav(i +','+ j + ',' + k)" >Edit</button> -->
                               </div>
                             </div>
                           </div>
@@ -82,7 +89,7 @@
       
     </div>
     <div>
-      <app-edit-navigation-node [nav]='todo' [navIndex]="navIndexToUpdate"  ></app-edit-navigation-node>
+      <app-edit-navigation-node *ngIf="navNodeToUpdate"  [navNodeToUpdate]="navNodeToUpdate"  ></app-edit-navigation-node>
     </div>
   
   </div>

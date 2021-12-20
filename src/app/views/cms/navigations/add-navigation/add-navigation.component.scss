@@ -124,8 +124,10 @@
 .edit-nav-main-conatainer{
   display: flex;
   &>div{
-    padding: 25px;
     flex: 0 0 50%;
+  }
+  &>div:first-child{
+    padding-right: 25px;
   }
   
 }
