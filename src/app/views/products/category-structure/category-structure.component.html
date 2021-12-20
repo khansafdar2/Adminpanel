@@ -24,7 +24,15 @@
             <mat-icon class="cat-drag-handle" cdkDragHandle (mousedown)="mainCategoryDragStart(i)">drag_indicator</mat-icon>
             <span class="category-name">{{mainCategory.name}}</span>
           </span>
-          <button class="category-actions" mat-icon-button><mat-icon>more_vert</mat-icon></button>
+
+          <span>
+            <span class="label" [class.success]="mainCategory.is_active">{{mainCategory.is_active ? "Available" : "Offline"}}</span>
+            <button
+              class="category-actions"
+              mat-icon-button
+              (click)="rowActionsToggle($event, mainCategory.id, mainCategory.is_active, 'main')"
+              [matMenuTriggerFor]="categoryActionsMenu"><mat-icon>more_vert</mat-icon></button>
+          </span>
         </mat-card>
 
         <div class="sub-categories" *ngIf="mainCategory.open">
@@ -44,7 +52,15 @@
                   <mat-icon class="cat-drag-handle" cdkDragHandle (mousedown)="subCategoryDragStart(i, j)">drag_indicator</mat-icon>
                   <span class="category-name">{{subCategory.name}}</span>
                 </span>
-                <button class="category-actions" mat-icon-button><mat-icon>more_vert</mat-icon></button>
+
+                <span>
+                  <span class="label" [class.success]="subCategory.is_active">{{subCategory.is_active ? "Available" : "Offline"}}</span>
+                  <button
+                    class="category-actions"
+                    mat-icon-button
+                    (click)="rowActionsToggle($event, subCategory.id, subCategory.is_active, 'sub')"
+                    [matMenuTriggerFor]="categoryActionsMenu"><mat-icon>more_vert</mat-icon></button>
+                </span>
               </mat-card>
 
               <div class="sub-categories" *ngIf="subCategory.open">
@@ -54,7 +70,7 @@
                 <div
                   class="sub-categories-wrapper"
                   cdkDropList
-                  (cdkDropListDropped)="subCategorySort($event, i)"
+                  (cdkDropListDropped)="superSubCategorySort($event, i, j)"
                 >
 
                   <!-- Super sub categories -->
@@ -64,12 +80,32 @@
                         <mat-icon class="cat-drag-handle" cdkDragHandle>drag_indicator</mat-icon>
                         <span class="category-name">{{superSubCategory.name}}</span>
                       </span>
-                      <button class="category-actions" mat-icon-button><mat-icon>more_vert</mat-icon></button>
+
+                      <span>
+                        <span class="label" [class.success]="superSubCategory.is_active">{{superSubCategory.is_active ? "Available" : "Offline"}}</span>
+                        <button
+                          class="category-actions"
+                          mat-icon-button
+                          (click)="rowActionsToggle($event, superSubCategory.id, superSubCategory.is_active, 'supersub')"
+                          [matMenuTriggerFor]="categoryActionsMenu"><mat-icon>more_vert</mat-icon></button>
+                      </span>
                     </mat-card>
                   </ng-container>
+
+                  <a
+                    mat-stroked-button
+                    color="primary"
+                    class="add-category-button"
+                    [routerLink]="['/', URLS.categories, URLS.newSuperSubCategory, subCategory.id]">+ Add Super sub category</a>
                 </div>
               </div>
             </ng-container>
+
+            <a
+              mat-stroked-button
+              color="primary"
+              class="add-category-button"
+              [routerLink]="['/', URLS.categories, URLS.newSubCategory, mainCategory.id]">+ Add Sub category</a>
           </div>
         </div>
       </ng-container>
@@ -77,3 +113,11 @@
     </div>
   </div>
 </main>
+
+<mat-menu #categoryActionsMenu="matMenu">
+  <ng-template matMenuContent>
+      <ng-container *ngFor="let action of categoryActions">
+          <button mat-menu-item (click)="onCategoryAction(action)">{{action}}</button>
+      </ng-container>
+  </ng-template>
+</mat-menu>

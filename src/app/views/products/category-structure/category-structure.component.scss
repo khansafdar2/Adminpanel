@@ -1,8 +1,6 @@
 @import "src/scss/variables";
 
-#categories-wrapper {
-    
-}
+
 .category-title-wrapper {
     display: flex;
     align-items: center;
@@ -35,4 +33,16 @@
     & + .category-title-wrapper {
         margin-top: 14px;
     }
+}
+
+.sub-categories-wrapper {
+    .sub-categories {
+        min-width: 668px;
+    }
+}
+.add-category-button {
+    margin-top: 14px;
+    display: block;
+    width: 600px;
+    padding: 6px 15px;
 }
