@@ -1,3 +1,4 @@
+import { CdkDragDrop, CdkDragSortEvent, CdkDragStart, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -15,82 +16,117 @@ export class CategoryStructureComponent implements OnInit {
 
   constructor(private router: Router, private categoryService: CategoryService) { }
 
-  URLS = URLS;
   loading: boolean = true;
-  searchField:FormControl = new FormControl("");
-  filteredCategories: Observable<any[]>;
-  categories = []
-  categoriesAccordion: any[] = this.categories;
+  URLS = URLS;
+
+  categories = [];
   categoryActions: string[] = [];
   activeCategory = null;
+
+  getMainCategories() {
+    this.loading = true;
+    this.categoryService.getMainCategories().then(resp => {
+      this.loading = false;
+      if(resp) {
+        this.categories = resp.data;
+      }
+    });
+  }
+
+  getSubCategories(mainIndex) {
+    let mainCategory = this.categories[mainIndex];
+    this.categoryService.getSubCategories(mainCategory.id).then(resp => {
+      mainCategory.loading = false;
+      if(resp) {
+        mainCategory.sub_category = resp.data;
+      }
+    })
+  }
+
+  getSuperSubCategories(mainIndex, subIndex) {
+    let subCategory = this.categories[mainIndex].sub_category[subIndex];
+    this.categoryService.getSuperSubCategories(subCategory.id).then(resp => {
+      subCategory.loading = false;
+      if(resp) {
+        subCategory.super_sub_category = resp.data;
+      }
+    })
+  }
+
+
+
+
+  mainCategorySort(event: CdkDragDrop<any[]>) {
+    if(event.previousIndex !== event.currentIndex) {
+      moveItemInArray(this.categories, event.previousIndex, event.currentIndex);
+      this.sortCategoryCall(this.categories, "main_category");
+    }
+  }
+
+  mainCategoryDragStart(index) {
+    let mainCategory = this.categories[index];
+    mainCategory.open = false;
+  }
+
+  subCategorySort(event: CdkDragDrop<any[]>, mainIndex) {
+    let subCategories = this.categories[mainIndex].sub_category;
+    moveItemInArray(subCategories, event.previousIndex, event.currentIndex);
+    this.sortCategoryCall(subCategories, "sub_category");
+  }
+
+  subCategoryDragStart(mainIndex, subIndex) {
+    let mainCategory = this.categories[mainIndex];
+    let subCategory = mainCategory.sub_category[subIndex];
+    subCategory.open = false;
+  }
+
+  superSubCategorySort(event, mainIndex, subIndex) {
+    let subCategory = this.categories[mainIndex].sub_category[subIndex];
+    let superSubCategories = subCategory.super_sub_category;
+    moveItemInArray(superSubCategories, event.previousIndex, event.currentIndex);
+    this.sortCategoryCall(superSubCategories, "super_sub_category");
+  }
+
+  sortCategoryCall(categoriesArray, type) {
+    this.loading = true;
+    let categoryData = categoriesArray.map((category, index) => {
+      return {
+        id: category.id,
+        position: index + 1
+      }
+    });
+    this.categoryService.updateCategoryPosition(type, categoryData).then(resp => {
+      this.loading = false;
+    });
+  }
+
+  toggleMainCategory(index) {
+    let mainCategory = this.categories[index];
+    if(mainCategory.open) {
+      mainCategory.open = false;
+    } else {
+      mainCategory.loading = true;
+      mainCategory.open = true;
+      mainCategory.sub_category = [];
+      this.getSubCategories(index);
+    }
+  }
+
+  toggleSubCategory(mainIndex, subIndex) {
+    let subCategory = this.categories[mainIndex].sub_category[subIndex];
+    if(subCategory.open) {
+      subCategory.open = false;
+    } else {
+      subCategory.loading = true;
+      subCategory.open = true;
+      subCategory.super_sub_category = [];
+      this.getSuperSubCategories(mainIndex, subIndex);
+    }
+  }
 
   addSubCategory(event, index) {
     event.preventDefault();
     this.router.navigate(['/', URLS.categories, URLS.newSubCategory, index]);
-  }
-
-  onMainCategoryOpen(i) {
-    if(this.categoriesAccordion[i].sub_loaded) {
-      return false;
-    }
-    this.categoriesAccordion[i].loading = true;
-    this.categoryService.getSubCategories(this.categoriesAccordion[i].id).then(resp => {
-      if(resp) {
-        this.categoriesAccordion[i].sub_category = resp.data.map(category => {
-          return {
-            id: category.id,
-            name: category.name,
-            is_active: category.is_active,
-            sub_loaded: false,
-            loading: false,
-            sub_category: []
-          }
-        });
-        this.categoriesAccordion[i].sub_loaded = true;
-        this.categoriesAccordion[i].loading = false;
-      }
-    });
-  }
-
-  onSubCategoryOpen(i, j) {
-    let subCategory = this.categoriesAccordion[i].sub_category[j];
-    if(subCategory.sub_loaded) {
-      return false;
-    }
-    subCategory.loading = true;
-    this.categoryService.getSuperSubCategories(subCategory.id).then(resp => {
-      if(resp) {
-        subCategory.sub_category = resp.data.map(category => {
-          return {
-            id: category.id,
-            name: category.name,
-            is_active: category.is_active
-          }
-        });
-        subCategory.sub_loaded = true;
-        subCategory.loading = false;
-      }
-    });
-  }
-
-  getMainCategories() {
-    this.categoryService.getMainCategories().then(resp => {
-      if(resp) {
-        this.categories = resp.data;
-        let categories = resp.data.map(category => {
-          return {
-            id: category.id,
-            name: category.name,
-            is_active: category.is_active,
-            sub_loaded: false,
-            loading: false,
-            sub_category: []
-          }
-        });
-        this.categoriesAccordion = categories;
-        this.loading = false;
-      }
-    });
   }
 
   rowActionsToggle(event, id, is_active, type) {
@@ -103,31 +139,6 @@ export class CategoryStructureComponent implements OnInit {
       id,
       type,
       is_active
-    }
-  }
-
-  onCategoryAction(action) {
-    let id = this.activeCategory.id;
-    let type = this.activeCategory.type;
-    let status;
-
-    if(action === "Edit"){
-      if(type === "main") {
-        this.router.navigate(["/", URLS.categories, URLS.editMainCategory, id]);
-      } else if(type === "sub") {
-        this.router.navigate(["/", URLS.categories, URLS.editSubCategory, id]);
-      } else if(type === "supersub") {
-        this.router.navigate(["/", URLS.categories, URLS.editSuperSubCategory, id]);
-      }
-    } else if(action === "Make offline") {
-      status = false;
-      this.changeCategoryStatus(id, type, status);
-    } else if(action === "Make online") {
-      status = true;
-      this.changeCategoryStatus(id, type, status);
-    } else if(action === "Delete") {
-      debugger;
-      this.deleteCategory(id, type);
     }
   }
 
@@ -151,58 +162,31 @@ export class CategoryStructureComponent implements OnInit {
     })
   }
 
-  ngOnInit(): void {
-    this.filteredCategories = this.searchField.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => this._filterCategories(value))
-    );
+  onCategoryAction(action) {
+    let id = this.activeCategory.id;
+    let type = this.activeCategory.type;
+    let status;
 
+    if(action === "Edit"){
+      if(type === "main") {
+        this.router.navigate(["/", URLS.categories, URLS.editMainCategory, id]);
+      } else if(type === "sub") {
+        this.router.navigate(["/", URLS.categories, URLS.editSubCategory, id]);
+      } else if(type === "supersub") {
+        this.router.navigate(["/", URLS.categories, URLS.editSuperSubCategory, id]);
+      }
+    } else if(action === "Make offline") {
+      status = false;
+      this.changeCategoryStatus(id, type, status);
+    } else if(action === "Make online") {
+      status = true;
+      this.changeCategoryStatus(id, type, status);
+    } else if(action === "Delete") {
+      this.deleteCategory(id, type);
+    }
+  }
+
+  ngOnInit(): void {
     this.getMainCategories();
   }
-
-  private _filterCategories(value: string): any[] {
-    const filterValue = value ? value.toLowerCase() : "";
-    let tempCategories = [];
-    this.categories.forEach(mainCategory => {
-      if(mainCategory.name.toLowerCase().includes(filterValue)) {
-        let tempCategory = {
-          id: mainCategory.id,
-          name: mainCategory.name,
-          sub_category: []
-        }
-
-        let tempSubCategories = [];
-        mainCategory.sub_category.forEach(subCategory => {
-          if(subCategory.name.toLowerCase().includes(filterValue)) {
-            tempSubCategories.push({
-              id: subCategory.id,
-              name: subCategory.name
-            });
-          }
-        });
-        tempCategory.sub_category = tempSubCategories
-        tempCategories.push(tempCategory);
-      } else {
-        let tempSubCategories = [];
-        mainCategory.sub_category.forEach(subCategory => {
-          if(subCategory.name.toLowerCase().includes(filterValue)) {
-            tempSubCategories.push(subCategory);
-          }
-        });
-
-        if(tempSubCategories.length > 0) {
-          let tempCategory = {
-            id: mainCategory.id,
-            name: mainCategory.name,
-            sub_category: tempSubCategories
-          }
-
-          tempCategories.push(tempCategory);
-        }
-      }
-    });
-    return tempCategories;
-  }
-
 }

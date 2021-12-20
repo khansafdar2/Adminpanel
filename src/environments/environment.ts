@@ -8,7 +8,7 @@ export const environment = {
   // backend_url: "http://localhost:8000",
   backend_url: "https://staging-backend.kees.qa",
   client_img_folder: "img",
-  currency: "PKR"
+  currency: "QAR"
 };
 
 /*

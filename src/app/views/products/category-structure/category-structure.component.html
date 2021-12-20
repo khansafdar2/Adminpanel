@@ -1,128 +1,123 @@
 <app-topbar></app-topbar>
 <app-sidenav></app-sidenav>
 <main id="main">
-    <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
-    <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
-        <h1>Category structure</h1>
-
-        <div class="header-actions">
-            <a [routerLink]="['/', URLS.categories, URLS.newMainCategory]" mat-flat-button color="primary">Create new</a>
-        </div>
-    </div>
-
-    <div class="page-container">
-        <!-- <mat-card class="categories-card"> -->
-            <!-- <mat-form-field appearance="outline">
-                <mat-label>Search</mat-label>
-                <input matInput type="search" [formControl]="searchField" name="category" />
-            </mat-form-field> -->
-
-            <!-- <div id="category-structure">
-                <div class="category-wrapper" *ngFor="let mainCategory of filteredCategories | async; let i = index;">
-                    <div class="category-inner" fxLayout="row" fxLayoutAlign="space-between center">
-                        <span class="category-title">{{mainCategory.name}}</span>
-
-                        <div class="category-actions">
-                            <span class="products-count">13 products</span>
-                            <button mat-icon-button color="primary" (click)="addSubCategory(mainCategory.id)">
-                                <mat-icon>add</mat-icon>
-                            </button>
-                            <a [routerLink]="['/', URLS.categories, URLS.editMainCategory, mainCategory.id]" mat-icon-button color="primary">
-                                <mat-icon>edit</mat-icon>
-                            </a>
-                            <button mat-icon-button color="warn">
-                                <mat-icon>delete</mat-icon>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="sub-categories">
-                        <div class="category-inner" fxLayout="row" fxLayoutAlign="space-between center" *ngFor="let subCategory of mainCategory.sub_category">
-                            <span class="category-title">{{subCategory.name}}</span>
+  <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+  <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
+    <h1>Category structure</h1>
     
-                            <div class="category-actions">
-                                <span class="products-count">13 products</span>
-                                <a [routerLink]="['/', URLS.categories, URLS.editSubCategory, subCategory.id]" mat-icon-button color="primary">
-                                    <mat-icon>edit</mat-icon>
-                                </a>
-                                <button mat-icon-button color="warn">
-                                    <mat-icon>delete</mat-icon>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="category-inner add-category" fxLayout="row" fxLayoutAlign="space-between center" (click)="addSubCategory(mainCategory.id)">
-                            <span class="category-title">+ Add subcategory</span>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-
-        <div id="category-structure">
-            <mat-accordion displayMode="flat" multi>
-                <!-- Main category -->
-                <mat-expansion-panel hideToggle *ngFor="let mainCategory of categoriesAccordion; let i = index" (opened)="onMainCategoryOpen(i)">
-                    <mat-expansion-panel-header>
-                        <mat-panel-title>{{mainCategory.name}}</mat-panel-title>
-                        <div class="category-actions">
-                            <span class="label" [class.success]="mainCategory.is_active">{{ mainCategory.is_active ? "Available" : "Offline" }}</span>
-                            <button mat-icon-button (click)="rowActionsToggle($event, mainCategory.id, mainCategory.is_active, 'main')" [matMenuTriggerFor]="categoryActionsMenu"><mat-icon>more_horiz</mat-icon></button>
-                        </div>
-                    </mat-expansion-panel-header>
-                    <div>
-                        <mat-progress-bar color="accent" mode="indeterminate" *ngIf="mainCategory.loading"></mat-progress-bar>
-
-                        <p class="no-category" *ngIf="!mainCategory.loading && mainCategory.sub_category.length === 0">No sub categories found.</p>
-                        <!-- Sub category -->
-                        <ng-container *ngIf="!mainCategory.loading && mainCategory.sub_category">
-                            <mat-expansion-panel hideToggle *ngFor="let subCategory of mainCategory.sub_category; let j = index" (opened)="onSubCategoryOpen(i, j)">
-                                <mat-expansion-panel-header>
-                                    <mat-panel-title>{{subCategory.name}}</mat-panel-title>
-                                    <div class="category-actions">
-                                        <span class="label" [class.success]="subCategory.is_active">{{ subCategory.is_active ? "Available" : "Offline" }}</span>
-                                        <button mat-icon-button (click)="rowActionsToggle($event, subCategory.id, subCategory.is_active, 'sub')" [matMenuTriggerFor]="categoryActionsMenu"><mat-icon>more_horiz</mat-icon></button>
-                                    </div>
-                                </mat-expansion-panel-header>
-                                <div>
-                                    <mat-progress-bar color="accent" mode="indeterminate" *ngIf="subCategory.loading"></mat-progress-bar>
-
-                                    <p class="no-category" *ngIf="!subCategory.loading && subCategory.sub_category && subCategory.sub_category.length === 0">No sub categories found.</p>
-                                    <!-- Sub sub category -->
-                                    <ng-container *ngIf="!subCategory.loading && subCategory.sub_category">
-                                        <mat-list role="list">
-                                            <mat-list-item *ngFor="let subSubCategory of subCategory.sub_category" class="category-name">
-                                                <span>
-                                                    {{subSubCategory.name}}
-                                                </span>
-                                                <div class="category-actions">
-                                                    <span class="label" [class.success]="subSubCategory.is_active">{{ subSubCategory.is_active ? "Available" : "Offline" }}</span>
-                                                    <button mat-icon-button (click)="rowActionsToggle($event, subSubCategory.id, subSubCategory.is_active, 'supersub')" [matMenuTriggerFor]="categoryActionsMenu"><mat-icon>more_horiz</mat-icon></button>
-                                                </div>
-                                            </mat-list-item>
-                                            <mat-list-item class="category-name">
-                                                <a [routerLink]="['/', URLS.categories, URLS.newSuperSubCategory, subCategory.id]" class="add-super-sub">+ Add Super sub category</a>
-                                            </mat-list-item>
-                                        </mat-list>
-                                    </ng-container>
-                                </div>
-                            </mat-expansion-panel>
-                            <mat-expansion-panel hideToggle>
-                                <mat-expansion-panel-header (click)="addSubCategory($event, mainCategory.id)">
-                                    <mat-panel-title>+ Add Sub category</mat-panel-title>
-                                </mat-expansion-panel-header>
-                            </mat-expansion-panel>
-                        </ng-container>
-                    </div>
-                </mat-expansion-panel>
-            </mat-accordion>
-        </div>
+    <div class="header-actions">
+      <a [routerLink]="['/', URLS.categories, URLS.newMainCategory]" mat-flat-button color="primary">Create new</a>
     </div>
+  </div>
+  
+  <div class="page-container">
+    <div
+      id="categories-wrapper"
+      cdkDropList
+      (cdkDropListDropped)="mainCategorySort($event)"
+    >
+
+      <!-- Main Categories -->
+      <ng-container *ngFor="let mainCategory of categories; let i = index">
+        <mat-card class="category-title-wrapper" cdkDrag (click)="toggleMainCategory(i)">
+          <span>
+            <mat-icon class="cat-drag-handle" cdkDragHandle (mousedown)="mainCategoryDragStart(i)">drag_indicator</mat-icon>
+            <span class="category-name">{{mainCategory.name}}</span>
+          </span>
+
+          <span>
+            <span class="label" [class.success]="mainCategory.is_active">{{mainCategory.is_active ? "Available" : "Offline"}}</span>
+            <button
+              class="category-actions"
+              mat-icon-button
+              (click)="rowActionsToggle($event, mainCategory.id, mainCategory.is_active, 'main')"
+              [matMenuTriggerFor]="categoryActionsMenu"><mat-icon>more_vert</mat-icon></button>
+          </span>
+        </mat-card>
+
+        <div class="sub-categories" *ngIf="mainCategory.open">
+          <mat-progress-bar color="accent" mode="indeterminate" *ngIf="mainCategory.loading"></mat-progress-bar>
+          <p class="no-category" *ngIf="!mainCategory.loading && mainCategory.sub_category.length === 0">No sub categories found.</p>
+
+          <div
+            class="sub-categories-wrapper"
+            cdkDropList
+            (cdkDropListDropped)="subCategorySort($event, i)"
+          >
+
+            <!-- Sub Categories -->
+            <ng-container *ngFor="let subCategory of mainCategory.sub_category; let j = index">
+              <mat-card class="category-title-wrapper" cdkDrag (click)="toggleSubCategory(i, j)">
+                <span>
+                  <mat-icon class="cat-drag-handle" cdkDragHandle (mousedown)="subCategoryDragStart(i, j)">drag_indicator</mat-icon>
+                  <span class="category-name">{{subCategory.name}}</span>
+                </span>
+
+                <span>
+                  <span class="label" [class.success]="subCategory.is_active">{{subCategory.is_active ? "Available" : "Offline"}}</span>
+                  <button
+                    class="category-actions"
+                    mat-icon-button
+                    (click)="rowActionsToggle($event, subCategory.id, subCategory.is_active, 'sub')"
+                    [matMenuTriggerFor]="categoryActionsMenu"><mat-icon>more_vert</mat-icon></button>
+                </span>
+              </mat-card>
+
+              <div class="sub-categories" *ngIf="subCategory.open">
+                <mat-progress-bar color="accent" mode="indeterminate" *ngIf="subCategory.loading"></mat-progress-bar>
+                <p class="no-category" *ngIf="!subCategory.loading && subCategory.super_sub_category.length === 0">No super sub categories found.</p>
+
+                <div
+                  class="sub-categories-wrapper"
+                  cdkDropList
+                  (cdkDropListDropped)="superSubCategorySort($event, i, j)"
+                >
+
+                  <!-- Super sub categories -->
+                  <ng-container *ngFor="let superSubCategory of subCategory.super_sub_category; let k = index">
+                    <mat-card class="category-title-wrapper" cdkDrag>
+                      <span>
+                        <mat-icon class="cat-drag-handle" cdkDragHandle>drag_indicator</mat-icon>
+                        <span class="category-name">{{superSubCategory.name}}</span>
+                      </span>
+
+                      <span>
+                        <span class="label" [class.success]="superSubCategory.is_active">{{superSubCategory.is_active ? "Available" : "Offline"}}</span>
+                        <button
+                          class="category-actions"
+                          mat-icon-button
+                          (click)="rowActionsToggle($event, superSubCategory.id, superSubCategory.is_active, 'supersub')"
+                          [matMenuTriggerFor]="categoryActionsMenu"><mat-icon>more_vert</mat-icon></button>
+                      </span>
+                    </mat-card>
+                  </ng-container>
+
+                  <a
+                    mat-stroked-button
+                    color="primary"
+                    class="add-category-button"
+                    [routerLink]="['/', URLS.categories, URLS.newSuperSubCategory, subCategory.id]">+ Add Super sub category</a>
+                </div>
+              </div>
+            </ng-container>
+
+            <a
+              mat-stroked-button
+              color="primary"
+              class="add-category-button"
+              [routerLink]="['/', URLS.categories, URLS.newSubCategory, mainCategory.id]">+ Add Sub category</a>
+          </div>
+        </div>
+      </ng-container>
+
+    </div>
+  </div>
 </main>
 
 <mat-menu #categoryActionsMenu="matMenu">
-    <ng-template matMenuContent>
-        <ng-container *ngFor="let action of categoryActions">
-            <button mat-menu-item (click)="onCategoryAction(action)">{{action}}</button>
-        </ng-container>
-    </ng-template>
+  <ng-template matMenuContent>
+      <ng-container *ngFor="let action of categoryActions">
+          <button mat-menu-item (click)="onCategoryAction(action)">{{action}}</button>
+      </ng-container>
+  </ng-template>
 </mat-menu>
