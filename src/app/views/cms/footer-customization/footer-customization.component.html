@@ -1,0 +1,77 @@
+<app-topbar></app-topbar>
+<app-sidenav></app-sidenav>
+<main id="main">
+
+    <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+    <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
+        <h1>
+            Footer
+        </h1>
+
+        <div class="header-actions">
+            <button mat-flat-button color="primary" (click)="onSubmit()"
+                [disabled]="!footerCustomizationForm.valid || loading">Save</button>
+        </div>
+    </div>
+
+    <form [formGroup]= "footerCustomizationForm">
+        <mat-card >
+            <h4>General</h4>
+            <div fxLayout="row">
+                <div  fxFlex="0 1 33.333333%">
+                    <div class="color-box">
+                        <input matInput name="background_color" class="color-picker" type="color" formControlName="background_color" />
+                        <mat-label class="color-box-text">Background color</mat-label>
+                    </div>
+                </div>
+                <div fxFlex="0 1 33.333333%">
+                    <div class="color-box">
+                        <input matInput name="text_color" class="color-picker" type="color" formControlName="text_color" />
+                        <mat-label class="color-box-text">Text color</mat-label>
+                    </div>
+                </div>
+                <div class="check-box-container" >
+                    <mat-checkbox formControlName="show_news_letter">Show newsletter</mat-checkbox>
+                </div>
+            </div>
+            <br>
+            <div fxLayout="row">
+                <div fxFlex="33.333333%">
+                    <h4>Contact Information</h4>
+                    <div class="quill-editor">
+                        <quill-editor class="quill-editor" [modules]="editorModules" placeholder="Start typing" formControlName="contact_information" ></quill-editor>
+                    </div>
+                </div>
+                <div fxFlex="0 1 33.333333%">
+                    <h4>Footer logo image</h4>
+                    <image-selector 
+                        [(files)]="logoImage"
+                        [multiple]="false"
+                        valueType="url"
+                        (filesChange)= onLogoImageChange($event)
+                    ></image-selector>
+                </div>
+            </div>
+        </mat-card>
+
+        <mat-card>
+            <h4>Navigations</h4>
+            <div fxLayout="row wrap"  >
+            <div fxFlex="0 1 33.333333%" *ngFor="let navigation of footerCustomizationForm.get('navigations')['controls']; let i = index;"  >
+                <div fxLayout="row" [formGroup]=navigation> 
+                    <mat-form-field  appearance="outline" >
+                        <mat-label>Select Menu</mat-label>
+                        <mat-select name="navigations" formControlName="id">
+                            <mat-option *ngFor="let item of navigationslist" [value]="item.id">
+                                {{item.title}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <button class="delete-button" mat-icon-button color="warn" (click)="removeNavigation(i)"><mat-icon>delete</mat-icon></button>
+                </div>
+            </div>
+        </div>
+        <button mat-flat-button color="primary" (click) = "addNavigation()">+ Add Menu</button>
+        </mat-card>
+    </form>
+</main>

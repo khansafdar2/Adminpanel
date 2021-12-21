@@ -1,4 +1,5 @@
-import { CustomizationHeaderComponent } from './views/cms/customization-header/customization-header.component';
+import { FooterCustomizationComponent } from './views/cms/footer-customization/footer-customization.component';
+import { HeaderCustomizationComponent } from './views/cms/customization-header/customization-header.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes, UrlSegment } from '@angular/router';
 import { LoggedOutAuthGuard, LoggedInAuthGuard } from './auth/auth.guard';
@@ -142,8 +143,8 @@ const routes: Routes = [
     {path: URLS.add, component: AddPageComponent},
     {path: URLS.edit + '/:id', component: EditPageComponent},
   ]},
-  {path: URLS.customizeHeader, component: CustomizationHeaderComponent,  canActivate: [LoggedInAuthGuard, CustomizationGuard]},
-
+  {path: URLS.headerCustomization, component: HeaderCustomizationComponent,  canActivate: [LoggedInAuthGuard, CustomizationGuard]},
+  {path: URLS.footerCustomization, component: FooterCustomizationComponent,  canActivate: [LoggedInAuthGuard, CustomizationGuard]},
   {path: URLS.homepage, canActivate: [LoggedInAuthGuard, CustomizationGuard], component: HomepageComponent},
   {path: URLS.vendors, canActivate: [LoggedInAuthGuard], children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},

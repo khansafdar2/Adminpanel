@@ -49,6 +49,22 @@ body {
         margin-bottom: 10px;
     }
 
+    .color-picker{
+        height: 35px;
+        width: 35px;
+        cursor: pointer;
+    }
+    
+    .color-box{
+        display: flex;
+        align-items: center;
+  
+    }
+    .color-box-text{
+        padding-left: 10px;
+    }
+
+
     .mat-button-base {
         &.button-block {
             display: block;
@@ -702,3 +718,5 @@ body {
         }
     }
 }
+
+

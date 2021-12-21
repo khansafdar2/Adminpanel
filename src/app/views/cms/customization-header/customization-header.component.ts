@@ -3,23 +3,27 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import URLS from 'src/app/shared/urls';
 import { UsersService } from '../../configuration/user-management/users.service';
+import { CustomizationService } from '../customization.service';
 
 @Component({
   selector: 'app-customization-header',
   templateUrl: './customization-header.component.html',
   styleUrls: ['./customization-header.component.scss']
 })
-export class CustomizationHeaderComponent implements OnInit {
+export class HeaderCustomizationComponent implements OnInit {
 
-  constructor(private router: Router, private fb: FormBuilder, private usersService: UsersService, private snackbarService: MatSnackBar) { }
-
-
+  constructor(private router: Router,
+    private fb: FormBuilder,
+    private snackbarService: MatSnackBar,
+    private customizationService: CustomizationService
+    ) { }
 
   loading:boolean = false;
   megaMenuImage:string = '';
   logoImage:string = '';
+  navigationslist = [];
+  headerDetails:any;
 
   customizationHeaderForm = this.fb.group({
     announcement_bar: this.fb.group({
@@ -43,34 +47,59 @@ export class CustomizationHeaderComponent implements OnInit {
       show_track_order: [false]
     })
   });
-
-
-  
+ 
   onSubmit(){
     this.loading = true;
+    this.customizationService.updateHeader({header:this.customizationHeaderForm.value})
+    .then(resp => {
+      this.loading = false;
+      this.snackbarService.open('Header updated.', "", { duration: 3000 });
+    }).catch(error => {
+      console.log(error);
+    })
   }
 
-  goBack() {
-    this.router.navigate([URLS.home]);
-  }
-
-  fetchMegamenuink(data){
-    this.megaMenuImage = data;
-    let navigationbar = (this.customizationHeaderForm.get("navigation_bar") as FormGroup)
-    navigationbar.patchValue({
+  onMegaMenuImageChange(url){
+    this.megaMenuImage = url;
+    let navigationBar = (this.customizationHeaderForm.get("navigation_bar") as FormGroup)
+    navigationBar.patchValue({
       mega_menu_image: this.megaMenuImage
     })
   }
 
-  fetchlogolink(data){
-    this.logoImage = data;
-    let logo = (this.customizationHeaderForm.get("header") as FormGroup)
-    logo.patchValue({
+  onLogoImageChange(url){
+    this.logoImage = url;
+    let headerFormGroup = (this.customizationHeaderForm.get("header") as FormGroup)
+    headerFormGroup.patchValue({
       logo_image: this.logoImage
     })
   }
 
-  ngOnInit(): void {
+  fetchNavigations(){
+    this.customizationService.getNavigations().then((response)=>{
+      if (response) {
+       this.navigationslist = response.data; 
+      }
+    })
   }
 
+  fetchHeaderDetails(){
+    this.loading = true;
+    this.customizationService.getHeader().then((resp)=>{
+    this.loading = false;
+      if (resp) {
+        this.headerDetails = resp.data.header;
+        this.customizationHeaderForm.patchValue(this.headerDetails);
+        this.megaMenuImage = this.headerDetails.navigation_bar.mega_menu_image;
+        this.logoImage = this.headerDetails.header.logo_image;
+      } else {
+        this.headerDetails = '';
+      }
+    })
+  }
+
+  ngOnInit(): void {
+    this.fetchNavigations();
+    this.fetchHeaderDetails();
+  }
 }

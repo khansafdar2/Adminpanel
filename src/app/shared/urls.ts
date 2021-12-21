@@ -34,7 +34,8 @@ const URLS = {
     homepage: 'homepage',
     vendors: 'vendors',
     navigations: 'navigations',
-    customizeHeader: 'customizeheader'
+    headerCustomization: 'header-customization',
+    footerCustomization: 'footer-customization'
 }
 
 export default URLS;
