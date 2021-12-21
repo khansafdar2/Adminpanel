@@ -101,6 +101,8 @@ import { HomepageSliderSection, HomepageCategoriesCarousel, HomepageBrands, Home
 import { ImageSelectorComponent } from './shared/image-selector/image-selector.component';
 import { CategorySelectorComponent } from './shared/category-selector/category-selector.component';
 import { CategorySelectorDialogComponent } from './shared/category-selector-dialog/category-selector-dialog.component';
+import { NavigationSelectorComponent } from './views/cms/navigations/navigation-selector/navigation-selector.component';
+import { NavigationSelectorDialogComponent } from './views/cms/navigations/navigation-selector-dialog/navigation-selector-dialog.component';
 
 
 
@@ -205,7 +207,9 @@ import { CategorySelectorDialogComponent } from './shared/category-selector-dial
     HomepageFeatureIcons,
     HomepageAddSectionDialog,
     EditNavigationComponent,
-    EditNavigationNodeComponent
+    EditNavigationNodeComponent,
+    NavigationSelectorComponent,
+    NavigationSelectorDialogComponent
   ],
   imports: [
     BrowserModule,

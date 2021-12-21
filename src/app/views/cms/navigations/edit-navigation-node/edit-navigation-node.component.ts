@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter  } from '@angular/core';
-import { CategorySelectorDialogComponent } from 'src/app/shared/category-selector-dialog/category-selector-dialog.component';
+import { NavigationSelectorDialogComponent } from 'src/app/views/cms/navigations/navigation-selector-dialog/navigation-selector-dialog.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -23,23 +23,24 @@ export class EditNavigationNodeComponent implements OnInit {
   ngOnInit(): void {
   }
   ngOnChanges() : void{
-    debugger
+    
     // this.title = this.navNodeToUpdate.title
   }
   changeNavTitle( event)
   {
-    debugger
+    
     // this.navNodeToUpdate.title = this.title
     // const node = this.nav[this.navIndex]
     // this.nav[this.navIndex] = {"title": event.target.value, url: '' }
   }
-  changeCategory() {
+  changeNavigation() {
     // this.activeIndex = index;
-    let dialogRef = this.dialog.open(CategorySelectorDialogComponent, {
+    let dialogRef = this.dialog.open(NavigationSelectorDialogComponent, {
       width: "600px",
       data: {
         selected: "",
-        valueType: "object.handle"
+        valueType: "object.handle",
+        value: ''
       }
     });
 

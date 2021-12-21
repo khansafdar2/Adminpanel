@@ -45,7 +45,7 @@ export class NavigationsComponent implements OnInit {
     })
   }
   onCellClick(data) {
-    debugger
+    
     if(data.column === "title") {
       this.router.navigate(["/", URLS.navigations, URLS.edit, data.row.id]);
     }

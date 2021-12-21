@@ -25,7 +25,7 @@ export class AddNavigationComponent {
   public dls: CdkDropList[] = [];
 
   drop(event: CdkDragDrop<string[]>) {
-    debugger
+    
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
@@ -37,14 +37,14 @@ export class AddNavigationComponent {
   }
   addItem(e)
   {
-    debugger
+    
   }
   isArray(item: any): boolean {
     return Array.isArray(item);
   }
   editNav(index)
   {
-    debugger
+    
     this.navIndexToUpdate = index
     console.log('index : '+index)
 
@@ -103,7 +103,7 @@ export class AddNavigationComponent {
   }
   createNestedNavigation(event)
   {
-    debugger
+    
     let placeholderNode: NavigationNode = {title:'New', url:''};
     let index = event
     if (typeof(index) != 'number' )
