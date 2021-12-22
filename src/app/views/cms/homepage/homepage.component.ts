@@ -72,7 +72,7 @@ export class HomepageComponent implements OnInit {
 
   onPublish() {
     this.loading = true;
-    this.homepageService.updateHomepage(this.homepage).then(resp => {
+    this.homepageService.updateHomepage({homepage:this.homepage}).then(resp => {
       this.loading = false;
       if(resp) {
         this.snackbar.open("Homepage settings updated.", "", {duration: 2000});

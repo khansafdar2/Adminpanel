@@ -98,6 +98,8 @@ import { HomepageSliderSection, HomepageCategoriesCarousel, HomepageBrands, Home
 import { ImageSelectorComponent } from './shared/image-selector/image-selector.component';
 import { CategorySelectorComponent } from './shared/category-selector/category-selector.component';
 import { CategorySelectorDialogComponent } from './shared/category-selector-dialog/category-selector-dialog.component';
+import { HeaderCustomizationComponent } from './views/cms/customization-header/customization-header.component';
+import { FooterCustomizationComponent } from './views/cms/footer-customization/footer-customization.component';
 
 
 @NgModule({
@@ -200,7 +202,9 @@ import { CategorySelectorDialogComponent } from './shared/category-selector-dial
     CategorySelectorDialogComponent,
     HomepageTwoBanners,
     HomepageFeatureIcons,
-    HomepageAddSectionDialog
+    HomepageAddSectionDialog,
+    HeaderCustomizationComponent,
+    FooterCustomizationComponent
   ],
   imports: [
     BrowserModule,
