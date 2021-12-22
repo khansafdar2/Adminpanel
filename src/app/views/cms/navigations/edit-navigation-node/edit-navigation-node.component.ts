@@ -45,6 +45,7 @@ export class EditNavigationNodeComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(value => {
+      this.navNodeToUpdate.url = value
       // this.data.categories[index].handle = value.handle;
       // this.data.categories[index].category_name = value.name;
     });

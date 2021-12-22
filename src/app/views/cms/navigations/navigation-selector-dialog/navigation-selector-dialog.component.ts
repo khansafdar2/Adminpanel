@@ -24,11 +24,13 @@ export class NavigationSelectorDialogComponent implements OnInit {
   value = null;
 
   onSave() {
-    if(this.valueType === "handle") {
-      this.dialogRef.close(this.value.handle);
-    } else if(this.valueType.indexOf("object") === 0) {
-      this.dialogRef.close(this.value);
-    }
+    debugger
+    this.dialogRef.close(this.value);
+    // if(this.valueType === "handle") {
+    //   this.dialogRef.close(this.value.handle);
+    // } else if(this.valueType.indexOf("object") === 0) {
+    //   this.dialogRef.close(this.value);
+    // }
   }
 
   ngOnInit(): void {

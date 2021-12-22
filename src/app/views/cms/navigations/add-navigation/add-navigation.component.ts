@@ -39,6 +39,9 @@ export class AddNavigationComponent {
   {
     
   }
+  publish(){
+    console.log(this.navigation)
+  }
   isArray(item: any): boolean {
     return Array.isArray(item);
   }
