@@ -1,12 +1,12 @@
 <div id="side-nav" (click)="stopPropagation($event)">
     <nav>
         <ul>
-            <li *ngIf="userPermissions.dashboard">
+            <li *ngIf="!is_vendor && userPermissions.dashboard">
                 <a [routerLink]="'/' + Urls.home" routerLinkActive="active">
                     <span class="link-icon" [inlineSVG]="'/assets/img/HomeIcon.svg'"></span>Home
                 </a>
             </li>
-            <li *ngIf="userPermissions.customization">
+            <li *ngIf="!is_vendor && userPermissions.customization">
                 <a (click)="toggleDrawer('customization')" [class.active]="sideDrawer === 'customization'">
                     <span class="link-icon" [inlineSVG]="'/assets/img/CustomizationIcon.svg'"></span>Customization
                 </a>
@@ -21,7 +21,7 @@
                     <span class="link-icon" [inlineSVG]="'/assets/img/OrdersIcon.svg'"></span>Orders
                 </a>
             </li>
-            <li *ngIf="userPermissions.vendor">
+            <li *ngIf="!is_vendor && userPermissions.vendor">
                 <a [routerLink]="['/', Urls.vendors]" routerLinkActive="active">
                     <span class="link-icon" [inlineSVG]="'/assets/img/OrdersIcon.svg'"></span>Vendors
                 </a>
@@ -36,7 +36,7 @@
                     <span class="link-icon" [inlineSVG]="'/assets/img/DiscountsIcon.svg'"></span>Discounts
                 </a>
             </li>
-            <li *ngIf="userPermissions.configuration">
+            <li *ngIf="!is_vendor && userPermissions.configuration">
                 <a [routerLink]="'/' + Urls.configuration" routerLinkActive="active">
                     <span class="link-icon" [inlineSVG]="'/assets/img/SettingsIcon.svg'"></span>Configuration
                 </a>
@@ -57,8 +57,8 @@
             <li><a [routerLink]="['/', Urls.products]" routerLinkActive="active">All products</a></li>
             <li><a [routerLink]="['/', Urls.productGroups]" routerLinkActive="active">Product groups</a></li>
             <li><a [routerLink]="'/' + Urls.collections" routerLinkActive="active">Collections</a></li>
-            <li><a [routerLink]="'/' + Urls.categories" routerLinkActive="active">Category structure</a></li>
-            <li><a [routerLink]="'/' + Urls.brands" routerLinkActive="active">Brands</a></li>
+            <li *ngIf="!is_vendor"><a [routerLink]="'/' + Urls.categories" routerLinkActive="active">Category structure</a></li>
+            <li *ngIf="!is_vendor"><a [routerLink]="'/' + Urls.brands" routerLinkActive="active">Brands</a></li>
         </ul>
     </nav>
 </div>

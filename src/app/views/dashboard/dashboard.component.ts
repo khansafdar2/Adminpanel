@@ -1,3 +1,4 @@
+import { AuthService } from './../../auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { DashboardService } from './dashboard.service';
 import { environment } from 'src/environments/environment';
@@ -10,10 +11,12 @@ import { environment } from 'src/environments/environment';
 export class DashboardComponent implements OnInit {
 
   constructor(
-    private dashboardService: DashboardService
+    private dashboardService: DashboardService,
+    private authService: AuthService
   ) { }
 
   loading: boolean = true;
+  vendor = this.authService.user.is_vendor;
   storeCurrency = environment.currency;
   cardsStats = {
     total_orders: 0,

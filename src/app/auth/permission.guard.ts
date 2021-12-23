@@ -11,35 +11,35 @@ export class DashboardGuard implements CanActivate {
   constructor(
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) { }
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      if(this.authService.user_permissions.dashboard) {
-        return true;
-      } else {
-        if(this.authService.user_permissions.customization) {
-          this.router.navigate(["/", URLS.homepage]);
-          return false;
-        }
-        else if(this.authService.user_permissions.products) {
-          this.router.navigate(["/", URLS.products]);
-          return false;
-        } else if(this.authService.user_permissions.orders) {
-          this.router.navigate(["/", URLS.orders]);
-          return false;
-        } else if(this.authService.user_permissions.customer) {
-          this.router.navigate(["/", URLS.customers]);
-          return false;
-        } else if(this.authService.user_permissions.discounts) {
-          this.router.navigate(["/", URLS.discounts]);
-          return false;
-        } else if(this.authService.user_permissions.configuration) {
-          this.router.navigate(["/", URLS.configuration]);
-          return false;
-        }
+    if (this.authService.user_permissions.dashboard) {
+      return true;
+    } else {
+      if (this.authService.user_permissions.customization) {
+        this.router.navigate(["/", URLS.homepage]);
+        return false;
       }
+      else if (this.authService.user_permissions.products) {
+        this.router.navigate(["/", URLS.products]);
+        return false;
+      } else if (this.authService.user_permissions.orders) {
+        this.router.navigate(["/", URLS.orders]);
+        return false;
+      } else if (this.authService.user_permissions.customer) {
+        this.router.navigate(["/", URLS.customers]);
+        return false;
+      } else if (this.authService.user_permissions.discounts) {
+        this.router.navigate(["/", URLS.discounts]);
+        return false;
+      } else if (this.authService.user_permissions.configuration) {
+        this.router.navigate(["/", URLS.configuration]);
+        return false;
+      }
+    }
   }
 }
 
@@ -52,34 +52,34 @@ export class ProductsGuard implements CanActivate {
   constructor(
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) { }
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      if(this.authService.user_permissions.products) {
-        return true;
-      } else {
-        if(this.authService.user_permissions.dashboard) {
-          this.router.navigate(["/", URLS.home]);
-          return false;
-        } else if(this.authService.user_permissions.customization) {
-          this.router.navigate(["/", URLS.homepage]);
-          return false;
-        } else if(this.authService.user_permissions.orders) {
-          this.router.navigate(["/", URLS.orders]);
-          return false;
-        } else if(this.authService.user_permissions.customer) {
-          this.router.navigate(["/", URLS.customers]);
-          return false;
-        } else if(this.authService.user_permissions.discounts) {
-          this.router.navigate(["/", URLS.discounts]);
-          return false;
-        } else if(this.authService.user_permissions.configuration) {
-          this.router.navigate(["/", URLS.configuration]);
-          return false;
-        }
+    if (this.authService.user_permissions.products) {
+      return true;
+    } else {
+      if (this.authService.user_permissions.dashboard) {
+        this.router.navigate(["/", URLS.home]);
+        return false;
+      } else if (this.authService.user_permissions.customization) {
+        this.router.navigate(["/", URLS.homepage]);
+        return false;
+      } else if (this.authService.user_permissions.orders) {
+        this.router.navigate(["/", URLS.orders]);
+        return false;
+      } else if (this.authService.user_permissions.customer) {
+        this.router.navigate(["/", URLS.customers]);
+        return false;
+      } else if (this.authService.user_permissions.discounts) {
+        this.router.navigate(["/", URLS.discounts]);
+        return false;
+      } else if (this.authService.user_permissions.configuration) {
+        this.router.navigate(["/", URLS.configuration]);
+        return false;
       }
+    }
   }
 }
 
@@ -91,35 +91,35 @@ export class OrdersGuard implements CanActivate {
   constructor(
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) { }
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      if(this.authService.user_permissions.orders) {
-        return true;
-      } else {
-        if(this.authService.user_permissions.dashboard) {
-          this.router.navigate(["/", URLS.home]);
-          return false;
-        } else if(this.authService.user_permissions.customization) {
-          this.router.navigate(["/", URLS.homepage]);
-          return false;
-        } 
-        else if(this.authService.user_permissions.products) {
-          this.router.navigate(["/", URLS.products]);
-          return false;
-        } else if(this.authService.user_permissions.customer) {
-          this.router.navigate(["/", URLS.customers]);
-          return false;
-        } else if(this.authService.user_permissions.discounts) {
-          this.router.navigate(["/", URLS.discounts]);
-          return false;
-        } else if(this.authService.user_permissions.configuration) {
-          this.router.navigate(["/", URLS.configuration]);
-          return false;
-        }
+    if (this.authService.user_permissions.orders) {
+      return true;
+    } else {
+      if (this.authService.user_permissions.dashboard) {
+        this.router.navigate(["/", URLS.home]);
+        return false;
+      } else if (this.authService.user_permissions.customization) {
+        this.router.navigate(["/", URLS.homepage]);
+        return false;
       }
+      else if (this.authService.user_permissions.products) {
+        this.router.navigate(["/", URLS.products]);
+        return false;
+      } else if (this.authService.user_permissions.customer) {
+        this.router.navigate(["/", URLS.customers]);
+        return false;
+      } else if (this.authService.user_permissions.discounts) {
+        this.router.navigate(["/", URLS.discounts]);
+        return false;
+      } else if (this.authService.user_permissions.configuration) {
+        this.router.navigate(["/", URLS.configuration]);
+        return false;
+      }
+    }
   }
 }
 
@@ -131,34 +131,34 @@ export class CustomersGuard implements CanActivate {
   constructor(
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) { }
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      if(this.authService.user_permissions.customer) {
-        return true;
-      } else {
-        if(this.authService.user_permissions.dashboard) {
-          this.router.navigate(["/", URLS.home]);
-          return false;
-        }  else if(this.authService.user_permissions.customization) {
-          this.router.navigate(["/", URLS.homepage]);
-          return false; 
-        } else if(this.authService.user_permissions.products) {
-          this.router.navigate(["/", URLS.products]);
-          return false;
-        } else if(this.authService.user_permissions.orders) {
-          this.router.navigate(["/", URLS.orders]);
-          return false;
-        } else if(this.authService.user_permissions.discounts) {
-          this.router.navigate(["/", URLS.discounts]);
-          return false;
-        } else if(this.authService.user_permissions.configuration) {
-          this.router.navigate(["/", URLS.configuration]);
-          return false;
-        }
+    if (this.authService.user_permissions.customer) {
+      return true;
+    } else {
+      if (this.authService.user_permissions.dashboard) {
+        this.router.navigate(["/", URLS.home]);
+        return false;
+      } else if (this.authService.user_permissions.customization) {
+        this.router.navigate(["/", URLS.homepage]);
+        return false;
+      } else if (this.authService.user_permissions.products) {
+        this.router.navigate(["/", URLS.products]);
+        return false;
+      } else if (this.authService.user_permissions.orders) {
+        this.router.navigate(["/", URLS.orders]);
+        return false;
+      } else if (this.authService.user_permissions.discounts) {
+        this.router.navigate(["/", URLS.discounts]);
+        return false;
+      } else if (this.authService.user_permissions.configuration) {
+        this.router.navigate(["/", URLS.configuration]);
+        return false;
       }
+    }
   }
 }
 
@@ -170,34 +170,34 @@ export class DiscountsGuard implements CanActivate {
   constructor(
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) { }
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      if(this.authService.user_permissions.discounts) {
-        return true;
-      } else {
-        if(this.authService.user_permissions.dashboard) {
-          this.router.navigate(["/", URLS.home]);
-          return false;
-        } else if(this.authService.user_permissions.customization) {
-          this.router.navigate(["/", URLS.homepage]);
-          return false;
-        } else if(this.authService.user_permissions.products) {
-          this.router.navigate(["/", URLS.products]);
-          return false;
-        } else if(this.authService.user_permissions.orders) {
-          this.router.navigate(["/", URLS.orders]);
-          return false;
-        } else if(this.authService.user_permissions.customer) {
-          this.router.navigate(["/", URLS.customers]);
-          return false;
-        } else if(this.authService.user_permissions.configuration) {
-          this.router.navigate(["/", URLS.configuration]);
-          return false;
-        }
+    if (this.authService.user_permissions.discounts) {
+      return true;
+    } else {
+      if (this.authService.user_permissions.dashboard) {
+        this.router.navigate(["/", URLS.home]);
+        return false;
+      } else if (this.authService.user_permissions.customization) {
+        this.router.navigate(["/", URLS.homepage]);
+        return false;
+      } else if (this.authService.user_permissions.products) {
+        this.router.navigate(["/", URLS.products]);
+        return false;
+      } else if (this.authService.user_permissions.orders) {
+        this.router.navigate(["/", URLS.orders]);
+        return false;
+      } else if (this.authService.user_permissions.customer) {
+        this.router.navigate(["/", URLS.customers]);
+        return false;
+      } else if (this.authService.user_permissions.configuration) {
+        this.router.navigate(["/", URLS.configuration]);
+        return false;
       }
+    }
   }
 }
 
@@ -209,35 +209,35 @@ export class ConfigurationGuard implements CanActivate {
   constructor(
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) { }
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      if(this.authService.user_permissions.configuration) {
-        return true;
-      } else {
-        if(this.authService.user_permissions.dashboard) {
-          this.router.navigate(["/", URLS.home]);
-          return false;
-        }  else if(this.authService.user_permissions.customization) {
-          this.router.navigate(["/", URLS.homepage]);
-          return false;
-        } else if(this.authService.user_permissions.products) {
-          this.router.navigate(["/", URLS.products]);
-          return false;
-        } else if(this.authService.user_permissions.orders) {
-          this.router.navigate(["/", URLS.orders]);
-          return false;
-        } else if(this.authService.user_permissions.customer) {
-          this.router.navigate(["/", URLS.customers]);
-          return false;
-        } else if(this.authService.user_permissions.discounts) {
-          this.router.navigate(["/", URLS.discounts]);
-          return false;
-        }
-
+    if (this.authService.user_permissions.configuration) {
+      return true;
+    } else {
+      if (this.authService.user_permissions.dashboard) {
+        this.router.navigate(["/", URLS.home]);
+        return false;
+      } else if (this.authService.user_permissions.customization) {
+        this.router.navigate(["/", URLS.homepage]);
+        return false;
+      } else if (this.authService.user_permissions.products) {
+        this.router.navigate(["/", URLS.products]);
+        return false;
+      } else if (this.authService.user_permissions.orders) {
+        this.router.navigate(["/", URLS.orders]);
+        return false;
+      } else if (this.authService.user_permissions.customer) {
+        this.router.navigate(["/", URLS.customers]);
+        return false;
+      } else if (this.authService.user_permissions.discounts) {
+        this.router.navigate(["/", URLS.discounts]);
+        return false;
       }
+
+    }
   }
 }
 
@@ -249,33 +249,59 @@ export class CustomizationGuard implements CanActivate {
   constructor(
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) { }
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      if(this.authService.user_permissions.customization) {
-        return true;
-      } else {
-        if(this.authService.user_permissions.dashboard) {
-          this.router.navigate(["/", URLS.home]);
-          return false;
-        } else if(this.authService.user_permissions.products) {
-          this.router.navigate(["/", URLS.products]);
-          return false;
-        } else if(this.authService.user_permissions.orders) {
-          this.router.navigate(["/", URLS.orders]);
-          return false;
-        } else if(this.authService.user_permissions.customer) {
-          this.router.navigate(["/", URLS.customers]);
-          return false;
-        } else if(this.authService.user_permissions.discounts) {
-          this.router.navigate(["/", URLS.discounts]);
-          return false;
-        } else if(this.authService.user_permissions.configuration) {
-          this.router.navigate(["/", URLS.configuration]);
-          return false;
-        }
+    if (this.authService.user_permissions.customization) {
+      return true;
+    } else {
+      if (this.authService.user_permissions.dashboard) {
+        this.router.navigate(["/", URLS.home]);
+        return false;
+      } else if (this.authService.user_permissions.products) {
+        this.router.navigate(["/", URLS.products]);
+        return false;
+      } else if (this.authService.user_permissions.orders) {
+        this.router.navigate(["/", URLS.orders]);
+        return false;
+      } else if (this.authService.user_permissions.customer) {
+        this.router.navigate(["/", URLS.customers]);
+        return false;
+      } else if (this.authService.user_permissions.discounts) {
+        this.router.navigate(["/", URLS.discounts]);
+        return false;
+      } else if (this.authService.user_permissions.configuration) {
+        this.router.navigate(["/", URLS.configuration]);
+        return false;
       }
+    }
+  }
+}
+
+
+
+@Injectable({
+  providedIn: 'root'
+})
+export class VendorGuard implements CanActivate {
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) { }
+
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+      debugger
+    if (!this.authService.user.is_vendor) {
+      return true;
+    } else {
+      this.router.navigate(['/products'])
+      return false;
+    }
+    
+     
   }
 }

@@ -15,6 +15,7 @@ export class SidenavComponent implements OnInit {
   Urls = URLS;
   sideDrawer: string = "";
   userPermissions = this.authService.user_permissions;
+  is_vendor = this.authService.user.is_vendor;
 
   toggleDrawer(drawer) {
     this.sideDrawer = this.sideDrawer == drawer ? "" : drawer;
