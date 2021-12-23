@@ -294,14 +294,11 @@ export class VendorGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      debugger
     if (!this.authService.user.is_vendor) {
       return true;
     } else {
       this.router.navigate(['/products'])
       return false;
-    }
-    
-     
+    }  
   }
 }
