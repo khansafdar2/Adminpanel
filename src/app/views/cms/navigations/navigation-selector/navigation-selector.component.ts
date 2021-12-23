@@ -3,7 +3,8 @@ import { CategoryService } from 'src/app/views/products/category-structure/categ
 import { trigger, transition, animate, style } from '@angular/animations'
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { NavigationService } from '../navigation.service';
-import { T } from '@angular/cdk/keycodes';
+import { PagesService } from '../../pages/pages.service';
+
 
 @Component({
   selector: 'app-navigation-selector',
@@ -25,7 +26,8 @@ export class NavigationSelectorComponent implements OnInit {
 
   constructor(
     private categoryService: CategoryService,
-    private navigationService: NavigationService
+    private navigationService: NavigationService,
+    private pagesService: PagesService,
   ) { }
   @ViewChild('selector') selector;
   @ViewChild('mainCategoryWrapper') mainCategoryWrapper;
@@ -33,6 +35,7 @@ export class NavigationSelectorComponent implements OnInit {
   @ViewChild('superSubCategoryWrapper') superSubCategoryWrapper;
   @ViewChild('brandsWrapper') brandsWrapper;
   @ViewChild('promotionsWrapper') promotionsWrapper;
+  @ViewChild('staticPagesWrapper') staticPagesWrapper;
   
   
 
@@ -59,7 +62,19 @@ export class NavigationSelectorComponent implements OnInit {
       title: "categories",
       type: "category",
       handle : 'collection',
-      fetch : () => this.getMainCategories(this)
+      fetch : () => this.getAllCategories(this)
+    },
+    {
+      title: "Categoroy Page",
+      type: "category-page",
+      handle : 'categories',
+      fetch : () => this.getCategoryPages(this)
+    },
+    {
+      title: "Statice Pages",
+      type: "static-page",
+      handle : 'page',
+      fetch : () => this.getStaticPages(this)
     }
     
   ]
@@ -69,10 +84,13 @@ export class NavigationSelectorComponent implements OnInit {
   promotions = []
   setWrapperAsBrand = false
   setWrapperAsPromotion = false
-  selectedBrand = null
-  selectedPromotion = null
+  selectedBrand = {name:''}
+  selectedPromotion = {name:''}
+  selectedStaticPage = {name:''}
   selectedCategory = null
   activeMenu = null
+  categoryPage = false
+  staticPages = []
 
   mainCategories = [];
   subCategories = [];
@@ -80,6 +98,7 @@ export class NavigationSelectorComponent implements OnInit {
   setWrapperAsMaincategory = false
   setWrapperAsSubcategory: boolean = false;
   setWrapperAsSuperSubcategory: boolean = false;
+  setWrapperAsStaticPage: boolean = false;
 
   activeMainCategory = null;
   activeSubCategory = null;
@@ -99,21 +118,51 @@ export class NavigationSelectorComponent implements OnInit {
         
         console.log('brands', resp.data.results)
         $this.brands = resp.data.results
+        $this.brands.splice(0, 0, { 
+          name: "all Brands",
+          handle: 'all'
+         } )
         $this.setWrapperAsBrand = true
       }
     })
   }
+  getStaticPages($this)
+  {
+
+    $this.pagesService.getPages().then((resp) => {
+      debugger
+      $this.staticPages = resp.data
+      $this.setWrapperAsStaticPage = true
+    })
+  }
+  getCategoryPages($this){
+    $this.getMainCategories($this)
+    $this.categoryPage = true
+  }
+  getAllCategories($this)
+  {
+    $this.categoryPage = false
+    $this.getMainCategories($this)
+  }
   setSelectedBrand(brand){
+    debugger
     this.selectedBrand = brand
-    let brandLink = '/brand/' + brand.handle
+    let brandLink = '/' + this.activeMenu.handle + '/'  + brand.handle
     
     this.generateNavLink(brandLink)
   }
   setSelectedPromotion(promotion){
     this.selectedPromotion = promotion
-    let brandLink = '/promotions/' + promotion.handle
+    let brandLink = '/' + this.activeMenu.handle + '/'  + promotion.handle
 
     this.generateNavLink(brandLink)
+  }
+  setSelectedStaticPage(page)
+  {
+    this.selectedStaticPage = page
+    let brandLink = '/' + this.activeMenu.handle + '/'  + page.handle
+
+    this.generateNavLink(brandLink) 
   }
   generateNavLink(link){
     this.value = link
@@ -127,6 +176,7 @@ export class NavigationSelectorComponent implements OnInit {
     this.brands = [];
     this.promotions = []
     this.mainCategories = []
+    this.staticPages = []
   }
   fetchPromotions($this){
     $this.promotions.push({ 
@@ -167,10 +217,12 @@ export class NavigationSelectorComponent implements OnInit {
   }
 
   setActiveMainCategory(mainCategory) {
-    
-    this.activeMainCategory = mainCategory;
-    this.subCategoriesLoading = true;
-    this.getSubCategories();
+    if (!this.categoryPage)
+    {
+      this.activeMainCategory = mainCategory;
+      this.subCategoriesLoading = true;
+      this.getSubCategories();
+    }
   }
 
   backToMainCategories() {
@@ -195,7 +247,7 @@ export class NavigationSelectorComponent implements OnInit {
   onCategorySelectionChange(event: MatCheckboxChange, category, type) {
     if(event.checked) {
       this.selectedCategory = category.handle
-      let Link = '/collection/' + category.handle
+      let Link = '/' + this.activeMenu.handle + '/' + category.handle
       this.generateNavLink(Link)
       // if(this.valueType === 'id') {
       //   this.value = category.id;
@@ -209,7 +261,6 @@ export class NavigationSelectorComponent implements OnInit {
 
   isCategorySelected(category) {
     debugger
-    
     // if(this.valueType === 'id'){
     // } else if(this.valueType === 'handle') {
     //   return this.value === category.handle;
@@ -235,6 +286,7 @@ export class NavigationSelectorComponent implements OnInit {
         let maincategoriesHeight = this.mainCategoryWrapper.nativeElement.clientHeight;
         this.selector.nativeElement.style.height = maincategoriesHeight + "px";
         this.setWrapperAsMaincategory = false;
+        console.log("setWrapperAsMaincategory")
       }, 50);
     }
     else if(this.setWrapperAsSubcategory) {
@@ -243,6 +295,7 @@ export class NavigationSelectorComponent implements OnInit {
         let subcategoriesHeight = this.subCategoryWrapper.nativeElement.clientHeight;
         this.selector.nativeElement.style.height = subcategoriesHeight + "px";
         this.setWrapperAsSubcategory = false;
+        console.log("setWrapperAsSubcategory")
       }, 50);
     }
     else if(this.setWrapperAsSuperSubcategory) {
@@ -250,6 +303,7 @@ export class NavigationSelectorComponent implements OnInit {
         let superSubcategoriesHeight = this.superSubCategoryWrapper.nativeElement.clientHeight;
         this.selector.nativeElement.style.height = superSubcategoriesHeight + "px";
         this.setWrapperAsSuperSubcategory = false;
+        console.log("setWrapperAsSuperSubcategory")
       }, 50);
       
     }
@@ -259,6 +313,8 @@ export class NavigationSelectorComponent implements OnInit {
         let brandsWrapperHeight = this.brandsWrapper.nativeElement.clientHeight;
         this.selector.nativeElement.style.height = brandsWrapperHeight + "px";
         this.setWrapperAsBrand = false;
+        console.log("setWrapperAsBrand")
+
       }, 50);
     }
     else if(this.setWrapperAsPromotion) {
@@ -267,6 +323,18 @@ export class NavigationSelectorComponent implements OnInit {
         let promotionWrapperHeight = this.promotionsWrapper.nativeElement.clientHeight;
         this.selector.nativeElement.style.height = promotionWrapperHeight + "px";
         this.setWrapperAsPromotion = false;
+        console.log("setWrapperAsPromotion")
+        
+      }, 50);
+    }
+    else if(this.setWrapperAsStaticPage) {
+      setTimeout(() => {
+        
+        let WrapperHeight = this.staticPagesWrapper.nativeElement.clientHeight;
+        this.selector.nativeElement.style.height = WrapperHeight + "px";
+        this.setWrapperAsStaticPage = false;
+        console.log("setWrapperAsStaticPage")
+
       }, 50);
     }
   }

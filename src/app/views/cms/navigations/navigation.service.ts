@@ -37,6 +37,21 @@ export class NavigationService {
     });
   }
 
+  createNewNavigation(data)
+  {
+    debugger
+    return Axios.post( environment.backend_url + '/cms/navigation', data, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
   
 
   

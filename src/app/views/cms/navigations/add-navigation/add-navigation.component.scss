@@ -132,3 +132,23 @@
   }
   
 }
+.navigation-title
+{
+  max-width: 300px;
+}
+.active-nav{
+  background-color:rgba(76, 175, 80, 0.075);
+}
+.material-icons{
+  font-family: 'Material Icons' !important;
+}
+.nav-node{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.add-nav
+{
+  font-weight: bold;
+  font-size: 18px;
+}

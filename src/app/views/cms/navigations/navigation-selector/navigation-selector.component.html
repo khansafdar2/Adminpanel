@@ -48,6 +48,25 @@
       </mat-list-item>
     </mat-list>
   </div> 
+
+  <div class="static-pages" *ngIf='staticPages.length' [@slideInOut] #staticPagesWrapper>
+    <div class="list-title" (click)="backToMainMenu()"> <mat-icon>chevron_left</mat-icon> {{activeMenu.title}}</div>
+    <mat-progress-bar *ngIf="loading" color="primary" mode="indeterminate"></mat-progress-bar>
+    <mat-list >
+      <mat-list-item
+      *ngFor="let page of staticPages;   let i = index"
+      >
+        <div>
+          <mat-checkbox 
+          (change)="setSelectedStaticPage(page)"
+          [checked]="selectedStaticPage.name === page.title" 
+          ></mat-checkbox>
+          {{page.title}}
+        </div>
+        <mat-icon></mat-icon>
+      </mat-list-item>
+    </mat-list>
+  </div> 
   
   
   <div class="mainCategories" *ngIf="mainCategories.length" [@slideInOut] #mainCategoryWrapper>
@@ -66,7 +85,7 @@
           ></mat-checkbox>
           {{mainCategory.name}}
         </div>
-        <mat-icon>chevron_right</mat-icon>
+        <mat-icon *ngIf="!categoryPage" >chevron_right</mat-icon>
       </mat-list-item>
     </mat-list>
   </div>
