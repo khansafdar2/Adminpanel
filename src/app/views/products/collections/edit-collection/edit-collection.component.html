@@ -126,7 +126,7 @@
                 <mat-card>
                     <h2>Organization</h2>
 
-                    <mat-form-field appearance="outline">
+                    <mat-form-field *ngIf="!is_vendor" appearance="outline">
                         <mat-label>Vendor</mat-label>
                         <mat-select formControlName="vendor">
                             <mat-option *ngFor="let vendor of vendors" [value]="vendor.id">{{vendor.name}}</mat-option>

@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -17,6 +18,7 @@ export class AddCollectionComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private vendorService: VendorsService,
     private collectionsService: CollectionsService,
+    private authservice:AuthService,
     private snackbarService: MatSnackBar,
     private router: Router,
     private sharedService: SharedService) { }
@@ -24,6 +26,7 @@ export class AddCollectionComponent implements OnInit {
   URLS = URLS;
   loading: boolean = false;
   file_uploading: boolean = false;
+  is_vendor = this.authservice.user.is_vendor;
   bannerFile: File;
   vendors = [];
   editorModules = {

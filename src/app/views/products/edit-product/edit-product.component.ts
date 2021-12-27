@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/auth/auth.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ProductsService } from '../products.service';
@@ -45,6 +46,7 @@ export class EditProductComponent implements OnInit {
     private vendorsService: VendorsService,
     private brandsService: BrandsService,
     private sharedService: SharedService,
+    private authService: AuthService,
     private snackbarService: MatSnackBar,
     private router: Router
   ) {
@@ -54,6 +56,7 @@ export class EditProductComponent implements OnInit {
   loading: boolean = true;
   URLS = URLS;
   productID: string;
+  is_vendor = this.authService.user.is_vendor;
   productTypes: any[] = [];
   productGroups: any[] = [];
   collections: any[] = [];
@@ -102,8 +105,9 @@ export class EditProductComponent implements OnInit {
     product_type: [null],
     product_group: [""],
     product_brand: [null],
-    collection: [[]],
+    commission: [[]],
     vendor: [null, [Validators.required]],
+    collection: [[]],
     is_active: [{value: false, disabled: true}],
     whatsapp: [true],
     hide_out_of_stock: [false],
@@ -131,6 +135,7 @@ export class EditProductComponent implements OnInit {
   variantsForm = this.fb.group({
     variants: this.fb.array([])
   });
+
 
   addFeature() {
     (this.productForm.get('features') as FormArray).push(
@@ -570,6 +575,11 @@ export class EditProductComponent implements OnInit {
     this.getVendors();
     this.getBrands();
     this.getProductDetails();
+    if (this.is_vendor) {
+      this.productForm.patchValue({
+        vendor: [null]
+      });
+    }
   }
 
 }

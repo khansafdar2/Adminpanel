@@ -24,54 +24,49 @@ export class AddVendorComponent implements OnInit {
 
   loading: boolean  = false 
   URLS = URLS;
-  vendorID = '';
   commission_type_check:any;
   storeCurrency = environment.currency;
 
-
   vendorForm = this.fb.group({
-    id: this.vendorID,
     name: ["", [Validators.required]],
     email: ["", [Validators.email]],
     phone: [""],
     city: [""],
     address: [""],
-    tax: [""],
-    commercial_registration: [""],
-    commission:this.fb.array([]),
+    license_number: [null],
+    commissions:this.fb.array([]),
     notes: [""],
     is_active: [true],
-    is_approved: [true]
   });
 
 
 
 
   addCommission() {
-    (this.vendorForm.get("commission") as FormArray).push(
-       this.fb.group({
-        category_name: [""],
-        product_group: [[]],
-        commission_type: ["percentage"],
-        commission_value: [0, [Validators.min(0), Validators.max(100)]],
+    (this.vendorForm.get("commissions") as FormArray).push(
+      this.fb.group({
+        id:[null],
+        title: [""],
+        type: ["percentage"],
+        value: [0, [Validators.min(0), Validators.max(100)]],
       })
     )
   }
 
 
   removeCommission(index) {
-    (this.vendorForm.get("commission") as FormArray).removeAt(index);
+    (this.vendorForm.get("commissions") as FormArray).removeAt(index);
   }
 
   commisionTypeChange(event, index) {
     if(event.value === "percentage") {
-      let commission_value_validation = (this.vendorForm.get('commission') as FormArray).at(index).get('commisssion_value');
+      let commission_value_validation = (this.vendorForm.get('commissions') as FormArray).at(index).get('value');
       if(commission_value_validation){
         commission_value_validation.value.setValidators([Validators.min(0), Validators.max(100)]);
         commission_value_validation.value.updateValueAndValidity();
       }
     } else {
-      let commission_value_validation = (this.vendorForm.get('commission') as FormArray).at(index).get('commisssion_value');
+      let commission_value_validation = (this.vendorForm.get('commissions') as FormArray).at(index).get('value');
       if(commission_value_validation){
         commission_value_validation.value.setValidators([Validators.min(0)]);
         commission_value_validation.value.updateValueAndValidity();
@@ -79,9 +74,7 @@ export class AddVendorComponent implements OnInit {
     }
   }
 
-  suffixType(index){
-    return (this.vendorForm.get('commission') as FormArray).at(index).get('commission_type').value;
-  }
+
 
   onSubmit() {
     console.log(this.vendorForm.value);

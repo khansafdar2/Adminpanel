@@ -50,7 +50,6 @@ export class VendorsService {
   }
 
   updateVendor(data) {
-    debugger
     return Axios.put( environment.backend_url + '/vendors/vendor', data, {
       headers: {
         Authorization: this.authService.token
