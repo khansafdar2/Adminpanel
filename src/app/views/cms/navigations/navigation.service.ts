@@ -39,7 +39,6 @@ export class NavigationService {
 
   createNewNavigation(data)
   {
-    debugger
     return Axios.post( environment.backend_url + '/cms/navigation', data, {
       headers: {
         Authorization: this.authService.token
@@ -52,6 +51,46 @@ export class NavigationService {
     });
   }
 
+  getSingleNAvigation(navId)
+  {
+    return Axios.get( environment.backend_url + '/cms/navigation/' + navId, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+  updateSingleNAvigation (data)
+  {
+    return Axios.put( environment.backend_url + '/cms/navigation', data, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
+  deleteSingleNavigation(navId)
+  {
+    return Axios.delete( environment.backend_url + '/cms/navigation/' + navId, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
   
 
   

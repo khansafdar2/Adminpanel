@@ -2,6 +2,10 @@ import { Component, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { CdkDragDrop, CdkDrag, CdkDropList, moveItemInArray, transferArrayItem, CdkDragEnter, CdkDragExit, CdkDragStart } from '@angular/cdk/drag-drop';
 import { asapScheduler, asyncScheduler } from 'rxjs';
 import {NavigationService} from '../navigation.service'
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import URLS from 'src/app/shared/urls';
 
 /**
  * @title Drag&Drop connected sorting group
@@ -19,17 +23,21 @@ export class AddNavigationComponent {
   navIndexToUpdate : any
   navNodeToUpdate = null
   
-  placeholderNavNode : NavigationNode = {title:'New', url:''};
+  placeholderNavNode : NavigationNode = {label:'New', link:''};
 
   @ViewChildren(CdkDropList)
   private dlq: QueryList<CdkDropList>;
 
   public dls: CdkDropList[] = [];
 
-  constructor(private navigationService: NavigationService) { }
+  constructor(private navigationService: NavigationService,
+    private snackbarService: MatSnackBar,
+    private dialog: MatDialog,
+    private router: Router
+    ) { }
 
   drop(event: CdkDragDrop<string[]>) {
-    debugger
+    
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
@@ -54,7 +62,7 @@ export class AddNavigationComponent {
               const subMenu = mainMenu[j];
               if (Array.isArray(subMenu) )
               {
-                debugger
+                
                 if (!subMenu.length)
                 {
                   this.navigation[i].splice(j, 1)
@@ -87,12 +95,47 @@ export class AddNavigationComponent {
   }
   publish(){
     console.log(this.navigation)
+    var nav_json = JSON.parse(JSON.stringify(this.navigation)); 
+    // let nav_json = Object.assign({}, this.navigation); 
     debugger
-    let data = {
-      title : this.navTitle
+    for (let i = 0; i < nav_json.length; i++) {
+      const main = nav_json[i];
+      if (Array.isArray(main))
+      {
+        for (let j = 0; j < main.length; j++) {
+          const child = main[j];
+          if (Array.isArray(child))
+          {
+            
+            let splicedArray = main.splice(j, 1)
+            main[j-1].children = splicedArray[0]
+          }
+          
+        }
+        
+        let splicedArray = nav_json.splice(i, 1)
+        nav_json[i-1].children = splicedArray[0]
+        console.log( "nav_json", nav_json )
+      }
+
     }
+    
+
+    let data = {
+      title : this.navTitle,
+      navigation_json : nav_json
+    }
+    
+    this.loading = true
     this.navigationService.createNewNavigation(data).then((resp) => {
-      console.log(resp)
+      this.loading = false
+      if (resp)
+      {
+        if(resp.status == 200) {
+          this.router.navigate(["/", URLS.navigations]);
+          this.snackbarService.open("Navigation Created Successfully ", "", {duration: 3000});
+        }
+      }
     })
 
 
@@ -142,13 +185,13 @@ export class AddNavigationComponent {
   }
 
   createNavigation(){
-    let placeholderNode: NavigationNode = {title:'New', url:''};
+    let placeholderNode: NavigationNode = {label:'New', link:''};
     this.navigation.push(placeholderNode);
     this.updateDropList()
   }
   createSiblingNavigation(index){
     this.navIndexToUpdate  = index
-    let placeholderNode: NavigationNode = {title:'New', url:''};
+    let placeholderNode: NavigationNode = {label:'New', link:''};
     this.navigation[index].push(placeholderNode)
     this.updateDropList()
   }
@@ -156,14 +199,14 @@ export class AddNavigationComponent {
     this.navIndexToUpdate  = index
     let indexes = index.split(',')
     let subArray = this.navigation[parseInt(indexes[0])]
-    let placeholderNode: NavigationNode = {title:'New', url:''};
+    let placeholderNode: NavigationNode = {label:'New', link:''};
     subArray[parseInt(indexes[1])].push(placeholderNode)
     this.updateDropList()
   }
   createNestedNavigation(event)
   {
     this.navIndexToUpdate  = event
-    let placeholderNode: NavigationNode = {title:'New', url:''};
+    let placeholderNode: NavigationNode = {label:'New', link:''};
     let index = event
     if (typeof(index) != 'number' )
     {
@@ -181,7 +224,7 @@ export class AddNavigationComponent {
 
   deleteNvigation(index)
   {
-    debugger
+    
     if (typeof(index) != 'number' )
     {
       let indexes = index.split(',')
@@ -218,6 +261,6 @@ export class AddNavigationComponent {
   
 }
 export interface NavigationNode {
-  title: string;
-  url : string;
+  label: string;
+  link : string;
 }

@@ -93,7 +93,7 @@ import { HomepageComponent, HomepageAddSectionDialog } from './views/cms/homepag
 import { VendorsComponent, DeleteVendorDialog } from './views/vendors/vendors.component';
 import { AddVendorComponent } from './views/vendors/add-vendor/add-vendor.component';
 import { EditVendorComponent } from './views/vendors/edit-vendor/edit-vendor.component';
-import { NavigationsComponent } from './views/cms/navigations/navigations.component';
+import { NavigationDeleteDialog, NavigationsComponent } from './views/cms/navigations/navigations.component';
 import { AddNavigationComponent } from './views/cms/navigations/add-navigation/add-navigation.component';
 import { EditNavigationComponent } from './views/cms/navigations/edit-navigation/edit-navigation.component';
 import { EditNavigationNodeComponent } from './views/cms/navigations/edit-navigation-node/edit-navigation-node.component';
@@ -209,7 +209,8 @@ import { NavigationSelectorDialogComponent } from './views/cms/navigations/navig
     EditNavigationComponent,
     EditNavigationNodeComponent,
     NavigationSelectorComponent,
-    NavigationSelectorDialogComponent
+    NavigationSelectorDialogComponent,
+    NavigationDeleteDialog
   ],
   imports: [
     BrowserModule,

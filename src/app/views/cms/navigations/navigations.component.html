@@ -27,7 +27,9 @@
     <mat-card class="table-wrapper-card">
         <datatable  [data]="allNavigations.data"
           [columns]="displayedColumns"
+          [rowActions]="rowActions"
 
+          (rowAction)="onRowAction($event)" 
           (cellClick)="onCellClick($event)"
         >
       </datatable>

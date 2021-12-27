@@ -11,11 +11,11 @@
           <h4>Edit Navigation</h4>
           <mat-form-field appearance="outline">
               <mat-label>Title</mat-label>
-              <input matInput [(ngModel)]="navNodeToUpdate.title"  />
+              <input matInput [(ngModel)]="navNodeToUpdate.label"  />
           </mat-form-field>
           <mat-form-field appearance="outline">
             <mat-label>Link</mat-label>
-            <input matInput [(ngModel)]="navNodeToUpdate.url" />
+            <input matInput [(ngModel)]="navNodeToUpdate.link" />
         </mat-form-field>
         <button mat-stroked-button color="primary" (click)="changeNavigation()">Select Navigation</button>
       </div>
