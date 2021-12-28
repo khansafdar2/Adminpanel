@@ -1,0 +1,32 @@
+<button mat-icon-button mat-dialog-close class="dialog-close"><mat-icon>close</mat-icon></button>
+<h2 mat-dialog-title>Delete Commission</h2>
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="commissionDeleteForm">
+    <mat-form-field appearance="outline">
+        <mat-label>Select Action</mat-label>
+        <mat-select  (selectionChange)="onActionChange()">
+            <mat-option value="delete">Delete</mat-option>
+            <mat-option value="reassign">Reassign Before deleting</mat-option>
+        </mat-select>
+    </mat-form-field>
+    {{vendorChoice}}
+
+    <div *ngIf="showAssignOptions">
+        <mat-form-field appearance="outline">
+            <mat-label>Assign commissions </mat-label>
+            <mat-select formControlName="commission">
+              <div *ngFor="let commission of commissionList" >
+                <mat-option  (click)="commissionSelect()"  [value]="commission.id"> <span>{{commission.title}}</span> </mat-option>
+              </div>
+            </mat-select>
+        </mat-form-field>
+
+
+
+    </div>
+</form>
+</mat-dialog-content>
+<div mat-dialog-actions>
+    <button mat-stroked-button color="primary" mat-dialog-close>Cancel</button>
+    <button mat-flat-button color="primary" [disabled]="btnDissabled" (click)="onSubmit()" >Delete</button>
+</div>

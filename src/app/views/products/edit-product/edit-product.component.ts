@@ -57,6 +57,7 @@ export class EditProductComponent implements OnInit {
   URLS = URLS;
   productID: string;
   is_vendor = this.authService.user.is_vendor;
+  vendorId: number;
   productTypes: any[] = [];
   productGroups: any[] = [];
   collections: any[] = [];
@@ -69,6 +70,7 @@ export class EditProductComponent implements OnInit {
   deletedImages = [];
   originalPrice = 0;
   originalOptions = [];
+  commissionList:any;
   changingPrice: boolean = false;
   originalVariants: Variant[] = [];
   creatingVariants: boolean = false;
@@ -105,7 +107,7 @@ export class EditProductComponent implements OnInit {
     product_type: [null],
     product_group: [""],
     product_brand: [null],
-    commission: [[]],
+    commission: [null],
     vendor: [null, [Validators.required]],
     collection: [[]],
     is_active: [{value: false, disabled: true}],
@@ -209,7 +211,7 @@ export class EditProductComponent implements OnInit {
   }
 
   getProductGroups() {
-    let vendor = this.productForm.get('vendor').value;
+    let vendor = this.productForm.get('vendor').value;    
     this.productsService.getProductGroups(1, 250, "&vendor=" + vendor, "").then(resp => {
       if(resp) {
         this.productGroups = resp.data.results;
@@ -242,6 +244,28 @@ export class EditProductComponent implements OnInit {
     });
   }
 
+  getCommission(){
+    if (!this.is_vendor) {
+      let vendorId = this.productForm.get('vendor').value;
+      if (vendorId)  {
+        this.loading = true;
+        this.productsService.getCommissions(vendorId).then(resp=>{
+          this.loading = false;
+          let commissions;
+          commissions = resp;
+          this.commissionList = commissions.data;
+        });
+      }
+    } else {
+      this.productsService.getCommissions('').then(resp=>{
+        this.loading = false;
+        let commissions;
+        commissions = resp;
+        this.commissionList = commissions.data;
+      });
+    }
+  }
+
   getProductDetails() {
     this.loading = true;
     this.productsService.getProductDetail(this.productID).then(resp => {
@@ -266,6 +290,7 @@ export class EditProductComponent implements OnInit {
 
         this.productTags = resp.data.tags.length ? resp.data.tags.split(",").filter(tag => tag) : [];
         this.productForm.patchValue(resp.data);
+        this.getCommission();        
         this.getProductGroups();
         this.getCollections();
         if(resp.data.product_group) {
@@ -299,6 +324,9 @@ export class EditProductComponent implements OnInit {
       }
     });
   }
+
+
+
 
   deleteVariant(variant) {
     let dialogRef = this.dialog.open(DeleteVariantConfirmDialog, {
@@ -450,6 +478,7 @@ export class EditProductComponent implements OnInit {
     });
     this.getProductGroups();
     this.getCollections();
+    this.getCommission();
   }
 
   onProductGroupChange() {

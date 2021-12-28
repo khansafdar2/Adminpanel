@@ -300,8 +300,9 @@
                     <h2>Commission</h2>
                     <mat-form-field appearance="outline">
                         <mat-label>Commission</mat-label>
-                        <mat-select formControlName="comission">
-                            <mat-option ></mat-option>
+                        <mat-select formControlName="commission">
+                            <mat-option [value]=commissions.id *ngFor="let commissions of commissionList">
+                                {{commissions.title}}</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </mat-card>

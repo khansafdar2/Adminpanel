@@ -7,7 +7,9 @@
 
         <div class="header-actions">
             <a [routerLink]="['/', URLS.products]" mat-stroked-button color="primary">Cancel</a>
-            <button mat-flat-button color="primary" [disabled]="loading || !productForm.valid || !inventoryForm.valid || !variantsForm.valid" (click)="onSubmit()">Save</button>
+            <button mat-flat-button color="primary"
+                [disabled]="loading || !productForm.valid || !inventoryForm.valid || !variantsForm.valid"
+                (click)="onSubmit()">Save</button>
         </div>
     </div>
 
@@ -21,16 +23,18 @@
                     <mat-form-field appearance="outline">
                         <mat-label>Product Name</mat-label>
                         <input matInput formControlName="title" />
-                        <mat-error *ngIf="productForm.get('title').hasError('required')">Enter the name of your product.</mat-error>
+                        <mat-error *ngIf="productForm.get('title').hasError('required')">Enter the name of your product.
+                        </mat-error>
                     </mat-form-field>
-    
-                    <quill-editor [modules]="editorModules" placeholder="Product description" formControlName="description"></quill-editor>
+
+                    <quill-editor [modules]="editorModules" placeholder="Product description"
+                        formControlName="description"></quill-editor>
                 </mat-card>
 
                 <!-- Features -->
                 <mat-card>
                     <h2>Features</h2>
-    
+
                     <table class="product-features-table">
                         <thead>
                             <tr>
@@ -53,13 +57,15 @@
                                         </mat-form-field>
                                     </td>
                                     <td>
-                                        <button mat-icon-button color="primary" (click)="deleteFeature(i)"><mat-icon>delete</mat-icon></button>
+                                        <button mat-icon-button color="primary" (click)="deleteFeature(i)">
+                                            <mat-icon>delete</mat-icon>
+                                        </button>
                                     </td>
                                 </ng-container>
                             </tr>
                         </tbody>
                     </table>
-    
+
                     <div class="text-right meta-fields-bottom">
                         <button mat-button color="primary" (click)="addFeature()">Add feature</button>
                     </div>
@@ -70,24 +76,19 @@
             <mat-card class="mt-20">
                 <h2>Media</h2>
 
-                <div class="image-previews"
-                    fxLayout="row wrap"
-                    fxLayoutAlign="start"
-                    *ngIf="bannerImages.length"
-                    cdkDropList
-                    cdkDropListOrientation="horizontal"
-                    (cdkDropListDropped)="imageSortChanged($event)"
-                >
+                <div class="image-previews" fxLayout="row wrap" fxLayoutAlign="start" *ngIf="bannerImages.length"
+                    cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="imageSortChanged($event)">
                     <div class="preview-wrapper" *ngFor="let media of bannerImages; let i = index;" cdkDrag>
                         <img [src]="media.cdn_link" *ngIf="media.type === 'image'" />
-                        <img src="assets/img/play-button.png" class="video-thumbnail" *ngIf="media.type === 'video'" (click)="videoThumbnailClick(media.cdn_link)" />
-                        <button mat-icon-button color="warn" class="remove-preview-image" (click)="removeImage(i)"><mat-icon>close</mat-icon></button>
+                        <img src="assets/img/play-button.png" class="video-thumbnail" *ngIf="media.type === 'video'"
+                            (click)="videoThumbnailClick(media.cdn_link)" />
+                        <button mat-icon-button color="warn" class="remove-preview-image" (click)="removeImage(i)">
+                            <mat-icon>close</mat-icon>
+                        </button>
                     </div>
                 </div>
 
-                <angular-file-uploader
-                    [config]="afuConfig"
-                    (ApiResponse)="mediaUpload($event)">
+                <angular-file-uploader [config]="afuConfig" (ApiResponse)="mediaUpload($event)">
                 </angular-file-uploader>
             </mat-card>
 
@@ -100,7 +101,8 @@
                         <mat-form-field appearance="outline">
                             <mat-label>SKU</mat-label>
                             <input matInput formControlName="sku" />
-                            <mat-error *ngIf="inventoryForm.get('sku').hasError('required')">SKU is a required field.</mat-error>
+                            <mat-error *ngIf="inventoryForm.get('sku').hasError('required')">SKU is a required field.
+                            </mat-error>
                         </mat-form-field>
                     </div>
                     <div fxFlex="0 1 50%">
@@ -129,11 +131,13 @@
                 <div fxLayout="row" fxLayoutAlign="space-between">
                     <h2>Variants</h2>
 
-                    <button mat-button color="primary" (click)="onEditOptions()" *ngIf="productOptions.length && !creatingVariants">Edit options</button>
+                    <button mat-button color="primary" (click)="onEditOptions()"
+                        *ngIf="productOptions.length && !creatingVariants">Edit options</button>
                 </div>
 
                 <div [formGroup]="productForm" *ngIf="!productForm.get('has_variants').value">
-                    <mat-checkbox formControlName="has_variants" (change)="hasVariantsChange($event)">This product has multiple options like size, color etc.</mat-checkbox>
+                    <mat-checkbox formControlName="has_variants" (change)="hasVariantsChange($event)">This product has
+                        multiple options like size, color etc.</mat-checkbox>
                 </div>
 
                 <div *ngIf="productForm.get('has_variants').value && !creatingVariants">
@@ -149,23 +153,26 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let variant of variants">
-                                <td *ngFor="let option of productOptions; let i = index">{{variant['option' + (i+1)]}}</td>
+                                <td *ngFor="let option of productOptions; let i = index">{{variant['option' + (i+1)]}}
+                                </td>
                                 <td>{{variant.price}}</td>
                                 <td>{{variant.inventory_quantity}}</td>
                                 <td>{{variant.sku}}</td>
                                 <td>
-                                    <a
-                                        mat-icon-button
-                                        color="primary"
-                                        [routerLink]="['/', URLS.products, productID, URLS.variants, variant.id]"
-                                    ><mat-icon>edit</mat-icon></a>
-                                    <button mat-icon-button color="warn" (click)="deleteVariant(variant)"><mat-icon>delete</mat-icon></button>
+                                    <a mat-icon-button color="primary"
+                                        [routerLink]="['/', URLS.products, productID, URLS.variants, variant.id]">
+                                        <mat-icon>edit</mat-icon>
+                                    </a>
+                                    <button mat-icon-button color="warn" (click)="deleteVariant(variant)">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
 
-                    <a [routerLink]="['/', URLS.products, productID, URLS.variants, URLS.add]" mat-stroked-button color="primary">+ Add variant</a>
+                    <a [routerLink]="['/', URLS.products, productID, URLS.variants, URLS.add]" mat-stroked-button
+                        color="primary">+ Add variant</a>
                 </div>
 
                 <div *ngIf="creatingVariants">
@@ -180,22 +187,23 @@
                                         </mat-form-field>
                                     </td>
                                     <td>
-                                        <tags-input
-                                            [(value)]="option.values"
-                                            (change)="makeVariantsFromOptions()"
-                                            placeholder="New option..."
-                                            label="Option"></tags-input>
+                                        <tags-input [(value)]="option.values" (change)="makeVariantsFromOptions()"
+                                            placeholder="New option..." label="Option"></tags-input>
                                     </td>
                                     <td style="width: 50px">
-                                        <button mat-icon-button color="primary" (click)="deleteOption(i)" *ngIf="productOptions.length > 1"><mat-icon>delete</mat-icon></button>
+                                        <button mat-icon-button color="primary" (click)="deleteOption(i)"
+                                            *ngIf="productOptions.length > 1">
+                                            <mat-icon>delete</mat-icon>
+                                        </button>
                                     </td>
                                 </tr>
                             </ng-container>
                         </tbody>
                     </table>
-    
+
                     <div class="add-option">
-                        <button mat-button color="primary" (click)="addOption()" *ngIf="productOptions.length < 3">Add option</button>
+                        <button mat-button color="primary" (click)="addOption()" *ngIf="productOptions.length < 3">Add
+                            option</button>
                     </div>
 
                     <mat-divider></mat-divider>
@@ -212,7 +220,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let variantGroup of variantsForm.get('variants')['controls']; let i = index">
+                                <tr
+                                    *ngFor="let variantGroup of variantsForm.get('variants')['controls']; let i = index">
                                     <ng-container [formGroup]="variantGroup">
                                         <td>{{variantGroup.get('title').value}}</td>
                                         <td>
@@ -228,7 +237,8 @@
                                         <td>
                                             <mat-form-field appearance="outline">
                                                 <input matInput formControlName="sku" />
-                                                <mat-error *ngIf="variantGroup.get('sku').hasError('required')">SKU is a required field.</mat-error>
+                                                <mat-error *ngIf="variantGroup.get('sku').hasError('required')">SKU is a
+                                                    required field.</mat-error>
                                             </mat-form-field>
                                         </td>
                                         <td>
@@ -237,7 +247,9 @@
                                             </mat-form-field>
                                         </td>
                                         <td>
-                                            <button color="warn" mat-icon-button (click)="removeVariant(i)"><mat-icon>delete</mat-icon></button>
+                                            <button color="warn" mat-icon-button (click)="removeVariant(i)">
+                                                <mat-icon>delete</mat-icon>
+                                            </button>
                                         </td>
                                     </ng-container>
                                 </tr>
@@ -252,12 +264,13 @@
                 <!-- Availability -->
                 <mat-card>
                     <h2>Availability</h2>
-    
+
                     <div fxLayout="column" class="verticle-checkbox">
                         <mat-checkbox formControlName="is_active">Active</mat-checkbox>
                         <mat-checkbox formControlName="whatsapp">Allow order on WhatAapp</mat-checkbox>
                         <mat-checkbox formControlName="hide_out_of_stock">Hide when out of stock</mat-checkbox>
-                        <p class="form-error" *ngIf="!productForm.get('product_group').value">To make your product available on live store, assign it to any product group.</p>
+                        <p class="form-error" *ngIf="!productForm.get('product_group').value">To make your product
+                            available on live store, assign it to any product group.</p>
                     </div>
                 </mat-card>
 
@@ -270,29 +283,32 @@
                         <mat-select formControlName="vendor" (selectionChange)="onVendorChange()">
                             <mat-option [value]="vendor.id" *ngFor="let vendor of vendors">{{vendor.name}}</mat-option>
                         </mat-select>
-                        <mat-error *ngIf="productForm.get('vendor').hasError('required')">Select the vendor of this product.</mat-error>
+                        <mat-error *ngIf="productForm.get('vendor').hasError('required')">Select the vendor of this
+                            product.</mat-error>
                     </mat-form-field>
 
                     <mat-form-field appearance="outline">
                         <mat-label>Product type</mat-label>
                         <input matInput formControlName="product_type" />
                     </mat-form-field>
-    
+
                     <mat-form-field appearance="outline">
                         <mat-label>Product group</mat-label>
                         <mat-select formControlName="product_group" (selectionChange)="onProductGroupChange()">
                             <mat-option value="">None</mat-option>
-                            <mat-option [value]="group.id" *ngFor="let group of productGroups">{{group.title}}</mat-option>
+                            <mat-option [value]="group.id" *ngFor="let group of productGroups">{{group.title}}
+                            </mat-option>
                         </mat-select>
                     </mat-form-field>
-    
+
                     <mat-form-field appearance="outline">
                         <mat-label>Collections</mat-label>
                         <mat-select multiple formControlName="collection">
-                            <mat-option [value]="collection.id" *ngFor="let collection of collections">{{collection.title}}</mat-option>
+                            <mat-option [value]="collection.id" *ngFor="let collection of collections">
+                                {{collection.title}}</mat-option>
                         </mat-select>
                     </mat-form-field>
-    
+
                     <mat-form-field appearance="outline">
                         <mat-label>Brand</mat-label>
                         <mat-select formControlName="product_brand">
@@ -309,7 +325,9 @@
                         <mat-label>Price</mat-label>
                         <input matInput type="number" formControlName="price" (change)="checkPriceChange()" />
                     </mat-form-field>
-                    <p class="form-error" *ngIf="changingPrice" style="margin-bottom: 20px">This product has automated discount applied from it's product group if you change the price then this product will have it's group unassigned.</p>
+                    <p class="form-error" *ngIf="changingPrice" style="margin-bottom: 20px">This product has automated
+                        discount applied from it's product group if you change the price then this product will have
+                        it's group unassigned.</p>
 
                     <mat-form-field appearance="outline">
                         <mat-label>Compare at price</mat-label>
@@ -321,28 +339,33 @@
                     </mat-form-field>
                 </mat-card>
 
-                                <!-- commission -->
-                                <mat-card>
-                                    <h2>Commission</h2>
-                                    <mat-form-field appearance="outline">
-                                        <mat-label>Commission</mat-label>
-                                        <mat-select formControlName="comission">
-                                            <mat-option ></mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                                </mat-card>
+                <!-- commission -->
+                <mat-card>
+                    <h2>Commission</h2>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Commission</mat-label>
+                        <mat-select formControlName="commission">
+                            <mat-option [value]=commissions.id *ngFor="let commissions of commissionList">
+                                {{commissions.title}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </mat-card>
 
                 <!-- Shipping and Tax -->
-                <mat-card class="mt-20" *ngIf="!productForm.get('has_variants').value || creatingVariants" [formGroup]="inventoryForm">
+                <mat-card class="mt-20" *ngIf="!productForm.get('has_variants').value || creatingVariants"
+                    [formGroup]="inventoryForm">
                     <h2>Shipping</h2>
 
                     <div fxLayout="column" class="verticle-checkbox">
-                        <mat-checkbox formControlName="is_physical" (change)="onPysicalChange($event)">is a physical product.</mat-checkbox>
+                        <mat-checkbox formControlName="is_physical" (change)="onPysicalChange($event)">is a physical
+                            product.</mat-checkbox>
                         <mat-form-field appearance="outline" *ngIf="inventoryForm.get('is_physical').value">
                             <mat-label>Weight</mat-label>
                             <input matInput formControlName="weight" type="number" (change)="onWeightChange()" />
-                            <mat-error *ngIf="inventoryForm.get('weight').hasError('required')">Enter the weight of the product.</mat-error>
-                            <mat-error *ngIf="inventoryForm.get('weight').hasError('min')">A physical product weight can not be 0.</mat-error>
+                            <mat-error *ngIf="inventoryForm.get('weight').hasError('required')">Enter the weight of the
+                                product.</mat-error>
+                            <mat-error *ngIf="inventoryForm.get('weight').hasError('min')">A physical product weight can
+                                not be 0.</mat-error>
                         </mat-form-field>
                     </div>
                 </mat-card>
@@ -360,10 +383,7 @@
                 <mat-card>
                     <h2>Tags</h2>
 
-                    <tags-input
-                        label="Tags"
-                        [showRemove]="true"
-                        [(value)]="productTags">
+                    <tags-input label="Tags" [showRemove]="true" [(value)]="productTags">
                     </tags-input>
                 </mat-card>
             </form>

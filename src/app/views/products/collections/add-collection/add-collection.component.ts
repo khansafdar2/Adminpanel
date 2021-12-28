@@ -39,6 +39,7 @@ export class AddCollectionComponent implements OnInit {
   previewImageSrc: string = "";
   main_categories = [];
   sub_categories = [];
+  commissionList = [];
   super_sub_categories = [];
   // collectionType: string = "Manual";
   // collectionConditions = {

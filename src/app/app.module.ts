@@ -92,7 +92,7 @@ import { EditPageComponent } from './views/cms/pages/edit-page/edit-page.compone
 import { HomepageComponent, HomepageAddSectionDialog } from './views/cms/homepage/homepage.component';
 import { VendorsComponent, DeleteVendorDialog } from './views/vendors/vendors.component';
 import { AddVendorComponent } from './views/vendors/add-vendor/add-vendor.component';
-import { EditVendorComponent } from './views/vendors/edit-vendor/edit-vendor.component';
+import { DeleteCommissionDialog, EditVendorComponent } from './views/vendors/edit-vendor/edit-vendor.component';
 import { NavigationsComponent } from './views/cms/navigations/navigations.component';
 import { HomepageSliderSection, HomepageCategoriesCarousel, HomepageBrands, HomepageProductsCarousel, HomepageSingleBanner, HomepageCategoriesTabs, HomepageTwoBanners, HomepageFeatureIcons } from './views/cms/homepage/homepage-sections.components';
 import { ImageSelectorComponent } from './shared/image-selector/image-selector.component';
@@ -204,7 +204,8 @@ import { FooterCustomizationComponent } from './views/cms/footer-customization/f
     HomepageFeatureIcons,
     HomepageAddSectionDialog,
     HeaderCustomizationComponent,
-    FooterCustomizationComponent
+    FooterCustomizationComponent,
+    DeleteCommissionDialog,
   ],
   imports: [
     BrowserModule,

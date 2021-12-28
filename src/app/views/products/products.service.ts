@@ -195,6 +195,22 @@ export class ProductsService {
     });
   }
 
+  getCommissions(id) {
+    return Axios.get( environment.backend_url + '/vendors/commission_list?vendor_id=' + id , {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
+
+
+
   /**
    * 
    * @param {Object} data

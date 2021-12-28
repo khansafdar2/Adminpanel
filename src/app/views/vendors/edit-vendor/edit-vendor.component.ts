@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { ProductsService } from './../../products/products.service';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { VendorsService } from '../vendors.service';
 import URLS from 'src/app/shared/urls';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from 'src/environments/environment';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-edit-vendor',
@@ -18,7 +20,8 @@ export class EditVendorComponent implements OnInit {
     private vendorsService: VendorsService,
     private route: ActivatedRoute,
     private router: Router,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
+    public dialog: MatDialog
   ) {
     this.vendorID = this.route.snapshot.paramMap.get('id');
   }
@@ -57,7 +60,21 @@ export class EditVendorComponent implements OnInit {
 
 
   removeCommission(index) {
-    (this.vendorForm.get("commissions") as FormArray).removeAt(index);
+    // (this.vendorForm.get("commissions") as FormArray).removeAt(index);
+    let dialogRef = this.dialog.open(DeleteCommissionDialog, {
+      width: "600px",
+      data: {
+        commissionID: [index],
+        vendorID: this.vendorID
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(applied => {
+      if(applied) {
+        // this.productSelection.clear();
+        // this.getProducts();
+      }
+    });
   }
 
 
@@ -110,8 +127,100 @@ export class EditVendorComponent implements OnInit {
     });
   }
 
+
+  onRowAction(data) {
+      
+
+    
+  }
+
   ngOnInit(): void {
     this.getSingleVendor();
   }
 
+}
+
+
+
+@Component({
+  selector: 'delete-commission-dialog',
+  templateUrl: '../dialogs/delete-commission-dialog.html',
+})
+export class DeleteCommissionDialog {
+  constructor(
+    public dialogRef: MatDialogRef<DeleteCommissionDialog>,
+    @Inject(MAT_DIALOG_DATA) public data,
+    private vendorsService: VendorsService,
+    private snackBar: MatSnackBar,
+    private commissionService: ProductsService,
+    private fb: FormBuilder,
+
+  ) {
+    this.vendorID = this.data.vendorID
+  }
+
+  commissionDeleteForm = this.fb.group({
+    commission : [null],
+  });
+
+  newAssignedCommission = this.commissionDeleteForm.get('commission').value;
+
+  onSubmit(){
+    this.loading = true;
+    console.warn(this.newAssignedCommission);
+    if (this.commissionDeleteForm.value == 'delete') {
+      this.vendorsService.deleteCommission(this.data.commissionID, '').then((resp) => {
+        this.loading = false;
+        if(resp) {
+          this.snackBar.open("Commission Deleted successfully.", "", {duration: 3000});
+          this.dialogRef.close(true);
+        }
+      })
+    }
+    this.vendorsService.deleteCommission(this.data.commissionID, this.newAssignedCommission).then((resp) => {
+      this.loading = false;
+      if(resp) {
+        this.snackBar.open("Commission Deleted successfully.", "", {duration: 3000});
+        this.dialogRef.close(true);
+      }
+    })
+    
+
+  }
+  
+  onActionChange() {
+    if (this.commissionDeleteForm.value == 'delete')
+    {
+      this.btnDissabled = false 
+      this.showAssignOptions = false
+    }
+    else {
+      this.btnDissabled = true 
+      this.showAssignOptions = true
+      this.commissionService.getCommissions(this.data.vendorID).then(resp => {
+        if(resp) {
+          this.commissionList = resp.data
+        }
+      })
+    }
+  }
+
+  commissionSelect(){
+    this.btnDissabled = false
+  }
+
+ 
+    
+  
+  btnDissabled = true;
+  vendorChoice = '';
+  apiString = '';
+  commissionList = [];
+  vendorID = '';
+  loading = false;
+  showAssignOptions = false;
+  
+  onApply() {
+  
+  }
 }

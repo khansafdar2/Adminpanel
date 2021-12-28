@@ -75,4 +75,19 @@ export class VendorsService {
     });
   }
 
+  deleteCommission(oldID,newID){
+    return Axios.delete( environment.backend_url + '/vendors/commission/' + oldID + '?new_id=' + newID , {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
+
+
 }

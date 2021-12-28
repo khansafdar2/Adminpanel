@@ -36,7 +36,6 @@ export class SigninComponent implements OnInit {
       .then((response) => {
         this.loading = false;
         this.authService.signin(response.data.token, response.data.permission, response.data);
-
         this.router.navigate(['/dashboard']);
       }, (error) => {
         this.loading = false;

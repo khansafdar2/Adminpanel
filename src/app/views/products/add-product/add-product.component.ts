@@ -56,6 +56,7 @@ export class AddProductComponent implements OnInit {
   productGroups: any[] = [];
   collections: any[] = [];
   vendors: any[] = [];
+  commissionList:any[] = [];
   brands: any[] = [];
   productTags:string[] = [];
   editorModules = {
@@ -103,7 +104,7 @@ export class AddProductComponent implements OnInit {
     product_brand: [null],
     vendor: [null, [Validators.required]],
     collection: [[]],
-    commission: [[]],
+    commission: [''],
     is_active: [{value: false, disabled: true}],
     whatsapp: [true],
     hide_out_of_stock: [false],
@@ -221,6 +222,28 @@ export class AddProductComponent implements OnInit {
     });
   }
 
+  getCommission(){
+    if (!this.is_vendor) {
+      let vendorId = this.productForm.get('vendor').value;
+      if (vendorId)  {
+        this.loading = true;
+        this.productsService.getCommissions(vendorId).then(resp=>{
+          this.loading = false;
+          let commissions;
+          commissions = resp;
+          this.commissionList = commissions.data;
+        })
+      }
+    } else {
+      this.productsService.getCommissions('').then(resp=>{
+        this.loading = false;
+        let commissions;
+        commissions = resp;
+        this.commissionList = commissions.data;
+      })
+    }
+  }
+
   removeVariant(index) {
     (this.variantsForm.get('variants') as FormArray).removeAt(index);
   }
@@ -302,6 +325,7 @@ export class AddProductComponent implements OnInit {
     });
     this.getProductGroups();
     this.getCollections();
+    this.getCommission();
   }
 
   onProductGroupChange() {
