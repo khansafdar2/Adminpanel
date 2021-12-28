@@ -144,7 +144,7 @@ export class CollectionsComponent implements OnInit {
         title: "Vendor",
         selector: "vendor_name"
       });
-      this.filtersArray.push({
+      this.filtersArray.unshift({
         title: "Vendor",
         key: 'vendor',
         values: []
