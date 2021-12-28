@@ -20,6 +20,8 @@ export class CategoryStructureComponent implements OnInit {
   URLS = URLS;
 
   categories = [];
+  categoryActions: string[] = [];
+  activeCategory = null;
 
   getMainCategories() {
     this.loading = true;
@@ -80,6 +82,13 @@ export class CategoryStructureComponent implements OnInit {
     subCategory.open = false;
   }
 
+  superSubCategorySort(event, mainIndex, subIndex) {
+    let subCategory = this.categories[mainIndex].sub_category[subIndex];
+    let superSubCategories = subCategory.super_sub_category;
+    moveItemInArray(superSubCategories, event.previousIndex, event.currentIndex);
+    this.sortCategoryCall(superSubCategories, "super_sub_category");
+  }
+
   sortCategoryCall(categoriesArray, type) {
     this.loading = true;
     let categoryData = categoriesArray.map((category, index) => {
@@ -114,6 +123,68 @@ export class CategoryStructureComponent implements OnInit {
       subCategory.open = true;
       subCategory.super_sub_category = [];
       this.getSuperSubCategories(mainIndex, subIndex);
+    }
+  }
+
+  addSubCategory(event, index) {
+    event.preventDefault();
+    this.router.navigate(['/', URLS.categories, URLS.newSubCategory, index]);
+  }
+
+  rowActionsToggle(event, id, is_active, type) {
+    event.stopPropagation();
+    let actions = ["Edit"];
+    is_active ? actions.push("Make offline") : actions.push("Make online");
+    actions.push("Delete");
+    this.categoryActions = actions;
+    this.activeCategory = {
+      id,
+      type,
+      is_active
+    }
+  }
+
+  changeCategoryStatus(id, type, status) {
+    this.categoryService.changeCatgeoryStatus(id, type, status).then(resp => {
+      if(resp) {
+        if(resp.data.detail) {
+          this.getMainCategories();
+        }
+      }
+    });
+  }
+
+  deleteCategory(id, type) {
+    this.loading = true;
+    this.categoryService.deleteCatgeory(id, type).then(resp => {
+      this.loading = false;
+      if(resp) {
+        this.getMainCategories();
+      }
+    })
+  }
+
+  onCategoryAction(action) {
+    let id = this.activeCategory.id;
+    let type = this.activeCategory.type;
+    let status;
+
+    if(action === "Edit"){
+      if(type === "main") {
+        this.router.navigate(["/", URLS.categories, URLS.editMainCategory, id]);
+      } else if(type === "sub") {
+        this.router.navigate(["/", URLS.categories, URLS.editSubCategory, id]);
+      } else if(type === "supersub") {
+        this.router.navigate(["/", URLS.categories, URLS.editSuperSubCategory, id]);
+      }
+    } else if(action === "Make offline") {
+      status = false;
+      this.changeCategoryStatus(id, type, status);
+    } else if(action === "Make online") {
+      status = true;
+      this.changeCategoryStatus(id, type, status);
+    } else if(action === "Delete") {
+      this.deleteCategory(id, type);
     }
   }
 
