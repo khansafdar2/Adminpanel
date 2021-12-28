@@ -1,3 +1,5 @@
+@import '../../../../../scss/variables.scss';
+
 * {
   font-family: Lato;
 }
@@ -47,10 +49,9 @@
  .nav-drag-drop#main{
      padding-left: 0;
  }
- .example-container {
+ .navi-container {
   width: 400px;
   max-width: 100%;
-  padding: 0 25px 25px 0;
   display: inline-block;
   vertical-align: top;
 }
@@ -64,8 +65,8 @@
   display: block;
 }
 
-.example-box {
-  padding: 20px 10px;
+.navi-box {
+  padding: 10px 10px;
   border-bottom: solid 1px #ccc;
   color: rgba(0, 0, 0, 0.87);
   display: flex;
@@ -94,17 +95,14 @@
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-.example-box:last-child {
+.navi-box:last-child {
   border: none;
 }
 
-.example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
+.example-list.cdk-drop-list-dragging .navi-box:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
-// .navigation-drag-drop-container:first-child{
-//   display: none;
-// }
-.example-box .ng-star-inserted:not(button){
+.navi-box .ng-star-inserted:not(button){
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -132,12 +130,16 @@
   }
   
 }
-.navigation-title
+.page-header
 {
-  max-width: 300px;
+  margin-bottom: 20px;
+  h2{
+    margin-bottom: 0;
+  }
 }
 .active-nav{
-  background-color:rgba(76, 175, 80, 0.075);
+  // background-color:rgba(76, 175, 80, 0.075);
+  background-color: $primaryHighlight;
 }
 .material-icons{
   font-family: 'Material Icons' !important;
@@ -151,4 +153,20 @@
 {
   font-weight: bold;
   font-size: 18px;
+}
+.cancel-btn{
+  margin-right: 10px;
+}
+.cdk-drag-handle{
+  color: rgba(0, 0, 0, 0.38);
+  margin-right: 5px;
+}
+.child-nav{
+  background-color:rgba(0, 0, 0, 0.05);
+}
+.sub-child-nav{
+  background-color:rgba(0, 0, 0, 0.075);
+}
+.mat-list-item-content{
+  justify-content: space-between;
 }

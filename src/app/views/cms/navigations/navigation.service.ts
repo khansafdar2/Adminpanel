@@ -64,6 +64,7 @@ export class NavigationService {
       }
     });
   }
+  
   updateSingleNAvigation (data)
   {
     return Axios.put( environment.backend_url + '/cms/navigation', data, {
@@ -91,9 +92,5 @@ export class NavigationService {
       }
     });
   }
-  
-
-  
-
   
 }

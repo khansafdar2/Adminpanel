@@ -4,36 +4,20 @@
   
   <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
     <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
-        <h1>Navigations</h1>
-
-        <div class="header-actions">
-            <!-- <button mat-button color="primary" [matMenuTriggerFor]="bulkActionsMenu" *ngIf="productSelection.selected.length">Bulk Actions <mat-icon>arrow_drop_down</mat-icon></button> -->
-            <!-- <mat-menu #bulkActionsMenu="matMenu">
-                <ng-template matMenuContent>
-                    <button mat-menu-item (click)="bulkChangeStatus()">Change status</button>
-                    <button mat-menu-item (click)="bulkChangeApproval()">Change approval status</button>
-                    <button mat-menu-item (click)="bulkTags()">Add tags</button>
-                    <button mat-menu-item (click)="bulkOrganize()">Organize</button>
-                    <button mat-menu-item (click)="bulkDeleteProduct()">Delete</button>
-                </ng-template>
-            </mat-menu> -->
-
-            <!-- <button mat-button color="primary" (click)="exportProducts()">Export</button>
-            <button mat-button color="primary" (click)="importProduct()">Import</button> -->
-            <a [routerLink]="['/', URLS.navigations, URLS.add]" mat-flat-button color="primary">Create new </a>
-        </div>
+      <h1>Navigations</h1>
+      <div class="header-actions">
+        <a [routerLink]="['/', URLS.navigations, URLS.add]" mat-flat-button color="primary">Create new </a>
+      </div>
     </div>
 
     <mat-card class="table-wrapper-card">
-        <datatable  [data]="allNavigations.data"
-          [columns]="displayedColumns"
-          [rowActions]="rowActions"
+      <datatable  [data]="allNavigations.data"
+        [columns]="displayedColumns"
+        [rowActions]="rowActions"
 
-          (rowAction)="onRowAction($event)" 
-          (cellClick)="onCellClick($event)"
-        >
+        (rowAction)="onRowAction($event)" 
+        (cellClick)="onCellClick($event)"
+      >
       </datatable>
     </mat-card>
-  
-  
 </main>

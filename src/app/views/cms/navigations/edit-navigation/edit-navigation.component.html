@@ -2,20 +2,20 @@
 <app-sidenav></app-sidenav>
 
 <main id="main">
-  <mat-card >
-    <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
-    <div fxLayout="row" fxLayoutAlign="space-between center" >
-      <h2>Edit Navigation</h2>
-      <div>
-        <button mat-flat-button color="primary" [disabled]="loading" (click)='publish()'>Publish</button>
-        
-      </div>
-      
+  <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+  <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center" >
+    <h2>Edit Navigation</h2>
+    <div>
+      <a class="cancel-btn" [routerLink]="['/', URLS.navigations]" mat-stroked-button color="primary">Cancel</a>
+      <button mat-flat-button color="primary" [disabled]="navTitle && navigation.length ? false : true" (click)='publish()'>Publish</button>
     </div>
+    
+  </div>
+  <mat-card >
     <div class="navigation-title">
       <mat-form-field appearance="outline">
         <mat-label>Navigation Title</mat-label>
-        <input required matInput placeholder="New Navigation" [(ngModel)]='navTitle'   />
+        <input required matInput [(ngModel)]='navTitle'/>
       </mat-form-field>
     </div>
     <div cdkDropListGroup class="edit-nav-main-conatainer">
@@ -26,7 +26,7 @@
           class="example-list drop-container"
           (cdkDropListDropped)="drop($event)"
           [cdkDropListConnectedTo]="dls">
-          <div [ngClass]="{ 'active-nav' : i == navIndexToUpdate, 'example-box navigation-drag-drop-container' : true } " *ngFor="let item of navigation; let i = index" cdkDrag >
+          <div [ngClass]="{ 'active-nav' : i == navIndexToUpdate,'child-nav' : isArray(item), 'example-box navigation-drag-drop-container' : true } " *ngFor="let item of navigation; let i = index" cdkDrag >
             <div  (click)="editNav(i)" *ngIf="!isArray(item); else arrayView">
               <div class="nav-node">
                 <mat-icon cdkDragHandle>drag_indicator</mat-icon>
@@ -35,8 +35,6 @@
               <div>
                 <button class="add-nav" mat-button color="primary" *ngIf="!isArray(navigation[i + 1]) " value="item.index" [attr.data-index]="i" (click)="createNestedNavigation(i)"> + </button>
                 <button mat-button color="warn"  (click)="deleteNvigation(i)"> <mat-icon>delete</mat-icon> </button>
-                <!-- <button mat-button color="primary" (click)="editNav(i)" >Edit</button> -->
-                
               </div>
             </div>
             <ng-template  #arrayView  >
@@ -48,7 +46,7 @@
                     class="example-list drop-container"
                     (cdkDropListDropped)="drop($event)"
                     [cdkDropListConnectedTo]="dls">
-                    <div [ngClass]="{ 'active-nav' : (i +','+ j) == navIndexToUpdate, 'example-box navigation-drag-drop-container' : true } " *ngFor="let innerItem of item; let j = index" cdkDrag>
+                    <div [ngClass]="{ 'active-nav' : (i +','+ j) == navIndexToUpdate,'sub-child-nav' : isArray(innerItem),  'example-box navigation-drag-drop-container' : true } " *ngFor="let innerItem of item; let j = index" cdkDrag>
                       <!-- {{innerItem}} -->
                       <div (click)="editNav(i +','+ j)" *ngIf="!isArray(innerItem); else subarrayView">
                         <div class="nav-node">
@@ -58,8 +56,6 @@
                         <div>
                           <button class="add-nav" mat-button color="primary" *ngIf="!isArray(item[j + 1])" [attr.data-index]="i +','+ j" (click)="createNestedNavigation(i +','+ j)">+</button> 
                           <button mat-button color="warn"  (click)="deleteNvigation(i +','+ j)"> <mat-icon>delete</mat-icon> </button>
-                          
-                          <!-- <button mat-button color="primary" (click)="editNav(i +','+ j)">Edit</button> -->
                         </div>
                       </div>
                       <ng-template #subarrayView>
@@ -82,7 +78,6 @@
                                 <div>
                                   <button class="add-nav" mat-button color="primary" *ngIf="k == innerItem.length - 1 "  (click)="create3rdLevelNestedSibling(i +','+ j)">+</button> 
                                   <button mat-button color="warn"  (click)="deleteNvigation(i +','+ j + ',' + k)"><mat-icon>delete</mat-icon> </button>
-                                  <!-- <button mat-button color="primary" (click)="editNav(i +','+ j + ',' + k)" >Edit</button> -->
                                 </div>
                               </div>
                             </div>
@@ -91,7 +86,7 @@
 
                       </ng-template>
                     </div>
-                    <button mat-button color="primary" (click)="createSiblingNavigation(i)">+ </button>
+                    <button class="add-nav" mat-button color="primary" (click)="createSiblingNavigation(i)">+ </button>
                     
                   </div>
                   
@@ -109,9 +104,4 @@
     
     </div>
   </mat-card>
-  
-  <!-- Copyright 2019 Google Inc. All Rights Reserved.
-      Use of this source code is governed by an MIT-style license that
-      can be found in the LICENSE file at http://angular.io/license -->
-  
 </main>

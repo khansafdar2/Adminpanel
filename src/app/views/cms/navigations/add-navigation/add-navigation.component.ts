@@ -1,9 +1,9 @@
-import { Component, ViewChild, ViewChildren, QueryList } from '@angular/core';
-import { CdkDragDrop, CdkDrag, CdkDropList, moveItemInArray, transferArrayItem, CdkDragEnter, CdkDragExit, CdkDragStart } from '@angular/cdk/drag-drop';
-import { asapScheduler, asyncScheduler } from 'rxjs';
+import { Component, ViewChildren, QueryList } from '@angular/core';
+import { CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem, CdkDragEnter, CdkDragExit, CdkDragStart } from '@angular/cdk/drag-drop';
+import { asapScheduler, } from 'rxjs';
 import {NavigationService} from '../navigation.service'
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import URLS from 'src/app/shared/urls';
 
@@ -16,88 +16,83 @@ import URLS from 'src/app/shared/urls';
   styleUrls: ['./add-navigation.component.scss'],
 })
 export class AddNavigationComponent {
+
+  constructor(
+    private navigationService: NavigationService,
+    private snackbarService: MatSnackBar,
+    private dialog: MatDialog,
+    private router: Router,
+  ) { }
+
   loading = false
   navigation : any[] = [];
   navTitle = ''
   
   navIndexToUpdate : any
   navNodeToUpdate = null
-  
   placeholderNavNode : NavigationNode = {label:'New', link:''};
+  URLS = URLS
 
   @ViewChildren(CdkDropList)
   private dlq: QueryList<CdkDropList>;
-
   public dls: CdkDropList[] = [];
-
-  constructor(private navigationService: NavigationService,
-    private snackbarService: MatSnackBar,
-    private dialog: MatDialog,
-    private router: Router
-    ) { }
 
   drop(event: CdkDragDrop<string[]>) {
     
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
-      transferArrayItem(event.previousContainer.data,
+      transferArrayItem(
+        event.previousContainer.data,
         event.container.data,
         event.previousIndex,
-        event.currentIndex);
+        event.currentIndex
+      );
     }
 
-    setTimeout(() => {
-      for (let i = 0; i < this.navigation.length; i++) {
-        const mainMenu = this.navigation[i];
-        if (Array.isArray(mainMenu) )
+    for (let i = 0; i < this.navigation.length; i++) {
+      const mainMenu = this.navigation[i];
+      if (Array.isArray(mainMenu) )
+      {
+        if (!mainMenu.length)
         {
-          if (!mainMenu.length)
-          {
-            this.navigation.splice(i, 1)
-          }
-          else
-          {
-            for (let j = 0; j < mainMenu.length; j++) {
-              const subMenu = mainMenu[j];
-              if (Array.isArray(subMenu) )
+          this.navigation.splice(i, 1)
+        }
+        else
+        {
+          for (let j = 0; j < mainMenu.length; j++) {
+            const subMenu = mainMenu[j];
+            if (Array.isArray(subMenu) )
+            {
+              
+              if (!subMenu.length)
               {
-                
-                if (!subMenu.length)
-                {
-                  this.navigation[i].splice(j, 1)
-                }
-                else
-                {
-                  for (let k = 0; k < subMenu.length; k++) {
-                    const superSubMenu = subMenu[k];
+                this.navigation[i].splice(j, 1)
+              }
+              else
+              {
+                for (let k = 0; k < subMenu.length; k++) {
+                  const superSubMenu = subMenu[k];
 
-                    if (Array.isArray(subMenu) )
-                    {
-                      // if (!superSubMenu.length)
-                      // {
-                      //   this.navigation[i][j].splice(k, 1)
-                      // }
-                    }
-                    
+                  if (Array.isArray(subMenu) )
+                  {
+                    // if (!superSubMenu.length)
+                    // {
+                    //   this.navigation[i][j].splice(k, 1)
+                    // }
                   }
+                  
                 }
-              } 
-            }
+              }
+            } 
           }
-        } 
-      }
-    }, 50)
+        }
+      } 
+    }
   }
-  addItem(e)
-  {
-    
-  }
+  
   publish(){
-    console.log(this.navigation)
     var nav_json = JSON.parse(JSON.stringify(this.navigation)); 
-    // let nav_json = Object.assign({}, this.navigation); 
-    debugger
     for (let i = 0; i < nav_json.length; i++) {
       const main = nav_json[i];
       if (Array.isArray(main))
@@ -106,26 +101,18 @@ export class AddNavigationComponent {
           const child = main[j];
           if (Array.isArray(child))
           {
-            
             let splicedArray = main.splice(j, 1)
             main[j-1].children = splicedArray[0]
           }
-          
         }
-        
         let splicedArray = nav_json.splice(i, 1)
         nav_json[i-1].children = splicedArray[0]
-        console.log( "nav_json", nav_json )
       }
-
     }
-    
-
     let data = {
       title : this.navTitle,
       navigation_json : nav_json
     }
-    
     this.loading = true
     this.navigationService.createNewNavigation(data).then((resp) => {
       this.loading = false
@@ -137,18 +124,15 @@ export class AddNavigationComponent {
         }
       }
     })
-
-
   }
+
   isArray(item: any): boolean {
     return Array.isArray(item);
   }
+
   editNav(index)
   {
-    
     this.navIndexToUpdate = index
-    console.log('index : '+index)
-
     if (typeof(index) != 'number' )
     {
       var count = (index.match(/,/g) || []).length;
@@ -169,15 +153,15 @@ export class AddNavigationComponent {
       this.navNodeToUpdate = this.navigation[index];
     }
     this.updateDropList()
-
   }
+
   ngAfterViewInit() {
     this.updateDropList()
   }
+
   updateDropList() {
     let ldls: CdkDropList[] = [];
     this.dlq.forEach((dl) => {
-      console.log('found DropList ' + dl.id)
       ldls.push(dl)
     });
     ldls = ldls.reverse()
@@ -189,12 +173,14 @@ export class AddNavigationComponent {
     this.navigation.push(placeholderNode);
     this.updateDropList()
   }
+
   createSiblingNavigation(index){
     this.navIndexToUpdate  = index
     let placeholderNode: NavigationNode = {label:'New', link:''};
     this.navigation[index].push(placeholderNode)
     this.updateDropList()
   }
+
   create3rdLevelNestedSibling(index){
     this.navIndexToUpdate  = index
     let indexes = index.split(',')
@@ -203,6 +189,7 @@ export class AddNavigationComponent {
     subArray[parseInt(indexes[1])].push(placeholderNode)
     this.updateDropList()
   }
+
   createNestedNavigation(event)
   {
     this.navIndexToUpdate  = event
@@ -216,7 +203,6 @@ export class AddNavigationComponent {
       
     }
     else{
-      // this.navigation.push(placeholderNode);
       this.navigation.splice(index + 1, 0, [placeholderNode]);
     }
     this.updateDropList()
@@ -247,18 +233,12 @@ export class AddNavigationComponent {
           arrayToRemove.splice(parseInt(indexes[1]), 1)
         }
       }
-
-      
     }
     else{
       this.navigation.splice(index, 1);
     }
     this.navNodeToUpdate = null
   }
-
-  
-  
-  
 }
 export interface NavigationNode {
   label: string;

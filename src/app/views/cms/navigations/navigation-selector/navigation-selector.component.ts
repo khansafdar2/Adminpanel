@@ -47,8 +47,8 @@ export class NavigationSelectorComponent implements OnInit {
   $this = this
   navigationTypes= [
     {
-      title: "brands",
-      type: "brands",
+      title: "Brands",
+      type: "Brands",
       handle : 'brands',
       fetch : () => this.fetchBrands(this)
     },
@@ -59,13 +59,13 @@ export class NavigationSelectorComponent implements OnInit {
       fetch : () => this.fetchPromotions(this)
     },
     {
-      title: "categories",
+      title: "Categories",
       type: "category",
       handle : 'collection',
       fetch : () => this.getAllCategories(this)
     },
     {
-      title: "Categoroy Page",
+      title: "Category Page",
       type: "category-page",
       handle : 'categories',
       fetch : () => this.getCategoryPages(this)
@@ -78,7 +78,6 @@ export class NavigationSelectorComponent implements OnInit {
     }
     
   ]
-
 
   brands = []
   promotions = []
@@ -105,21 +104,18 @@ export class NavigationSelectorComponent implements OnInit {
   subCategoriesLoading: boolean = false;
   superSubCategoriesLoading: boolean = false;
 
-
   fetchNavigations(navigationType){
     navigationType.fetch()
     this.activeMenu = navigationType
   }
   fetchBrands($this)
   {
-    // $this = NavigationSelectorComponent reference
     $this.navigationService.getBrands().then(resp => {
       if(resp) {
         
-        console.log('brands', resp.data.results)
         $this.brands = resp.data.results
         $this.brands.splice(0, 0, { 
-          name: "all Brands",
+          name: "All brands",
           handle: 'all'
          } )
         $this.setWrapperAsBrand = true
@@ -130,7 +126,6 @@ export class NavigationSelectorComponent implements OnInit {
   {
 
     $this.pagesService.getPages().then((resp) => {
-      debugger
       $this.staticPages = resp.data
       $this.setWrapperAsStaticPage = true
     })
@@ -145,7 +140,6 @@ export class NavigationSelectorComponent implements OnInit {
     $this.getMainCategories($this)
   }
   setSelectedBrand(brand){
-    debugger
     this.selectedBrand = brand
     let brandLink = '/' + this.activeMenu.handle + '/'  + brand.handle
     
@@ -180,14 +174,13 @@ export class NavigationSelectorComponent implements OnInit {
   }
   fetchPromotions($this){
     $this.promotions.push({ 
-      name: "all promotions",
+      name: "All promotions",
       handle: 'all'
      })
      $this.setWrapperAsPromotion = true
   }
 
   getMainCategories($this) {
-
     $this.categoryService.getMainCategories().then(resp => {
       if(resp) {
         $this.mainCategories = resp.data;
@@ -226,7 +219,6 @@ export class NavigationSelectorComponent implements OnInit {
   }
 
   backToMainCategories() {
-    
     this.setWrapperAsSubcategory = false;
     this.selector.nativeElement.style.height = this.mainCategoryWrapper.nativeElement.clientHeight + "px";
     this.activeMainCategory = null;
@@ -249,53 +241,30 @@ export class NavigationSelectorComponent implements OnInit {
       this.selectedCategory = category.handle
       let Link = '/' + this.activeMenu.handle + '/' + category.handle
       this.generateNavLink(Link)
-      // if(this.valueType === 'id') {
-      //   this.value = category.id;
-      // } else if(this.valueType === 'handle') {
-      //   this.valueChange.emit(category.handle);
-      // } else if(this.valueType === 'object.handle') {
-      //   this.valueChange.emit(category);
-      // }
     }
   }
 
-  isCategorySelected(category) {
-    debugger
-    // if(this.valueType === 'id'){
-    // } else if(this.valueType === 'handle') {
-    //   return this.value === category.handle;
-    // } else if(this.valueType === 'object.handle') {
-    //   return this.value.handle === category.handle;
-    // }
-  }
-
   onCheckboxClick(event) {
-    
     event.stopPropagation();
   }
 
   ngOnInit(): void {
-
-    // this.getMainCategories();
+      
   }
 
   ngAfterViewChecked(): void {
     if(this.setWrapperAsMaincategory) {
       setTimeout(() => {
-        debugger
         let maincategoriesHeight = this.mainCategoryWrapper.nativeElement.clientHeight;
         this.selector.nativeElement.style.height = maincategoriesHeight + "px";
         this.setWrapperAsMaincategory = false;
-        console.log("setWrapperAsMaincategory")
       }, 50);
     }
     else if(this.setWrapperAsSubcategory) {
       setTimeout(() => {
-        debugger
         let subcategoriesHeight = this.subCategoryWrapper.nativeElement.clientHeight;
         this.selector.nativeElement.style.height = subcategoriesHeight + "px";
         this.setWrapperAsSubcategory = false;
-        console.log("setWrapperAsSubcategory")
       }, 50);
     }
     else if(this.setWrapperAsSuperSubcategory) {
@@ -303,38 +272,29 @@ export class NavigationSelectorComponent implements OnInit {
         let superSubcategoriesHeight = this.superSubCategoryWrapper.nativeElement.clientHeight;
         this.selector.nativeElement.style.height = superSubcategoriesHeight + "px";
         this.setWrapperAsSuperSubcategory = false;
-        console.log("setWrapperAsSuperSubcategory")
       }, 50);
       
     }
     else if(this.setWrapperAsBrand) {
       setTimeout(() => {
-        
         let brandsWrapperHeight = this.brandsWrapper.nativeElement.clientHeight;
         this.selector.nativeElement.style.height = brandsWrapperHeight + "px";
         this.setWrapperAsBrand = false;
-        console.log("setWrapperAsBrand")
 
       }, 50);
     }
     else if(this.setWrapperAsPromotion) {
       setTimeout(() => {
-        
         let promotionWrapperHeight = this.promotionsWrapper.nativeElement.clientHeight;
         this.selector.nativeElement.style.height = promotionWrapperHeight + "px";
         this.setWrapperAsPromotion = false;
-        console.log("setWrapperAsPromotion")
-        
       }, 50);
     }
     else if(this.setWrapperAsStaticPage) {
       setTimeout(() => {
-        
         let WrapperHeight = this.staticPagesWrapper.nativeElement.clientHeight;
         this.selector.nativeElement.style.height = WrapperHeight + "px";
         this.setWrapperAsStaticPage = false;
-        console.log("setWrapperAsStaticPage")
-
       }, 50);
     }
   }
