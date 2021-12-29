@@ -21,6 +21,7 @@
                     <image-selector 
                         [(files)]="logoImage"
                         [multiple]="false"
+                        formats=".jpg,.jpeg,.png,.svg"
                         valueType="url"
                         (filesChange)=onLogoImageChange($event)
                     ></image-selector>
@@ -72,6 +73,7 @@
                     <image-selector 
                         [(files)]="megaMenuImage"
                         [multiple]="false"
+                        formats=".jpg,.jpeg,.png,.svg"
                         valueType="url"
                         (filesChange)=onMegaMenuImageChange($event)
                     ></image-selector>

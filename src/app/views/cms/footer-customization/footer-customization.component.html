@@ -48,6 +48,7 @@
                     <h4>Footer logo image</h4>
                     <image-selector 
                         [(files)]="logoImage"
+                        formats=".jpg,.jpeg,.png,.svg"
                         [multiple]="false"
                         valueType="url"
                         (filesChange)= onLogoImageChange($event)
