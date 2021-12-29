@@ -1,7 +1,10 @@
-.quill-editor{
-    height: 192px;
-}
-.delete-button{
+delete-button{
     padding-top: 10px;
 }
-
+.footer-customization-form {
+    [fxlayout="row"] {
+        & + [fxlayout="row"] {
+            margin-top: 14px;
+        }
+    }
+}

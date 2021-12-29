@@ -24,7 +24,13 @@ $custom-typography: mat-typography-config(
 .ql-editor.ql-blank::before {
     font-style: normal;
 }
+quill-editor {
+    display: block;
 
+    & + .mat-form-field {
+        margin-top: 20px;
+    }
+}
 
 
 * {

@@ -14,8 +14,8 @@
         </div>
     </div>
 
-    <form [formGroup]= "footerCustomizationForm">
-        <mat-card >
+    <form [formGroup]="footerCustomizationForm">
+        <mat-card class="footer-customization-form">
             <h4>General</h4>
             <div fxLayout="row">
                 <div  fxFlex="0 1 33.333333%">
@@ -34,13 +34,15 @@
                     <mat-checkbox formControlName="show_news_letter">Show newsletter</mat-checkbox>
                 </div>
             </div>
-            <br>
             <div fxLayout="row">
-                <div fxFlex="33.333333%">
+                <div fxFlex="0 1 33.333333%">
                     <h4>Contact Information</h4>
-                    <div class="quill-editor">
-                        <quill-editor class="quill-editor" [modules]="editorModules" placeholder="Start typing" formControlName="contact_information" ></quill-editor>
-                    </div>
+                    <quill-editor [modules]="editorModules" placeholder="Start typing" formControlName="contact_information"></quill-editor>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Phone number</mat-label>
+                        <input matInput formControlName="phone_number" />
+                    </mat-form-field>
                 </div>
                 <div fxFlex="0 1 33.333333%">
                     <h4>Footer logo image</h4>
