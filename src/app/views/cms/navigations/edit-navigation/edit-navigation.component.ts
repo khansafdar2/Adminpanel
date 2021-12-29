@@ -261,6 +261,7 @@ export class EditNavigationComponent {
 
   createNavDragDropFormate(nav)
   {
+    debugger
     for (let i = 0; i < nav.length; i++) {
       const main = nav[i];
       if (main.children)
@@ -273,12 +274,12 @@ export class EditNavigationComponent {
             {
               if (child.children.length)
               {
-                main.children.push(child.children)
+                main.children.splice(j + 1, 0 , child.children)
                 child.children = null
               }
             }
           }
-          nav.push(main.children)
+          nav.splice(i + 1, 0 , main.children)
             main.children = null
         }
       }

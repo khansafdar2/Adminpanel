@@ -1,7 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter  } from '@angular/core';
+import { Component, OnInit, Input  } from '@angular/core';
 import { NavigationSelectorDialogComponent } from 'src/app/views/cms/navigations/navigation-selector-dialog/navigation-selector-dialog.component';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -13,28 +12,15 @@ export class EditNavigationNodeComponent implements OnInit {
 
   @Input() navNodeToUpdate : any ;
   activeIndex: any
-  @Output() getSearchStatusChange = new EventEmitter<string>();
   constructor(
-    private snackbar: MatSnackBar,
     private dialog: MatDialog
-  ) {
-  }
+  ) {}
   
   ngOnInit(): void {
   }
   ngOnChanges() : void{
-    
-    // this.title = this.navNodeToUpdate.title
-  }
-  changeNavTitle( event)
-  {
-    
-    // this.navNodeToUpdate.title = this.title
-    // const node = this.nav[this.navIndex]
-    // this.nav[this.navIndex] = {"title": event.target.value, url: '' }
   }
   changeNavigation() {
-    // this.activeIndex = index;
     let dialogRef = this.dialog.open(NavigationSelectorDialogComponent, {
       width: "600px",
       data: {
@@ -46,8 +32,6 @@ export class EditNavigationNodeComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(value => {
       this.navNodeToUpdate.link = value
-      // this.data.categories[index].handle = value.handle;
-      // this.data.categories[index].category_name = value.name;
     });
   }
 }
