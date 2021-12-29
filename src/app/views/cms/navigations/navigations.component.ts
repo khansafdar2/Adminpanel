@@ -39,7 +39,10 @@ export class NavigationsComponent implements OnInit {
 
   fetchNavigations() {
     this.navigationService.getNavigations().then((resp) => {
-      this.allNavigations = resp
+      if (resp)
+      {
+        this.allNavigations = resp.data
+      }
     })
   }
 
