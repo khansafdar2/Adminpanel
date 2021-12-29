@@ -10,7 +10,8 @@ export class ImageSelectorComponent implements OnInit {
 
   constructor(
     private sharedService: SharedService
-  ) { }
+  ) {
+  }
 
   @Input()
   public set files(val: string|[]) {
@@ -34,21 +35,7 @@ export class ImageSelectorComponent implements OnInit {
 
   medias = [];
 
-  afuConfig = {
-    uploadAPI: this.sharedService.afuUploadAPI,
-    theme: this.theme,
-    multiple: this.multiple,
-    formatsAllowed: this.formats,
-    maxSize: this.maxSize,
-    hideResetBtn: true,
-    autoUpload: true,
-    replaceTexts: {
-      selectFileBtn: "Select image",
-      dragNDropBox: "Drop image here.",
-      uploadBtn: "Upload and save",
-      sizeLimit: "Size Limit"
-    }
-  };
+  afuConfig = null;
 
   addMedia(newMedias) {
     let medias = newMedias.map(media => {
@@ -120,6 +107,21 @@ export class ImageSelectorComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.afuConfig = {
+      uploadAPI: this.sharedService.afuUploadAPI,
+      theme: this.theme,
+      multiple: this.multiple,
+      formatsAllowed: this.formats,
+      maxSize: this.maxSize,
+      hideResetBtn: true,
+      autoUpload: true,
+      replaceTexts: {
+        selectFileBtn: "Select image",
+        dragNDropBox: "Drop image here.",
+        uploadBtn: "Upload and save",
+        sizeLimit: "Size Limit"
+      }
+    };
   }
 
 }
