@@ -105,7 +105,6 @@ export class EditProductComponent implements OnInit {
     product_type: [null],
     product_group: [""],
     product_brand: [null],
-    commission: [[]],
     vendor: [null, [Validators.required]],
     collection: [[]],
     is_active: [{value: false, disabled: true}],
