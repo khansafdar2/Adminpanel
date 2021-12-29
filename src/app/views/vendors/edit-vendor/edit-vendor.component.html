@@ -99,7 +99,7 @@
               </mat-form-field>
             </div>
             <div fxFlex="0 1 33.333333%">
-              <mat-form-field appearance="outline">
+              <mat-form-field [disabled]="is_vendor" appearance="outline">
                 <mat-label>Commission value</mat-label>
                 <input matInput type="number" formControlName="value"/>
                 <span matSuffix *ngIf="commissionGroup.get('type').value=== 'percentage'">%</span>
@@ -115,6 +115,6 @@
         </mat-card>
       </ng-container>
     </div>
-    <button mat-stroked-button color="primary" (click)="addCommission()">+ Add Commission</button>
+    <button mat-stroked-button color="primary" *ngIf="!is_vendor" (click)="addCommission()">+ Add Commission</button>
   </form>
 </main>

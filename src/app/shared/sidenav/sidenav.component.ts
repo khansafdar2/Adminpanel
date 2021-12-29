@@ -17,6 +17,7 @@ export class SidenavComponent implements OnInit {
   sideDrawer: string = "";
   userPermissions = this.authService.user_permissions;
   is_vendor = this.authService.user.is_vendor;
+  vendorID = this.authService.user.id
 
   toggleDrawer(drawer) {
     this.sideDrawer = this.sideDrawer == drawer ? "" : drawer;
@@ -26,11 +27,11 @@ export class SidenavComponent implements OnInit {
     event.stopPropagation();
   }
 
-  // editVendorRoute(){
-  //   if (this.is_vendor) {
-  //     this.router.navigate(["/", URLS]);
-  //   }
-  // }
+  editVendorRoute(){
+    if (this.is_vendor) {
+      this.router.navigate(["/", URLS.vendors, URLS.edit, this.vendorID]);
+    }
+  }
 
   ngOnInit(): void {
     document.body.onclick = (event: PointerEvent) => {

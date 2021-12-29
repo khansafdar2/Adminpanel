@@ -250,7 +250,9 @@ export class CollectionsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCollections();
-    this.getVendorsList();
+    if(!this.authservice.user.is_vendor) {
+      this.getVendorsList();
+    }
     this.vendorCheck();
   }
 }

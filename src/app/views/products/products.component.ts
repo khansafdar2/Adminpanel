@@ -319,7 +319,9 @@ export class ProductsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProducts();
-    this.getVendors();
+    if(!this.authservice.user.is_vendor) {
+      this.getVendors();
+    }
     this.vendorCheck();
   }
 }

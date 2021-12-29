@@ -44,7 +44,6 @@ export class DashboardGuard implements CanActivate {
 }
 
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -281,7 +280,6 @@ export class CustomizationGuard implements CanActivate {
 }
 
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -293,12 +291,16 @@ export class VendorGuard implements CanActivate {
 
   canActivate(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (!this.authService.user.is_vendor) {
+    state: RouterStateSnapshot
+  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    if(this.authService.user.is_vendor) {
+      if(route.url[0].path === "edit") {
+        return true;
+      }
+    } else if (this.authService.user_permissions.vendor) {
       return true;
-    } else {
-      this.router.navigate(['/products'])
-      return false;
-    }  
+    }
+    this.router.navigate(['/']);
+    return false;
   }
 }

@@ -10,6 +10,7 @@ export class VendorsService {
 
   constructor(private authService: AuthService) { }
 
+
   getVendorsList(page: number, limit: number, search: string = '', filters: string  = '' ) {
     return Axios.get( environment.backend_url + '/vendors/vendor_list?page=' + page + '&limit=' + limit + '&search=' + search + filters , {
       headers: {
