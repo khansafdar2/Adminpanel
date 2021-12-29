@@ -93,13 +93,19 @@ import { HomepageComponent, HomepageAddSectionDialog } from './views/cms/homepag
 import { VendorsComponent, DeleteVendorDialog } from './views/vendors/vendors.component';
 import { AddVendorComponent } from './views/vendors/add-vendor/add-vendor.component';
 import { EditVendorComponent } from './views/vendors/edit-vendor/edit-vendor.component';
-import { NavigationsComponent } from './views/cms/navigations/navigations.component';
+import { NavigationDeleteDialog, NavigationsComponent } from './views/cms/navigations/navigations.component';
+import { AddNavigationComponent } from './views/cms/navigations/add-navigation/add-navigation.component';
+import { EditNavigationComponent } from './views/cms/navigations/edit-navigation/edit-navigation.component';
+import { EditNavigationNodeComponent } from './views/cms/navigations/edit-navigation-node/edit-navigation-node.component';
 import { HomepageSliderSection, HomepageCategoriesCarousel, HomepageBrands, HomepageProductsCarousel, HomepageSingleBanner, HomepageCategoriesTabs, HomepageTwoBanners, HomepageFeatureIcons } from './views/cms/homepage/homepage-sections.components';
 import { ImageSelectorComponent } from './shared/image-selector/image-selector.component';
 import { CategorySelectorComponent } from './shared/category-selector/category-selector.component';
 import { CategorySelectorDialogComponent } from './shared/category-selector-dialog/category-selector-dialog.component';
 import { HeaderCustomizationComponent } from './views/cms/customization-header/customization-header.component';
 import { FooterCustomizationComponent } from './views/cms/footer-customization/footer-customization.component';
+import { NavigationSelectorComponent } from './views/cms/navigations/navigation-selector/navigation-selector.component';
+import { NavigationSelectorDialogComponent } from './views/cms/navigations/navigation-selector-dialog/navigation-selector-dialog.component';
+
 
 
 @NgModule({
@@ -190,6 +196,7 @@ import { FooterCustomizationComponent } from './views/cms/footer-customization/f
     DeleteVendorDialog,
     VideoPreviewDialog,
     NavigationsComponent,
+    AddNavigationComponent,
     HomepageSliderSection,
     DiscountDeleteDialog,
     ImageSelectorComponent,
@@ -204,7 +211,12 @@ import { FooterCustomizationComponent } from './views/cms/footer-customization/f
     HomepageFeatureIcons,
     HomepageAddSectionDialog,
     HeaderCustomizationComponent,
-    FooterCustomizationComponent
+    FooterCustomizationComponent,
+    EditNavigationComponent,
+    EditNavigationNodeComponent,
+    NavigationSelectorComponent,
+    NavigationSelectorDialogComponent,
+    NavigationDeleteDialog
   ],
   imports: [
     BrowserModule,

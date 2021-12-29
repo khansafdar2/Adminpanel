@@ -1,0 +1,23 @@
+<mat-card  class="slide mat-elevation-z3">
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+      <!-- <mat-icon cdkDragHandle class="sort-handle">expand</mat-icon> -->
+      <!-- <button mat-icon-button color="warn" >
+          <mat-icon>delete</mat-icon>
+      </button> -->
+      <!-- <button mat-icon-button color="primary" >Save</button> -->
+  </div>
+  <div fxLayout="row">
+      <div fxFlex="1 0 50%">
+          <h4>Edit Navigation</h4>
+          <mat-form-field appearance="outline">
+              <mat-label>Title</mat-label>
+              <input matInput [(ngModel)]="navNodeToUpdate.label"  />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Link</mat-label>
+            <input matInput [(ngModel)]="navNodeToUpdate.link" />
+        </mat-form-field>
+        <button mat-stroked-button color="primary" (click)="changeNavigation()">Select Navigation</button>
+      </div>
+  </div>
+</mat-card>

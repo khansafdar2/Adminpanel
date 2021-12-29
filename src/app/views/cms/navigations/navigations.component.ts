@@ -1,7 +1,11 @@
-// import { Component, OnInit } from '@angular/core';
 import { Component, Inject, ViewEncapsulation, OnInit } from "@angular/core";
 import { DOCUMENT } from "@angular/common";
-import { debounce } from "@agentepsilon/decko";
+import { NavigationService } from './navigation.service';
+import { Column } from 'src/app/shared/datatable/datatable.component';
+import { Router } from '@angular/router';
+import URLS from 'src/app/shared/urls';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-navigations',
@@ -9,167 +13,94 @@ import { debounce } from "@agentepsilon/decko";
   styleUrls: ['./navigations.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
+
 export class NavigationsComponent implements OnInit {
-  nodes: TreeNode[] = demoData;
-  // ids for connected drop lists
-  dropTargetIds = [];
-  nodeLookup = {};
-  dropActionTodo: DropInfo = null;
-
-  constructor(@Inject(DOCUMENT) private document: Document) {
-    this.prepareDragDrop(this.nodes);
-  }
   
-   prepareDragDrop(nodes: TreeNode[]) {
-    nodes.forEach(node => {
-        this.dropTargetIds.push(node.id);
-        this.nodeLookup[node.id] = node;
-        this.prepareDragDrop(node.children);
-    });
-  }
+  constructor(@Inject(DOCUMENT) 
+    private document: Document,
+    private navigationService: NavigationService,
+    private router: Router,
+    public dialog: MatDialog,
+    private snackbarService: MatSnackBar
+  ) { }
 
-  @debounce(50)
+  allNavigations: any
+  loading: boolean = false;
+  URLS = URLS
 
-  dragMoved(event) {
-    let e = this.document.elementFromPoint(event.pointerPosition.x,event.pointerPosition.y);
-    
-    if (!e) {
-        this.clearDragInfo();
-        return;
+  displayedColumns: Column[] = [
+    {
+      title: "Title",
+      selector: "title",
+      clickable: true,
+      width: "35%"
     }
-    let container = e.classList.contains("node-item") ? e : e.closest(".node-item");
-    if (!container) {
-        this.clearDragInfo();
-        return;
+  ]
+
+  fetchNavigations() {
+    this.navigationService.getNavigations().then((resp) => {
+      this.allNavigations = resp
+    })
+  }
+
+  onCellClick(data) {
+    if(data.column === "title") {
+      this.router.navigate(["/", URLS.navigations, URLS.edit, data.row.id]);
     }
-    this.dropActionTodo = {
-        targetId: container.getAttribute("data-id")
-    };
-    const targetRect = container.getBoundingClientRect();
-    const oneThird = targetRect.height / 3;
+  }
 
-    if (event.pointerPosition.y - targetRect.top < oneThird) {
-        // before
-        this.dropActionTodo["action"] = "before";
-    } else if (event.pointerPosition.y - targetRect.top > 2 * oneThird) {
-        // after
-        this.dropActionTodo["action"] = "after";
-    } else {
-        // inside
-        this.dropActionTodo["action"] = "inside";
+  rowActions = row => {
+    let actions = [];
+    actions.push("Delete");
+    return actions;
+  }
+
+  onRowAction(data) {
+    if(data.action === "Delete") {
+      debugger
+      let dialogRef = this.dialog.open(NavigationDeleteDialog, {
+        width: "600px",
+        data: {
+          navId: data.row.id
+        }
+      });
+      dialogRef.afterClosed().subscribe(applied => {
+        if(applied) {
+          this.snackbarService.open("Navigation Deleted Successfully ", "", {duration: 3000});
+          this.fetchNavigations()
+        }
+      });
     }
-    this.showDragInfo();
   }
-  drop(event) {
-    debugger
-    if (!this.dropActionTodo) return;
-    const draggedItemId = event.item.data;
-    const parentItemId = event.previousContainer.id;
-    const targetListId = this.getParentNodeId(this.dropActionTodo.targetId, this.nodes, 'main');
-
-    console.log(
-        '\nmoving\n[' + draggedItemId + '] from list [' + parentItemId + ']',
-        '\n[' + this.dropActionTodo.action + ']\n[' + this.dropActionTodo.targetId + '] from list [' + targetListId + ']');
-
-    const draggedItem = this.nodeLookup[draggedItemId];
-
-    const oldItemContainer = parentItemId != 'main' ? this.nodeLookup[parentItemId].children : this.nodes;
-    const newContainer = targetListId != 'main' ? this.nodeLookup[targetListId].children : this.nodes;
-
-    let i = oldItemContainer.findIndex(c => c.id === draggedItemId);
-    oldItemContainer.splice(i, 1);
-
-    switch (this.dropActionTodo.action) {
-        case 'before':
-        case 'after':
-            const targetIndex = newContainer.findIndex(c => c.id === this.dropActionTodo.targetId);
-            if (this.dropActionTodo.action == 'before') {
-                newContainer.splice(targetIndex, 0, draggedItem);
-            } else {
-                newContainer.splice(targetIndex + 1, 0, draggedItem);
-            }
-            break;
-
-        case 'inside':
-            this.nodeLookup[this.dropActionTodo.targetId].children.push(draggedItem)
-            this.nodeLookup[this.dropActionTodo.targetId].isExpanded = true;
-            break;
-    }
-
-    this.clearDragInfo(true)
-  }
-  getParentNodeId(id: string, nodesToSearch: TreeNode[], parentId: string): string {
-      for (let node of nodesToSearch) {
-          if (node.id == id) return parentId;
-          let ret = this.getParentNodeId(id, node.children, node.id);
-          if (ret) return ret;
-      }
-      return null;
-  }
-  showDragInfo() {
-      this.clearDragInfo();
-      if (this.dropActionTodo) {
-          this.document.getElementById("node-" + this.dropActionTodo.targetId).classList.add("drop-" + this.dropActionTodo.action);
-      }
-  }
-  clearDragInfo(dropped = false) {
-      if (dropped) {
-          this.dropActionTodo = null;
-      }
-      this.document
-          .querySelectorAll(".drop-before")
-          .forEach(element => element.classList.remove("drop-before"));
-      this.document
-          .querySelectorAll(".drop-after")
-          .forEach(element => element.classList.remove("drop-after"));
-      this.document
-          .querySelectorAll(".drop-inside")
-          .forEach(element => element.classList.remove("drop-inside"));
-  }
- 
-  
- 
 
   ngOnInit(): void {
+    this.fetchNavigations()
   }
-
 }
 
-export interface TreeNode {
-  id: string;
-  children: TreeNode[];
-  isExpanded?:boolean;
+@Component({
+  selector: 'delete-navigation-dialog',
+  templateUrl: './dialogs/delete-navigation-dialog.html',
+})
+export class NavigationDeleteDialog {
+  constructor(
+    public dialogRef: MatDialogRef<NavigationDeleteDialog>,
+    @Inject(MAT_DIALOG_DATA) public data,
+    private navigationService: NavigationService) {
 }
 
-export interface DropInfo {
-    targetId: string;
-    action?: string;
-}
-
-export var demoData: TreeNode[] = [
-  {
-    id: 'item 1',
-    children:[]
-  },
-  {
-    id: 'item 2',
-    children:[
-      {
-        id: 'item 2.1',
-        children:[]
-      },
-        {
-        id: 'item 2.2',
-        children:[]
-      },
-        {
-        id: 'item 2.3',
-        children:[]
+  loading: boolean = false;
+  
+  deleteNavigation() {
+    debugger
+    this.loading = true;
+    this.navigationService.deleteSingleNavigation(this.data.navId).then(resp => {
+      if(resp) {
+        this.dialogRef.close(true);
       }
-    ]
-  },
-  {
-    id: 'item 3',
-    children:[]
+    });
   }
-]
+}
+
+
+

@@ -1,0 +1,132 @@
+<div class="navigation-selector" #selector>
+  <mat-list>
+    <mat-list-item
+      *ngFor="let navigationType of navigationTypes"
+      (click)="fetchNavigations(navigationType)"
+    >
+      <div>
+        {{navigationType.title}}
+      </div>
+      <mat-icon>chevron_right</mat-icon>
+    </mat-list-item>
+  </mat-list>
+
+  <div class="brands " *ngIf='brands.length' [@slideInOut] #brandsWrapper>
+    <div class="brand-list-title" (click)="backToMainMenu()"> <mat-icon>chevron_left</mat-icon> {{activeMenu.title}}</div>
+    <mat-progress-bar *ngIf="loading" color="primary" mode="indeterminate"></mat-progress-bar>
+    <mat-list >
+      <mat-list-item
+      *ngFor="let brand of brands;   let i = index"
+      >
+        <div>
+          <mat-checkbox 
+          (change)="setSelectedBrand(brand)"
+          [checked]="selectedBrand.name === brand.name" 
+          ></mat-checkbox>
+          {{brand.name}}
+        </div>
+        <mat-icon></mat-icon>
+      </mat-list-item>
+    </mat-list>
+  </div> 
+
+  <div class="promotions" *ngIf='promotions.length' [@slideInOut] #promotionsWrapper>
+    <div class="list-title" (click)="backToMainMenu()"> <mat-icon>chevron_left</mat-icon> {{activeMenu.title}}</div>
+    <mat-progress-bar *ngIf="loading" color="primary" mode="indeterminate"></mat-progress-bar>
+    <mat-list >
+      <mat-list-item
+      *ngFor="let promotion of promotions;   let i = index"
+      >
+        <div>
+          <mat-checkbox 
+          (change)="setSelectedPromotion(promotion)"
+          [checked]="selectedPromotion.name === promotion.name" 
+          ></mat-checkbox>
+          {{promotion.name}}
+        </div>
+        <mat-icon></mat-icon>
+      </mat-list-item>
+    </mat-list>
+  </div> 
+
+  <div class="static-pages" *ngIf='staticPages.length' [@slideInOut] #staticPagesWrapper>
+    <div class="list-title" (click)="backToMainMenu()"> <mat-icon>chevron_left</mat-icon> {{activeMenu.title}}</div>
+    <mat-progress-bar *ngIf="loading" color="primary" mode="indeterminate"></mat-progress-bar>
+    <mat-list >
+      <mat-list-item
+      *ngFor="let page of staticPages;   let i = index"
+      >
+        <div>
+          <mat-checkbox 
+          (change)="setSelectedStaticPage(page)"
+          [checked]="selectedStaticPage.name === page.title" 
+          ></mat-checkbox>
+          {{page.title}}
+        </div>
+        <mat-icon></mat-icon>
+      </mat-list-item>
+    </mat-list>
+  </div> 
+  
+  
+  <div class="mainCategories" *ngIf="mainCategories.length" [@slideInOut] #mainCategoryWrapper>
+    <div class="list-title" (click)="backToMainMenu()"> <mat-icon>chevron_left</mat-icon> {{activeMenu.title}}</div>
+    <mat-progress-bar *ngIf="loading" color="primary" mode="indeterminate"></mat-progress-bar>
+    <mat-list >
+      <mat-list-item
+      *ngFor="let mainCategory of mainCategories"
+      (click)="setActiveMainCategory(mainCategory)"
+      >
+        <div>
+          <mat-checkbox
+            (change)="onCategorySelectionChange($event, mainCategory, 'main')"
+            (click)="onCheckboxClick($event)"
+            [checked]="mainCategory.handle === selectedCategory"
+          ></mat-checkbox>
+          {{mainCategory.name}}
+        </div>
+        <mat-icon *ngIf="!categoryPage" >chevron_right</mat-icon>
+      </mat-list-item>
+    </mat-list>
+  </div>
+
+  <div class="subcategories" *ngIf="activeMainCategory" [@slideInOut] #subCategoryWrapper>
+    <div class="category-list-title" (click)="backToMainCategories()"><mat-icon>chevron_left</mat-icon> {{activeMainCategory.name}}</div>
+    <mat-progress-bar *ngIf="subCategoriesLoading" color="primary" mode="indeterminate"></mat-progress-bar>
+    <mat-list>
+      <mat-list-item
+        *ngFor="let subCategory of subCategories"
+        (click)="setActiveSubCategory(subCategory)"
+      >
+        <div>
+          <mat-checkbox
+            (change)="onCategorySelectionChange($event, subCategory, 'sub')"
+            (click)="onCheckboxClick($event)"
+            [checked]="subCategory.handle === selectedCategory"
+          ></mat-checkbox>
+          {{subCategory.name}}
+        </div>
+        <mat-icon>chevron_right</mat-icon>
+      </mat-list-item>
+    </mat-list>
+  </div>
+
+  <div class="super-subcategories" *ngIf="activeSubCategory" [@slideInOut] #superSubCategoryWrapper>
+    <div class="category-list-title" (click)="backToSubCategories()"><mat-icon>chevron_left</mat-icon> {{activeSubCategory.name}}</div>
+    <mat-progress-bar *ngIf="superSubCategoriesLoading" color="primary" mode="indeterminate"></mat-progress-bar>
+    <mat-list>
+      <mat-list-item
+        *ngFor="let superSubCategory of superSubCategories"
+      >
+        <div>
+          <mat-checkbox
+            (change)="onCategorySelectionChange($event, superSubCategory, 'superSub')"
+            (click)="onCheckboxClick($event)"
+            [checked]="superSubCategory.handle === selectedCategory"
+          ></mat-checkbox>
+          {{superSubCategory.name}}
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </div>
+</div>

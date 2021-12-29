@@ -1,0 +1,12 @@
+<button mat-icon-button mat-dialog-close class="dialog-close"><mat-icon>close</mat-icon></button>
+<h2 mat-dialog-title>Select New Navigation</h2>
+<mat-dialog-content class="mat-typography">
+    <app-navigation-selector
+        [(value)]="value"
+        valueType="object.handle"
+    ></app-navigation-selector>
+</mat-dialog-content>
+<div mat-dialog-actions>
+    <button mat-stroked-button color="primary" mat-dialog-close>Cancel</button>
+    <button mat-flat-button color="primary" (click)="onSave()">Save</button>
+</div>

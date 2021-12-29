@@ -57,6 +57,8 @@ import { VendorsComponent } from './views/vendors/vendors.component';
 import { AddVendorComponent } from './views/vendors/add-vendor/add-vendor.component';
 import { EditVendorComponent } from './views/vendors/edit-vendor/edit-vendor.component';
 import { NavigationsComponent } from './views/cms/navigations/navigations.component';
+import { AddNavigationComponent } from './views/cms/navigations/add-navigation/add-navigation.component';
+import { EditNavigationComponent } from './views/cms/navigations/edit-navigation/edit-navigation.component';
 
 
 const routes: Routes = [
@@ -155,8 +157,8 @@ const routes: Routes = [
   {path: URLS.navigations, canActivate: [LoggedInAuthGuard], children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
     {path: URLS.all, component: NavigationsComponent},
-    // {path: URLS.add, component: AddVendorComponent},
-    // {path: URLS.edit + '/:id', component: EditVendorComponent}
+    {path: URLS.add, component: AddNavigationComponent},
+    {path: URLS.edit + '/:id', component: EditNavigationComponent}
   ]}
 ];
 

@@ -57,6 +57,7 @@ export class CategoryStructureComponent implements OnInit {
 
 
   mainCategorySort(event: CdkDragDrop<any[]>) {
+    
     if(event.previousIndex !== event.currentIndex) {
       moveItemInArray(this.categories, event.previousIndex, event.currentIndex);
       this.sortCategoryCall(this.categories, "main_category");
@@ -69,6 +70,7 @@ export class CategoryStructureComponent implements OnInit {
   }
 
   subCategorySort(event: CdkDragDrop<any[]>, mainIndex) {
+    
     let subCategories = this.categories[mainIndex].sub_category;
     moveItemInArray(subCategories, event.previousIndex, event.currentIndex);
     this.sortCategoryCall(subCategories, "sub_category");
