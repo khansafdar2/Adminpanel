@@ -1,9 +1,5 @@
 @import '../../../../../scss/variables.scss';
 
-* {
-  font-family: Lato;
-}
-
 .cdk-drag-placeholder {
     display: none;
 }
@@ -128,7 +124,6 @@
   &>div:first-child{
     padding-right: 25px;
   }
-  
 }
 .active-nav{
   // background-color:rgba(76, 175, 80, 0.075);
