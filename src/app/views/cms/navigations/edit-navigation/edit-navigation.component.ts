@@ -279,7 +279,7 @@ export class EditNavigationComponent {
               }
             }
           }
-          nav.push(main.children)
+          nav.splice(i + 1, 0 , main.children)
             main.children = null
         }
       }
