@@ -58,7 +58,8 @@ export class AuthService {
     last_name: "",
     token: "",
     username: "",
-    is_vendor: false
+    is_vendor: false,
+    vendor_id:null
   };
 
   signin(token: string, permissions: UserPermission, user) {

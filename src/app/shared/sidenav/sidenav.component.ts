@@ -17,7 +17,8 @@ export class SidenavComponent implements OnInit {
   sideDrawer: string = "";
   userPermissions = this.authService.user_permissions;
   is_vendor = this.authService.user.is_vendor;
-  vendorID = this.authService.user.id
+  vendorID = this.authService.user.vendor_id;
+
 
   toggleDrawer(drawer) {
     this.sideDrawer = this.sideDrawer == drawer ? "" : drawer;
@@ -27,7 +28,7 @@ export class SidenavComponent implements OnInit {
     event.stopPropagation();
   }
 
-  editVendorRoute(){
+  editVendorProfile() {
     if (this.is_vendor) {
       this.router.navigate(["/", URLS.vendors, URLS.edit, this.vendorID]);
     }

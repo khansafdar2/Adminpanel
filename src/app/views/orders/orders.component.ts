@@ -186,7 +186,6 @@ export class OrdersComponent implements OnInit {
         orders: this.orderSelection.selected
       }
     });
-
     dialogRef.afterClosed().subscribe(exported => {
       if(exported) {
         this.orderSelection.clear();
@@ -213,7 +212,6 @@ export class OrdersComponent implements OnInit {
         }
       });
     }
-
   }
 
   ngOnInit(): void {

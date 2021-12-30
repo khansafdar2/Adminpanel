@@ -19,7 +19,7 @@ export class EditVendorComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private vendorsService: VendorsService,
-    private authService:AuthService,
+    private authService: AuthService,
     private route: ActivatedRoute,
     private router: Router,
     private snackbar: MatSnackBar,
@@ -31,7 +31,7 @@ export class EditVendorComponent implements OnInit {
   loading: boolean = false;
   URLS = URLS;
   vendorID = '';
-  vendorDetails:any
+  vendorDetails: any
   commission_type_check: any;
   is_vendor = this.authService.user.is_vendor;
   storeCurrency = environment.currency;
@@ -61,7 +61,6 @@ export class EditVendorComponent implements OnInit {
   }
 
 
-
   removeCommission(index) {
     let commissionID = (this.vendorForm.get("commissions") as FormArray).at(index).get('id').value;
     let dialogRef = this.dialog.open(DeleteCommissionDialog, {
@@ -72,7 +71,7 @@ export class EditVendorComponent implements OnInit {
       }
     });
     dialogRef.afterClosed().subscribe(updated => {
-      if(updated) {
+      if (updated) {
         this.removeCommissionAfterConfirmation(index);
       }
     });
@@ -86,13 +85,13 @@ export class EditVendorComponent implements OnInit {
 
   commisionTypeChange(event, index) {
     if (event.value === "percentage") {
-      let value_validation = (this.vendorForm.get('commissions') as FormArray).at(index).get('commisssion_value');
+      let value_validation = (this.vendorForm.get('commissions') as FormArray).at(index).get('value');
       if (value_validation) {
         value_validation.value.setValidators([Validators.min(0), Validators.max(100)]);
         value_validation.value.updateValueAndValidity();
       }
     } else {
-      let value_validation = (this.vendorForm.get('commissions') as FormArray).at(index).get('commisssion_value');
+      let value_validation = (this.vendorForm.get('commissions') as FormArray).at(index).get('value');
       if (value_validation) {
         value_validation.value.setValidators([Validators.min(0)]);
         value_validation.value.updateValueAndValidity();
@@ -110,10 +109,10 @@ export class EditVendorComponent implements OnInit {
         for (let i = 0; i < this.vendorDetails.commissions.length; i++) {
           (this.vendorForm.get("commissions") as FormArray).push(
             this.fb.group({
-              id:[null],
-              title: [""],
-              type: ["percentage"],
-              value: [0, [Validators.min(0), Validators.max(100)]],
+              id: [null],
+              title: [{value:'', disabled:this.is_vendor}],
+              type: [{value:'percentage', disabled:this.is_vendor}],
+              value: [{value:0, disabled:this.is_vendor}, [Validators.min(0), Validators.max(100)]],
             })
           )
         }
@@ -121,6 +120,7 @@ export class EditVendorComponent implements OnInit {
       }
     });
   }
+
 
   onSubmit() {
     this.loading = true;
@@ -136,9 +136,7 @@ export class EditVendorComponent implements OnInit {
   ngOnInit(): void {
     this.fetchSingleVendor();
   }
-
 }
-
 
 
 @Component({
@@ -162,11 +160,12 @@ export class DeleteCommissionDialog {
   vendorID = '';
   loading = false;
   buttonDissabled = false;
-  selected:any;
+  selected: any;
   commissionID = this.data.commissionID;
 
+
   commissionDeleteForm = this.fb.group({
-    commission : [''],
+    commission: [''],
   });
 
 
@@ -174,30 +173,38 @@ export class DeleteCommissionDialog {
     this.selected = event.value;
   }
 
-  onSubmit(){
+  onSubmit() {
     this.loading = true;
     this.buttonDissabled = true;
-    this.vendorsService.deleteCommission(this.commissionID, this.selected).then((resp) => {
-      if(resp) {
-        this.dialogRef.close(true);
-      }
-    });
-    this.buttonDissabled = true;
-    this.snackBar.open("Commission assigned and deleted successfully.", "", {duration: 3000});
-  }
-  
-  getCommissions() {
-      this.commissionService.getCommissions(this.data.vendorID).then(resp => {
-        if(resp) {
-          this.commissionList = resp.data
+    if (this.selected === undefined || this.selected === '') {
+      this.vendorsService.deleteCommission(this.commissionID, '').then((resp) => {
+        if (resp) {
+          this.dialogRef.close(true);
+          this.buttonDissabled = true;
+          this.snackBar.open("Commission deleted successfully.", "", { duration: 3000 });
         }
-      })
+      });
+    } else {
+      this.vendorsService.deleteCommission(this.commissionID, this.selected).then((resp) => {
+        if (resp) {
+          this.dialogRef.close(true);
+          this.buttonDissabled = true;
+          this.snackBar.open("Commission assigned and deleted successfully.", "", { duration: 3000 });
+        }
+      });
     }
+  }
+
+  getCommissions() {
+    this.commissionService.getCommissions(this.data.vendorID).then(resp => {
+      if (resp) {
+        this.commissionList = resp.data
+      }
+    })
+  }
 
 
-   
   ngOnInit(): void {
     this.getCommissions();
-    
   }
 }

@@ -11,7 +11,7 @@
             </mat-select>
         </mat-form-field>
 
-        <mat-form-field appearance="outline">
+        <mat-form-field *ngIf="!is_vendor" appearance="outline">
             <mat-label>Vendor</mat-label>
             <mat-select formControlName="vendor" (selectionChange)="onVendorChange()">
                 <mat-option *ngFor="let vendor of vendors" [value]="vendor.id">{{vendor.name}}</mat-option>

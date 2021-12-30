@@ -104,7 +104,7 @@ export class AddProductComponent implements OnInit {
     product_brand: [null],
     vendor: [null, [Validators.required]],
     collection: [[]],
-    commission: [''],
+    commission: [null],
     is_active: [{value: false, disabled: true}],
     whatsapp: [true],
     hide_out_of_stock: [false],
