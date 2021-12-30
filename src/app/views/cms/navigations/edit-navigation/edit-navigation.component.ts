@@ -158,9 +158,8 @@ export class EditNavigationComponent {
       this.navNodeToUpdate = this.navigation[index];
     }
     this.updateDropList()
-
   }
-  
+
   ngAfterViewInit() {
     this.updateDropList()
   }

@@ -71,7 +71,7 @@ export class NavigationSelectorComponent implements OnInit {
       fetch : () => this.getCategoryPages(this)
     },
     {
-      title: "Statice Pages",
+      title: "Static Pages",
       type: "static-page",
       handle : 'page',
       fetch : () => this.getStaticPages(this)
@@ -127,8 +127,13 @@ export class NavigationSelectorComponent implements OnInit {
 
     $this.pagesService.getPages().then((resp) => {
       $this.staticPages = resp.data
+      $this.staticPages.splice(0, 0, { 
+        title: "Contact Us",
+        handle: 'contactus'
+       })
       $this.setWrapperAsStaticPage = true
     })
+    
   }
   getCategoryPages($this){
     $this.getMainCategories($this)
