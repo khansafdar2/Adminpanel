@@ -37,14 +37,16 @@
                                     <mat-form-field appearance="outline">
                                         <mat-label>First Name</mat-label>
                                         <input matInput name="first_name" [formControl]="firstNameField" />
-                                        <mat-error *ngIf="firstNameField.hasError('required')">First name is requried.</mat-error>
+                                        <mat-error *ngIf="firstNameField.hasError('required')">First name is requried.
+                                        </mat-error>
                                     </mat-form-field>
                                 </div>
                                 <div fxFlex="0 1 50%">
                                     <mat-form-field appearance="outline">
                                         <mat-label>Last Name</mat-label>
                                         <input matInput name="last_name" [formControl]="lastNameField" />
-                                        <mat-error *ngIf="lastNameField.hasError('required')">Last name is requried.</mat-error>
+                                        <mat-error *ngIf="lastNameField.hasError('required')">Last name is requried.
+                                        </mat-error>
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -55,7 +57,8 @@
                                 </div>
                                 <div fxFlex="0 1 auto" *ngIf="loggedInUserID == userId">
                                     <p class="field-label">Password</p>
-                                    <p class="field-value text-link" (click)="openChangePasswordDialog()">Change password</p>
+                                    <p class="field-value text-link" (click)="openChangePasswordDialog()">Change
+                                        password</p>
                                 </div>
                                 <div fxFlex="0 1 auto">
                                     <p class="field-label">Username</p>
@@ -69,8 +72,10 @@
                                     <mat-checkbox [(ngModel)]="userDetail.newsletter"></mat-checkbox>
                                 </div>
                                 <div fxFlex="1 1 auto">
-                                    <p class="notification-heading">Allow important notifications to be sent by email</p>
-                                    <p class="text-small">We periodically send out important news about {{clientName}} to our users via email. We keep the email volume to an absolute minimum.</p>
+                                    <p class="notification-heading">Allow important notifications to be sent by email
+                                    </p>
+                                    <p class="text-small">We periodically send out important news about {{clientName}}
+                                        to our users via email. We keep the email volume to an absolute minimum.</p>
                                 </div>
                             </div>
                         </mat-card-content>
@@ -83,7 +88,8 @@
             <div fxLayout="row">
                 <div fxFlex="0 1 33.33333%">
                     <h2>Recent access to store</h2>
-                    <p>If you don't recognize a location, IP address, or ISP, it could mean your store has been compromised. Take steps to secure your account.</p>
+                    <p>If you don't recognize a location, IP address, or ISP, it could mean your store has been
+                        compromised. Take steps to secure your account.</p>
                 </div>
                 <div fxFlex="0 1 66.66666%">
                     <table mat-table class="mat-elevation-z2" [dataSource]="dataSource">
@@ -116,13 +122,15 @@
             <div fxLayout="row">
                 <div fxFlex="0 1 33.33333%">
                     <h2>Permissions</h2>
-                    <p>If you don't recognize a location, IP address, or ISP, it could mean your store has been compromised. Take steps to secure your account.</p>
+                    <p>If you don't recognize a location, IP address, or ISP, it could mean your store has been
+                        compromised. Take steps to secure your account.</p>
                 </div>
                 <div fxFlex="0 1 66.66666%">
                     <mat-card>
                         <div fxLayout="row">
                             <div fxFlex="0 1 50%">
                                 <mat-checkbox [(ngModel)]="userDetail.permissions.dashboard">Dashboard</mat-checkbox>
+                                <mat-checkbox [(ngModel)]="userDetail.permissions.customization">Customization</mat-checkbox>
                                 <mat-checkbox [(ngModel)]="userDetail.permissions.configuration">Configuration</mat-checkbox>
                                 <mat-checkbox [(ngModel)]="userDetail.permissions.products">Products</mat-checkbox>
                                 <mat-checkbox [(ngModel)]="userDetail.permissions.orders">Orders</mat-checkbox>
@@ -135,5 +143,18 @@
                 </div>
             </div>
         </div>
+        <div class="settings-section">
+            <div fxLayout="row">
+                <div fxFlex="0 1 33.33333%">
+
+                </div>
+                <div fxFlex="0 1 66.66666%">
+
+                    <button mat-stroked-button color="warn" (click)="openRemoveUserDialog()">Remove user</button>
+                </div>
+            </div>
+
+        </div>
+
     </div>
 </main>

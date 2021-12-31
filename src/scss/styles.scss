@@ -24,7 +24,13 @@ $custom-typography: mat-typography-config(
 .ql-editor.ql-blank::before {
     font-style: normal;
 }
+quill-editor {
+    display: block;
 
+    & + .mat-form-field {
+        margin-top: 20px;
+    }
+}
 
 
 * {
@@ -48,6 +54,22 @@ body {
         display: block;
         margin-bottom: 10px;
     }
+
+    .color-picker{
+        height: 35px;
+        width: 35px;
+        cursor: pointer;
+    }
+    
+    .color-box{
+        display: flex;
+        align-items: center;
+  
+    }
+    .color-box-text{
+        padding-left: 10px;
+    }
+
 
     .mat-button-base {
         &.button-block {
@@ -702,3 +724,5 @@ body {
         }
     }
 }
+
+

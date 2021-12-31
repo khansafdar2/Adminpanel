@@ -7,12 +7,12 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class PagesService {
+export class CustomizationService {
 
   constructor(private authService: AuthService) { }
 
-  getPages() {
-    return Axios.get( environment.backend_url + '/cms/pages', {
+  getNavigations() {
+    return Axios.get<any>( environment.backend_url + '/cms/navigation', {
       headers: {
         Authorization: this.authService.token
       }
@@ -24,8 +24,8 @@ export class PagesService {
     });
   }
 
-  createPage(data) {
-    return Axios.post( environment.backend_url + '/cms/pages', data, {
+  getHeader() {
+    return Axios.get( environment.backend_url + '/cms/header', {
       headers: {
         Authorization: this.authService.token
       }
@@ -37,8 +37,8 @@ export class PagesService {
     });
   }
 
-  getPage(id) {
-    return Axios.get( environment.backend_url + '/cms/pages/' + id, {
+  getFooter() {
+    return Axios.get( environment.backend_url + '/cms/footer', {
       headers: {
         Authorization: this.authService.token
       }
@@ -50,8 +50,8 @@ export class PagesService {
     });
   }
 
-  updatePage(data) {
-    return Axios.put( environment.backend_url + '/cms/pages', data, {
+  updateHeader(data) {
+    return Axios.post( environment.backend_url + '/cms/customization', data, {
       headers: {
         Authorization: this.authService.token
       }
@@ -63,8 +63,8 @@ export class PagesService {
     });
   }
 
-  deletePage(id) {
-    return Axios.delete( environment.backend_url + '/cms/pages/'+ id, {
+  updateFooter(data) {
+    return Axios.post( environment.backend_url + '/cms/customization', data, {
       headers: {
         Authorization: this.authService.token
       }
@@ -74,9 +74,9 @@ export class PagesService {
         this.authService.signout();
       }
     });
+  }
   
-  }
-
+  
 
 
 }

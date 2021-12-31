@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/auth/auth.service';
 import URLS from '../urls';
@@ -10,11 +11,12 @@ import URLS from '../urls';
 })
 export class SidenavComponent implements OnInit {
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   Urls = URLS;
   sideDrawer: string = "";
   userPermissions = this.authService.user_permissions;
+  is_vendor = this.authService.user.is_vendor;
 
   toggleDrawer(drawer) {
     this.sideDrawer = this.sideDrawer == drawer ? "" : drawer;
@@ -23,6 +25,12 @@ export class SidenavComponent implements OnInit {
   stopPropagation(event: PointerEvent) {
     event.stopPropagation();
   }
+
+  // editVendorRoute(){
+  //   if (this.is_vendor) {
+  //     this.router.navigate(["/", URLS]);
+  //   }
+  // }
 
   ngOnInit(): void {
     document.body.onclick = (event: PointerEvent) => {

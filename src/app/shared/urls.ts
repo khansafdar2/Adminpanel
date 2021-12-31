@@ -33,8 +33,9 @@ const URLS = {
     pages: 'pages',
     homepage: 'homepage',
     vendors: 'vendors',
-    navigations: 'navigations'
-    
+    navigations: 'navigations',
+    headerCustomization: 'header-customization',
+    footerCustomization: 'footer-customization'
 }
 
 export default URLS;

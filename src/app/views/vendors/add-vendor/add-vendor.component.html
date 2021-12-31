@@ -1,27 +1,29 @@
 <app-topbar></app-topbar>
 <app-sidenav></app-sidenav>
+
 <main id="main">
   <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
   <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
-    <h1>New vendor</h1>
-    
+    <h1>New Vendor</h1>
+
     <div class="header-actions">
-      <a [routerLink]="['/', URLS.vendors]" mat-button color="primary">Cancel</a>
-      <button mat-flat-button color="primary" [disabled]="loading || !vendorForm.valid" (click)="onSubmit()">Save</button>
+      <a [routerLink]="['/', URLS.vendors]" mat-stroked-button color="primary">Cancel</a>
+      <button mat-flat-button color="primary" [disabled]="loading || !vendorForm.valid"
+        (click)="onSubmit()">Save</button>
     </div>
   </div>
-  
   <form [formGroup]="vendorForm">
     <div fxLayout="row">
       <div fxFlex="0 1 66.6666%">
         <mat-card>
+          <h4>Basic details</h4>
           <div fxLayout="row">
             <div fxFlex="0 1 50%">
-                <mat-form-field appearance="outline">
-                  <mat-label>Name</mat-label>
-                  <input matInput formControlName="name" />
-                  <mat-error *ngIf="vendorForm.get('name').hasError('required')">Enter name of the vendor.</mat-error>
-                </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Name</mat-label>
+                <input matInput formControlName="name" />
+                <mat-error *ngIf="vendorForm.get('name').hasError('required')">Enter name of the vendor.</mat-error>
+              </mat-form-field>
             </div>
             <div fxFlex="0 1 50%">
               <mat-form-field appearance="outline">
@@ -32,10 +34,10 @@
           </div>
           <div fxLayout="row">
             <div fxFlex="0 1 50%">
-                <mat-form-field appearance="outline">
-                  <mat-label>Phone number</mat-label>
-                  <input matInput formControlName="phone" />
-                </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Phone number</mat-label>
+                <input matInput formControlName="phone" />
+              </mat-form-field>
             </div>
             <div fxFlex="0 1 50%">
               <mat-form-field appearance="outline">
@@ -44,42 +46,76 @@
               </mat-form-field>
             </div>
           </div>
-          <mat-form-field appearance="outline">
-            <mat-label>Address</mat-label>
-            <input matInput formControlName="address" />
-          </mat-form-field>
           <div fxLayout="row">
             <div fxFlex="0 1 50%">
-                <mat-form-field appearance="outline">
-                  <mat-label>Commission</mat-label>
-                  <mat-select formControlName="commission_type" (selectionChange)="commisionTypeChange($event)">
-                    <mat-option value="percentage">Percentage</mat-option>
-                    <mat-option value="fixed">Fixed amount</mat-option>
-                  </mat-select>
-                </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Address</mat-label>
+                <input matInput formControlName="address" />
+              </mat-form-field>
             </div>
+
             <div fxFlex="0 1 50%">
               <mat-form-field appearance="outline">
-                <mat-label>Commission value</mat-label>
-                <input matInput type="number" formControlName="commission_value" />
+                <mat-label>Commercial Registration</mat-label>
+                <input matInput type="number" formControlName="license_number" />
               </mat-form-field>
             </div>
           </div>
+
         </mat-card>
       </div>
+
       <div fxFlex="0 1 33.3333%">
         <mat-card>
           <h4>Status</h4>
           <mat-checkbox formControlName="is_active">Active</mat-checkbox>
         </mat-card>
-
         <mat-card>
           <h4>Notes</h4>
           <mat-form-field appearance="outline">
-            <textarea rows="8" placeholder="Add notes" matInput formControlName="notes"></textarea>
+            <textarea rows="5" placeholder="Add notes" matInput formControlName="notes"></textarea>
           </mat-form-field>
         </mat-card>
       </div>
     </div>
+    <div class="commission-container">
+      <h4>Commission</h4>
+      <ng-container *ngFor="let commissionGroup of vendorForm.get('commissions')['controls']; let i = index;">
+        <mat-card [formGroup]="commissionGroup">
+          <div  fxLayout="row">          
+          <div fxFlex="0 1 33.333333%">
+            <mat-form-field appearance="outline">
+              <mat-label>Commission name</mat-label>
+              <input matInput formControlName="title" />
+            </mat-form-field>
+          </div>
+
+          <div fxFlex="0 1 33.333333%">
+            <mat-form-field appearance="outline">
+              <mat-label>Commission type</mat-label>
+              <mat-select formControlName="type" (selectionChange)="commisionTypeChange($event, i)">
+                <mat-option value="percentage">Percentage</mat-option>
+                <mat-option value="fixed">Fixed amount</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div fxFlex="0 1 33.333333%">
+            <mat-form-field appearance="outline">
+              <mat-label>Commission value</mat-label>
+              <input matInput type="number" formControlName="value" />
+              <span matSuffix *ngIf="commissionGroup.get('type').value === 'percentage'">%</span>
+              <span matSuffix *ngIf="commissionGroup.get('type').value === 'fixed'">{{storeCurrency}}</span>
+            </mat-form-field>
+          </div>
+          <div>
+            <button mat-icon-button class="delete-commission-btn" color="warn" (click)="removeCommission(i)">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </div>
+        </mat-card>
+      </ng-container>
+    </div>
+    <button mat-stroked-button color="primary" (click)="addCommission()">+ Add Commission</button>
   </form>
 </main>

@@ -42,7 +42,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ConfigurationComponent } from './views/configuration/configuration.component';
 import { TransferOwnershipDialog, UserManagementComponent } from './views/configuration/user-management/user-management.component';
 import { AddUserComponent } from './views/configuration/user-management/add-user/add-user.component';
-import { ChangePasswordDialog, UserInfoComponent } from './views/configuration/user-management/user-info/user-info.component';
+import { ChangePasswordDialog, UserInfoComponent, RemoveUserDialog} from './views/configuration/user-management/user-info/user-info.component';
 import { AcceptInviteComponent } from './auth/accept-invite/accept-invite.component';
 import { TaxConfigurationComponent } from './views/configuration/tax-configuration/tax-configuration.component';
 import { GeneralInformationComponent } from './views/configuration/general-information/general-information.component';
@@ -86,7 +86,7 @@ import { PaymentMethodDialog } from './views/orders/dialogs/PaymentMethodDialog'
 import { DraftOrdersComponent } from './views/orders/draft-orders/draft-orders.component';
 import { EditChildOrderComponent } from './views/orders/edit-child-order/edit-child-order.component';
 import { EditDraftOrderComponent } from './views/orders/edit-draft-order/edit-draft-order.component';
-import { PagesComponent } from './views/cms/pages/pages.component';
+import { PageDeleteDialog, PagesComponent } from './views/cms/pages/pages.component';
 import { AddPageComponent } from './views/cms/pages/add-page/add-page.component';
 import { EditPageComponent } from './views/cms/pages/edit-page/edit-page.component';
 import { HomepageComponent, HomepageAddSectionDialog } from './views/cms/homepage/homepage.component';
@@ -101,6 +101,8 @@ import { HomepageSliderSection, HomepageCategoriesCarousel, HomepageBrands, Home
 import { ImageSelectorComponent } from './shared/image-selector/image-selector.component';
 import { CategorySelectorComponent } from './shared/category-selector/category-selector.component';
 import { CategorySelectorDialogComponent } from './shared/category-selector-dialog/category-selector-dialog.component';
+import { HeaderCustomizationComponent } from './views/cms/customization-header/customization-header.component';
+import { FooterCustomizationComponent } from './views/cms/footer-customization/footer-customization.component';
 import { NavigationSelectorComponent } from './views/cms/navigations/navigation-selector/navigation-selector.component';
 import { NavigationSelectorDialogComponent } from './views/cms/navigations/navigation-selector-dialog/navigation-selector-dialog.component';
 
@@ -123,6 +125,8 @@ import { NavigationSelectorDialogComponent } from './views/cms/navigations/navig
     TaxConfigurationComponent,
     GeneralInformationComponent,
     ChangePasswordDialog,
+    PageDeleteDialog,
+    RemoveUserDialog,
     ForgotPasswordComponent,
     ProductsComponent,
     CategoryStructureComponent,
@@ -206,6 +210,8 @@ import { NavigationSelectorDialogComponent } from './views/cms/navigations/navig
     HomepageTwoBanners,
     HomepageFeatureIcons,
     HomepageAddSectionDialog,
+    HeaderCustomizationComponent,
+    FooterCustomizationComponent,
     EditNavigationComponent,
     EditNavigationNodeComponent,
     NavigationSelectorComponent,

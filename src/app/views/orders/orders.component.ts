@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/auth/auth.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -19,12 +20,14 @@ export class OrdersComponent implements OnInit {
   constructor(
     private router: Router,
     private ordersService: OrdersService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private authService: AuthService
   ) { }
 
   loading: boolean = true;
   URLS = URLS;
   orders = [];
+  is_vendor = this.authService.user.is_vendor;
   orderSelection: SelectionModel<[]> = new SelectionModel(true, []);
   displayedColumns: Column[] = [
     {
@@ -149,7 +152,11 @@ export class OrdersComponent implements OnInit {
 
   onCellClick(data) {
     if(data.column === 'name') {
-      this.router.navigate(["/", URLS.orders, URLS.editMainOrder, data.row.id]);
+      if (!this.is_vendor) {
+        this.router.navigate(["/", URLS.orders, URLS.editMainOrder, data.row.id]);
+      } else {
+        this.router.navigate(["/", URLS.orders, URLS.editChildOrder, data.row.id]);
+      }
     }
   }
 

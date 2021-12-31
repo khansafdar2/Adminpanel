@@ -138,8 +138,8 @@ export class HomepageBrands implements OnInit {
 
   addBrand() {
     this.data.brands.push({
-      brand_logo: "",
-      brand_handle: ""
+      logo: "",
+      handle: ""
     });
   }
 

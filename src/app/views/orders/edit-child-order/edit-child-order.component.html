@@ -6,7 +6,7 @@
         <h1>Edit order {{orderTitle}}</h1>
 
         <div class="header-actions">
-            <a [routerLink]="['/', URLS.orders, URLS.editMainOrder, mainOrderID]" mat-stroked-button color="primary">Cancel</a>
+            <a (click)="vendorPath()" mat-stroked-button color="primary">Cancel</a>
             <button mat-flat-button color="primary" (click)="onSubmit()">Save</button>
         </div>
     </div>

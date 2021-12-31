@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -22,6 +23,7 @@ export class EditCollectionComponent implements OnInit {
     private route: ActivatedRoute,
     private snackbarService: MatSnackBar,
     private sharedService: SharedService,
+    private authService: AuthService,
     private productsService: ProductsService) {
     this.collectionID = this.route.snapshot.paramMap.get('id');
   }
@@ -29,6 +31,7 @@ export class EditCollectionComponent implements OnInit {
   URLS = URLS;
   collectionID: string;
   loading: boolean = false;
+  is_vendor = this.authService.user.is_vendor;
   file_uploading: boolean = false;
   loadingProducts: boolean = true;
   productsPage: number = 1;

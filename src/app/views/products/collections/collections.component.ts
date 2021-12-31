@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/auth/auth.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import URLS from 'src/app/shared/urls';
 import { CollectionsService } from './collections.service';
@@ -20,6 +21,7 @@ export class CollectionsComponent implements OnInit {
     private collectionsService: CollectionsService,
     private router: Router,
     private vendorsService: VendorsService,
+    private authservice:AuthService,
     public dialog: MatDialog,
     private snackbar: MatSnackBar) { }
 
@@ -27,6 +29,7 @@ export class CollectionsComponent implements OnInit {
   loading: boolean = true;
   collections = [];
   vendors = [];
+  is_vendor = this.authservice.user.is_vendor;
   displayedColumns: Column[] = [
     {
       title: "Title",
@@ -37,10 +40,6 @@ export class CollectionsComponent implements OnInit {
       title: "",
       selector: "product_count",
       cell: row =>  row.product_count + ' products'
-    },
-    {
-      title: "Vendor",
-      selector: "vendor_name"
     },
     {
       title: "Status",
@@ -61,11 +60,6 @@ export class CollectionsComponent implements OnInit {
     }
   ];
   filtersArray = [
-    {
-      title: "Vendor",
-      key: 'vendor',
-      values: []
-    },
     {
       title: "Status",
       key: "status",
@@ -129,17 +123,33 @@ export class CollectionsComponent implements OnInit {
   getVendorsList() {
     this.vendorsService.getVendorsList(1, 50).then(resp => {
       if(resp) {
-        this.vendors = resp.data.results;
-        let tempVendors = [];
-        tempVendors = this.vendors.map(vendor => {
-          return {
-            label: vendor.name,
-            value: vendor.id
-          }
-        });
-        this.filtersArray[0].values = tempVendors;
+        if (!this.is_vendor) {
+          this.vendors = resp.data.results;
+          let tempVendors = [];
+          tempVendors = this.vendors.map(vendor => {
+            return {
+              label: vendor.name,
+              value: vendor.id
+            }
+          });
+          this.filtersArray[0].values = tempVendors;
+        }
       }
     })
+  }
+
+  vendorCheck(){
+    if (!this.is_vendor) {
+      this.displayedColumns.push({
+        title: "Vendor",
+        selector: "vendor_name"
+      });
+      this.filtersArray.unshift({
+        title: "Vendor",
+        key: 'vendor',
+        values: []
+      });
+    }
   }
 
   onFilter(filters) {
@@ -241,6 +251,7 @@ export class CollectionsComponent implements OnInit {
   ngOnInit(): void {
     this.getCollections();
     this.getVendorsList();
+    this.vendorCheck();
   }
 }
 

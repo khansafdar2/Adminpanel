@@ -162,8 +162,6 @@ export class VendorsComponent implements OnInit {
     });
   }
 
-  
-
   ngOnInit(): void {
     this.getVendors();
   }

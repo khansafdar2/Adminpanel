@@ -26,7 +26,7 @@ export class HomepageService {
   }
 
   updateHomepage(data) {
-    return Axios.put( environment.backend_url + '/cms/homepage', data, {
+    return Axios.post( environment.backend_url + '/cms/customization', data, {
       headers: {
         Authorization: this.authService.token
       }

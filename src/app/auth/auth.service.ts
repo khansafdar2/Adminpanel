@@ -6,6 +6,7 @@ import URLS from '../shared/urls';
 interface UserPermission {
   id: number;
   dashboard: boolean;
+  customization: boolean;
   theme: boolean;
   products: boolean;
   orders: boolean;
@@ -42,7 +43,8 @@ export class AuthService {
     first_name: "",
     last_name: "",
     token: "",
-    username: ""
+    username: "",
+    is_vendor: false
   };
 
   signin(token: string, permissions: UserPermission, user) {
@@ -62,6 +64,7 @@ export class AuthService {
     this.user_permissions = null;
     this.signedIn = false;
     localStorage.removeItem('permissions');
+    localStorage.removeItem('user');
     this.router.navigate([URLS.signin]);
   }
 }

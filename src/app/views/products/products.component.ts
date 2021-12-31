@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/auth/auth.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { Component, Inject, OnInit } from '@angular/core';
@@ -26,11 +27,13 @@ export class ProductsComponent implements OnInit {
     private productsService: ProductsService,
     private vendorsService: VendorsService,
     private snackbBar: MatSnackBar,
+    private authservice: AuthService,
     private router: Router) { }
 
   loading: boolean = false;
   URLS = URLS;
   products = [];
+  is_vendor = this.authservice.user.is_vendor;
   displayedColumns: Column[] = [
     {
       title: "",
@@ -52,10 +55,6 @@ export class ProductsComponent implements OnInit {
     {
       title: "Inventory",
       selector: "inventory",
-    },
-    {
-      title: "Vendor",
-      selector: "vendor_name",
     }
   ]
   productSelection: SelectionModel<[]> = new SelectionModel(true, []);
@@ -224,21 +223,35 @@ export class ProductsComponent implements OnInit {
             ]
           }
         ];
-        let vendors = [];
-        vendors = resp.data.results.map(vendor => {
-          return {
-            value: vendor.id,
-            label: vendor.name
-          }
-        });
-        filters.push({
-          title: "Vendor",
-          key: "vendor",
-          values: vendors
-        });
+
+        if (!this.is_vendor){
+          let vendors = [];
+          vendors = resp.data.results.map(vendor => {
+            return {
+              value: vendor.id,
+              label: vendor.name
+            }
+          });
+          filters.push({
+            title: "Vendor",
+            key: "vendor",
+            values: vendors
+          });
+
+        }
         this.productFilters = filters;
+
       }
     })
+  }
+
+  vendorCheck(){
+    if (!this.is_vendor){
+      this.displayedColumns.push({
+        title: "Vendor",
+        selector: "vendor_name"
+      })
+    }
   }
   
   onPageChange(event: PageEvent) {
@@ -307,6 +320,7 @@ export class ProductsComponent implements OnInit {
   ngOnInit(): void {
     this.getProducts();
     this.getVendors();
+    this.vendorCheck();
   }
 }
 

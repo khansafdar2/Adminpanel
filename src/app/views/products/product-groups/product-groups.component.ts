@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/auth/auth.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -18,19 +19,18 @@ export class ProductGroupsComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private router: Router,
-    private productsService: ProductsService) { }
+    private productsService: ProductsService,
+    private authservice: AuthService
+    ) { }
 
   loading: boolean = true;
   URLS = URLS;
+  is_vendor = this.authservice.user.is_vendor;
   displayedColumns: Column[] = [
     {
       title: "Title",
       selector: 'title',
       clickable: true
-    },
-    {
-      title: "Vendor",
-      selector: "vendor_name"
     },
     {
       title: "Discount",
@@ -84,6 +84,15 @@ export class ProductGroupsComponent implements OnInit {
     })
   }
 
+  vendorCheck(){
+    if (!this.is_vendor) {
+      this.displayedColumns.push({
+        title: "Vendor",
+        selector: "vendor_name"
+      })
+    }
+  }
+
   onPage(event: PageEvent) {
     this.pageSize = event.pageSize;
     this.pageNumber = event.pageIndex + 1;
@@ -92,6 +101,7 @@ export class ProductGroupsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProductGroups();
+    this.vendorCheck();
   }
 
 }

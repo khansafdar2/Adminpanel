@@ -6,7 +6,7 @@
         <h1>Pages</h1>
 
         <div class="header-actions">
-            <!-- <a [routerLink]="['/', URLS.pages, URLS.add]" mat-flat-button color="primary">Create new</a> -->
+            <a [routerLink]="['/', URLS.pages, URLS.add]" mat-flat-button color="primary">Create new</a>
         </div>
     </div>
 
@@ -15,7 +15,9 @@
             <datatable 
                 [data]="pages"
                 [columns]="displayedColumns"
-    
+                [rowActions]="rowActions"
+
+                (rowAction)="onRowAction($event)"
                 (cellClick)="onCellClick($event)">
             </datatable>
         </mat-card>
