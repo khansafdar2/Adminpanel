@@ -7,7 +7,8 @@
 
         <div class="header-actions">
             <a [routerLink]="['/', URLS.discounts, URLS.all]" mat-stroked-button color="primary">Cancel</a>
-            <button mat-flat-button color="primary" [disabled]="loading || !discountForm.valid" (click)="onSubmit()">Save</button>
+            <button mat-flat-button color="primary" [disabled]="loading || !discountForm.valid"
+                (click)="onSubmit()">Save</button>
         </div>
     </div>
 
@@ -15,47 +16,108 @@
         <div fxLayout="row">
             <div fxFlex="0 1 66.66666%">
                 <mat-card>
+                    <h3>Title</h3>
                     <mat-form-field appearance="outline">
                         <mat-label>Title</mat-label>
                         <input matInput formControlName="title" />
-                        <mat-error *ngIf="discountForm.get('title').hasError('required')">Please enter a title for your discount.</mat-error>
+                        <mat-error *ngIf="discountForm.get('title').hasError('required')">Please enter a title for your
+                            discount.</mat-error>
+                    </mat-form-field>
+                    <h3>Type</h3>
+                    <mat-radio-group fxLayout="row">
+                        <div fxLayout="column">
+                            <mat-radio-button value="discount">Discount</mat-radio-button>
+                            <h5>Customer will get discount automatically</h5>
+
+                            <mat-radio-button value="promo">Promo Code</mat-radio-button>
+                            <h5>Customer will get discount if they will enter this promo code</h5>
+                        </div>
+
+                        <div fxLayout="column">
+                            <mat-radio-button value="buy">Buy X get Y free</mat-radio-button>
+                            <h5>This discount will implememnt on shipping only</h5>
+
+                            <mat-radio-button value="shipping_discount">Shipping discount</mat-radio-button>
+                            <h5>This discount will implememnt on shipping only</h5>
+                        </div>
+                    </mat-radio-group>
+                </mat-card>
+                <mat-card>
+                    <h3>Criteria</h3>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Dropdown</mat-label>
+                        <mat-select (selectionChange)='onCriteriaSelection($event)'>
+                            <mat-option value='product'>Products</mat-option>
+                            <mat-option value='category'>Categories</mat-option>
+                            <mat-option value='product_group'>Product Groups</mat-option>
+                        </mat-select>
                     </mat-form-field>
 
-                    <h3>Discount type</h3>
-                    <mat-radio-group fxLayout="column" class="collection-type-radio" formControlName="discount_type" (change)="onDiscountTypeChange()">
-                        <mat-radio-button value="percentage">Percentage</mat-radio-button>
-                        <mat-radio-button value="fixed_amount">Amount</mat-radio-button>
-                    </mat-radio-group>
-        
+                    <ng-container *ngIf="selected == 'category'">
+                        <h4>Category</h4>
+                        <category-selector [(value)]="data.category_handle" valueType="handle"></category-selector>
+                    </ng-container>
+                    <variant-selector *ngIf="selected == 'product'" (addItems)="onAddItems($event)"></variant-selector>
+                </mat-card>
+                <mat-card>
+                    <h3>Basic details</h3>
                     <div fxLayout="row">
+                        <div fxFlex="0 1 50%" fxLayoutAlign="start center">
+                            <mat-radio-group fxLayout="row" class="collection-type-radio"
+                                formControlName="discount_type" (change)="onDiscountTypeChange()">
+                                <mat-radio-button value="percentage">Percentage</mat-radio-button>
+                                <mat-radio-button value="fixed_amount">Fixed amount</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+
                         <div fxFlex="0 1 50%">
                             <mat-form-field appearance="outline" style="margin-top: 20px">
                                 <mat-label>Discount value</mat-label>
                                 <input matInput formControlName="type_value" />
-                                <span matSuffix *ngIf="discountForm.get('discount_type').value === 'percentage'">%</span>
-                                <span matSuffix *ngIf="discountForm.get('discount_type').value === 'fixed_amount'">{{storeCurrency}}</span>
-                                <mat-error *ngIf="discountForm.get('discount_type').hasError('required')">Please select a type of your discount.</mat-error>
+                                <span matSuffix
+                                    *ngIf="discountForm.get('discount_type').value === 'percentage'">%</span>
+                                <span matSuffix
+                                    *ngIf="discountForm.get('discount_type').value === 'fixed_amount'">{{storeCurrency}}</span>
+                                <mat-error *ngIf="discountForm.get('discount_type').hasError('required')">Please select
+                                    a type of your discount.</mat-error>
                             </mat-form-field>
                         </div>
                     </div>
-    
-                    <mat-form-field appearance="outline">
-                        <mat-label>Usage</mat-label>
-                        <textarea matInput formControlName="usage"></textarea>
-                    </mat-form-field>
+
+                    <div fxLayout="row">
+                        <div fxFlex="0 1 50%">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Start</mat-label>
+                                <input type="datetime" matInput formControlName="usage" />
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="0 1 50%">
+                            <mat-form-field appearance="outline">
+                                <mat-label>End</mat-label>
+                                <input type="datetime" matInput formControlName="usage" />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div fxLayout="row">
+                        <div fxFlex="0 1 50%">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Usage limit</mat-label>
+                                <input matInput formControlName="usage" />
+                            </mat-form-field>
+                        </div>
+                    </div>
                 </mat-card>
             </div>
             <div fxFlex="0 1 33.33333%">
                 <mat-card>
                     <h2>Status</h2>
-
                     <mat-checkbox formControlName="is_active">Active</mat-checkbox>
                 </mat-card>
 
                 <mat-card>
                     <h2>Website view</h2>
-
-                    <mat-checkbox formControlName="show_both_price">Show both discounted and original price on web.</mat-checkbox>
+                    <mat-checkbox formControlName="show_both_price">Show both discounted and original price on web.
+                    </mat-checkbox>
                     <mat-checkbox formControlName="show_tag">Show tag on products</mat-checkbox>
                 </mat-card>
             </div>

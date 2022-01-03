@@ -5,7 +5,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Column } from 'src/app/shared/datatable/datatable.component';
 import URLS from 'src/app/shared/urls';
-import { ProductsService } from '../products/products.service';
 import { DiscountsService } from './discounts.service';
 import { environment } from 'src/environments/environment';
 
@@ -31,16 +30,21 @@ export class DiscountsComponent implements OnInit {
       selector: "title",
       clickable: true
     },
-    // {
-    //   title: "Type",
-    //   selector: "discount_type",
-    //   cell: row => row.discount_type === "percentage" ? "Percentage" : "Amount"
-    // },
     {
-      title: "Discount value",
+      title: "Status",
+      selector: "status",
+    },
+    {
+      title: "Value",
       selector: "type_value",
       cell: row => row.discount_type === "percentage" ? row.type_value + "%" : row.type_value + " " + this.storeCurrency
-    }
+    }, {
+      title: "Start",
+      selector: "start_date",
+    }, {
+      title: "End",
+      selector: "end_date",
+    },
   ];
   rowActions = ["Delete"]
   discounts = [];
@@ -85,6 +89,7 @@ export class DiscountsComponent implements OnInit {
       });
     }
   }
+
 
   ngOnInit(): void {
     this.getDiscountsList();
