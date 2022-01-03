@@ -100,13 +100,6 @@ export class EditChildOrderComponent implements OnInit {
     });
   }
 
-  vendorPath(){
-    if (!this.is_vendor) {
-      this.router.navigate(["/", URLS.orders, URLS.editMainOrder, this.mainOrderID]);
-    } else {
-      this.router.navigate(["/", URLS.orders]);
-    }
-  }
 
   ngOnInit(): void {
     this.getOrderDetail();

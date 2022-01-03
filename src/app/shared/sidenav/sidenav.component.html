@@ -42,7 +42,7 @@
                 </a>
             </li>
             <li *ngIf="is_vendor">
-                <a (click)="editVendorProfile()" routerLinkActive="active">
+                <a [routerLink]="['/', Urls.vendors, Urls.edit, this.vendorID]" routerLinkActive="active">
                     <span class="link-icon" [inlineSVG]="'/assets/img/OrdersIcon.svg'"></span>Vendor profile
                 </a>
             </li>
@@ -62,7 +62,8 @@
             <li><a [routerLink]="['/', Urls.products]" routerLinkActive="active">All products</a></li>
             <li><a [routerLink]="['/', Urls.productGroups]" routerLinkActive="active">Product groups</a></li>
             <li><a [routerLink]="'/' + Urls.collections" routerLinkActive="active">Collections</a></li>
-            <li *ngIf="!is_vendor"><a [routerLink]="'/' + Urls.categories" routerLinkActive="active">Category structure</a></li>
+            <li *ngIf="!is_vendor"><a [routerLink]="'/' + Urls.categories" routerLinkActive="active">Category
+                    structure</a></li>
             <li *ngIf="!is_vendor"><a [routerLink]="'/' + Urls.brands" routerLinkActive="active">Brands</a></li>
         </ul>
     </nav>

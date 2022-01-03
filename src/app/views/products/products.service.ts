@@ -195,8 +195,8 @@ export class ProductsService {
     });
   }
 
-  getCommissions(id) {
-    return Axios.get( environment.backend_url + '/vendors/commission_list?vendor_id=' + id , {
+  getCommissions(vendor_id) {
+    return Axios.get( environment.backend_url + '/vendors/commission_list?vendor_id=' + vendor_id , {
       headers: {
         Authorization: this.authService.token
       }

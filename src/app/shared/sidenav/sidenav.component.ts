@@ -19,19 +19,12 @@ export class SidenavComponent implements OnInit {
   is_vendor = this.authService.user.is_vendor;
   vendorID = this.authService.user.vendor_id;
 
-
   toggleDrawer(drawer) {
     this.sideDrawer = this.sideDrawer == drawer ? "" : drawer;
   }
 
   stopPropagation(event: PointerEvent) {
     event.stopPropagation();
-  }
-
-  editVendorProfile() {
-    if (this.is_vendor) {
-      this.router.navigate(["/", URLS.vendors, URLS.edit, this.vendorID]);
-    }
   }
 
   ngOnInit(): void {

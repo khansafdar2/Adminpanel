@@ -244,27 +244,16 @@ export class EditProductComponent implements OnInit {
     });
   }
 
-  getCommission(){
-    if (!this.is_vendor) {
-      let vendorId = this.productForm.get('vendor').value;
-      if (vendorId)  {
-        this.loading = true;
-        this.productsService.getCommissions(vendorId).then(resp=>{
-          this.loading = false;
-          let commissions;
-          commissions = resp;
-          this.commissionList = commissions.data;
-        });
-      }
-    } else {
-      this.productsService.getCommissions('').then(resp=>{
+  getCommissions(){
+    let vendorId = this.productForm.get('vendor').value;
+      this.loading = true;
+      this.productsService.getCommissions(vendorId).then(resp=>{
         this.loading = false;
         let commissions;
         commissions = resp;
         this.commissionList = commissions.data;
-      });
-    }
-  }
+      })
+}
 
   getProductDetails() {
     this.loading = true;
@@ -287,10 +276,9 @@ export class EditProductComponent implements OnInit {
         });
         this.bannerImages = medias;
         resp.data.product_images = this.bannerImages.map(image => image.id);
-
         this.productTags = resp.data.tags.length ? resp.data.tags.split(",").filter(tag => tag) : [];
         this.productForm.patchValue(resp.data);
-        this.getCommission();        
+        this.getCommissions();        
         this.getProductGroups();
         this.getCollections();
         if(resp.data.product_group) {
@@ -478,7 +466,7 @@ export class EditProductComponent implements OnInit {
     });
     this.getProductGroups();
     this.getCollections();
-    this.getCommission();
+    this.getCommissions();
   }
 
   onProductGroupChange() {
@@ -604,11 +592,6 @@ export class EditProductComponent implements OnInit {
     this.getVendors();
     this.getBrands();
     this.getProductDetails();
-    if (this.is_vendor) {
-      this.productForm.patchValue({
-        vendor: [null]
-      });
-    }
   }
 
 }

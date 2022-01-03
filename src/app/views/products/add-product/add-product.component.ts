@@ -222,10 +222,8 @@ export class AddProductComponent implements OnInit {
     });
   }
 
-  getCommission(){
-    if (!this.is_vendor) {
+  getCommissions(){
       let vendorId = this.productForm.get('vendor').value;
-      if (vendorId)  {
         this.loading = true;
         this.productsService.getCommissions(vendorId).then(resp=>{
           this.loading = false;
@@ -233,15 +231,6 @@ export class AddProductComponent implements OnInit {
           commissions = resp;
           this.commissionList = commissions.data;
         })
-      }
-    } else {
-      this.productsService.getCommissions('').then(resp=>{
-        this.loading = false;
-        let commissions;
-        commissions = resp;
-        this.commissionList = commissions.data;
-      })
-    }
   }
 
   removeVariant(index) {
@@ -325,7 +314,7 @@ export class AddProductComponent implements OnInit {
     });
     this.getProductGroups();
     this.getCollections();
-    this.getCommission();
+    this.getCommissions();
   }
 
   onProductGroupChange() {
@@ -424,11 +413,6 @@ export class AddProductComponent implements OnInit {
   ngOnInit(): void {
     this.getVendors();
     this.getBrands();
-    if (this.is_vendor) {
-      this.productForm.patchValue({
-        vendor: [null]
-      });
-    }
   }
 
 }

@@ -245,7 +245,7 @@ export class ProductsComponent implements OnInit {
     })
   }
 
-  vendorCheck() {
+  showVendorColumnAndFilter() {
     if (!this.is_vendor) {
       this.displayedColumns.push({
         title: "Vendor",
@@ -322,7 +322,7 @@ export class ProductsComponent implements OnInit {
     if (!this.authservice.user.is_vendor) {
       this.getVendors();
     }
-    this.vendorCheck();
+    this.showVendorColumnAndFilter();
   }
 }
 
@@ -570,6 +570,7 @@ export class ProductsBulkOrganizeDialog {
   }
 
   ngOnInit() {
+
     this.organizeForm.patchValue({
       ids: this.ids
     });

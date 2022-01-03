@@ -138,13 +138,13 @@ export class CollectionsComponent implements OnInit {
     })
   }
 
-  vendorCheck(){
+  showVendorColumnAndFilter(){
     if (!this.is_vendor) {
       this.displayedColumns.push({
         title: "Vendor",
         selector: "vendor_name"
       });
-      this.filtersArray.push({
+      this.filtersArray.unshift({
         title: "Vendor",
         key: 'vendor',
         values: []
@@ -250,10 +250,10 @@ export class CollectionsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCollections();
-    if(!this.authservice.user.is_vendor) {
+    if(!this.is_vendor) {
       this.getVendorsList();
     }
-    this.vendorCheck();
+    this.showVendorColumnAndFilter();
   }
 }
 

@@ -125,7 +125,7 @@ export class VendorsComponent implements OnInit {
       let dialogRef = this.dialog.open(DeleteVendorDialog, {
         width: "600px",
         data: {
-          vendorID: [data.row]
+          vendorID: data.row.id
         }
       });
   
@@ -181,7 +181,7 @@ export class DeleteVendorDialog {
     private fb: FormBuilder,
 
   ) {
-    this.vendorID = this.data.vendorID[0].id
+    this.vendorID = this.data.vendorID
   }
 
   vendorDeleteForm = this.fb.group({
@@ -246,10 +246,7 @@ export class DeleteVendorDialog {
   vendorID = ''
   loading = false
   showAssignOptions = false
-  
-  onApply() {
-  
-  }
+
 }
 
 

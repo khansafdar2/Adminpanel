@@ -169,30 +169,16 @@ export class DeleteCommissionDialog {
   });
 
 
-  onChange(event) {
-    this.selected = event.value;
-  }
-
   onSubmit() {
     this.loading = true;
-    this.buttonDissabled = true;
-    if (this.selected === undefined || this.selected === '') {
-      this.vendorsService.deleteCommission(this.commissionID, '').then((resp) => {
+    let selectedValue = (this.commissionDeleteForm.get('commission').value)
+      this.vendorsService.deleteCommission(this.commissionID, selectedValue).then((resp) => {
+        this.loading = false;
         if (resp) {
           this.dialogRef.close(true);
-          this.buttonDissabled = true;
-          this.snackBar.open("Commission deleted successfully.", "", { duration: 3000 });
+          this.snackBar.open("Commission deleted.", "", { duration: 3000 });
         }
       });
-    } else {
-      this.vendorsService.deleteCommission(this.commissionID, this.selected).then((resp) => {
-        if (resp) {
-          this.dialogRef.close(true);
-          this.buttonDissabled = true;
-          this.snackBar.open("Commission assigned and deleted successfully.", "", { duration: 3000 });
-        }
-      });
-    }
   }
 
   getCommissions() {

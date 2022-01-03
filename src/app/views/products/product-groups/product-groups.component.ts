@@ -21,11 +21,12 @@ export class ProductGroupsComponent implements OnInit {
     private router: Router,
     private productsService: ProductsService,
     private authservice: AuthService
-    ) { }
+  ) { }
 
   loading: boolean = true;
   URLS = URLS;
   is_vendor = this.authservice.user.is_vendor;
+  
   displayedColumns: Column[] = [
     {
       title: "Title",
@@ -45,7 +46,7 @@ export class ProductGroupsComponent implements OnInit {
   totalCount: number = 0;
 
   onCellClick(data) {
-    if(data.column === 'title') {
+    if (data.column === 'title') {
       this.router.navigate(['/', URLS.productGroups, URLS.edit, data.row.id]);
     }
   }
@@ -57,16 +58,15 @@ export class ProductGroupsComponent implements OnInit {
   }
 
   onRowAction(data) {
-    if(data.action === "Delete") {
+    if (data.action === "Delete") {
       let dialogRef = this.dialog.open(DeleteProductGroupDialog, {
         width: "600px",
         data: {
           group: data.row
         }
       });
-
       dialogRef.afterClosed().subscribe(deleted => {
-        if(deleted) {
+        if (deleted) {
           this.getProductGroups();
         }
       })
@@ -77,14 +77,14 @@ export class ProductGroupsComponent implements OnInit {
     this.loading = true;
     this.productsService.getProductGroups(this.pageNumber, this.pageSize, "", this.searchString).then(resp => {
       this.loading = false;
-      if(resp) {
+      if (resp) {
         this.totalCount = resp.data.count;
         this.productGroups = resp.data.results;
       }
     })
   }
 
-  vendorCheck(){
+  showVendorColumnAndFilter() {
     if (!this.is_vendor) {
       this.displayedColumns.push({
         title: "Vendor",
@@ -101,7 +101,7 @@ export class ProductGroupsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProductGroups();
-    this.vendorCheck();
+    this.showVendorColumnAndFilter();
   }
 
 }
@@ -118,7 +118,7 @@ export class DeleteProductGroupDialog {
     private fb: FormBuilder,
     private productsService: ProductsService,
     private snackbarService: MatSnackBar
-  ) {}
+  ) { }
 
   loading: boolean = true;
   groups = [];
@@ -129,7 +129,7 @@ export class DeleteProductGroupDialog {
   getProductGroups() {
     this.productsService.getProductGroups(1, 50, "", "").then(resp => {
       this.loading = false;
-      if(resp) {
+      if (resp) {
         this.groups = resp.data.results;
       }
     });
@@ -139,8 +139,8 @@ export class DeleteProductGroupDialog {
     this.loading = true;
     this.productsService.deleteProductGroup(this.data.group.id, this.productGroupForm.value.group).then(resp => {
       this.loading = false;
-      if(resp) {
-        this.snackbarService.open("Group deleted successfully.", "", {duration: 3000});
+      if (resp) {
+        this.snackbarService.open("Group deleted successfully.", "", { duration: 3000 });
         this.dialogRef.close(true);
       }
     })
