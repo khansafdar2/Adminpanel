@@ -1,5 +1,11 @@
+import { OrdersService } from './../../orders/orders.service';
+import { CustomersService } from './../../customers/customers.service';
+import { ProductsService } from './../../products/products.service';
+import { VendorsService } from './../../vendors/vendors.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { concat, Observable, of, Subject, pipe } from 'rxjs';
+import { catchError, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import URLS from 'src/app/shared/urls';
@@ -17,6 +23,9 @@ export class AddDiscountComponent implements OnInit {
     private fb: FormBuilder,
     private discountsService: DiscountsService,
     private snackbarService: MatSnackBar,
+    private vendorService: VendorsService,
+    private productsService: ProductsService,
+    private orderSerive: OrdersService,
     private router: Router
   ) { }
   
@@ -26,36 +35,86 @@ export class AddDiscountComponent implements OnInit {
   };
   loading: boolean = false;
   URLS = URLS;
+  vendors:any;
+  productGroups:any;
   lineitems = [];
-  selected:any
+  selected:any;
+  customers: Observable<any[]>;
+  customerInput = new Subject<string>();
+  customersLoading: boolean = false;
   storeCurrency = environment.currency;
   discountForm = this.fb.group({
     title: ["", [Validators.required]],
-    discount_type: ["", [Validators.required]],
+    discount_type: ["discount", [Validators.required]],
+    value_type: ["percentage", [Validators.required]],
     type_value: [0, [Validators.required]],
+    minimum_amount: ["none", [Validators.required]],
+    customer_eligibility: ["everyone", [Validators.required]],
+    selectedCustomer:[''],
     usage: [""],
+    vendor_id: [null],
+    product: [[]],
+    categories: [[]],
+    product_group:[[]],
     is_active: [false],
+    start_date: [''],
+    end_date: [''],
     show_both_price: [false],
     show_tag: [false]
   });
 
+
+  getVendors() {
+    this.vendorService.getVendorsList(1, 150).then(resp => {
+      if(resp) {
+        this.vendors = resp.data.results;
+      }
+    });
+  }
+
+  getCustomers() {
+    this.customers = concat(
+      of([]),
+      this.customerInput.pipe(
+          distinctUntilChanged(),
+          tap(() => this.customersLoading = true),
+          switchMap(term => this.orderSerive.getCustomersList(term).pipe(
+              catchError(() => of([])),
+              tap(() => this.customersLoading = false)
+          ))
+      )
+    );
+  }
+
+  getProductGroups() {
+    this.discountForm.patchValue({
+      product_group: ""
+    });
+    let vendor = this.discountForm.get('vendor_id').value;
+    this.productsService.getProductGroups(1, 250, "&vendor=" + vendor, "").then(resp => {
+      if(resp) {
+        this.productGroups = resp.data.results;
+      }
+    });
+  }
+
+  onVendorChange() {
+    this.discountForm.patchValue({
+      product_group: "",
+    });
+    this.getProductGroups();
+  }
+
+
   onCriteriaSelection(event) {
     if (event.value == 'product') {
       this.selected = event.value;
-      this.discountForm.patchValue({
-        products: this.fb.array([])
-      });
       this.onAddItems;
     } else if (event.value == 'category') {
       this.selected = event.value;
-      this.discountForm.patchValue({
-        categories: this.fb.array([])
-      })
     } else {
       this.selected = event.value;
-      this.discountForm.patchValue({
-        product_group: this.fb.array([])
-      })
+      this.getVendors();
     }
   }
 
@@ -83,7 +142,7 @@ export class AddDiscountComponent implements OnInit {
   }
 
   onDiscountTypeChange() {
-    let discountType = this.discountForm.get('discount_type').value;
+    let discountType = this.discountForm.get('value_type').value;
     if (discountType === "percentage") {
       (this.discountForm.controls['type_value'] as FormControl).setValidators([Validators.required, Validators.max(100)]);
     } else {
@@ -103,6 +162,7 @@ export class AddDiscountComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getCustomers()
   }
 
 }
