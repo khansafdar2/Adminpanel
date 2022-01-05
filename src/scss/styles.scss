@@ -717,6 +717,11 @@ body {
             border-color: $primary;
         }
     }
+
+}
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value{
+    background-color: $primaryHighlight;
+    color: $textColor;
 }
 
 

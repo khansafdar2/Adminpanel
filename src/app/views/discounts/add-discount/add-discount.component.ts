@@ -28,17 +28,17 @@ export class AddDiscountComponent implements OnInit {
     private orderSerive: OrdersService,
     private router: Router
   ) { }
-  
-  @Input() data:any = {
+
+  @Input() data: any = {
     title: "",
     category_handle: ''
   };
   loading: boolean = false;
   URLS = URLS;
-  vendors:any;
-  productGroups:any;
+  vendors: any;
+  productGroups: any;
   lineitems = [];
-  selected:any;
+  selected: any;
   customers: Observable<any[]>;
   customerInput = new Subject<string>();
   customersLoading: boolean = false;
@@ -50,12 +50,14 @@ export class AddDiscountComponent implements OnInit {
     type_value: [0, [Validators.required]],
     minimum_amount: ["none", [Validators.required]],
     customer_eligibility: ["everyone", [Validators.required]],
-    selectedCustomer:[''],
+    selectedCustomer: [[]],
+    noOfProducts: [null],
     usage: [""],
+    shippings: [[]],
     vendor_id: [null],
     product: [[]],
     categories: [[]],
-    product_group:[[]],
+    product_group: [[]],
     is_active: [false],
     start_date: [''],
     end_date: [''],
@@ -66,7 +68,7 @@ export class AddDiscountComponent implements OnInit {
 
   getVendors() {
     this.vendorService.getVendorsList(1, 150).then(resp => {
-      if(resp) {
+      if (resp) {
         this.vendors = resp.data.results;
       }
     });
@@ -76,14 +78,18 @@ export class AddDiscountComponent implements OnInit {
     this.customers = concat(
       of([]),
       this.customerInput.pipe(
-          distinctUntilChanged(),
-          tap(() => this.customersLoading = true),
-          switchMap(term => this.orderSerive.getCustomersList(term).pipe(
-              catchError(() => of([])),
-              tap(() => this.customersLoading = false)
-          ))
+        distinctUntilChanged(),
+        tap(() => this.customersLoading = true),
+        switchMap(term => this.orderSerive.getCustomersList(term).pipe(
+          catchError(() => of([])),
+          tap(() => this.customersLoading = false)
+        ))
       )
     );
+  }
+
+  trackByFn(customer) {
+    return customer.id;
   }
 
   getProductGroups() {
@@ -92,7 +98,7 @@ export class AddDiscountComponent implements OnInit {
     });
     let vendor = this.discountForm.get('vendor_id').value;
     this.productsService.getProductGroups(1, 250, "&vendor=" + vendor, "").then(resp => {
-      if(resp) {
+      if (resp) {
         this.productGroups = resp.data.results;
       }
     });
@@ -109,12 +115,10 @@ export class AddDiscountComponent implements OnInit {
   onCriteriaSelection(event) {
     if (event.value == 'product') {
       this.selected = event.value;
-      this.onAddItems;
     } else if (event.value == 'category') {
       this.selected = event.value;
     } else {
       this.selected = event.value;
-      this.getVendors();
     }
   }
 
@@ -162,7 +166,8 @@ export class AddDiscountComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getCustomers()
+    this.getCustomers();
+    this.getVendors();
   }
 
 }

@@ -589,7 +589,9 @@ export class EditProductComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getVendors();
+    if (!this.is_vendor) {
+      this.getVendors();
+    }
     this.getBrands();
     this.getProductDetails();
   }
