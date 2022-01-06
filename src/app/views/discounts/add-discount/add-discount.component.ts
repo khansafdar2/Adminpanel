@@ -50,6 +50,7 @@ export class AddDiscountComponent implements OnInit {
     type_value: [0, [Validators.required]],
     minimum_amount: ["none", [Validators.required]],
     customer_eligibility: ["everyone", [Validators.required]],
+    dropdown: [],
     selectedCustomer: [[]],
     noOfProducts: [null],
     usage: [""],
@@ -112,15 +113,7 @@ export class AddDiscountComponent implements OnInit {
   }
 
 
-  onCriteriaSelection(event) {
-    if (event.value == 'product') {
-      this.selected = event.value;
-    } else if (event.value == 'category') {
-      this.selected = event.value;
-    } else {
-      this.selected = event.value;
-    }
-  }
+
 
 
   onAddItems(items) {
@@ -143,6 +136,9 @@ export class AddDiscountComponent implements OnInit {
         })
       );
     }
+  }
+
+  onDiscountChange(){
   }
 
   onDiscountTypeChange() {

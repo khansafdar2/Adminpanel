@@ -497,9 +497,13 @@ body {
                 margin-top: 5px;
             }
         }
-
+        .product-selection{
+            margin-top: 22px;
+        }
         .product-variants {
             .mat-list-option {
+               
+
                 & + .mat-list-option {
                     border-top: 1px solid #ddd;
                 }

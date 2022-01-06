@@ -119,17 +119,6 @@ export class EditDiscountComponent implements OnInit {
     })
   }
 
-  onCriteriaSelection(event) {
-    if (event.value == 'product') {
-      this.selected = event.value;
-      this.onAddItems;
-    } else if (event.value == 'category') {
-      this.selected = event.value;
-    } else {
-      this.selected = event.value;
-      this.getVendors();
-    }
-  }
 
 
   onAddItems(items) {
@@ -177,6 +166,8 @@ export class EditDiscountComponent implements OnInit {
   ngOnInit(): void {
     this.getCustomers()
     this.getDiscountDetail();
+    this.getVendors();
+
   }
   
 }

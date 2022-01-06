@@ -100,6 +100,7 @@ import { CategorySelectorComponent } from './shared/category-selector/category-s
 import { CategorySelectorDialogComponent } from './shared/category-selector-dialog/category-selector-dialog.component';
 import { HeaderCustomizationComponent } from './views/cms/customization-header/customization-header.component';
 import { FooterCustomizationComponent } from './views/cms/footer-customization/footer-customization.component';
+import { ProductSelectorComponent, ProductSelectorDialog } from './shared/product-selector/product-selector.component';
 
 
 @NgModule({
@@ -206,6 +207,8 @@ import { FooterCustomizationComponent } from './views/cms/footer-customization/f
     HeaderCustomizationComponent,
     FooterCustomizationComponent,
     DeleteCommissionDialog,
+    ProductSelectorComponent,
+    ProductSelectorDialog,
   ],
   imports: [
     BrowserModule,
