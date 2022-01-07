@@ -25,7 +25,7 @@
                     </mat-form-field>
 
                     <h3>Type</h3>
-                    <mat-radio-group class="collection-type-radio" formControlName="discount_type" (change)="onDiscountChange()" fxLayout="row">
+                    <mat-radio-group class="collection-type-radio" formControlName="discount_type" fxLayout="row">
                         <div fxLayout="column">
                             <mat-radio-button value="discount">Discount</mat-radio-button>
                             <h5>Customer will get discount automatically</h5>
@@ -79,34 +79,38 @@
                         <category-selector [(value)]="data.category_handle" valueType="handle"></category-selector>
                     </ng-container>
 
-                    <product-selector *ngIf="discountForm.get('dropdown').value === 'product'" (addItems)="onAddItems($event)"></product-selector>
-
+                    
                     <ng-container
-                        *ngIf="discountForm.get('dropdown').value === 'product_group' || discountForm.get('discount_type').value === 'shipping_discount'">
-                        <div fxLayout="row">
-                            <div fxFlex="0 1 50%">
-                                <mat-form-field *ngIf="!is_vendor" appearance="outline">
-                                    <mat-label>Vendor</mat-label>
-                                    <mat-select formControlName="vendor_id" (selectionChange)="onVendorChange()">
-                                        <mat-option [value]="vendor.id" *ngFor="let vendor of vendors">{{vendor.name}}
-                                        </mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
-
-                            <div fxFlex="0 1 50%">
+                    *ngIf="discountForm.get('dropdown').value === 'product_group' || discountForm.get('discount_type').value === 'shipping_discount'">
+                    <div fxLayout="row">
+                        <div fxFlex="0 1 50%">
+                            <mat-form-field *ngIf="!is_vendor" appearance="outline">
+                                <mat-label>Vendor</mat-label>
+                                <mat-select formControlName="vendor_id" (selectionChange)="onVendorChange()">
+                                    <mat-option [value]="vendor.id" *ngFor="let vendor of vendors">{{vendor.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        
+                        <div fxFlex="0 1 50%">
                                 <mat-form-field *ngIf="discountForm.get('discount_type').value !== 'shipping_discount'"
-                                    appearance="outline">
-                                    <mat-label>Product group</mat-label>
-                                    <mat-select formControlName="product_group" multiple>
+                                appearance="outline">
+                                <mat-label>Product group</mat-label>
+                                <mat-select formControlName="product_group" multiple>
                                         <mat-option [value]="group.id" *ngFor="let group of productGroups">
                                             {{group.title}}</mat-option>
-                                    </mat-select>
+                                        </mat-select>
                                 </mat-form-field>
                             </div>
                         </div>
                     </ng-container>
-
+                    <product-selector *ngIf="discountForm.get('dropdown').value === 'product' && discountForm.get('discount_type').value !== 'shipping_discount'"
+                     [productValue]="discountForm.get('product').value" (addItems)="onAddItems($event)"></product-selector>
+                    <h4 *ngIf="discountForm.get('product').value.length > 0">Selected products</h4>
+                    <ng-comntainer *ngFor="let item of discountForm.get('product').value">
+                        <div>{{item.product_name}}</div>
+                    </ng-comntainer>
                     <div fxLayout="row">
                         <div fxFlex="0 1 50%">
                             <mat-form-field appearance="outline"

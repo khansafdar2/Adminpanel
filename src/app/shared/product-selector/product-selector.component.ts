@@ -1,5 +1,5 @@
 import { ProductsService } from './../../views/products/products.service';
-import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { MatSelectionListChange } from '@angular/material/list';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Debounce } from '../utils';
@@ -14,6 +14,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 export class ProductSelectorComponent implements OnInit {
 
   @Output() addItems = new EventEmitter<any>();
+  @Input() productValue = [];
 
   constructor(
     private dialog: MatDialog
@@ -21,11 +22,12 @@ export class ProductSelectorComponent implements OnInit {
 
   openProductSelectorDialog() {
     let dialogRef = this.dialog.open(ProductSelectorDialog, {
-      width: "600px"
+      width: "600px",
+      data: this.productValue
     });
 
     dialogRef.afterClosed().subscribe(selectedProducts => {
-      if(selectedProducts) {
+      if (selectedProducts) {
         this.addItems.emit(selectedProducts);
       }
     });
@@ -49,11 +51,10 @@ export class ProductSelectorDialog {
     @Inject(MAT_DIALOG_DATA) public data,
     private snackbar: MatSnackBar,
     private productService: ProductsService
-  )
-  {
+  ) {
 
   }
-
+  test: any
   loading: boolean = false;
   searchQuery: string = "";
   products = [];
@@ -66,12 +67,12 @@ export class ProductSelectorDialog {
     this.loading = true;
     this.productService.getProducts(this.pageNumber, 5, this.searchQuery).then(resp => {
       this.loading = false;
-      if(resp) {
+      if (resp) {
         this.products = this.products.concat(resp.data.results);
         this.productsCount = resp.data.count;
       }
     });
- 
+
   }
 
   loadMore() {
@@ -79,7 +80,7 @@ export class ProductSelectorDialog {
     this.getProducts();
   }
 
-  onSearch = Debounce(() =>  {
+  onSearch = Debounce(() => {
     this.products = [];
     this.pageNumber = 1;
     this.productsCount = 0;
@@ -92,15 +93,7 @@ export class ProductSelectorDialog {
 
   onSelection(e: MatSelectionListChange) {
     if(e.options[0].selected) {
-      for (let i = 0; i < this.products.length; i++) {
-          const product = this.products[i];
-          let productObj = JSON.parse(JSON.stringify(product));
-          console.log(productObj)
-          this.selectedProducts.push(productObj);
-          console.log(this.selectedProducts);
-          
-          break;
-      }
+        this.selectedProducts.push(this.products);
     }
   }
 
@@ -108,7 +101,15 @@ export class ProductSelectorDialog {
     this.dialogRef.close(this.selectedProducts);
   }
 
+  getSelectedProducts(){
+    if (this.data.length > 0) {
+      this.selectedProducts = this.data;
+    }
+  }
+
   ngOnInit() {
     this.getProducts();
+    this.getSelectedProducts();
+
   }
 }

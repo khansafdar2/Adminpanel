@@ -33,6 +33,8 @@ export class AddDiscountComponent implements OnInit {
     title: "",
     category_handle: ''
   };
+
+  productTitle: string[] = [];
   loading: boolean = false;
   URLS = URLS;
   vendors: any;
@@ -56,9 +58,9 @@ export class AddDiscountComponent implements OnInit {
     usage: [""],
     shippings: [[]],
     vendor_id: [null],
-    product: [[]],
-    categories: [[]],
-    product_group: [[]],
+    product: this.fb.array([]),
+    product_group: this.fb.array([]),
+    categories: this.fb.array([]),
     is_active: [false],
     start_date: [''],
     end_date: [''],
@@ -122,24 +124,22 @@ export class AddDiscountComponent implements OnInit {
       const item = items[i];
       (this.discountForm.get('product') as FormArray).push(
         this.fb.group({
-          id: item.variant.id,
+          id: item.id,
           vendor_name: item.vendor_name,
           vendor: item.vendor_id,
           product_name: item.title,
-          variant_title: item.variant.title,
           image: item.image,
           shipping: item.shipping,
-          inventory_quantity: item.variant.inventory_quantity,
-          qty: [1, [Validators.required, Validators.min(1), Validators.max(item.variant.inventory_quantity)]],
-          price: item.variant.price,
-          sku: item.variant.sku,
         })
       );
+
+      this.productTitle = item.title;
+      console.log(this.productTitle);
+      
     }
   }
 
-  onDiscountChange(){
-  }
+
 
   onDiscountTypeChange() {
     let discountType = this.discountForm.get('value_type').value;
