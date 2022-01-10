@@ -34,12 +34,13 @@ export class AddDiscountComponent implements OnInit {
     category_handle: ''
   };
 
-  productTitle: string[] = [];
+  productName: any[] = [];
+  productTitle: any[] = [];
   loading: boolean = false;
   URLS = URLS;
   vendors: any;
   productGroups: any;
-  lineitems = [];
+  products = [];
   selected: any;
   customers: Observable<any[]>;
   customerInput = new Subject<string>();
@@ -58,7 +59,7 @@ export class AddDiscountComponent implements OnInit {
     usage: [""],
     shippings: [[]],
     vendor_id: [null],
-    product: this.fb.array([]),
+    product: [[]],
     product_group: this.fb.array([]),
     categories: this.fb.array([]),
     is_active: [false],
@@ -115,30 +116,34 @@ export class AddDiscountComponent implements OnInit {
   }
 
 
-
-
-
   onAddItems(items) {
-    this.lineitems = this.lineitems.concat(items);
-    for (let i = 0; i < items.length; i++) {
-      const item = items[i];
-      (this.discountForm.get('product') as FormArray).push(
-        this.fb.group({
-          id: item.id,
-          vendor_name: item.vendor_name,
-          vendor: item.vendor_id,
-          product_name: item.title,
-          image: item.image,
-          shipping: item.shipping,
-        })
-      );
+    this.products = items;
+    console.log(this.products);
+    
+    let productID;
+    this.discountForm.patchValue({
+      products:items.id
+    });
+    
 
-      this.productTitle = item.title;
-      console.log(this.productTitle);
-      
-    }
+  
+
+    // for (let i = 0; i < items.length; i++) {
+    //   const item = items[i];
+    //   productID = this.discountForm.get('product').value;
+    //   productID.patchVal(item.id);
+    // }   
+    console.log("Selected ID "+ productID);
   }
 
+  deleteSelectedProducts(index) {
+    let productID = this.discountForm.get('product').value
+    productID.splice(index, 1)
+    console.log("ID removed from form "+ productID);
+    
+    this.products.splice(index,1)
+    console.log("check " + this.products)
+  }
 
 
   onDiscountTypeChange() {

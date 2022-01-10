@@ -33,7 +33,6 @@ export class ProductSelectorComponent implements OnInit {
     });
   }
 
-
   ngOnInit(): void {
   }
 
@@ -54,7 +53,7 @@ export class ProductSelectorDialog {
   ) {
 
   }
-  test: any
+test = [];
   loading: boolean = false;
   searchQuery: string = "";
   products = [];
@@ -91,25 +90,21 @@ export class ProductSelectorDialog {
     return o1.id === o2.id;
   }
 
-  onSelection(e: MatSelectionListChange) {
-    if(e.options[0].selected) {
-        this.selectedProducts.push(this.products);
-    }
-  }
 
   addItems() {
+    console.log("add items "+this.selectedProducts);
+    
     this.dialogRef.close(this.selectedProducts);
   }
 
-  getSelectedProducts(){
+  getSelectedProducts() {
     if (this.data.length > 0) {
-      this.selectedProducts = this.data;
+        this.selectedProducts = this.data;
     }
   }
 
   ngOnInit() {
     this.getProducts();
     this.getSelectedProducts();
-
   }
 }

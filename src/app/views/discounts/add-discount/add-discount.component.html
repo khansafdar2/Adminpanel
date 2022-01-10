@@ -105,12 +105,29 @@
                             </div>
                         </div>
                     </ng-container>
+
                     <product-selector *ngIf="discountForm.get('dropdown').value === 'product' && discountForm.get('discount_type').value !== 'shipping_discount'"
-                     [productValue]="discountForm.get('product').value" (addItems)="onAddItems($event)"></product-selector>
-                    <h4 *ngIf="discountForm.get('product').value.length > 0">Selected products</h4>
-                    <ng-comntainer *ngFor="let item of discountForm.get('product').value">
-                        <div>{{item.product_name}}</div>
-                    </ng-comntainer>
+                     [productValue]="products" (addItems)="onAddItems($event)"></product-selector>
+                     <div class="order-lineitems" *ngIf="discountForm.get('product').value">
+                        <div class="lineitem-wrapper"  *ngFor="let item of products let i = index">
+                            <ng-container >
+                                <div class="lineitem-productdata">
+                                    <ng-container>
+                                        <img [src]="item.image ? item.image : '/assets/img/placeholder-image.png'" />
+                                        <div>
+                                            <span class="product-name">{{item.title}}</span>
+                                            <span class="variant_info">{{item.vendor_name}}</span>
+                                        </div>
+                                    </ng-container>
+                                </div>
+
+                                <div>
+                                    <button mat-icon-button color="primary" (click)="deleteSelectedProducts(i)"><mat-icon>delete</mat-icon></button>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                    
                     <div fxLayout="row">
                         <div fxFlex="0 1 50%">
                             <mat-form-field appearance="outline"
