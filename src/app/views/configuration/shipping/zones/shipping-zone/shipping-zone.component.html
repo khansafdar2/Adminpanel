@@ -1,0 +1,72 @@
+<app-topbar></app-topbar>
+<app-sidenav></app-sidenav>
+<main id="main">
+  <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+    <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
+        <h1>
+            <button mat-icon-button aria-label="Go back" (click)="goBack()" class="header-back-arrow">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+            Manage zones
+        </h1>
+    </div>
+    <div class="page-container">
+        <div class="section-settings">
+            <div fxLayout="row">
+                <div  fxFlex="0 0 33.333333%">
+                    <mat-card-title>Not covered by your Shipping zones</mat-card-title>
+                    <mat-card-subtitle>62 countries and regions</mat-card-subtitle>
+                </div>
+                <div fxFlex="1 1 50%">
+                    <mat-card>
+                        <mat-card-content>
+                            <div fxLayout="row" fxLayoutAlign="space-between center">
+                                <div>
+                                    <mat-card-title>Shipping zones</mat-card-title>
+                                    <mat-card-subtitle>62 countries and regions</mat-card-subtitle>
+                                </div>
+                                <mat-card-title class="link" (click)="onNewShippingMethod()" >Create shipping Zones</mat-card-title>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </div>
+
+            <div fxLayout="row" class="shipping-to">
+                <div  fxFlex="0 0 33.333333%">
+                    <mat-card-title>Already created Shipping zones</mat-card-title>
+                    <mat-card-subtitle>standards and formats are used to calculate product prices,
+                        shipping weights, and order times.</mat-card-subtitle>
+                </div>
+                <div fxFlex="1 1 50%">
+                    <mat-card>
+                        <mat-card-content>
+                            <div >
+                                <mat-card-title>Shipping to</mat-card-title>
+                                <div fxLayout="row" fxLayoutAlign="space-between center" class="zone" *ngFor="let zone of zones" >
+                                    <div>
+                                        <mat-card-title class="zone-title">{{zone.title}}</mat-card-title>
+                                        <mat-card-subtitle class="regionNames" *ngIf="zone.region.length"> {{ getRegionName(zone.region) }} </mat-card-subtitle>
+                                        <mat-card-subtitle class="regionNames" *ngIf="zone.country.length"> {{ getRegionName(zone.country) }} </mat-card-subtitle>
+                                        <mat-card-subtitle class="regionNames" *ngIf="zone.city.length"> {{ getRegionName(zone.city) }} </mat-card-subtitle>
+                                    </div>
+                                    <div>
+                                        <button mat-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
+                                        <mat-menu #menu="matMenu">
+                                            <button (click)="editZone(zone.id)" mat-menu-item>Edit</button>
+                                            <button mat-menu-item (click)="deleteZone(zone.id, zone.title)" >Delete</button>
+                                        </mat-menu>
+                                    </div>
+                                </div>
+                                <div *ngIf="!zones.length">
+                                    <mat-card-subtitle>No zones created</mat-card-subtitle>
+                                </div>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+    

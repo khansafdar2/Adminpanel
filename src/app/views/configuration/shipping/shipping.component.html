@@ -3,15 +3,64 @@
 <main id="main">
     <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
     <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
-        <h1>Shipping methods</h1>
+        <h1>
+            <button mat-icon-button aria-label="Go back" (click)="goBack()" class="header-back-arrow">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+            Shipping & Delivery
+        </h1>
 
-        <div class="header-actions">
-            <button mat-flat-button color="primary" (click)="onNewShippingMethod()">New shipping method</button>
-        </div>
+        <!-- <div class="header-actions">
+            <button mat-stroked-button color="primary" >Cancel</button>
+            <button mat-flat-button color="primary"  >Save</button>
+        </div> -->
     </div>
 
     <div class="page-container">
-        <mat-card class="table-wrapper-card">
+        <div class="section-settings">
+            <div fxLayout="row">
+                <div  fxFlex="0 0 33.333333%">
+                    <mat-card-title>Delivery methods at checkout</mat-card-title>
+                    <mat-card-subtitle>Manage how your customers receive their orders. Learn more about <a href="">delivery methods</a> </mat-card-subtitle>
+                </div>
+                <div fxFlex="1 1 50%">
+                    <mat-card>
+                        <mat-card-content>
+                            <mat-card-title>Shipping</mat-card-title>
+                            <mat-card-subtitle>Choose where you ship and how much you charge for shipping at checkout.</mat-card-subtitle>
+                            <mat-card-subtitle>Learn more about <a href="">Shipping rates.</a></mat-card-subtitle>
+                        </mat-card-content>
+
+                        <mat-card-content>
+                            <div fxLayout="row" fxLayoutAlign="space-between">
+                                <mat-card-title>Rates for</mat-card-title>
+                                <mat-card-title class="link" (click)="manageZones()">Manage Zones</mat-card-title>
+                            </div>
+                            <mat-card-subtitle>8 zones</mat-card-subtitle>
+                        </mat-card-content>
+
+                        <mat-card-content>
+                            <div fxLayout="row" fxLayoutAlign="space-between">
+                                <mat-card-title>General shipping rates</mat-card-title>
+                                <mat-card-title class="link" (click)="manageShippingRates()">Manage rates</mat-card-title>
+                            </div>
+                            <mat-card-subtitle>All products</mat-card-subtitle>
+                        </mat-card-content>
+                        
+                        <mat-card-footer>
+                            <mat-card-content>
+                                <mat-card-title>Custom shipping rates</mat-card-title>
+                                <mat-card-subtitle>Create shipping profile to add custom rates or destinations for </mat-card-subtitle>
+                                <mat-card-subtitle>group of products. Learn more about <a href="">Shipping profiles.</a></mat-card-subtitle>
+                            </mat-card-content>
+                        </mat-card-footer>
+                        
+
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+        <!-- <mat-card class="table-wrapper-card">
             <datatable 
                 [data]="shippingMethods"
                 [columns]="displayedColumns"
@@ -20,6 +69,6 @@
                 (cellClick)="onCellClick($event)"
                 (rowAction)="onRowAction($event)">
             </datatable>
-        </mat-card>
+        </mat-card> -->
     </div>
 </main>

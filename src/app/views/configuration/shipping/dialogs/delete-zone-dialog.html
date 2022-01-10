@@ -1,0 +1,9 @@
+<button mat-icon-button mat-dialog-close class="dialog-close"><mat-icon>close</mat-icon></button>
+<h2 mat-dialog-title>Delete zone </h2>
+<mat-dialog-content class="mat-typography">
+    <p>Are you sure you want to delete zone {{ zoneName }}?</p>
+</mat-dialog-content>
+<div mat-dialog-actions>
+    <button mat-stroked-button color="primary" mat-dialog-close>Cancel</button>
+    <button mat-flat-button color="warn" [disabled]="loading" (click)="onDelete()">Delete</button>
+</div>

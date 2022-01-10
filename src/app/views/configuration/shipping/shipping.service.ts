@@ -62,4 +62,110 @@ export class ShippingService {
       }
     });
   }
+
+  getRegions() {
+    return Axios.get(environment.backend_url + '/setting/region', {
+      headers: {
+        Authorization: this.authservice.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authservice.signout();
+      }
+    });
+  }
+
+  getCountries(regionId) {
+    return Axios.get(environment.backend_url + '/setting/country?region_id=' + regionId, {
+      headers: {
+        Authorization: this.authservice.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authservice.signout();
+      }
+    });
+  }
+
+  getCities(countryId) {
+    return Axios.get(environment.backend_url + '/setting/city?country_id=' + countryId, {
+      headers: {
+        Authorization: this.authservice.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authservice.signout();
+      }
+    });
+  }
+
+  createZone(data) {
+    return Axios.post(environment.backend_url + "/shipping/zone", data, {
+      headers: {
+        Authorization: this.authservice.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authservice.signout();
+      }
+    });
+  }
+
+  getZones() {
+    return Axios.get(environment.backend_url + "/shipping/zone_list", {
+      headers: {
+        Authorization: this.authservice.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authservice.signout();
+      }
+    });
+  }
+
+  getSingleZones(id) {
+    return Axios.get(environment.backend_url + "/shipping/zone/" + id, {
+      headers: {
+        Authorization: this.authservice.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authservice.signout();
+      }
+    });
+  }
+
+  updateZone(data) {
+    return Axios.put(environment.backend_url + "/shipping/zone", data, {
+      headers: {
+        Authorization: this.authservice.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authservice.signout();
+      }
+    });
+  }
+
+  deleteZone(id)
+  {
+    return Axios.delete(environment.backend_url + "/shipping/zone/" + id, {
+      headers: {
+        Authorization: this.authservice.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authservice.signout();
+      }
+    });
+  }
+
 }

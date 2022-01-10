@@ -25,22 +25,22 @@
 
     <mat-card class="table-wrapper-card">
         <datatable  [data]="products"
-                  [columns]="displayedColumns"
-                  [selectable]="true"
-                  [(selection)]="productSelection"
-                  [searchColumns]="searchColumns"
-                  [rowActions]="rowActions"
-                  [filters]="productFilters"
-                  [searchable]="true"
-                  [pagination]="true"
-                  [count]="totalCount"
-                  [itemsPerPage]="pageLimit"
+            [columns]="displayedColumns"
+            [selectable]="true"
+            [(selection)]="productSelection"
+            [searchColumns]="searchColumns"
+            [rowActions]="rowActions"
+            [filters]="productFilters"
+            [searchable]="true"
+            [pagination]="true"
+            [count]="totalCount"
+            [itemsPerPage]="pageLimit"
 
-                  (page)="onPageChange($event)"
-                  (cellClick)="onCellClick($event)"
-                  (rowAction)="onRowAction($event)"
-                  (filter)="onFilter($event)"
-                  (search)="onSearch($event)">
-      </datatable>
+            (page)="onPageChange($event)"
+            (cellClick)="onCellClick($event)"
+            (rowAction)="onRowAction($event)"
+            (filter)="onFilter($event)"
+            (search)="onSearch($event)">
+        </datatable>
     </mat-card>
 </main>
