@@ -76,7 +76,7 @@
                     <ng-container
                         *ngIf="discountForm.get('dropdown').value === 'category' && discountForm.get('discount_type').value !== 'shipping_discount'">
                         <h4>Categories</h4>
-                        <category-selector [(value)]="data.category_handle" valueType="handle"></category-selector>
+                        <category-selector [(value)]="data.category_handle" valueType="handle" (valueChange)=onCategorySelection($event)></category-selector>
                     </ng-container>
 
                     

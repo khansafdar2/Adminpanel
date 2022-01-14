@@ -21,6 +21,7 @@ export class HomepageSliderSection implements OnInit {
 
   slideSortChanged(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.data.slides, event.previousIndex, event.currentIndex);
+    
   }
 
   addSlide() {

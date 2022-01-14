@@ -60,8 +60,10 @@ export class AddDiscountComponent implements OnInit {
     shippings: [[]],
     vendor_id: [null],
     product: [[]],
-    product_group: this.fb.array([]),
-    categories: this.fb.array([]),
+    product_group: [[]],
+    main_category: [[]],
+    sub_category: [[]],
+    super_sub_category: [[]],
     is_active: [false],
     start_date: [''],
     end_date: [''],
@@ -98,7 +100,7 @@ export class AddDiscountComponent implements OnInit {
 
   getProductGroups() {
     this.discountForm.patchValue({
-      product_group: ""
+      product_group: [[]]
     });
     let vendor = this.discountForm.get('vendor_id').value;
     this.productsService.getProductGroups(1, 250, "&vendor=" + vendor, "").then(resp => {
@@ -110,41 +112,37 @@ export class AddDiscountComponent implements OnInit {
 
   onVendorChange() {
     this.discountForm.patchValue({
-      product_group: "",
+      product_group: [[]]
     });
     this.getProductGroups();
   }
 
 
+
   onAddItems(items) {
     this.products = items;
-    console.log(this.products);
-    
-    let productID;
+    let productID = [];
+    productID = items.map(this.mapProductID);  
     this.discountForm.patchValue({
-      products:items.id
-    });
-    
+      product: productID
+    })
+  }
 
-  
-
-    // for (let i = 0; i < items.length; i++) {
-    //   const item = items[i];
-    //   productID = this.discountForm.get('product').value;
-    //   productID.patchVal(item.id);
-    // }   
-    console.log("Selected ID "+ productID);
+  mapProductID(value) {
+    return value.id;
   }
 
   deleteSelectedProducts(index) {
-    let productID = this.discountForm.get('product').value
-    productID.splice(index, 1)
-    console.log("ID removed from form "+ productID);
-    
-    this.products.splice(index,1)
-    console.log("check " + this.products)
+    let productID = this.discountForm.get('product').value;
+    productID.splice(index, 1);
+    this.products.splice(index, 1);
   }
 
+  onCategorySelection(data) {
+    console.log(data);
+    
+
+  }
 
   onDiscountTypeChange() {
     let discountType = this.discountForm.get('value_type').value;

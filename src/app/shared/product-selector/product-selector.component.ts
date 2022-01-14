@@ -53,7 +53,6 @@ export class ProductSelectorDialog {
   ) {
 
   }
-test = [];
   loading: boolean = false;
   searchQuery: string = "";
   products = [];
@@ -71,7 +70,6 @@ test = [];
         this.productsCount = resp.data.count;
       }
     });
-
   }
 
   loadMore() {
@@ -90,10 +88,8 @@ test = [];
     return o1.id === o2.id;
   }
 
-
   addItems() {
-    console.log("add items "+this.selectedProducts);
-    
+    console.log(this.selectedProducts);
     this.dialogRef.close(this.selectedProducts);
   }
 

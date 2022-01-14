@@ -101,11 +101,11 @@ export class CategorySelectorComponent implements OnInit {
   onCategorySelectionChange(event: MatCheckboxChange, category, type) {
     if(event.checked) {
       if(this.valueType === 'id') {
-        this.value = category.id;
+        this.value = category.id;        
       } else if(this.valueType === 'handle') {
         this.valueChange.emit(category.handle);
       } else if(this.valueType === 'object.handle') {
-        this.valueChange.emit(category);
+        this.valueChange.emit(category);        
       }
     }
   }
