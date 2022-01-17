@@ -7,7 +7,7 @@ import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { concat, Observable, of, Subject, pipe } from 'rxjs';
 import { catchError, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import URLS from 'src/app/shared/urls';
 import { DiscountsService } from '../discounts.service';
 import { environment } from 'src/environments/environment';
@@ -26,7 +26,7 @@ export class AddDiscountComponent implements OnInit {
     private vendorService: VendorsService,
     private productsService: ProductsService,
     private orderSerive: OrdersService,
-    private router: Router
+    private router: Router,
   ) { }
 
   @Input() data: any = {
@@ -34,6 +34,12 @@ export class AddDiscountComponent implements OnInit {
     category_handle: ''
   };
 
+  valueType: string = "handle";
+  value = null;
+
+  mainCategoryID = [];
+  subCategoryID = [];
+  superSubCategoryID = [];
   productName: any[] = [];
   productTitle: any[] = [];
   loading: boolean = false;
@@ -80,6 +86,7 @@ export class AddDiscountComponent implements OnInit {
     });
   }
 
+
   getCustomers() {
     this.customers = concat(
       of([]),
@@ -118,11 +125,10 @@ export class AddDiscountComponent implements OnInit {
   }
 
 
-
   onAddItems(items) {
     this.products = items;
     let productID = [];
-    productID = items.map(this.mapProductID);  
+    productID = items.map(this.mapProductID);
     this.discountForm.patchValue({
       product: productID
     })
@@ -132,6 +138,22 @@ export class AddDiscountComponent implements OnInit {
     return value.id;
   }
 
+  mapCategoryID(value) {
+    return value.category_id;
+  }
+
+  filterMainCategory(value) {
+    return value.category_type == "main";
+  }
+
+  filterSubCategory(value) {
+    return value.category_type == "sub";
+  }
+
+  filterSuperSubCategory(value) {
+    return value.category_type == "superSub";
+  }
+
   deleteSelectedProducts(index) {
     let productID = this.discountForm.get('product').value;
     productID.splice(index, 1);
@@ -139,9 +161,18 @@ export class AddDiscountComponent implements OnInit {
   }
 
   onCategorySelection(data) {
-    console.log(data);
-    
-
+    this.mainCategoryID = data.filter(this.filterMainCategory).map(this.mapCategoryID);
+    this.discountForm.patchValue({
+      main_category: this.mainCategoryID
+    })
+    this.subCategoryID = data.filter(this.filterSubCategory).map(this.mapCategoryID);
+    this.discountForm.patchValue({
+      sub_category: this.subCategoryID
+    })
+    this.superSubCategoryID = data.filter(this.filterSuperSubCategory).map(this.mapCategoryID);
+    this.discountForm.patchValue({
+      super_sub_category: this.superSubCategoryID
+    })
   }
 
   onDiscountTypeChange() {
@@ -164,9 +195,9 @@ export class AddDiscountComponent implements OnInit {
     });
   }
 
+
   ngOnInit(): void {
     this.getCustomers();
     this.getVendors();
   }
-
 }

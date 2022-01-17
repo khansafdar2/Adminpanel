@@ -3,7 +3,7 @@
 <main id="main">
     <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
     <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
-        <h1>Add discount</h1>
+        <h1>Edit discount</h1>
 
         <div class="header-actions">
             <a [routerLink]="['/', URLS.discounts, URLS.all]" mat-stroked-button color="primary">Cancel</a>
@@ -76,10 +76,10 @@
                     <ng-container
                         *ngIf="discountForm.get('dropdown').value === 'category' && discountForm.get('discount_type').value !== 'shipping_discount'">
                         <h4>Categories</h4>
-                        <category-selector [(value)]="data.category_handle" valueType="handle"></category-selector>
+                        <category-selector [(value)]="data.category_handle" valueType="handle"
+                            (valueChange)=onCategorySelection($event)></category-selector>
                     </ng-container>
 
-                    <variant-selector *ngIf="discountForm.get('dropdown').value === 'product'" (addItems)="onAddItems($event)"></variant-selector>
 
                     <ng-container
                         *ngIf="discountForm.get('dropdown').value === 'product_group' || discountForm.get('discount_type').value === 'shipping_discount'">
@@ -106,6 +106,31 @@
                             </div>
                         </div>
                     </ng-container>
+
+                    <product-selector
+                        *ngIf="discountForm.get('dropdown').value === 'product' && discountForm.get('discount_type').value !== 'shipping_discount'"
+                        [productValue]="products" (addItems)="onAddItems($event)"></product-selector>
+                    <div class="order-lineitems" *ngIf="discountForm.get('product').value">
+                        <div class="lineitem-wrapper" *ngFor="let item of products let i = index">
+                            <ng-container>
+                                <div class="lineitem-productdata">
+                                    <ng-container>
+                                        <img [src]="item.image ? item.image : '/assets/img/placeholder-image.png'" />
+                                        <div>
+                                            <span class="product-name">{{item.title}}</span>
+                                            <span class="variant_info">{{item.vendor_name}}</span>
+                                        </div>
+                                    </ng-container>
+                                </div>
+
+                                <div>
+                                    <button mat-icon-button color="primary" (click)="deleteSelectedProducts(i)">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
 
                     <div fxLayout="row">
                         <div fxFlex="0 1 50%">

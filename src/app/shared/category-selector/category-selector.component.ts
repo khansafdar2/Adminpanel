@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { CategoryService } from 'src/app/views/products/category-structure/category.service';
 import { trigger, transition, animate, style } from '@angular/animations'
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -11,11 +12,11 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
   animations: [
     trigger('slideInOut', [
       transition(':enter', [
-        style({transform: 'translateX(100%)'}),
-        animate('250ms ease-out', style({transform: 'translateX(0)'}))
+        style({ transform: 'translateX(100%)' }),
+        animate('250ms ease-out', style({ transform: 'translateX(0)' }))
       ]),
       transition(':leave', [
-        animate('250ms ease-out', style({transform: 'translateX(100%)'}))
+        animate('250ms ease-out', style({ transform: 'translateX(100%)' }))
       ])
     ])
   ]
@@ -23,7 +24,9 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 export class CategorySelectorComponent implements OnInit {
 
   constructor(
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private router: Router
+
   ) { }
 
   @ViewChild('selector') selector;
@@ -40,6 +43,7 @@ export class CategorySelectorComponent implements OnInit {
   superSubCategories = [];
   setWrapperAsSubcategory: boolean = false;
   setWrapperAsSuperSubcategory: boolean = false;
+  categoryArray = []
 
   activeMainCategory = null;
   activeSubCategory = null;
@@ -48,7 +52,7 @@ export class CategorySelectorComponent implements OnInit {
 
   getMainCategories() {
     this.categoryService.getMainCategories().then(resp => {
-      if(resp) {
+      if (resp) {
         this.mainCategories = resp.data;
       }
     });
@@ -57,7 +61,7 @@ export class CategorySelectorComponent implements OnInit {
   getSubCategories() {
     this.categoryService.getSubCategories(this.activeMainCategory.id).then(resp => {
       this.subCategoriesLoading = false;
-      if(resp) {
+      if (resp) {
         this.subCategories = resp.data;
         this.setWrapperAsSubcategory = true;
       }
@@ -67,7 +71,7 @@ export class CategorySelectorComponent implements OnInit {
   getSuperSubCategories() {
     this.categoryService.getSuperSubCategories(this.activeSubCategory.id).then(resp => {
       this.superSubCategoriesLoading = false;
-      if(resp) {
+      if (resp) {
         this.superSubCategories = resp.data;
         this.setWrapperAsSuperSubcategory = true;
       }
@@ -99,22 +103,36 @@ export class CategorySelectorComponent implements OnInit {
   }
 
   onCategorySelectionChange(event: MatCheckboxChange, category, type) {
-    if(event.checked) {
-      if(this.valueType === 'id') {
-        this.value = category.id;        
-      } else if(this.valueType === 'handle') {
-        this.valueChange.emit(category.handle);
-      } else if(this.valueType === 'object.handle') {
-        this.valueChange.emit(category);        
+    let categoryObj = {
+      category_name: category.handle,
+      category_id: category.id,
+      category_type: type
+    }
+    if (event.checked) {
+      if (this.valueType === 'id') {
+        this.value = category.id;
+      } else if (this.valueType === 'handle') {
+        if (this.router.url == '/discounts/add') {
+          this.categoryArray.push(categoryObj)          
+          this.valueChange.emit(this.categoryArray);
+        } else {
+          this.valueChange.emit(category.handle);
+        }
+      } else if (this.valueType === 'object.handle') {
+        this.valueChange.emit(category);
       }
+    } else {
+      let removeObjId = this.categoryArray.find(itm => itm.id === categoryObj.category_id);
+      this.categoryArray.splice(this.categoryArray.indexOf(removeObjId),1)
+      this.valueChange.emit(this.categoryArray);
     }
   }
 
   isCategorySelected(category) {
-    if(this.valueType === 'id'){
-    } else if(this.valueType === 'handle') {
+    if (this.valueType === 'id') {
+    } else if (this.valueType === 'handle') {
       return this.value === category.handle;
-    } else if(this.valueType === 'object.handle') {
+    } else if (this.valueType === 'object.handle') {
       return this.value.handle === category.handle;
     }
   }
@@ -128,13 +146,13 @@ export class CategorySelectorComponent implements OnInit {
   }
 
   ngAfterViewChecked(): void {
-    if(this.setWrapperAsSubcategory) {
+    if (this.setWrapperAsSubcategory) {
       setTimeout(() => {
         let subcategoriesHeight = this.subCategoryWrapper.nativeElement.clientHeight;
         this.selector.nativeElement.style.height = subcategoriesHeight + "px";
         this.setWrapperAsSubcategory = false;
       }, 50);
-    } else if(this.setWrapperAsSuperSubcategory) {
+    } else if (this.setWrapperAsSuperSubcategory) {
       setTimeout(() => {
         let superSubcategoriesHeight = this.superSubCategoryWrapper.nativeElement.clientHeight;
         this.selector.nativeElement.style.height = superSubcategoriesHeight + "px";
