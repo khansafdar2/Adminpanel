@@ -76,7 +76,7 @@
                     <ng-container
                         *ngIf="discountForm.get('dropdown').value === 'category' && discountForm.get('discount_type').value !== 'shipping_discount'">
                         <h4>Categories</h4>
-                        <category-selector [(value)]="data.category_handle" valueType="handle" (valueChange)=onCategorySelection($event)></category-selector>
+                        <category-selector [(value)]="data.category_handle" valueType="object.handle" [multiple]="true" (valueChange)=onCategorySelection($event)></category-selector>
                     </ng-container>
 
                     
@@ -105,10 +105,21 @@
                             </div>
                         </div>
                     </ng-container>
-
+                    <div fxLayout="row">
+                        <div fxFlex="0 1 50%">
+                            <mat-form-field appearance="outline"
+                                *ngIf="discountForm.get('discount_type').value === 'shipping_discount' && discountForm.get('vendor_id').value">
+                                <mat-label>Shippings</mat-label>
+                                <mat-select formControlName="product_group" multiple>
+                                    <mat-option [value]="group.id" *ngFor="let group of productGroups">
+                                        {{group.title}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
                     <product-selector *ngIf="discountForm.get('dropdown').value === 'product' && discountForm.get('discount_type').value !== 'shipping_discount'"
                      [productValue]="products" (addItems)="onAddItems($event)"></product-selector>
-                     <div class="order-lineitems" *ngIf="discountForm.get('product').value">
+                     <div *ngIf="discountForm.get('product').value">
                         <div class="lineitem-wrapper"  *ngFor="let item of products let i = index">
                             <ng-container >
                                 <div class="lineitem-productdata">
@@ -128,18 +139,7 @@
                         </div>
                     </div>
                     
-                    <div fxLayout="row">
-                        <div fxFlex="0 1 50%">
-                            <mat-form-field appearance="outline"
-                                *ngIf="discountForm.get('discount_type').value === 'shipping_discount' && discountForm.get('vendor_id').value">
-                                <mat-label>Shippings</mat-label>
-                                <mat-select formControlName="product_group" multiple>
-                                    <mat-option [value]="group.id" *ngFor="let group of productGroups">
-                                        {{group.title}}</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                    </div>
+
                 </mat-card>
 
                 <mat-card *ngIf="discountForm.get('discount_type').value === 'buy'">

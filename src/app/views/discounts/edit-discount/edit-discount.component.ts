@@ -32,7 +32,7 @@ export class EditDiscountComponent implements OnInit {
     this.discountID = this.route.snapshot.paramMap.get('id');
    }
   
-  @Input() data:any = {
+  data:any = {
     title: "",
     category_handle: ''
   };
@@ -50,11 +50,13 @@ export class EditDiscountComponent implements OnInit {
   vendors: any;
   productGroups: any;
   products = [];
-  selected: any;
   customers: Observable<any[]>;
   customerInput = new Subject<string>();
   customersLoading: boolean = false;
   storeCurrency = environment.currency;
+  multiple = true;
+
+
   discountForm = this.fb.group({
     title: ["", [Validators.required]],
     discount_type: ["discount", [Validators.required]],

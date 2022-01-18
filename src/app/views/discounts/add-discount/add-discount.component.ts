@@ -1,13 +1,12 @@
 import { OrdersService } from './../../orders/orders.service';
-import { CustomersService } from './../../customers/customers.service';
 import { ProductsService } from './../../products/products.service';
 import { VendorsService } from './../../vendors/vendors.service';
 import { Component, Input, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
+import {  FormBuilder, FormControl, Validators } from '@angular/forms';
 import { concat, Observable, of, Subject, pipe } from 'rxjs';
 import { catchError, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import URLS from 'src/app/shared/urls';
 import { DiscountsService } from '../discounts.service';
 import { environment } from 'src/environments/environment';
@@ -29,7 +28,7 @@ export class AddDiscountComponent implements OnInit {
     private router: Router,
   ) { }
 
-  @Input() data: any = {
+  data: any = {
     title: "",
     category_handle: ''
   };
@@ -47,11 +46,13 @@ export class AddDiscountComponent implements OnInit {
   vendors: any;
   productGroups: any;
   products = [];
-  selected: any;
   customers: Observable<any[]>;
   customerInput = new Subject<string>();
   customersLoading: boolean = false;
   storeCurrency = environment.currency;
+  multiple = true;
+  
+
   discountForm = this.fb.group({
     title: ["", [Validators.required]],
     discount_type: ["discount", [Validators.required]],
@@ -161,6 +162,7 @@ export class AddDiscountComponent implements OnInit {
   }
 
   onCategorySelection(data) {
+    console.log(data);
     this.mainCategoryID = data.filter(this.filterMainCategory).map(this.mapCategoryID);
     this.discountForm.patchValue({
       main_category: this.mainCategoryID

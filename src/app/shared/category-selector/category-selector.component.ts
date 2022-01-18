@@ -24,8 +24,7 @@ import { Router } from '@angular/router';
 export class CategorySelectorComponent implements OnInit {
 
   constructor(
-    private categoryService: CategoryService,
-    private router: Router
+    private categoryService: CategoryService
 
   ) { }
 
@@ -37,13 +36,18 @@ export class CategorySelectorComponent implements OnInit {
   @Output() valueChange = new EventEmitter<any>();
 
   @Input() valueType = 'handle';
+  @Input() multiple = false;
 
   mainCategories = [];
   subCategories = [];
   superSubCategories = [];
+  handleArray = [];
+  idArray = [];
+
+
   setWrapperAsSubcategory: boolean = false;
   setWrapperAsSuperSubcategory: boolean = false;
-  categoryArray = []
+  categoryArray = [];
 
   activeMainCategory = null;
   activeSubCategory = null;
@@ -104,26 +108,36 @@ export class CategorySelectorComponent implements OnInit {
 
   onCategorySelectionChange(event: MatCheckboxChange, category, type) {
     let categoryObj = {
-      category_name: category.handle,
       category_id: category.id,
+      category_handle: category.handle,
       category_type: type
     }
     if (event.checked) {
       if (this.valueType === 'id') {
-        this.value = category.id;
+        if (this.multiple) {
+          this.idArray.push(category.id);
+          this.valueChange.emit(this.idArray);
+        } else {
+          this.valueChange.emit(category.id);
+        }
       } else if (this.valueType === 'handle') {
-        if (this.router.url == '/discounts/add') {
-          this.categoryArray.push(categoryObj)          
-          this.valueChange.emit(this.categoryArray);
+        if (this.multiple) {
+          this.handleArray.push(category.handle);
+          this.valueChange.emit(this.handleArray);
         } else {
           this.valueChange.emit(category.handle);
         }
       } else if (this.valueType === 'object.handle') {
-        this.valueChange.emit(category);
+        if (this.multiple) {
+          this.categoryArray.push(categoryObj)
+          this.valueChange.emit(this.categoryArray);
+        } else {
+          this.valueChange.emit(category);
+        }
       }
     } else {
       let removeObjId = this.categoryArray.find(itm => itm.id === categoryObj.category_id);
-      this.categoryArray.splice(this.categoryArray.indexOf(removeObjId),1)
+      this.categoryArray.splice(this.categoryArray.indexOf(removeObjId), 1)
       this.valueChange.emit(this.categoryArray);
     }
   }

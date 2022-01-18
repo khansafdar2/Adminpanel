@@ -509,40 +509,33 @@ export class ProductsBulkOrganizeDialog {
   }
 
   getProductGroups() {
+    let vendor;
     if (!this.is_vendor) {
-      let vendor = this.organizeForm.get('vendor').value;
-      this.productsService.getProductGroups(1, 250, "&vendor=" + vendor, "").then(resp => {
-        if (resp) {
-          this.productGroups = resp.data.results;
-        }
-      });
+      vendor = this.organizeForm.get('vendor').value;
     } else {
-      this.productsService.getProductGroups(1, 250, "&vendor=" + this.vendorID, "").then(resp => {
-        if (resp) {
-          console.log(resp.data);
-          this.productGroups = resp.data.results;
-        }
-      });
+      vendor = this.vendorID
     }
+    this.productsService.getProductGroups(1, 250, "&vendor=" + vendor, "").then(resp => {
+      if (resp) {
+        this.productGroups = resp.data.results;
+      }
+    });
+
   }
 
   getCollections() {
+    let vendor;
     if (!this.is_vendor) {
-      let vendor = this.organizeForm.get('vendor').value;
-      this.collectionsService.getCollectionsList(1, 250, "&vendor=" + vendor, "").then(resp => {
-        if (resp) {
-          this.collections = resp.data.results;
-          this.vendorDataLoaded = true;
-        }
-      });
+      vendor = this.organizeForm.get('vendor').value;
     } else {
-      this.collectionsService.getCollectionsList(1, 250, "&vendor=" + this.vendorID, "").then(resp => {
-        if (resp) {
-          this.collections = resp.data.results;
-          this.vendorDataLoaded = true;
-        }
-      });
+      vendor = this.vendorID;
     }
+    this.collectionsService.getCollectionsList(1, 250, "&vendor=" + vendor, "").then(resp => {
+      if (resp) {
+        this.collections = resp.data.results;
+        this.vendorDataLoaded = true;
+      }
+    });
   }
 
   onVendorChange() {

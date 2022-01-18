@@ -21,7 +21,6 @@ export class HomepageSliderSection implements OnInit {
 
   slideSortChanged(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.data.slides, event.previousIndex, event.currentIndex);
-    
   }
 
   addSlide() {
@@ -40,7 +39,6 @@ export class HomepageSliderSection implements OnInit {
   ngOnInit(): void {
   }
 }
-
 
 
 @Component({
@@ -108,7 +106,6 @@ export class HomepageCategoriesCarousel implements OnInit {
 }
 
 
-
 @Component({
   selector: 'homepage-brands',
   templateUrl: './templates/homepage-brands.html'
@@ -118,7 +115,6 @@ export class HomepageBrands implements OnInit {
     private brandsService: BrandsService
   ) { }
 
-  
   @Input() data:any = {
     title: "",
     brands: []
@@ -159,7 +155,6 @@ export class HomepageBrands implements OnInit {
 }
 
 
-
 @Component({
   selector: 'homepage-products-carousel',
   templateUrl: './templates/homepage-products-carousel.html'
@@ -195,7 +190,6 @@ export class HomepageSingleBanner implements OnInit {
   };
 
   ngOnInit() {
-    console.log(this.data);
   }
 }
 
