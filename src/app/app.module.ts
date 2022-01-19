@@ -106,10 +106,10 @@ import { FooterCustomizationComponent } from './views/cms/footer-customization/f
 import { NavigationSelectorComponent } from './views/cms/navigations/navigation-selector/navigation-selector.component';
 import { NavigationSelectorDialogComponent } from './views/cms/navigations/navigation-selector-dialog/navigation-selector-dialog.component';
 import { ShippingZoneComponent } from './views/configuration/shipping/zones/shipping-zone/shipping-zone.component';
-import { ShippingRatesComponent } from './views/configuration/shipping/shipping-rates/shipping-rates.component';
-
-
-
+import { DeleteShippingRateDialog, ShippingRatesComponent } from './views/configuration/shipping/shipping-rates/shipping-rates.component';
+import { AddShippingRatesComponent } from './views/configuration/shipping/shipping-rates/add-shippping-rate/add-shipping-rate.component';
+import { DefaultShippingComponent } from './views/configuration/shipping/default-shipping/default-shipping.component';
+import { MultiSelectDialog, MultiSelectModelComponent } from './shared/multi-select-model/multi-select-model.component';
 
 @NgModule({
   declarations: [
@@ -224,6 +224,11 @@ import { ShippingRatesComponent } from './views/configuration/shipping/shipping-
     ShippingZoneComponent,
     ShippingRatesComponent,
     DeleteZoneDialog,
+    AddShippingRatesComponent,
+    DeleteShippingRateDialog,
+    DefaultShippingComponent,
+    MultiSelectModelComponent,
+    MultiSelectDialog
   ],
   imports: [
     BrowserModule,

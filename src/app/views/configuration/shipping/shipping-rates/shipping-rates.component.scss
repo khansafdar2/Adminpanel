@@ -32,7 +32,8 @@
   border-top: 1px solid;
 }
 .shipping-to{
-  margin-top: 15px;
+  // margin-top: 15px;
+  margin-bottom: 20px;
 }
 .zone{
   border-bottom: 1px solid #ccc;
@@ -40,6 +41,10 @@
 .zone:last-child{
   border-bottom:none;
 }
-.zone-title{
+.zone-title, .rate-title{
   font-size: 13px;
 }
+.title-wrapper{
+  padding: 10px;
+}
+

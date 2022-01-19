@@ -1,11 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators, FormArray } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Column } from 'src/app/shared/datatable/datatable.component';
 import URLS from 'src/app/shared/urls';
 import { ShippingService } from './shipping.service';
 import { Router } from '@angular/router';
+import { ProductsService } from '../../products/products.service';
+
 
 @Component({
   selector: 'app-shipping',
@@ -18,25 +20,23 @@ export class ShippingComponent implements OnInit {
     private shippingService: ShippingService,
     private dialog: MatDialog,
     private router: Router,
-
   ) { }
 
-  
   URLS = URLS;
-  loading: boolean = true;
+  loading: boolean = false;
   shippingMethods = [];
-  displayedColumns: Column[] = [
-    {
-      title: "Title",
-      selector: "name",
-      clickable: true
-    },
-    {
-      title: "Amount",
-      selector: "amount"
-    }
-  ];
-  rowActions = ["Delete"];
+  // displayedColumns: Column[] = [
+  //   {
+  //     title: "Title",
+  //     selector: "name",
+  //     clickable: true
+  //   },
+  //   {
+  //     title: "Amount",
+  //     selector: "amount"
+  //   }
+  // ];
+  // rowActions = ["Delete"];
 
   goBack() {
     this.router.navigate([URLS.configuration]);
@@ -104,7 +104,7 @@ export class ShippingComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getShippingMethods();
+    
   }
 
 }
@@ -140,6 +140,7 @@ export class AddShippingDialog {
     })
   }
 }
+
 
 @Component({
   selector: 'add-zone-dialog',
@@ -338,7 +339,6 @@ export class EditShippingDialog {
 }
 
 
-
 @Component({
   selector: 'delete-shipping-dialog',
   templateUrl: './dialogs/delete-shipping-dialog.html',
@@ -367,3 +367,5 @@ export class DeleteShippingDialog {
     })
   }
 }
+
+

@@ -260,7 +260,7 @@ export class EditNavigationComponent {
 
   createNavDragDropFormate(nav)
   {
-    debugger
+    
     for (let i = 0; i < nav.length; i++) {
       const main = nav[i];
       if (main.children)

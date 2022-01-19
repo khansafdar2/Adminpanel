@@ -17,8 +17,6 @@ export class ShippingZoneComponent implements OnInit {
     private router: Router,
     private dialog: MatDialog,
     private shippingService: ShippingService,
-
-
   ) { }
 
   loading = false
@@ -56,12 +54,7 @@ export class ShippingZoneComponent implements OnInit {
       }
     })
   }
-
-  zoneRegions()
-  {
-    return "ahmad"
-  }
-
+  
   editZone(id)
   {
     let dialogRef = this.dialog.open(AddZoneDialog, {
@@ -88,7 +81,6 @@ export class ShippingZoneComponent implements OnInit {
 
   deleteZone(id, name)
   {
-    debugger
     let dialogRef = this.dialog.open(DeleteZoneDialog, {
       width: "600px",
       data : {

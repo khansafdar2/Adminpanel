@@ -724,5 +724,18 @@ body {
         }
     }
 }
+.shipping-rate{
+    .mat-form-field-appearance-outline .mat-form-field-wrapper
+    {
+        padding-bottom:0;
+    }
+    .mat-h2, .mat-title, .mat-typography h2{
+        margin-bottom:10px;
+    }
+}
+
+.mat-card-no-shadow.mat-card{
+    box-shadow: none !important;
+}
 
 

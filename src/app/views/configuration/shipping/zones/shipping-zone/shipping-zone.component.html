@@ -42,13 +42,13 @@
                     <mat-card>
                         <mat-card-content>
                             <div >
-                                <mat-card-title>Shipping to</mat-card-title>
+                                <mat-card-title>Zones created</mat-card-title>
                                 <div fxLayout="row" fxLayoutAlign="space-between center" class="zone" *ngFor="let zone of zones" >
                                     <div>
                                         <mat-card-title class="zone-title">{{zone.title}}</mat-card-title>
                                         <mat-card-subtitle class="regionNames" *ngIf="zone.region.length"> {{ getRegionName(zone.region) }} </mat-card-subtitle>
-                                        <mat-card-subtitle class="regionNames" *ngIf="zone.country.length"> {{ getRegionName(zone.country) }} </mat-card-subtitle>
-                                        <mat-card-subtitle class="regionNames" *ngIf="zone.city.length"> {{ getRegionName(zone.city) }} </mat-card-subtitle>
+                                        <mat-card-subtitle class="regionNames small-subtitle" *ngIf="zone.country.length"> {{ getRegionName(zone.country) }} </mat-card-subtitle>
+                                        <mat-card-subtitle class="regionNames small-subtitle" *ngIf="zone.city.length"> {{ getRegionName(zone.city) }} </mat-card-subtitle>
                                     </div>
                                     <div>
                                         <button mat-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
