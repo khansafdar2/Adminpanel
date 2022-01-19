@@ -32,12 +32,11 @@ export class DiscountsComponent implements OnInit {
     },
     {
       title: "Status",
-      selector: "status",
+      selector: "approval_status",
     },
     {
       title: "Value",
-      selector: "type_value",
-      cell: row => row.discount_type === "percentage" ? row.type_value + "%" : row.type_value + " " + this.storeCurrency
+      selector: "value",
     }, {
       title: "Start",
       selector: "start_date",

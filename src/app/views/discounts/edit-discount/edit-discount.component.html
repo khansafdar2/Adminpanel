@@ -110,7 +110,7 @@
                     <product-selector
                         *ngIf="discountForm.get('dropdown').value === 'product' && discountForm.get('discount_type').value !== 'shipping_discount'"
                         [productValue]="products" (addItems)="onAddItems($event)"></product-selector>
-                    <div class="order-lineitems" *ngIf="discountForm.get('product').value">
+                    <div [ngClass]="discountForm.get('dropdown').value === 'product' && discountForm.get('discount_type').value !== 'shipping_discount' && discountForm.get('product').value.length ? 'order-lineitems' :'' "  *ngIf="discountForm.get('product').value">
                         <div class="lineitem-wrapper" *ngFor="let item of products let i = index">
                             <ng-container>
                                 <div class="lineitem-productdata">

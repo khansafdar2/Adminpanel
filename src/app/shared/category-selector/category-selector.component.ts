@@ -33,10 +33,10 @@ export class CategorySelectorComponent implements OnInit {
   @ViewChild('superSubCategoryWrapper') superSubCategoryWrapper;
 
   @Input() value = null;
-  @Output() valueChange = new EventEmitter<any>();
-
-  @Input() valueType = 'handle';
   @Input() multiple = false;
+  @Input() valueType = 'handle';
+
+  @Output() valueChange = new EventEmitter<any>();
 
   mainCategories = [];
   subCategories = [];
