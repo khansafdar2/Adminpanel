@@ -16,105 +16,98 @@
       <button mat-flat-button color="primary" [disabled]="loading || !rateForm.valid" (click)="onSubmit()">Save</button>
     </div>
   </div>
-  <form fxLayout="row wrap" [formGroup]="rateForm">
-    <mat-card>
-      <mat-card-content fxLayout="column" class="mat-typography shipping-rate" >
-      <mat-form-field fxFlex="0 0 100%"  appearance="outline">
-          <mat-label>Rate name</mat-label>
-          <input matInput formControlName="title" />
-          <mat-error *ngIf="rateForm.get('title').hasError('required')">Enter rate name</mat-error>
-      </mat-form-field>
-
-      <div class="drop-container" fxFlex="0 0 100%" fxLayout="row" fxLayoutAlign="fxFill"   >
-
-        <mat-form-field  appearance="outline">
-          <mat-label>Zone</mat-label>
-          <mat-select formControlName="zone">
-            <mat-option  [value]="zone.id" *ngFor="let zone of zones">{{zone.title}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field  *ngIf="!is_vendor"  appearance="outline">
-          <mat-label>Vendor</mat-label>
-          <mat-select (selectionChange)="onVendorChange()" formControlName="vendor">
-            <mat-option  [value]="vendor.id" *ngFor="let vendor of vendors">{{vendor.name}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <multi-select-model class="product-group-browsing" (addItems)="onAddItems($event)" *ngIf="this.rateForm.get('vendor').value" btnText="Browse Product Groups" [endPoints]="endPoints" [alreadySelectedData]="selectedProductGroups" ></multi-select-model>
-
-        <!-- <button *ngIf="!is_vendor" mat-stroked-button color="primary" (click)="browseProductGroups()" type="button" class="browse-produc-groups" >Browse product groups</button> -->
-
-        <!-- <mat-form-field  appearance="outline">
-          <mat-label>Product Groups</mat-label>
-          <mat-select multiple formControlName="product_group">
-            <mat-option  [value]="pg.id" *ngFor="let pg of productGroups">{{pg.title}}</mat-option>
-          </mat-select>
-        </mat-form-field > -->
-
-      </div>
-    </mat-card-content>
-  </mat-card>
-        
-  <div fxFlex="flex" fxFlex="0 0 100%" class="rule-type-wrapper" fxLayout="row" fxLayoutAlign="space-between" >
-    <div class="rule-type" >
-      <h2 mat-dialog-title  >Rules</h2>
-      <mat-radio-group formControlName="condition_type" class="conditions-based-on" fxFlex="0 0 100%" aria-label="Select an option">
-        <mat-radio-button value="weight">Based on weight</mat-radio-button>
-        <mat-radio-button value="price">Based on price</mat-radio-button>
-      </mat-radio-group>
-    </div>
-    <button *ngIf="rateForm.value.condition_type" (click)="createNewRule()" type="button"  mat-stroked-button color="primary" class="add-rule">Add new rule</button>
-  </div>
-
-  <div class="condition-wrapper"  *ngIf="rateForm.value.condition_type">
-    <div class="rules"    *ngFor="let con of rateForm.get('rules')['controls']; index as i; " >
+  <div class="page-container">
+    <form fxLayout="row wrap" [formGroup]="rateForm">
       <mat-card>
-        <ng-container [formGroup]="con">
+        <mat-card-content fxLayout="column" class="mat-typography shipping-rate" >
+        <mat-form-field appearance="outline">
+            <mat-label>Rate name</mat-label>
+            <input matInput formControlName="title" />
+            <mat-error *ngIf="rateForm.get('title').hasError('required')">Enter rate name</mat-error>
+        </mat-form-field>
+  
+        <div class="drop-container" fxLayout="row" fxLayoutAlign="fxFill"   >
+  
+          <mat-form-field  appearance="outline">
+            <mat-label>Zone</mat-label>
+            <mat-select formControlName="zone">
+              <mat-option  [value]="zone.id" *ngFor="let zone of zones">{{zone.title}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+  
+          <mat-form-field  *ngIf="!is_vendor"  appearance="outline">
+            <mat-label>Vendor</mat-label>
+            <mat-select (selectionChange)="onVendorChange()" formControlName="vendor">
+              <mat-option  [value]="vendor.id" *ngFor="let vendor of vendors">{{vendor.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+  
+          <multi-select-model class="product-group-browsing" (addItems)="onAddItems($event)" *ngIf="this.rateForm.get('vendor').value" btnText="Browse Product Groups" [endPoints]="endPoints" [alreadySelectedData]="selectedProductGroups" ></multi-select-model>
+
+        </div>
+      </mat-card-content>
+    </mat-card>
           
-          <div fxLayout="row" >
-            <mat-form-field   appearance="outline">
-              <mat-label>Rule name</mat-label>
-              <input formControlName="title" type="text" matInput  />
-            </mat-form-field>
-
-            <div>
-              <button type="button" mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
-              <mat-menu #menu="matMenu">
-                  <button type="button" mat-menu-item (click)="duplicateRule(i)">Duplicate</button>
-                  <button type="button" mat-menu-item (click)="deleteRule(i)" >Delete</button>
-              </mat-menu>
-            </div>
-
-          </div>
-          <h2 mat-dialog-title class="sub-title"  >Conditions: </h2>
-          <div class="conditions" *ngFor="let conRat of con.get('conditional_rates')['controls']; index as j; " >
-            <ng-container [formGroup]="conRat">
-              <mat-form-field  appearance="outline">
-                <mat-label>min</mat-label>
-                <input formControlName="min_value" type="number" min="0" matInput  />
-              </mat-form-field>
-      
-              <mat-form-field   appearance="outline">
-                <mat-label>max</mat-label>
-                <input formControlName="max_value" type="number" min="0" matInput  />
-              </mat-form-field>
-      
-              <mat-form-field   appearance="outline">
-                <mat-label>rate</mat-label>
-                <input formControlName="amount" type="number" min="0" matInput  />
-              </mat-form-field>
-
-              <button (click)="deleteCondition(i, j)" mat-icon-button fxLayout="row" fxLayoutAlign="end center" type="button" color="warn" class="add-condition"><mat-icon>delete</mat-icon></button>
-            </ng-container>
-          </div>
-          <div class="add-conditions">
-            <button (click)="createNewCondition(i)" type="button"  mat-stroked-button color="primary" class="add-condition">Add condition</button>
-          </div>
-        </ng-container>
-      </mat-card>
+    <div fxFlex="flex" fxFlex="0 0 100%" class="rule-type-wrapper" fxLayout="row" fxLayoutAlign="space-between" >
+      <div class="rule-type" >
+        <h2 mat-dialog-title  >Rules</h2>
+        <mat-radio-group formControlName="condition_type" class="conditions-based-on" fxFlex="0 0 100%" aria-label="Select an option">
+          <mat-radio-button value="weight">Based on weight</mat-radio-button>
+          <mat-radio-button value="price">Based on price</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <button *ngIf="rateForm.value.condition_type" (click)="createNewRule()" type="button"  mat-stroked-button color="primary" class="add-rule">Add new rule</button>
     </div>
+  
+    <div class="condition-wrapper"  *ngIf="rateForm.value.condition_type">
+      <div class="rules"    *ngFor="let con of rateForm.get('rules')['controls']; index as i; " >
+        <mat-card>
+          <ng-container [formGroup]="con">
+            
+            <div fxLayout="row" >
+              <mat-form-field   appearance="outline">
+                <mat-label>Rule name</mat-label>
+                <input formControlName="title" type="text" matInput  />
+              </mat-form-field>
+  
+              <div>
+                <button type="button" mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
+                <mat-menu #menu="matMenu">
+                    <button type="button" mat-menu-item (click)="duplicateRule(i)">Duplicate</button>
+                    <button type="button" mat-menu-item (click)="deleteRule(i)" >Delete</button>
+                </mat-menu>
+              </div>
+  
+            </div>
+            <h2 mat-dialog-title class="sub-title"  >Conditions: </h2>
+            <div class="conditions" *ngFor="let conRat of con.get('conditional_rates')['controls']; index as j; " >
+              <ng-container [formGroup]="conRat">
+                <mat-form-field  appearance="outline">
+                  <mat-label>min</mat-label>
+                  <input formControlName="min_value" type="number" min="0" matInput  />
+                </mat-form-field>
+        
+                <mat-form-field   appearance="outline">
+                  <mat-label>max</mat-label>
+                  <input formControlName="max_value" type="number" min="0" matInput  />
+                </mat-form-field>
+        
+                <mat-form-field   appearance="outline">
+                  <mat-label>rate</mat-label>
+                  <input formControlName="amount" type="number" min="0" matInput  />
+                </mat-form-field>
+  
+                <button (click)="deleteCondition(i, j)" mat-icon-button fxLayout="row" fxLayoutAlign="end center" type="button" color="warn" class="add-condition"><mat-icon>delete</mat-icon></button>
+              </ng-container>
+            </div>
+            <div class="add-conditions">
+              <button (click)="createNewCondition(i)" type="button"  mat-stroked-button color="primary" class="add-condition">Add condition</button>
+            </div>
+          </ng-container>
+        </mat-card>
+      </div>
+    </div>
+      
+  </form>
   </div>
-    
-</form>
 </main>

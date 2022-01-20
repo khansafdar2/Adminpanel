@@ -36,11 +36,6 @@ export class ShippingRatesComponent implements OnInit {
     this.router.navigate([URLS.shipping]);
   }
   
-  newShippingRate()
-  {
-    this.router.navigate([URLS.shippingRates, URLS.add]);
-  }
-
   getShippingRates()
   {
     this.shippingService.getShippingRates().then((resp) => {
@@ -79,11 +74,6 @@ export class ShippingRatesComponent implements OnInit {
         this.getShippingRates();
       }
     });
-  }
-
-  editDefaultShipping()
-  {
-    this.router.navigate([URLS.defaultShipping, URLS.add]);
   }
 
   ngOnInit(): void {

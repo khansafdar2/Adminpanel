@@ -25,7 +25,7 @@
                                     <mat-card-title>Shipping zones</mat-card-title>
                                     <mat-card-subtitle>62 countries and regions</mat-card-subtitle>
                                 </div>
-                                <mat-card-title class="link" (click)="onNewShippingMethod()" >Create shipping Zones</mat-card-title>
+                                <mat-card-title class="link" (click)="onNewShippingMethod()" > Create shipping zone</mat-card-title>
                             </div>
                         </mat-card-content>
                     </mat-card>
@@ -51,7 +51,7 @@
                                         <mat-card-subtitle class="regionNames small-subtitle" *ngIf="zone.city.length"> {{ getRegionName(zone.city) }} </mat-card-subtitle>
                                     </div>
                                     <div>
-                                        <button mat-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
+                                        <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
                                         <mat-menu #menu="matMenu">
                                             <button (click)="editZone(zone.id)" mat-menu-item>Edit</button>
                                             <button mat-menu-item (click)="deleteZone(zone.id, zone.title)" >Delete</button>

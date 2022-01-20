@@ -143,9 +143,9 @@ export class AddShippingDialog {
 
 
 @Component({
-  selector: 'add-zone-dialog',
+  selector: 'zone-dialog',
   styleUrls: ['./shipping.component.scss'],
-  templateUrl: './dialogs/add-zone-dialog.html',
+  templateUrl: './dialogs/zone-dialog.html',
 })
 export class AddZoneDialog {
   constructor(

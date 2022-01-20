@@ -5,15 +5,9 @@
   <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
 
     <h2 mat-dialog-title *ngIf="!shippingRateId" >
-      <!-- <button mat-icon-button aria-label="Go back" (click)="goBack()" class="header-back-arrow">
-        <mat-icon>arrow_back</mat-icon>
-      </button> -->
-      Create new Default Shipping
+      Create new default shipping
     </h2>
     <h2 mat-dialog-title *ngIf="shippingRateId" >
-      <!-- <button mat-icon-button aria-label="Go back" (click)="goBack()" class="header-back-arrow">
-        <mat-icon>arrow_back</mat-icon>
-      </button> -->
       Edit default shipping rate
     </h2>
 
@@ -22,38 +16,40 @@
       <button mat-flat-button color="primary" [disabled]="loading || !rateForm.valid" (click)="onSubmit()">Save</button>
     </div>
   </div>
-  <form fxLayout="row wrap" [formGroup]="rateForm">
-    <mat-card>
-      <mat-card-content class="mat-typography shipping-rate">
-        <mat-form-field class="rate-name" fxFlex="0 0 50%"  appearance="outline">
-            <mat-label>Rate name</mat-label>
-            <input matInput formControlName="title" />
-            <mat-error *ngIf="rateForm.get('title').hasError('required')">Enter rate name</mat-error>
-        </mat-form-field>
-
-        <div class="drop-container" fxFlex="0 0 50%" fxLayout="row" fxLayoutAlign="fxFill"   >
-          <mat-form-field  appearance="outline">
-            <mat-label>Zone</mat-label>
-            <mat-select formControlName="zone">
-              <mat-option  [value]="zone.id" *ngFor="let zone of zones">{{zone.title}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
+  <div class="page-container">
+    <form fxLayout="row wrap" [formGroup]="rateForm">
+      <mat-card>
+        <mat-card-content class="mat-typography shipping-rate" fxLayout="row" fxLayoutAlign="start start">
+          <div fxFlex="0 1 50%">
+            <mat-form-field class="rate-name" appearance="outline">
+                <mat-label>Rate name</mat-label>
+                <input matInput formControlName="title" />
+                <mat-error *ngIf="rateForm.get('title').hasError('required')">Enter rate name</mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex="0 1 50%">
+            <mat-form-field  appearance="outline">
+              <mat-label>Zone</mat-label>
+              <mat-select formControlName="zone">
+                <mat-option  [value]="zone.id" *ngFor="let zone of zones">{{zone.title}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
         </mat-card-content>
-      </mat-card>
-      <div fxFlex="flex" fxFlex="0 0 100%" class="rule-type-wrapper" fxLayout="row" fxLayoutAlign="space-between" >
-        <div class="rule-type">
-          <h2 mat-dialog-title  >Rules</h2>
-          <mat-radio-group formControlName="condition_type" class="conditions-based-on" fxFlex="0 0 100%" aria-label="Select an option">
-            <mat-radio-button value="weight">Based on weight</mat-radio-button>
-            <mat-radio-button value="price">Based on price</mat-radio-button>
-          </mat-radio-group>
+        
+        </mat-card>
+        <div fxFlex="flex" fxFlex="0 0 100%" class="rule-type-wrapper" fxLayout="row" fxLayoutAlign="space-between" >
+          <div class="rule-type">
+            <h2 mat-dialog-title  >Rules</h2>
+            <mat-radio-group formControlName="condition_type" class="conditions-based-on" fxFlex="0 0 100%" aria-label="Select an option">
+              <mat-radio-button value="weight">Based on weight</mat-radio-button>
+              <mat-radio-button value="price">Based on price</mat-radio-button>
+            </mat-radio-group>
+          </div>
+          <button *ngIf="rateForm.value.condition_type" (click)="createNewRule()" type="button"  mat-stroked-button color="primary" class="add-rule">Add new rule</button>
         </div>
-        <button *ngIf="rateForm.value.condition_type" (click)="createNewRule()" type="button"  mat-stroked-button color="primary" class="add-rule">Add new rule</button>
-      </div>
-    
-    <!-- <mat-card>
-      <mat-card-content> -->
+      
+      
         <div class="condition-wrapper"  *ngIf="rateForm.value.condition_type">
           <div class="rules"    *ngFor="let con of rateForm.get('rules')['controls']; index as i; " >
             <mat-card>
@@ -66,7 +62,7 @@
                   </mat-form-field>
   
                   <div>
-                    <button type="button" mat-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
+                    <button type="button" mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
                     <mat-menu #menu="matMenu">
                         <button type="button" mat-menu-item (click)="duplicateRule(i)">Duplicate</button>
                         <button type="button" mat-menu-item (click)="deleteRule(i)" >Delete</button>
@@ -102,7 +98,6 @@
             </mat-card>
           </div>
         </div>
-      <!-- </mat-card-content>
-    </mat-card> -->
-  </form>
+    </form>
+  </div>
 </main>

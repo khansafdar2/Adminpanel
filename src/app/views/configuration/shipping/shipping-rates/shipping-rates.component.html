@@ -25,11 +25,11 @@
                             <mat-card-content>
                                 <div fxLayout="row" fxLayoutAlign="space-between center">
                                     <div>
-                                        <mat-card-title>Default Shipping rates</mat-card-title>
-                                        <mat-card-subtitle>calcualte product prices, shipping weights </mat-card-subtitle>
+                                        <mat-card-title>Default shipping rates</mat-card-title>
+                                        <mat-card-subtitle>calculate product prices, shipping weights </mat-card-subtitle>
                                     </div>
                                     <div fxLayout="column" fxLayoutAlign="center end" >
-                                        <mat-card-title class="link" (click)="editDefaultShipping()" > Default Shipping </mat-card-title>
+                                        <mat-card-title class="link" ><a [routerLink]="'/' + URLS.defaultShipping + '/' +  URLS.add">Create default shipping</a>  </mat-card-title>
                                     </div>
                                 </div>
                             </mat-card-content>
@@ -39,21 +39,16 @@
     
                 <div fxLayout="row" class="shipping-to">
                     <div  fxFlex="0 0 33.333333%">
-                        <!-- <mat-card-title>Already created default Shipping zones</mat-card-title>
-                        <mat-card-subtitle>standards and formats are used to calculate product prices,
-                            shipping weights, and order times.</mat-card-subtitle> -->
                     </div>
                     <div fxFlex="1 1 50%">
                         <mat-card>
                             <mat-card-content>
                                 <div >
-                                    <mat-card-title>Shipping created</mat-card-title>
+                                    <mat-card-title>Shippings created</mat-card-title>
                                     <div class="zone" *ngFor="let rate of shippingRatesDefault" >
                                         <div fxLayout="row" fxLayoutAlign="space-between center">
                                             <div class="title-wrapper">
                                                 <mat-card-title class="rate-title">{{rate.title}}</mat-card-title>
-                                                <!-- <mat-card-subtitle class="rate-title">{{rate.title}}</mat-card-subtitle> -->
-    
                                             </div>
                                             <div>
                                                 <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
@@ -64,7 +59,6 @@
                                             </div>
     
                                         </div>
-                                        <!-- <mat-card-subtitle>Pakistan</mat-card-subtitle> -->
                                     </div>
                                     <div *ngIf="!shippingRatesDefault.length">
                                         <mat-card-subtitle>No default shippings created</mat-card-subtitle>
@@ -88,11 +82,10 @@
                             <div fxLayout="row" fxLayoutAlign="space-between center">
                                 <div>
                                     <mat-card-title>Custom shipping rates</mat-card-title>
-                                    <mat-card-subtitle>calcualte product prices, shipping weights </mat-card-subtitle>
+                                    <mat-card-subtitle>calculate product prices, shipping weights </mat-card-subtitle>
                                 </div>
                                 <div fxLayout="column" fxLayoutAlign="center end" >
-                                    <mat-card-title class="link" (click)="newShippingRate()" >Create shipping rate </mat-card-title>
-                                    <!-- <mat-card-title class="link" (click)="editDefaultShipping()" > Default Shipping </mat-card-title> -->
+                                    <mat-card-title class="link"  ><a [routerLink]="'/' + URLS.shippingRates + '/' +  URLS.add">Create shipping rate</a> </mat-card-title>
                                 </div>
                             </div>
                         </mat-card-content>
@@ -115,9 +108,6 @@
                                     <div fxLayout="row" fxLayoutAlign="space-between center">
                                         <div class="title-wrapper">
                                             <mat-card-title class="rate-title">{{rate.title}}</mat-card-title>
-                                            <!-- <mat-card-subtitle class="rate-title">{{rate.zone}}</mat-card-subtitle>
-                                            <mat-card-subtitle class="rate-title">{{rate.vendor}}</mat-card-subtitle> -->
-
                                         </div>
                                         <div>
                                             <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
@@ -126,9 +116,7 @@
                                                 <button mat-menu-item (click)="deleteShippingRate(rate.id, rate.title)" >Delete</button>
                                             </mat-menu>
                                         </div>
-
                                     </div>
-                                    <!-- <mat-card-subtitle>Pakistan</mat-card-subtitle> -->
                                 </div>
                                 <div *ngIf="!shippingRates.length">
                                     <mat-card-subtitle>No shippings created</mat-card-subtitle>

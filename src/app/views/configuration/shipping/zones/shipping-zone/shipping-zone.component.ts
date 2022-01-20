@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ShippingService } from '../../shipping.service';
 import URLS from 'src/app/shared/urls';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Column } from 'src/app/shared/datatable/datatable.component';
+import { MatDialog } from '@angular/material/dialog';
 import {AddZoneDialog, DeleteZoneDialog } from '../../shipping.component'
 
 @Component({
@@ -35,10 +34,6 @@ export class ShippingZoneComponent implements OnInit {
       }
     })
   }
-
-  ngOnInit(): void {
-    this.getzones()
-  } 
 
   goBack()
   {
@@ -108,5 +103,9 @@ export class ShippingZoneComponent implements OnInit {
         this.getzones()
       }
     });
+  }
+
+  ngOnInit(): void {
+    this.getzones()
   }
 }

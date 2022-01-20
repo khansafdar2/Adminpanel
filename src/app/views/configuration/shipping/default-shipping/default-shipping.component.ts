@@ -156,7 +156,7 @@ export class DefaultShippingComponent implements OnInit {
     }
   }
 
-  addMetaField(conditionArrayLength) {
+  addEmptyConditions(conditionArrayLength) {
     let dummy =  this.fb.array([])
     for (let i = 0; i < conditionArrayLength; i++) {
       dummy.push(this.fb.group({
@@ -186,7 +186,7 @@ export class DefaultShippingComponent implements OnInit {
           if(resp.data.rules.length) {
             for (let i = 0; i < resp.data.rules.length; i++) {
               let conditionArray = resp.data.rules[i].conditional_rates.length
-              this.addMetaField(conditionArray)
+              this.addEmptyConditions(conditionArray)
             }
           }
           this.rateForm.patchValue(resp.data)
