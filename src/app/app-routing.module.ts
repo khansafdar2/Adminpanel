@@ -59,6 +59,10 @@ import { EditVendorComponent } from './views/vendors/edit-vendor/edit-vendor.com
 import { NavigationsComponent } from './views/cms/navigations/navigations.component';
 import { AddNavigationComponent } from './views/cms/navigations/add-navigation/add-navigation.component';
 import { EditNavigationComponent } from './views/cms/navigations/edit-navigation/edit-navigation.component';
+import { ShippingZoneComponent } from './views/configuration/shipping/zones/shipping-zone/shipping-zone.component';
+import { ShippingRatesComponent } from './views/configuration/shipping/shipping-rates/shipping-rates.component';
+import { AddShippingRatesComponent } from './views/configuration/shipping/shipping-rates/add-shippping-rate/add-shipping-rate.component';
+import { DefaultShippingComponent } from './views/configuration/shipping/default-shipping/default-shipping.component';
 
 
 const routes: Routes = [
@@ -159,6 +163,24 @@ const routes: Routes = [
     {path: URLS.all, component: NavigationsComponent},
     {path: URLS.add, component: AddNavigationComponent},
     {path: URLS.edit + '/:id', component: EditNavigationComponent}
+  ]},
+  {path: URLS.zones, canActivate: [LoggedInAuthGuard], children: [
+    {path: '', redirectTo: URLS.all, pathMatch: 'full'},
+    {path: URLS.all, component: ShippingZoneComponent},
+    // {path: URLS.add, component: AddNavigationComponent},
+    // {path: URLS.edit + '/:id', component: EditNavigationComponent}
+  ]},
+  {path: URLS.shippingRates, canActivate: [LoggedInAuthGuard], children: [
+    {path: '', redirectTo: URLS.all, pathMatch: 'full'},
+    {path: URLS.all, component: ShippingRatesComponent},
+    {path: URLS.add, component: AddShippingRatesComponent},
+    {path: URLS.edit + '/:id', component: AddShippingRatesComponent}
+  ]},
+  {path: URLS.defaultShipping, canActivate: [LoggedInAuthGuard], children: [
+    {path: '', redirectTo: URLS.all, pathMatch: 'full'},
+    // {path: URLS.all, component: DefaultShippingComponent},
+    {path: URLS.add, component: DefaultShippingComponent},
+    {path: URLS.edit + '/:id', component: DefaultShippingComponent}
   ]}
 ];
 

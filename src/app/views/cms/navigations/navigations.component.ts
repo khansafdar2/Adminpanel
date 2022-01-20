@@ -60,7 +60,7 @@ export class NavigationsComponent implements OnInit {
 
   onRowAction(data) {
     if(data.action === "Delete") {
-      debugger
+      
       let dialogRef = this.dialog.open(NavigationDeleteDialog, {
         width: "600px",
         data: {
@@ -95,7 +95,7 @@ export class NavigationDeleteDialog {
   loading: boolean = false;
   
   deleteNavigation() {
-    debugger
+    
     this.loading = true;
     this.navigationService.deleteSingleNavigation(this.data.navId).then(resp => {
       if(resp) {

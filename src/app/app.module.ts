@@ -73,7 +73,7 @@ import { EditVariantComponent } from './views/products/edit-variant/edit-variant
 import { AddVariantComponent } from './views/products/add-variant/add-variant.component';
 import { AddDiscountComponent } from './views/discounts/add-discount/add-discount.component';
 import { EditDiscountComponent } from './views/discounts/edit-discount/edit-discount.component';
-import { AddShippingDialog, DeleteShippingDialog, EditShippingDialog, ShippingComponent } from './views/configuration/shipping/shipping.component';
+import { AddShippingDialog, AddZoneDialog, DeleteShippingDialog,DeleteZoneDialog, EditShippingDialog, ShippingComponent } from './views/configuration/shipping/shipping.component';
 import { OrdersComponent, OrdersExportDialog } from './views/orders/orders.component';
 import { AddOrderComponent } from './views/orders/add-order/add-order.component';
 import { CustomerDeleteDialog, CustomersComponent } from './views/customers/customers.component';
@@ -105,8 +105,11 @@ import { HeaderCustomizationComponent } from './views/cms/customization-header/c
 import { FooterCustomizationComponent } from './views/cms/footer-customization/footer-customization.component';
 import { NavigationSelectorComponent } from './views/cms/navigations/navigation-selector/navigation-selector.component';
 import { NavigationSelectorDialogComponent } from './views/cms/navigations/navigation-selector-dialog/navigation-selector-dialog.component';
-
-
+import { ShippingZoneComponent } from './views/configuration/shipping/zones/shipping-zone/shipping-zone.component';
+import { DeleteShippingRateDialog, ShippingRatesComponent } from './views/configuration/shipping/shipping-rates/shipping-rates.component';
+import { AddShippingRatesComponent } from './views/configuration/shipping/shipping-rates/add-shippping-rate/add-shipping-rate.component';
+import { DefaultShippingComponent } from './views/configuration/shipping/default-shipping/default-shipping.component';
+import { MultiSelectDialog, MultiSelectModelComponent } from './shared/multi-select-model/multi-select-model.component';
 
 @NgModule({
   declarations: [
@@ -167,6 +170,7 @@ import { NavigationSelectorDialogComponent } from './views/cms/navigations/navig
     EditDiscountComponent,
     ShippingComponent,
     AddShippingDialog,
+    AddZoneDialog,
     EditShippingDialog,
     DeleteShippingDialog,
     BrandDeleteDialog,
@@ -216,7 +220,15 @@ import { NavigationSelectorDialogComponent } from './views/cms/navigations/navig
     EditNavigationNodeComponent,
     NavigationSelectorComponent,
     NavigationSelectorDialogComponent,
-    NavigationDeleteDialog
+    NavigationDeleteDialog,
+    ShippingZoneComponent,
+    ShippingRatesComponent,
+    DeleteZoneDialog,
+    AddShippingRatesComponent,
+    DeleteShippingRateDialog,
+    DefaultShippingComponent,
+    MultiSelectModelComponent,
+    MultiSelectDialog
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,55 @@
+.field-hint {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+.field-label {
+  margin-bottom: 5px;
+}
+.field-value {
+  margin-top: 5px;
+  margin-bottom: 10px;
+  color: rgba(0,0,0,0.59);
+}
+.mat-card-title{
+  font-size: 14px;
+
+}
+.mat-card-subtitle{
+  font-size: 12px;
+  margin: 0;
+}
+.mat-card-content{
+  margin-bottom: 15px;
+}
+.mat-card-title.link{
+  font-size: 14px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.mat-card-footer
+{
+  padding: 16px;
+  border-top: 1px solid;
+}
+.shipping-to{
+  margin-top: 15px;
+}
+.zone{
+  border-bottom: 1px solid #ccc;
+  padding: 10px 0;
+}
+.zone:last-child{
+  border-bottom:none;
+}
+.zone-title{
+  font-size: 13px;
+}
+.regionNames{
+  width: 350px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.small-subtitle{
+  font-size: 10px;
+}
