@@ -1,19 +1,19 @@
 <app-topbar></app-topbar>
 <app-sidenav></app-sidenav>
-<main id="main">
+<main id="main" class="add-shipping-comp">
   <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
   <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
 
     <h2 mat-dialog-title *ngIf="!shippingRateId" >
-      <button mat-icon-button aria-label="Go back" (click)="goBack()" class="header-back-arrow">
+      <!-- <button mat-icon-button aria-label="Go back" (click)="goBack()" class="header-back-arrow">
         <mat-icon>arrow_back</mat-icon>
-      </button>
+      </button> -->
       Create new Default Shipping
     </h2>
     <h2 mat-dialog-title *ngIf="shippingRateId" >
-      <button mat-icon-button aria-label="Go back" (click)="goBack()" class="header-back-arrow">
+      <!-- <button mat-icon-button aria-label="Go back" (click)="goBack()" class="header-back-arrow">
         <mat-icon>arrow_back</mat-icon>
-      </button>
+      </button> -->
       Edit default shipping rate
     </h2>
 

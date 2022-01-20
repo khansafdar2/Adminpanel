@@ -737,5 +737,21 @@ body {
 .mat-card-no-shadow.mat-card{
     box-shadow: none !important;
 }
-
+.add-shipping-comp{
+    .page-header 
+    {
+        h2{
+            margin-bottom: 0;
+        }
+    }
+    .condition-wrapper{
+        padding: 0;
+    }
+    .mat-form-field-wrapper{
+        padding: 0;
+    }
+    .mat-icon-button{
+        margin-top: 10px;
+    }
+}
 

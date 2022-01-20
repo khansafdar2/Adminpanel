@@ -9,10 +9,6 @@
             <mat-error *ngIf="zoneForm.get('title').hasError('required')">Enter zone name</mat-error>
         </mat-form-field>
 
-        <div fxFlex="0 0 50%">
-          <button >add default shipping</button>
-        </div>
-
         <mat-form-field appearance="outline">
           <mat-label>Region</mat-label>
           <mat-select (selectionChange)="getCountries()" multiple formControlName="region">

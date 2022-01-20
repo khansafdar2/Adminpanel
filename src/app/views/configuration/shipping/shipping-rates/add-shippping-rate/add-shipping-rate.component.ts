@@ -72,6 +72,7 @@ export class AddShippingRatesComponent implements OnInit {
 
   createNewRule()
   {
+    debugger
     (this.rateForm.get('rules') as FormArray).push(
       this.fb.group({
         // id: [''],
@@ -150,13 +151,11 @@ export class AddShippingRatesComponent implements OnInit {
     this.endPoints = "/products/product_group_list?vendor=" + vendor
   }
   
-  setAlreadySelectedData()
-  {
-    
-  }
+  
 
   onVendorChange()
   {
+    debugger
     this.selectedProductGroups = []
     this.getEndpointString()
   }
@@ -175,19 +174,26 @@ export class AddShippingRatesComponent implements OnInit {
     debugger
     if(this.shippingRateId)
     {
-      //update existing zone
+      //update existing shipping rate 
       this.rateForm.value.id = this.shippingRateId
-      
+
+      if (this.selectedProductGroups[0].id)
+      {
+        this.rateForm.value.product_group = this.selectedProductGroups.map((ob) => ob.id)
+      }
+
       this.shippingService.updateShippingRate(this.rateForm.value).then(resp => {
         this.loading = false;
         if(resp) {
-          this.snackbar.open("shipping rate updates successfuly.", "", {duration: 3000});
+          this.snackbar.open("Shipping rate updates successfuly.", "", {duration: 3000});
           this.router.navigate([URLS.shippingRates]);
         }
       }) 
     }
     else{
       // create new zone
+      this.rateForm.value.product_group = this.selectedProductGroups.map((ob) => ob.id)
+
       this.shippingService.createShippingRate(this.rateForm.value).then(resp => {
         this.loading = false;
         if(resp) {
@@ -222,7 +228,8 @@ export class AddShippingRatesComponent implements OnInit {
   {
     debugger
     this.selectedProductGroups = [...e]
-    this.rateForm.value.product_group = this.selectedProductGroups.map((op) => op.id)
+    this.rateForm.value.product_group = this.selectedProductGroups.map((ob) => ob.id)
+
     // this.rateForm.value.product_group = 
   }
 
@@ -250,7 +257,7 @@ export class AddShippingRatesComponent implements OnInit {
           this.getEndpointString()
           debugger
           this.selectedProductGroups = resp.data.product_group
-          this.setAlreadySelectedData()
+          
 
           if(!this.is_vendor)
           {

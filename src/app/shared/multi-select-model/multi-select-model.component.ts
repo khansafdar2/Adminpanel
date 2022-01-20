@@ -69,7 +69,7 @@ export class MultiSelectDialog {
     // private variantSelectorService: VariantSelectorService
   )
   {
-
+    debugger
   }
 
   dialogHeading = this.data.heading
@@ -84,7 +84,7 @@ export class MultiSelectDialog {
   pageNumber: number = 1;
   selectedProductsWithVariants = [];
   store_currency = environment.currency;
-  limit = 10
+  limit = 50
   // searchString = ''
 
   getData() {
@@ -120,7 +120,7 @@ export class MultiSelectDialog {
   }, 500);
 
   compareSelection(o1, o2) {
-    debugger
+    
     return o1.id === o2.id;
   }
 
@@ -165,7 +165,11 @@ export class MultiSelectDialog {
   }
 
   ngOnInit() {
-    this.selectedData = this.selectedData.map(i => { return {id: i } })
+    debugger
+    if (!this.selectedData[0].id)
+    {
+      this.selectedData = this.selectedData.map(i => { return {id: i } })
+    }
     this.getData();
   }
 }
