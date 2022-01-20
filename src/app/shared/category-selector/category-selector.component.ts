@@ -134,7 +134,15 @@ export class CategorySelectorComponent implements OnInit {
         } else {
           this.valueChange.emit(category);
         }
+      } else if (this.valueType === 'object.id') {
+        if (this.multiple) {
+          this.categoryArray.push(categoryObj)
+          this.valueChange.emit(this.categoryArray);
+        } else {
+          this.valueChange.emit(category);
+        }
       }
+
     } else {
       let removeObjId = this.categoryArray.find(itm => itm.id === categoryObj.category_id);
       this.categoryArray.splice(this.categoryArray.indexOf(removeObjId), 1)
@@ -148,6 +156,8 @@ export class CategorySelectorComponent implements OnInit {
       return this.value === category.handle;
     } else if (this.valueType === 'object.handle') {
       return this.value.handle === category.handle;
+    }  else if (this.valueType === 'object.id') {
+      return this.value.id === category.id;
     }
   }
 
@@ -157,6 +167,8 @@ export class CategorySelectorComponent implements OnInit {
 
   ngOnInit(): void {
     this.getMainCategories();
+    console.log(this.value);
+    
   }
 
   ngAfterViewChecked(): void {

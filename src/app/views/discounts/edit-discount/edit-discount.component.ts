@@ -1,3 +1,4 @@
+import { AuthService } from './../../../auth/auth.service';
 
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
@@ -17,6 +18,9 @@ import { VendorsService } from '../../vendors/vendors.service';
   templateUrl: './edit-discount.component.html',
   styleUrls: ['./edit-discount.component.scss']
 })
+
+
+
 export class EditDiscountComponent implements OnInit {
 
   constructor(
@@ -27,18 +31,16 @@ export class EditDiscountComponent implements OnInit {
     private productsService: ProductsService,
     private orderSerive: OrdersService,
     private router: Router,
-    private route:ActivatedRoute
+    private route:ActivatedRoute,
+    private authService: AuthService
   ) {
     this.discountID = this.route.snapshot.paramMap.get('id');
    }
   
-  data:any = {
-    title: "",
-    category_handle: ''
-  };
+  data = [];
   
   valueType: string = "handle";
-  value = null;
+  // value = null;
   discountID:any;
   mainCategoryID = [];
   subCategoryID = [];
@@ -48,12 +50,15 @@ export class EditDiscountComponent implements OnInit {
   loading: boolean = false;
   URLS = URLS;
   vendors: any;
-  productGroups: any;
+  productGroups = [];
   products = [];
+  yProducts = [];
   customers: Observable<any[]>;
   customerInput = new Subject<string>();
   customersLoading: boolean = false;
   storeCurrency = environment.currency;
+  is_vendor = this.authService.user.is_vendor;
+  vendorID = this.authService.user.vendor_id;
   multiple = true;
 
 
@@ -61,25 +66,32 @@ export class EditDiscountComponent implements OnInit {
     title: ["", [Validators.required]],
     discount_type: ["discount", [Validators.required]],
     value_type: ["percentage", [Validators.required]],
-    type_value: [0, [Validators.required]],
-    minimum_amount: ["none", [Validators.required]],
+    value: [0, [Validators.required]],
+    minimum_purchase_amount_check: ["none", [Validators.required]],
     customer_eligibility: ["everyone", [Validators.required]],
-    dropdown: [],
-    selectedCustomer: [[]],
-    noOfProducts: [null],
-    usage: [""],
-    shippings: [[]],
-    vendor_id: [null],
+    criteria: [''],
+    y_criteria: [''],
+    customer: [[]],
+    x_minimum_no_products: [0],
+    y_minimum_no_products: [0],
+    usage_limit: [0],
+    vendor: [null],
     product: [[]],
     product_group: [[]],
     main_category: [[]],
     sub_category: [[]],
     super_sub_category: [[]],
+    y_product: [[]],
+    y_product_group: [[]],
+    y_main_category: [[]],
+    y_sub_category: [[]],
+    y_super_sub_category: [[]],
     is_active: [false],
     start_date: [''],
     end_date: [''],
     show_both_price: [false],
-    show_tag: [false]
+    show_tag: [false],
+    minimum_purchase_amount: [null]
   });
 
 
@@ -139,6 +151,15 @@ export class EditDiscountComponent implements OnInit {
     })
   }
 
+  getYFreeAddItems(items) {
+    this.yProducts = items;
+    let productID = [];
+    productID = items.map(this.mapProductID);
+    this.discountForm.patchValue({
+      y_product: productID
+    })
+  }
+
   mapProductID(value) {
     return value.id;
   }
@@ -165,7 +186,15 @@ export class EditDiscountComponent implements OnInit {
     this.products.splice(index, 1);
   }
 
+  deleteSelectedGetYFreeProducts(index) {
+    let productID = this.discountForm.get('y_product').value;
+    productID.splice(index, 1);
+    this.yProducts.splice(index, 1);
+  }
+
   onCategorySelection(data) {
+    console.log(data);
+    
     this.mainCategoryID = data.filter(this.filterMainCategory).map(this.mapCategoryID);
     this.discountForm.patchValue({
       main_category: this.mainCategoryID
@@ -180,21 +209,39 @@ export class EditDiscountComponent implements OnInit {
     })
   }
 
+  getYFreeCategorySelection(data) {
+    this.mainCategoryID = data.filter(this.filterMainCategory).map(this.mapCategoryID);
+    this.discountForm.patchValue({
+      y_main_category: this.mainCategoryID
+    })
+    this.subCategoryID = data.filter(this.filterSubCategory).map(this.mapCategoryID);
+    this.discountForm.patchValue({
+      y_sub_category: this.subCategoryID
+    })
+    this.superSubCategoryID = data.filter(this.filterSuperSubCategory).map(this.mapCategoryID);
+    this.discountForm.patchValue({
+      y_super_sub_category: this.superSubCategoryID
+    })
+  }
+
   onDiscountTypeChange() {
     let discountType = this.discountForm.get('value_type').value;
     if (discountType === "percentage") {
-      (this.discountForm.controls['type_value'] as FormControl).setValidators([Validators.required, Validators.max(100)]);
+      (this.discountForm.controls['value'] as FormControl).setValidators([Validators.required, Validators.max(100)]);
     } else {
-      (this.discountForm.controls['type_value'] as FormControl).setValidators([Validators.required]);
+      (this.discountForm.controls['value'] as FormControl).setValidators([Validators.required]);
     }
   }
 
   onSubmit() {
     this.loading = true;
-    this.discountsService.createDiscount(this.discountForm.value).then(resp => {
+    this.discountForm.removeControl('minimum_purchase_amount_check');
+    let mainObj = this.discountForm.value;
+    mainObj.id = this.discountID
+    this.discountsService.updateDiscount(mainObj).then(resp => {
       this.loading = false;
       if (resp) {
-        this.snackbarService.open("Discount created successfully.", "", { duration: 3000 });
+        this.snackbarService.open("Discount updated successfully.", "", { duration: 3000 });
         this.router.navigate(['/', URLS.discounts]);
       }
     });
@@ -206,16 +253,52 @@ export class EditDiscountComponent implements OnInit {
     this.discountsService.getDiscountDetail(this.discountID).then(resp => {
       this.loading = false;
       if(resp) {
+        console.log(resp.data);
+        this.products = resp.data.product
+        this.yProducts = resp.data.y_product;
+        let mainCategoryArray = []
+        let mainCategoryObj = {
+          id:null,
+          type: ''
+        }
+        if (resp.data.main_category.length > 0) {
+          for (let i=0; i<resp.data.main_category.length; i++){
+            mainCategoryObj = {id: resp.data.main_category[i], type:"main"}
+            mainCategoryArray.push(mainCategoryObj) 
+          }
+        } 
+        let subCategoryObj;
+        let subCategoryArray = []
+        if (resp.data.sub_category.length > 0) {
+          for (let i=0; i<resp.data.sub_category.length; i++){
+            subCategoryObj = {id: resp.data.sub_category[i], type:"sub"}
+            subCategoryArray.push(subCategoryObj)
+          }
+        }
+        let superSubCategoryArray = []
+        let superSubCategoryObj;
+        if (resp.data.super_sub_category.length > 0) {
+          for (let i=0; i<resp.data.super_sub_category.length; i++){
+            superSubCategoryObj = {id: resp.data.super_sub_category, type:"sub"}
+            superSubCategoryArray.push(superSubCategoryObj)
+          }
+        }
+        this.data = this.data.concat(mainCategoryArray);
+        this.data = this.data.concat(subCategoryArray);
+        this.data = this.data.concat(superSubCategoryArray);
         this.discountForm.patchValue(resp.data);
       }
     })
   }
 
   ngOnInit(): void {
-    this.getCustomers()
+    this.getCustomers();
     this.getDiscountDetail();
-    this.getVendors();
-
+    if (this.is_vendor) {
+      this.getProductGroups();
+    } else {
+      this.getVendors();
+    }
   }
   
 }

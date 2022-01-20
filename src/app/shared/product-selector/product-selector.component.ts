@@ -95,6 +95,8 @@ export class ProductSelectorDialog {
 
   getSelectedProducts() {
     if (this.data.length > 0) {
+      console.log(this.data);
+      
         this.selectedProducts = this.data;
     }
   }

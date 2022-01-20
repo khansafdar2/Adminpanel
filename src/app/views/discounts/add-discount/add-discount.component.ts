@@ -30,23 +30,7 @@ export class AddDiscountComponent implements OnInit {
     private authService: AuthService
   ) { }
 
-  data: any = {
-    title: "",
-    category_handle: [
-      {
-        id: 6,
-        name: "Deals of the month",
-        handle: "deals-of-the-month",
-        is_active: true
-      },
-      {
-        id: 7,
-        name: "Electronics & Computers",
-        handle: "electronics",
-        is_active: true
-      }
-    ]
-  };
+  data = [];
 
   valueType: string = "handle";
   // value = null;
@@ -84,7 +68,7 @@ export class AddDiscountComponent implements OnInit {
     x_minimum_no_products: [0],
     y_minimum_no_products: [0],
     usage_limit: [0],
-    vendor_id: [null],
+    vendor: [null],
     product: [[]],
     product_group: [[]],
     main_category: [[]],
@@ -104,7 +88,7 @@ export class AddDiscountComponent implements OnInit {
   });
 
 
-  value = this.data.category_handle
+
 
   getVendors() {
     this.vendorService.getVendorsList(1, 150).then(resp => {

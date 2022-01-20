@@ -74,7 +74,7 @@
 
                     <ng-container *ngIf="discountForm.get('criteria').value === 'category' ">
                         <h4>Categories</h4>
-                        <category-selector [(value)]="data.category_handle" valueType="object.handle" [multiple]="true"
+                        <category-selector [(value)]="data" valueType="object.id" [multiple]="true"
                             (valueChange)=onCategorySelection($event)></category-selector>
                     </ng-container>
 
@@ -84,7 +84,7 @@
                             <div fxFlex="0 1 50%" *ngIf="!is_vendor">
                                 <mat-form-field appearance="outline">
                                     <mat-label>Vendor</mat-label>
-                                    <mat-select formControlName="vendor_id" (selectionChange)="onVendorChange()">
+                                    <mat-select formControlName="vendor" (selectionChange)="onVendorChange()">
                                         <mat-option [value]="vendor.id" *ngFor="let vendor of vendors">{{vendor.name}}
                                         </mat-option>
                                     </mat-select>
@@ -157,7 +157,7 @@
 
                     <ng-container *ngIf="discountForm.get('y_criteria').value === 'category'">
                         <h4>Categories</h4>
-                        <category-selector [(value)]="data.category_handle" valueType="object.handle" [multiple]="true"
+                        <category-selector [(value)]="data" valueType="object.id" [multiple]="true"
                             (valueChange)=getYFreeCategorySelection($event)></category-selector>
                     </ng-container>
 

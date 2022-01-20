@@ -31,19 +31,27 @@ export class DiscountsComponent implements OnInit {
       clickable: true
     },
     {
-      title: "Status",
+      title: "Approval status",
       selector: "approval_status",
+      // cell: row => row.approval_status === "approved" ? "Approved" : "Disapproved"
+    },
+    {
+      title: "Status",
+      selector: "is_active",
+      cell: row => row.is_active === true ? "Active" : "Inactive"
     },
     {
       title: "Value",
       selector: "value",
+      cell: row => row.value_type === "percentage" ? row.value + "%" : row.value + " " + this.storeCurrency
+
     }, {
       title: "Start",
       selector: "start_date",
     }, {
       title: "End",
       selector: "end_date",
-    },
+    }
   ];
   rowActions = ["Delete"]
   discounts = [];
