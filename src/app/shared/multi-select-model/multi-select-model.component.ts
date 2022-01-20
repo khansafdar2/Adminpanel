@@ -88,6 +88,7 @@ export class MultiSelectDialog {
   // searchString = ''
 
   getData() {
+    debugger
     this.loading = true;
     Axios.get( environment.backend_url + this.data.endPoints + '&page=' + this.pageNumber + '&limit=' + this.limit + "&search=" + this.searchQuery + "&column=title", {
       headers: {
@@ -166,9 +167,12 @@ export class MultiSelectDialog {
 
   ngOnInit() {
     debugger
-    if (!this.selectedData[0].id)
+    if(this.selectedData.length)
     {
-      this.selectedData = this.selectedData.map(i => { return {id: i } })
+      if (!this.selectedData[0].id)
+      {
+        this.selectedData = this.selectedData.map(i => { return {id: i } })
+      }
     }
     this.getData();
   }
