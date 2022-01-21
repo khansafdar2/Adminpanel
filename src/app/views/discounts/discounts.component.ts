@@ -32,8 +32,7 @@ export class DiscountsComponent implements OnInit {
     },
     {
       title: "Approval status",
-      selector: "approval_status",
-      // cell: row => row.approval_status === "approved" ? "Approved" : "Disapproved"
+      selector: "approval_status"
     },
     {
       title: "Status",
@@ -45,12 +44,6 @@ export class DiscountsComponent implements OnInit {
       selector: "value",
       cell: row => row.value_type === "percentage" ? row.value + "%" : row.value + " " + this.storeCurrency
 
-    }, {
-      title: "Start",
-      selector: "start_date",
-    }, {
-      title: "End",
-      selector: "end_date",
     }
   ];
   rowActions = ["Delete"]

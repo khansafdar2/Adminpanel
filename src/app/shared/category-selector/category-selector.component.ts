@@ -48,7 +48,6 @@ export class CategorySelectorComponent implements OnInit {
   setWrapperAsSubcategory: boolean = false;
   setWrapperAsSuperSubcategory: boolean = false;
   categoryArray = [];
-
   activeMainCategory = null;
   activeSubCategory = null;
   subCategoriesLoading: boolean = false;
@@ -150,16 +149,20 @@ export class CategorySelectorComponent implements OnInit {
     }
   }
 
-  isCategorySelected(category) {
+  isCategorySelected(category, type) {
     if (this.valueType === 'id') {
     } else if (this.valueType === 'handle') {
       return this.value === category.handle;
     } else if (this.valueType === 'object.handle') {
       return this.value.handle === category.handle;
     }  else if (this.valueType === 'object.id') {
-      return this.value.id === category.id;
+      for (let i =0; i < this.value.length; i++) {
+        return this.value[i].id == category.id && this.value[i].type == type;
+      }
     }
   }
+
+ 
 
   onCheckboxClick(event) {
     event.stopPropagation();

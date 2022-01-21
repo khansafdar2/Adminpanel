@@ -1,14 +1,13 @@
 import { AuthService } from './../../../auth/auth.service';
-
-import { Component, Input, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import URLS from 'src/app/shared/urls';
 import { DiscountsService } from '../discounts.service';
 import { environment } from 'src/environments/environment';
 import { Observable, Subject, concat, of } from 'rxjs';
-import { distinctUntilChanged, tap, switchMap, catchError } from 'rxjs/operators';
+import { distinctUntilChanged, tap, switchMap, catchError, filter } from 'rxjs/operators';
 import { OrdersService } from '../../orders/orders.service';
 import { ProductsService } from '../../products/products.service';
 import { VendorsService } from '../../vendors/vendors.service';
@@ -18,7 +17,6 @@ import { VendorsService } from '../../vendors/vendors.service';
   templateUrl: './edit-discount.component.html',
   styleUrls: ['./edit-discount.component.scss']
 })
-
 
 
 export class EditDiscountComponent implements OnInit {
@@ -31,17 +29,16 @@ export class EditDiscountComponent implements OnInit {
     private productsService: ProductsService,
     private orderSerive: OrdersService,
     private router: Router,
-    private route:ActivatedRoute,
+    private route: ActivatedRoute,
     private authService: AuthService
   ) {
     this.discountID = this.route.snapshot.paramMap.get('id');
-   }
-  
+  }
+
   data = [];
-  
   valueType: string = "handle";
-  // value = null;
-  discountID:any;
+  value = this.data;
+  discountID: any;
   mainCategoryID = [];
   subCategoryID = [];
   superSubCategoryID = [];
@@ -118,6 +115,20 @@ export class EditDiscountComponent implements OnInit {
     );
   }
 
+  getCustomersForDetail(customer) {
+    this.orderSerive.getCustomersList().subscribe(resp => {
+      if (resp) {
+        console.log(resp);
+        let customerID = resp.map(this.mapCustomerID);
+        let filtered_customer = customerID.filter(value =>{
+          return value == customer
+        }) 
+        console.log(filtered_customer);
+        this.customers = filtered_customer
+      }
+    })
+  }
+
   trackByFn(customer) {
     return customer.id;
   }
@@ -126,7 +137,16 @@ export class EditDiscountComponent implements OnInit {
     this.discountForm.patchValue({
       product_group: [[]]
     });
-    let vendor = this.discountForm.get('vendor_id').value;
+    let vendor = this.discountForm.get('vendor').value;
+    this.productsService.getProductGroups(1, 250, "&vendor=" + vendor, "").then(resp => {
+      if (resp) {
+        this.productGroups = resp.data.results;
+      }
+    });
+  }
+
+  getProductGroupsForDetail() {
+    let vendor = this.discountForm.get('vendor').value;
     this.productsService.getProductGroups(1, 250, "&vendor=" + vendor, "").then(resp => {
       if (resp) {
         this.productGroups = resp.data.results;
@@ -158,6 +178,10 @@ export class EditDiscountComponent implements OnInit {
     this.discountForm.patchValue({
       y_product: productID
     })
+  }
+
+  mapCustomerID(value){
+    return value.id;
   }
 
   mapProductID(value) {
@@ -192,9 +216,11 @@ export class EditDiscountComponent implements OnInit {
     this.yProducts.splice(index, 1);
   }
 
+
+
   onCategorySelection(data) {
     console.log(data);
-    
+
     this.mainCategoryID = data.filter(this.filterMainCategory).map(this.mapCategoryID);
     this.discountForm.patchValue({
       main_category: this.mainCategoryID
@@ -252,34 +278,35 @@ export class EditDiscountComponent implements OnInit {
     this.loading = true;
     this.discountsService.getDiscountDetail(this.discountID).then(resp => {
       this.loading = false;
-      if(resp) {
+      if (resp) {
         console.log(resp.data);
+        
         this.products = resp.data.product
         this.yProducts = resp.data.y_product;
         let mainCategoryArray = []
         let mainCategoryObj = {
-          id:null,
+          id: null,
           type: ''
         }
         if (resp.data.main_category.length > 0) {
-          for (let i=0; i<resp.data.main_category.length; i++){
-            mainCategoryObj = {id: resp.data.main_category[i], type:"main"}
-            mainCategoryArray.push(mainCategoryObj) 
+          for (let i = 0; i < resp.data.main_category.length; i++) {
+            mainCategoryObj = { id: resp.data.main_category[i], type: "main" }
+            mainCategoryArray.push(mainCategoryObj)
           }
-        } 
+        }
         let subCategoryObj;
         let subCategoryArray = []
         if (resp.data.sub_category.length > 0) {
-          for (let i=0; i<resp.data.sub_category.length; i++){
-            subCategoryObj = {id: resp.data.sub_category[i], type:"sub"}
+          for (let i = 0; i < resp.data.sub_category.length; i++) {
+            subCategoryObj = { id: resp.data.sub_category[i], type: "sub" }
             subCategoryArray.push(subCategoryObj)
           }
         }
         let superSubCategoryArray = []
         let superSubCategoryObj;
         if (resp.data.super_sub_category.length > 0) {
-          for (let i=0; i<resp.data.super_sub_category.length; i++){
-            superSubCategoryObj = {id: resp.data.super_sub_category, type:"sub"}
+          for (let i = 0; i < resp.data.super_sub_category.length; i++) {
+            superSubCategoryObj = { id: resp.data.super_sub_category[i], type: "superSub" }
             superSubCategoryArray.push(superSubCategoryObj)
           }
         }
@@ -287,6 +314,30 @@ export class EditDiscountComponent implements OnInit {
         this.data = this.data.concat(subCategoryArray);
         this.data = this.data.concat(superSubCategoryArray);
         this.discountForm.patchValue(resp.data);
+        let y_product = this.discountForm.get('y_product').value;
+        if (y_product) {
+          let y_productID = [];
+          y_productID = this.yProducts.map(this.mapProductID);
+          this.discountForm.patchValue({
+            y_product: y_productID
+          })
+        }
+        let product = this.discountForm.get('product').value;
+        if (product) {
+          let productID = [];
+          productID = this.products.map(this.mapProductID);
+          this.discountForm.patchValue({
+            product: productID
+          })
+        }
+        let vendor = this.discountForm.get('vendor').value;
+        if (vendor) {
+          this.getProductGroupsForDetail();
+        }
+        let customer = this.discountForm.get('customer_eligibility').value;
+        if (customer == "customer_eligibility") {
+          this.getCustomersForDetail(resp.data.customer);
+        }
       }
     })
   }
@@ -300,5 +351,5 @@ export class EditDiscountComponent implements OnInit {
       this.getVendors();
     }
   }
-  
+
 }
