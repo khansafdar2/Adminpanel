@@ -47,7 +47,7 @@
                 <mat-card>
                     <mat-form-field *ngIf="discountForm.get('discount_type').value === 'promo'" appearance="outline">
                         <mat-label>Promocode</mat-label>
-                        <input type="text" matInput formControlName="end_date" />
+                        <input type="text" matInput formControlName="promo_code" />
                     </mat-form-field>
                     <h3>Criteria</h3>
 
@@ -157,7 +157,7 @@
 
                     <ng-container *ngIf="discountForm.get('y_criteria').value === 'category'">
                         <h4>Categories</h4>
-                        <category-selector [(value)]="data" valueType="object.id" [multiple]="true"
+                        <category-selector [(value)]="y_data" valueType="object.id" [multiple]="true"
                             (valueChange)=getYFreeCategorySelection($event)></category-selector>
                     </ng-container>
 
@@ -256,7 +256,7 @@
                 <ng-container *ngIf="discountForm.get('discount_type').value !== 'discount'">
                     <mat-card *ngIf="discountForm.get('discount_type').value !== 'buy'">
                         <h3>Minimum amount</h3>
-                        <mat-radio-group formControlName="minimum_purchase_amount_check" fxLayout="row">
+                        <mat-radio-group formControlName="check_minimum_purchase_amount" fxLayout="row">
                             <mat-radio-button value="none">None</mat-radio-button>
                             <mat-radio-button value="minimum_purchase_amount">Minimum purchase amount</mat-radio-button>
                         </mat-radio-group>
@@ -264,7 +264,7 @@
                         <div fxLayout="row">
                             <div fxFlex="0 1 50%">
                                 <mat-form-field
-                                    *ngIf="discountForm.get('minimum_purchase_amount_check').value === 'minimum_purchase_amount'"
+                                    *ngIf="discountForm.get('check_minimum_purchase_amount').value === 'minimum_purchase_amount'"
                                     appearance="outline">
                                     <mat-label>Amount</mat-label>
                                     <input type="number" matInput formControlName="minimum_purchase_amount" />
@@ -287,7 +287,7 @@
 
                                     <h3>Customer</h3>
                                     <ng-select [items]="customers | async" bindLabel="first_name" bindValue="id"
-                                        [trackByFn]="trackByFn" [minTermLength]="2" [loading]="customersLoading"
+                                        [trackByFn]="trackByFn"  [loading]="customersLoading" 
                                         [typeahead]="customerInput" formControlName="customer" multiple="true">
                                         <ng-template ng-label-tmp let-item="item">
                                             <div class="customer-dropdown-label">

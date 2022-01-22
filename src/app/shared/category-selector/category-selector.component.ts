@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { CategoryService } from 'src/app/views/products/category-structure/category.service';
 import { trigger, transition, animate, style } from '@angular/animations'
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { Router } from '@angular/router';
 
 
 @Component({
@@ -157,20 +156,22 @@ export class CategorySelectorComponent implements OnInit {
       return this.value.handle === category.handle;
     }  else if (this.valueType === 'object.id') {
       for (let i =0; i < this.value.length; i++) {
-        return this.value[i].id == category.id && this.value[i].type == type;
+        if (this.value[i].id == category.id && this.value[i].type == type){
+          return this.value[i].id && this.value[i].type;
+        }
       }
     }
   }
-
  
 
   onCheckboxClick(event) {
     event.stopPropagation();
+    console.log(this.value);
+    
   }
 
   ngOnInit(): void {
     this.getMainCategories();
-    console.log(this.value);
     
   }
 

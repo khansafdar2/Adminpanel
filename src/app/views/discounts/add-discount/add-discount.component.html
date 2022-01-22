@@ -47,7 +47,7 @@
                 <mat-card>
                     <mat-form-field *ngIf="discountForm.get('discount_type').value === 'promo'" appearance="outline">
                         <mat-label>Promocode</mat-label>
-                        <input type="text" matInput formControlName="end_date" />
+                        <input type="text" matInput formControlName="promo_code" />
                     </mat-form-field>
                     <h3>Criteria</h3>
 
@@ -264,10 +264,10 @@
                         <div fxLayout="row">
                             <div fxFlex="0 1 50%">
                                 <mat-form-field
-                                    *ngIf="discountForm.get('minimum_purchase_amount_check').value === 'minimum_purchase_amount'"
+                                    *ngIf="discountForm.get('check_minimum_purchase_amount').value === 'minimum_purchase_amount'"
                                     appearance="outline">
                                     <mat-label>Amount</mat-label>
-                                    <input type="number" matInput formControlName="minimum_purchase_amount" />
+                                    <input type="number" matInput formControlName="check_minimum_purchase_amount" />
                                 </mat-form-field>
                             </div>
                         </div>

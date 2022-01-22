@@ -36,6 +36,7 @@ export class EditDiscountComponent implements OnInit {
   }
 
   data = [];
+  y_data = [];
   valueType: string = "handle";
   value = this.data;
   discountID: any;
@@ -57,6 +58,8 @@ export class EditDiscountComponent implements OnInit {
   is_vendor = this.authService.user.is_vendor;
   vendorID = this.authService.user.vendor_id;
   multiple = true;
+  test:any
+
 
 
   discountForm = this.fb.group({
@@ -64,10 +67,11 @@ export class EditDiscountComponent implements OnInit {
     discount_type: ["discount", [Validators.required]],
     value_type: ["percentage", [Validators.required]],
     value: [0, [Validators.required]],
-    minimum_purchase_amount_check: ["none", [Validators.required]],
-    customer_eligibility: ["everyone", [Validators.required]],
+    check_minimum_purchase_amount: ["none"],
+    customer_eligibility: ["everyone"],
     criteria: [''],
     y_criteria: [''],
+    promo_code: [''],
     customer: [[]],
     x_minimum_no_products: [0],
     y_minimum_no_products: [0],
@@ -102,31 +106,23 @@ export class EditDiscountComponent implements OnInit {
 
 
   getCustomers() {
-    this.customers = concat(
-      of([]),
-      this.customerInput.pipe(
-        distinctUntilChanged(),
-        tap(() => this.customersLoading = true),
-        switchMap(term => this.orderSerive.getCustomersList(term).pipe(
-          catchError(() => of([])),
-          tap(() => this.customersLoading = false)
-        ))
-      )
-    );
+      this.customers = concat(
+        of([]),
+        this.customerInput.pipe(
+          distinctUntilChanged(),
+          tap(() => this.customersLoading = true),
+          switchMap(term => this.orderSerive.getCustomersList(term).pipe(
+            catchError(() => of([])),
+            tap(() => this.customersLoading = false)
+          ))
+        )
+      );
   }
 
-  getCustomersForDetail(customer) {
-    this.orderSerive.getCustomersList().subscribe(resp => {
-      if (resp) {
-        console.log(resp);
-        let customerID = resp.map(this.mapCustomerID);
-        let filtered_customer = customerID.filter(value =>{
-          return value == customer
-        }) 
-        console.log(filtered_customer);
-        this.customers = filtered_customer
-      }
-    })
+  selectedValue(event){
+    this.discountForm.controls['customer'].setValue(event = "sa")
+      return this.test;
+
   }
 
   trackByFn(customer) {
@@ -180,7 +176,7 @@ export class EditDiscountComponent implements OnInit {
     })
   }
 
-  mapCustomerID(value){
+  mapCustomerID(value) {
     return value.id;
   }
 
@@ -219,8 +215,6 @@ export class EditDiscountComponent implements OnInit {
 
 
   onCategorySelection(data) {
-    console.log(data);
-
     this.mainCategoryID = data.filter(this.filterMainCategory).map(this.mapCategoryID);
     this.discountForm.patchValue({
       main_category: this.mainCategoryID
@@ -261,7 +255,6 @@ export class EditDiscountComponent implements OnInit {
 
   onSubmit() {
     this.loading = true;
-    this.discountForm.removeControl('minimum_purchase_amount_check');
     let mainObj = this.discountForm.value;
     mainObj.id = this.discountID
     this.discountsService.updateDiscount(mainObj).then(resp => {
@@ -280,7 +273,7 @@ export class EditDiscountComponent implements OnInit {
       this.loading = false;
       if (resp) {
         console.log(resp.data);
-        
+
         this.products = resp.data.product
         this.yProducts = resp.data.y_product;
         let mainCategoryArray = []
@@ -310,9 +303,44 @@ export class EditDiscountComponent implements OnInit {
             superSubCategoryArray.push(superSubCategoryObj)
           }
         }
+        // y categories
+        let y_mainCategoryArray = []
+        let y_mainCategoryObj = {
+          id: null,
+          type: ''
+        }
+        if (resp.data.y_main_category.length > 0) {
+          for (let i = 0; i < resp.data.y_main_category.length; i++) {
+            y_mainCategoryObj = { id: resp.data.y_main_category[i], type: "main" }
+            y_mainCategoryArray.push(y_mainCategoryObj)
+          }
+        }
+        let y_subCategoryObj;
+        let y_subCategoryArray = []
+        if (resp.data.y_sub_category.length > 0) {
+          for (let i = 0; i < resp.data.y_sub_category.length; i++) {
+            y_subCategoryObj = { id: resp.data.y_sub_category[i], type: "sub" }
+            y_subCategoryArray.push(y_subCategoryObj)
+          }
+        }
+        let y_superSubCategoryArray = []
+        let y_superSubCategoryObj;
+        if (resp.data.y_super_sub_category.length > 0) {
+          for (let i = 0; i < resp.data.y_super_sub_category.length; i++) {
+            y_superSubCategoryObj = { id: resp.data.y_super_sub_category[i], type: "superSub" }
+            y_superSubCategoryArray.push(y_superSubCategoryObj)
+          }
+        }
+
         this.data = this.data.concat(mainCategoryArray);
         this.data = this.data.concat(subCategoryArray);
         this.data = this.data.concat(superSubCategoryArray);
+
+        // y categories
+        this.y_data = this.y_data.concat(y_mainCategoryArray);
+        this.y_data = this.y_data.concat(y_subCategoryArray);
+        this.y_data = this.y_data.concat(y_superSubCategoryArray);
+
         this.discountForm.patchValue(resp.data);
         let y_product = this.discountForm.get('y_product').value;
         if (y_product) {
@@ -322,6 +350,8 @@ export class EditDiscountComponent implements OnInit {
             y_product: y_productID
           })
         }
+
+      
         let product = this.discountForm.get('product').value;
         if (product) {
           let productID = [];
@@ -334,13 +364,12 @@ export class EditDiscountComponent implements OnInit {
         if (vendor) {
           this.getProductGroupsForDetail();
         }
-        let customer = this.discountForm.get('customer_eligibility').value;
-        if (customer == "customer_eligibility") {
-          this.getCustomersForDetail(resp.data.customer);
-        }
+        this.test = [resp.data.customer]
       }
     })
   }
+
+
 
   ngOnInit(): void {
     this.getCustomers();
@@ -351,5 +380,8 @@ export class EditDiscountComponent implements OnInit {
       this.getVendors();
     }
   }
+
+
+
 
 }

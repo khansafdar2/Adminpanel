@@ -60,10 +60,11 @@ export class AddDiscountComponent implements OnInit {
     discount_type: ["discount", [Validators.required]],
     value_type: ["percentage", [Validators.required]],
     value: [0, [Validators.required]],
-    minimum_purchase_amount_check: ["none", [Validators.required]],
-    customer_eligibility: ["everyone", [Validators.required]],
+    check_minimum_purchase_amount: ["none"],
+    customer_eligibility: ["everyone"],
     criteria: [''],
     y_criteria: [''],
+    promo_code: [''],
     customer: [[]],
     x_minimum_no_products: [0],
     y_minimum_no_products: [0],
@@ -233,7 +234,6 @@ export class AddDiscountComponent implements OnInit {
 
   onSubmit() {
     this.loading = true;
-    this.discountForm.removeControl('minimum_purchase_amount_check');
     this.discountsService.createDiscount(this.discountForm.value).then(resp => {
       this.loading = false;
       if (resp) {
