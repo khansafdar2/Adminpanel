@@ -124,7 +124,12 @@ export class EditDiscountComponent implements OnInit {
     this.discountForm.patchValue({
       product_group: [[]]
     });
-    let vendor = this.discountForm.get('vendor').value;
+    let vendor;
+    if (!this.is_vendor) {
+      vendor = this.discountForm.get('vendor').value;
+    } else {
+      vendor = this.vendorID
+    }
     this.productsService.getProductGroups(1, 250, "&vendor=" + vendor, "").then(resp => {
       if (resp) {
         this.productGroups = resp.data.results;
@@ -343,6 +348,11 @@ export class EditDiscountComponent implements OnInit {
 
   onSubmit() {
     this.loading = true;
+    if (!this.is_vendor) {
+      if (this.discountForm.get('criteria').value != "product_group"){
+        this.discountForm.get("vendor").setValue(null)
+      }
+    }
     let mainObj = this.discountForm.value;
     mainObj.id = this.discountID
     this.discountsService.updateDiscount(mainObj).then(resp => {
@@ -359,6 +369,10 @@ export class EditDiscountComponent implements OnInit {
     this.getCustomers();
     this.getDiscountDetail();
     if (this.is_vendor) {
+      debugger
+      this.discountForm.patchValue({
+        vendor: this.vendorID
+      })
       this.getProductGroups();
     } else {
       this.getVendors();

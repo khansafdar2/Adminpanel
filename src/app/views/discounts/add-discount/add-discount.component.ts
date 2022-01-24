@@ -114,11 +114,11 @@ export class AddDiscountComponent implements OnInit {
 
   getProductGroups() {
     this.discountForm.patchValue({
-      product_group: [[]]
+      product_group: []
     });
     let vendor;
     if (!this.is_vendor) {
-      vendor = this.discountForm.get('vendor_id').value;
+      vendor = this.discountForm.get('vendor').value;
     } else {
       vendor = this.vendorID
     }
@@ -131,7 +131,7 @@ export class AddDiscountComponent implements OnInit {
 
   onVendorChange() {
     this.discountForm.patchValue({
-      product_group: [[]]
+      product_group: []
     });
     this.getProductGroups();
   }
@@ -228,6 +228,11 @@ export class AddDiscountComponent implements OnInit {
 
   onSubmit() {
     this.loading = true;
+    if (!this.is_vendor) {
+      if (this.discountForm.get('criteria').value != "product_group"){
+        this.discountForm.get("vendor").setValue(null)
+      }
+    }
     this.discountsService.createDiscount(this.discountForm.value).then(resp => {
       this.loading = false;
       if (resp) {
@@ -241,6 +246,9 @@ export class AddDiscountComponent implements OnInit {
   ngOnInit(): void {
     this.getCustomers();
     if (this.is_vendor) {
+      this.discountForm.patchValue({
+        vendor: this.vendorID
+      })
       this.getProductGroups();
     } else {
       this.getVendors();
