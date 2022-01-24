@@ -1,0 +1,16 @@
+<button mat-icon-button mat-dialog-close class="dialog-close"><mat-icon>close</mat-icon></button>
+<h2 mat-dialog-title>Add filter</h2>
+<mat-dialog-content class="mat-typography">
+    <div class="add-sections-list" fxLayout="row wrap">
+        <div fxFlex="33.3333%" *ngFor="let filter of filterTypes">
+            <ng-container>
+                <div class="add-section-card" (click)="addSection(filter)">
+                    {{ filter.title }}
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</mat-dialog-content>
+<div mat-dialog-actions>
+    <button mat-stroked-button color="primary" mat-dialog-close>Cancel</button>
+</div>

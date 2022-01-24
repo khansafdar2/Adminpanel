@@ -1,0 +1,51 @@
+@import "src/scss/variables";
+
+.sections-list-wrapper {
+    max-width: 600px;
+}
+.section-name-wrapper {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    span .mat-icon {
+        vertical-align: middle;
+        line-height: 24px;
+        margin-right: 5px;
+        cursor: grab;
+        color: rgba(0,0,0,0.38);
+    }
+
+    &:hover {
+        background-color: $primaryHighlight;
+    }
+
+    & + .section-name-wrapper {
+        margin-top: 18px;
+    }
+
+    &.active {
+        background-color: $primaryHighlight;
+
+    }
+}
+
+.section-settings-wrapper {
+    border-left: 1px solid #dddddd;
+    position: relative;
+    max-width: 750px;
+}
+.no-section-text {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    text-align: center;
+    color: rgba(0,0,0,0.38);
+    font-size: 24px;
+}
+
+
+.acitve-checkbox {
+  margin-bottom: 20px;
+}

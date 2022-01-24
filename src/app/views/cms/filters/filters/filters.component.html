@@ -1,0 +1,67 @@
+<app-topbar></app-topbar>
+<app-sidenav></app-sidenav>
+<main id="main">
+  <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+  <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
+    <h1>Filters</h1>
+
+    <div class="header-actions">
+      <button mat-flat-button color="primary" [disabled]="loading" (click)="onPublish()">Publish</button>
+    </div>
+  </div>
+
+  <div class="homepage-wrapper" fxLayout="row">
+    <div class="sections-list-wrapper" fxFlex="1 0 40%">
+
+      <div
+        class="sections-list"
+        cdkDropList
+        (cdkDropListDropped)="sortChanged($event)"
+      >
+        <mat-card
+          class="section-name-wrapper"
+          cdkDrag
+          *ngFor="let section of filters; let i = index"
+          [class.active]="activeSectionIndex === i"
+          [class.mat-elevation-z3]="activeSectionIndex === i"
+          (click)="setActiveSection(section, i)"
+        >
+          <span><mat-icon cdkDragHandle>drag_indicator</mat-icon> {{ section.title }}</span>
+          <button type="button" mat-icon-button color="warn" (click)="removeSection(i)"><mat-icon>delete</mat-icon></button>
+        </mat-card>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="center center" style="margin-top: 20px">
+        <button mat-stroked-button color="primary" (click)="onAddSectionClick()">+ Add new filter</button>
+      </div>
+    </div>
+
+    <div class="section-settings-wrapper" fxFlex="1 0 60%">
+      <p class="no-section-text" *ngIf="!activeSection">Select a filter from left to edit.</p>
+      <ng-container *ngIf="activeSection">
+        <!-- *ngIf="activeSection.type === 'tags'" -->
+        <ng-container>
+          <mat-card>
+            <mat-form-field appearance="outline">
+                <mat-label>Title</mat-label>
+                <input matInput [(ngModel)]="activeSection.title" />
+            </mat-form-field>
+
+            <mat-checkbox [(ngModel)]="activeSection.is_active" class="acitve-checkbox">Acitve</mat-checkbox>
+        
+            <div *ngIf="activeSection.type === 'tags' || activeSection.type === 'product_options' ">
+              <h4>Tags</h4>
+              <tags-input
+                [(value)]="activeSection.tags"
+                placeholder="enter tags..."
+                removable="true"
+                showRemove="true"
+                label="Tags"></tags-input>
+            </div>
+              
+          </mat-card>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+</main>
