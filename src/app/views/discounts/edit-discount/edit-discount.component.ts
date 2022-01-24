@@ -90,6 +90,11 @@ export class EditDiscountComponent implements OnInit {
     minimum_purchase_amount: [null]
   });
 
+  compareData(ob1, ob2)
+  {
+    return ob1.id === ob2.id
+  }
+
 
   getVendors() {
     this.vendorService.getVendorsList(1, 150).then(resp => {
@@ -300,6 +305,7 @@ export class EditDiscountComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.getCustomers();
     this.getDiscountDetail();
    
   }

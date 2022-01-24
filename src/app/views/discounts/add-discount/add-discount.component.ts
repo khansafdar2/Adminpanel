@@ -246,6 +246,7 @@ export class AddDiscountComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.getCustomers();
     if (this.is_vendor) {
       this.discountForm.patchValue({
         vendor: this.vendorID
