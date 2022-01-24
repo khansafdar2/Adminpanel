@@ -31,10 +31,7 @@ export class AddDiscountComponent implements OnInit {
   ) { }
 
   data = [];
-
   valueType: string = "handle";
-  // value = null;
-
   mainCategoryID = [];
   subCategoryID = [];
   superSubCategoryID = [];
@@ -89,8 +86,6 @@ export class AddDiscountComponent implements OnInit {
   });
 
 
-
-
   getVendors() {
     this.vendorService.getVendorsList(1, 150).then(resp => {
       if (resp) {
@@ -98,7 +93,6 @@ export class AddDiscountComponent implements OnInit {
       }
     });
   }
-
 
   getCustomers() {
     this.customers = concat(
@@ -246,7 +240,6 @@ export class AddDiscountComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCustomers();
-
     if (this.is_vendor) {
       this.getProductGroups();
     } else {

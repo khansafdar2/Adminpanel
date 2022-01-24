@@ -58,8 +58,6 @@ export class EditDiscountComponent implements OnInit {
   is_vendor = this.authService.user.is_vendor;
   vendorID = this.authService.user.vendor_id;
   multiple = true;
-  test:any
-
 
 
   discountForm = this.fb.group({
@@ -104,25 +102,18 @@ export class EditDiscountComponent implements OnInit {
     });
   }
 
-
   getCustomers() {
-      this.customers = concat(
-        of([]),
-        this.customerInput.pipe(
-          distinctUntilChanged(),
-          tap(() => this.customersLoading = true),
-          switchMap(term => this.orderSerive.getCustomersList(term).pipe(
-            catchError(() => of([])),
-            tap(() => this.customersLoading = false)
-          ))
-        )
-      );
-  }
-
-  selectedValue(event){
-    this.discountForm.controls['customer'].setValue(event = "sa")
-      return this.test;
-
+    this.customers = concat(
+      of([]),
+      this.customerInput.pipe(
+        distinctUntilChanged(),
+        tap(() => this.customersLoading = true),
+        switchMap(term => this.orderSerive.getCustomersList(term).pipe(
+          catchError(() => of([])),
+          tap(() => this.customersLoading = false)
+        ))
+      )
+    );
   }
 
   trackByFn(customer) {
@@ -212,8 +203,6 @@ export class EditDiscountComponent implements OnInit {
     this.yProducts.splice(index, 1);
   }
 
-
-
   onCategorySelection(data) {
     this.mainCategoryID = data.filter(this.filterMainCategory).map(this.mapCategoryID);
     this.discountForm.patchValue({
@@ -253,27 +242,11 @@ export class EditDiscountComponent implements OnInit {
     }
   }
 
-  onSubmit() {
-    this.loading = true;
-    let mainObj = this.discountForm.value;
-    mainObj.id = this.discountID
-    this.discountsService.updateDiscount(mainObj).then(resp => {
-      this.loading = false;
-      if (resp) {
-        this.snackbarService.open("Discount updated successfully.", "", { duration: 3000 });
-        this.router.navigate(['/', URLS.discounts]);
-      }
-    });
-  }
-
-
   getDiscountDetail() {
     this.loading = true;
     this.discountsService.getDiscountDetail(this.discountID).then(resp => {
       this.loading = false;
       if (resp) {
-        console.log(resp.data);
-
         this.products = resp.data.product
         this.yProducts = resp.data.y_product;
         let mainCategoryArray = []
@@ -351,7 +324,7 @@ export class EditDiscountComponent implements OnInit {
           })
         }
 
-      
+
         let product = this.discountForm.get('product').value;
         if (product) {
           let productID = [];
@@ -364,11 +337,22 @@ export class EditDiscountComponent implements OnInit {
         if (vendor) {
           this.getProductGroupsForDetail();
         }
-        this.test = [resp.data.customer]
       }
     })
   }
 
+  onSubmit() {
+    this.loading = true;
+    let mainObj = this.discountForm.value;
+    mainObj.id = this.discountID
+    this.discountsService.updateDiscount(mainObj).then(resp => {
+      this.loading = false;
+      if (resp) {
+        this.snackbarService.open("Discount updated successfully.", "", { duration: 3000 });
+        this.router.navigate(['/', URLS.discounts]);
+      }
+    });
+  }
 
 
   ngOnInit(): void {
@@ -380,8 +364,4 @@ export class EditDiscountComponent implements OnInit {
       this.getVendors();
     }
   }
-
-
-
-
 }

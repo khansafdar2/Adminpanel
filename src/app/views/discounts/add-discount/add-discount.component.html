@@ -49,8 +49,8 @@
                         <mat-label>Promocode</mat-label>
                         <input type="text" matInput formControlName="promo_code" />
                     </mat-form-field>
-                    <h3>Criteria</h3>
 
+                    <h3>Criteria</h3>
                     <ng-container *ngIf="discountForm.get('discount_type').value === 'buy'">
                         <h4>Buy X from</h4>
                         <div fxLayout="row">
@@ -77,7 +77,6 @@
                         <category-selector [(value)]="data" valueType="object.id" [multiple]="true"
                             (valueChange)=onCategorySelection($event)></category-selector>
                     </ng-container>
-
 
                     <ng-container *ngIf="discountForm.get('criteria').value === 'product_group'">
                         <div fxLayout="row">
@@ -128,8 +127,6 @@
                             </ng-container>
                         </div>
                     </div>
-
-
                 </mat-card>
 
                 <mat-card *ngIf="discountForm.get('discount_type').value === 'buy'">
@@ -200,9 +197,7 @@
                             </ng-container>
                         </div>
                     </div>
-
                 </mat-card>
-
 
                 <mat-card>
                     <h3>Basic details</h3>
@@ -256,7 +251,7 @@
                 <ng-container *ngIf="discountForm.get('discount_type').value !== 'discount'">
                     <mat-card *ngIf="discountForm.get('discount_type').value !== 'buy'">
                         <h3>Minimum amount</h3>
-                        <mat-radio-group formControlName="minimum_purchase_amount_check" fxLayout="row">
+                        <mat-radio-group formControlName="check_minimum_purchase_amount" fxLayout="row">
                             <mat-radio-button value="none">None</mat-radio-button>
                             <mat-radio-button value="minimum_purchase_amount">Minimum purchase amount</mat-radio-button>
                         </mat-radio-group>
@@ -267,7 +262,7 @@
                                     *ngIf="discountForm.get('check_minimum_purchase_amount').value === 'minimum_purchase_amount'"
                                     appearance="outline">
                                     <mat-label>Amount</mat-label>
-                                    <input type="number" matInput formControlName="check_minimum_purchase_amount" />
+                                    <input type="number" matInput formControlName="minimum_purchase_amount" />
                                 </mat-form-field>
                             </div>
                         </div>
