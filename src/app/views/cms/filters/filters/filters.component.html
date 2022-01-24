@@ -17,6 +17,7 @@
         class="sections-list"
         cdkDropList
         (cdkDropListDropped)="sortChanged($event)"
+        *ngIf="filters.length"
       >
         <mat-card
           class="section-name-wrapper"

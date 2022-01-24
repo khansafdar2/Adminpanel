@@ -3,7 +3,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-// import { HomepageService } from './homepage.service';
+import { FiltersService } from '../filters.service';
 
 
 @Component({
@@ -14,7 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class FiltersComponent implements OnInit {
 
   constructor(
-    // private homepageService: HomepageService,
+    private filtersService: FiltersService,
     private dialog: MatDialog,
     private snackbar: MatSnackBar
   ) { }
@@ -26,17 +26,6 @@ export class FiltersComponent implements OnInit {
   allowedFilters = [];
   activeSection = null;
   activeSectionIndex = null;
-
-  getHomepageData() {
-    // this.loading = true;
-    // this.homepageService.getHomepage().then(resp => {
-    //   if(resp) {
-    //     this.homepage = resp.data.homepage;
-    //     this.allowedFilters = resp.data.allowed_sections.allowed_sections;
-    //     this.loading = false;
-    //   }
-    // });
-  }
 
   setActiveSection(section, index) {
     this.activeSection = section;
@@ -70,19 +59,47 @@ export class FiltersComponent implements OnInit {
     });
   }
 
+  getFilters()
+  {
+    this.loading = true;
+    this.filtersService.getFilters().then(resp => {
+      this.loading = false;
+      if(resp) {
+        
+        for(let filter of resp.data)
+        {
+          if(filter.tags)
+          {
+            filter.tags = filter.tags.split(",")
+          }
+        }
+        debugger
+        this.filters = resp.data
+      }
+    });
+  }
+
   onPublish() {
     this.loading = true;
     debugger
-    // this.homepageService.updateHomepage({homepage:this.homepage}).then(resp => {
-    //   this.loading = false;
-    //   if(resp) {
-    //     this.snackbar.open("Homepage settings updated.", "", {duration: 2000});
-    //   }
-    // });
+    for (let filter of this.filters) {
+      if(filter.tags)
+      {
+        filter.tags = filter.tags.toString()
+      }
+    }
+     debugger
+    this.filtersService.createFilters(this.filters).then(resp => {
+      this.loading = false;
+      if(resp) {
+        debugger
+        this.snackbar.open("Filters updated.", "", {duration: 2000});
+      }
+    });
   }
 
   ngOnInit(): void {
-    this.getHomepageData();
+    this.getFilters();
   }
 
 
@@ -101,72 +118,6 @@ export class AddFilterDialog implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data,
     private snackbar: MatSnackBar
   ) { }
-
-  _defaultSections = [
-    {
-      type: "banner_slider",
-      title: "Banner slider",
-      slides: []
-    },
-    {
-      type: "categories_carousel",
-      title: "Categories carousel",
-      categories: []
-    },
-    {
-      type: "brands_slider",
-      title: "Brands",
-      brands: []
-    },
-    {
-      type: "products_carousel",
-      title: "Products carousel",
-      category_handle: "",
-      products: [
-        {
-          "img": "url",
-          "name": "text",
-          "handle": "text",
-          "price": {
-            "original_price": "number",
-            "compare_price": "number"
-          }
-        }
-      ]
-    },
-    {
-      type: "single_banner",
-      title: "Banner section",
-      desktop_img: "",
-      mobile_img: "",
-      link: ""
-    },
-    {
-      type: "categories_tabs",
-      title: "Categories tabs",
-      banner_img: "",
-      categories: []
-    },
-    {
-      type: "two_banners",
-      title: "Two banners section",
-      first_banner: {
-        desktop_img: "",
-        mobile_img: "",
-        link: ""
-      },
-      second_banner: {
-        desktop_img: "",
-        mobile_img: "",
-        link: ""
-      }
-    },
-    {
-      type: "features_icons",
-      title: "Feature icons",
-      features: []
-    }
-  ]
 
   filterTypes = [
     {
