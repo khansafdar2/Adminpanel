@@ -1,0 +1,113 @@
+<app-topbar></app-topbar>
+<app-sidenav></app-sidenav>
+<main id="main">
+    <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
+        <h1>Loyality setting</h1>
+        <div class="header-actions">
+            <a [routerLink]="['/', URLS.configuration]" mat-stroked-button color="primary">Cancel</a>
+            <button mat-flat-button color="primary">Save</button>
+        </div>
+    </div>
+
+    <form [formGroup]="loyalityForm">
+        <div fxLayout="row">
+            <div fxFlex="0 1 50%">
+                <mat-card>
+                    <h3>Points collection</h3>
+                    <div fxLayoutAlign="start center" fxLayoutGap="12px">
+                        <div>
+                            <h4>1  {{storeCurrency}} = </h4>
+                        </div>
+                        <div fxFlex="0 1 20%">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Points</mat-label>
+                                <input matInput type="number" formControlName="amount_equal_point" />
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <h3>Points Redemption</h3>
+                    <div  fxLayoutAlign="start center" fxLayoutGap="12px">
+                        <div>
+                            <h4>1 {{storeCurrency}} = </h4>
+                        </div>
+                        <div fxFlex="0 1 20%">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Points</mat-label>
+                                <input matInput type="number" formControlName="point_equal_amount" />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </mat-card>
+
+                <mat-card>
+                    <h3>Loyality rules</h3>
+                    <h4>Apply rules based on</h4>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Apply rules based on</mat-label>
+                        <mat-select formControlName="amount_base" >
+                            <mat-option value='amount_spent'>Amount spent</mat-option>
+                            <mat-option value='no_of_orders'>No of orders</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Amount spent</mat-label>
+                        <input matInput type="number"/>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>No of orders</mat-label>
+                        <input matInput type="number"/>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>No of points earned</mat-label>
+                        <input matInput type="number"/>
+                    </mat-form-field>
+                    
+                        <mat-checkbox class="time-limit"> Has a time limit</mat-checkbox>
+                    
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Start</mat-label>
+                        <input type="datetime-local" matInput  />
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Start</mat-label>
+                        <input type="datetime-local" matInput  />
+                    </mat-form-field>
+
+                    <mat-checkbox>Apply on paid orders only</mat-checkbox>
+
+                </mat-card>
+
+            </div>
+            <div fxFlex="0 1 50%">
+                <mat-card fxLayout="column">
+                    <h3>Loyality condition</h3>
+                    <div>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Minimum spending</mat-label>
+                            <input matInput type="number" formControlName="spending_amount" />
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Minimum no of orders</mat-label>
+                            <input matInput type="number" formControlName="no_of_order" />
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Minimum points for redemption</mat-label>
+                            <input matInput type="number" formControlName="no_of_point" />
+                        </mat-form-field>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+    </form>
+</main>

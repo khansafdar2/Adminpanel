@@ -1,3 +1,4 @@
+import { LoyalityComponent } from './views/configuration/loyality/loyality.component';
 import { FooterCustomizationComponent } from './views/cms/footer-customization/footer-customization.component';
 import { HeaderCustomizationComponent } from './views/cms/customization-header/customization-header.component';
 import { NgModule } from '@angular/core';
@@ -75,6 +76,7 @@ const routes: Routes = [
   {path: URLS.tax, component: TaxConfigurationComponent, canActivate: [LoggedInAuthGuard, ConfigurationGuard]},
   {path: URLS.generalInformation, component: GeneralInformationComponent, canActivate: [LoggedInAuthGuard, ConfigurationGuard]},
   {path: URLS.shipping, component: ShippingComponent, canActivate: [LoggedInAuthGuard, ConfigurationGuard]},
+  {path: URLS.loyality, component: LoyalityComponent, canActivate: [LoggedInAuthGuard, ConfigurationGuard]},
   {path: URLS.categories, canActivate: [LoggedInAuthGuard, ProductsGuard], children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
     {path: URLS.all, component: CategoryStructureComponent},

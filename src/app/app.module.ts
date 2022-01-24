@@ -101,6 +101,7 @@ import { CategorySelectorDialogComponent } from './shared/category-selector-dial
 import { HeaderCustomizationComponent } from './views/cms/customization-header/customization-header.component';
 import { FooterCustomizationComponent } from './views/cms/footer-customization/footer-customization.component';
 import { ProductSelectorComponent, ProductSelectorDialog } from './shared/product-selector/product-selector.component';
+import { LoyalityComponent } from './views/configuration/loyality/loyality.component';
 
 
 @NgModule({
@@ -209,6 +210,7 @@ import { ProductSelectorComponent, ProductSelectorDialog } from './shared/produc
     DeleteCommissionDialog,
     ProductSelectorComponent,
     ProductSelectorDialog,
+    LoyalityComponent,
   ],
   imports: [
     BrowserModule,

@@ -35,7 +35,8 @@ const URLS = {
     vendors: 'vendors',
     navigations: 'navigations',
     headerCustomization: 'header-customization',
-    footerCustomization: 'footer-customization'
+    footerCustomization: 'footer-customization',
+    loyality:'loyality'
 }
 
 export default URLS;
