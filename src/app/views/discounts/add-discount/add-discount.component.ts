@@ -30,8 +30,6 @@ export class AddDiscountComponent implements OnInit {
     private authService: AuthService
   ) { }
 
-  data = [];
-  valueType: string = "handle";
   mainCategoryID = [];
   subCategoryID = [];
   superSubCategoryID = [];
@@ -49,8 +47,6 @@ export class AddDiscountComponent implements OnInit {
   storeCurrency = environment.currency;
   is_vendor = this.authService.user.is_vendor;
   vendorID = this.authService.user.vendor_id;
-  multiple = true;
-
 
   discountForm = this.fb.group({
     title: ["", [Validators.required]],
@@ -113,14 +109,11 @@ export class AddDiscountComponent implements OnInit {
   }
 
   getProductGroups() {
-    this.discountForm.patchValue({
-      product_group: []
-    });
     let vendor;
-    if (!this.is_vendor) {
-      vendor = this.discountForm.get('vendor').value;
-    } else {
+    if (this.is_vendor) {
       vendor = this.vendorID
+    } else {
+      vendor = this.discountForm.get('vendor').value;
     }
     this.productsService.getProductGroups(1, 250, "&vendor=" + vendor, "").then(resp => {
       if (resp) {
@@ -175,15 +168,21 @@ export class AddDiscountComponent implements OnInit {
     return value.category_type == "superSub";
   }
 
-  deleteSelectedProducts(index) {
+  deleteSelectedProduct(index) {
     let productID = this.discountForm.get('product').value;
     productID.splice(index, 1);
+    this.discountForm.patchValue({
+      product: productID
+    })
     this.products.splice(index, 1);
   }
 
-  deleteSelectedGetYFreeProducts(index) {
+  deleteSelectedGetYFreeProduct(index) {
     let productID = this.discountForm.get('y_product').value;
     productID.splice(index, 1);
+    this.discountForm.patchValue({
+      product: productID
+    })
     this.yProducts.splice(index, 1);
   }
 
@@ -226,13 +225,16 @@ export class AddDiscountComponent implements OnInit {
     }
   }
 
-  onSubmit() {
-    this.loading = true;
+  onCriteriaChange(){
     if (!this.is_vendor) {
-      if (this.discountForm.get('criteria').value != "product_group"){
+      if (this.discountForm.get('criteria').value != "product_group"){        
         this.discountForm.get("vendor").setValue(null)
       }
     }
+  }
+
+  onSubmit() {
+    this.loading = true;
     this.discountsService.createDiscount(this.discountForm.value).then(resp => {
       this.loading = false;
       if (resp) {
@@ -244,7 +246,6 @@ export class AddDiscountComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.getCustomers();
     if (this.is_vendor) {
       this.discountForm.patchValue({
         vendor: this.vendorID

@@ -35,10 +35,8 @@ export class EditDiscountComponent implements OnInit {
     this.discountID = this.route.snapshot.paramMap.get('id');
   }
 
-  data = [];
-  y_data = [];
-  valueType: string = "handle";
-  value = this.data;
+  selected_categories = [];
+  selected_y_categories = [];
   discountID: any;
   mainCategoryID = [];
   subCategoryID = [];
@@ -57,10 +55,9 @@ export class EditDiscountComponent implements OnInit {
   storeCurrency = environment.currency;
   is_vendor = this.authService.user.is_vendor;
   vendorID = this.authService.user.vendor_id;
-  multiple = true;
-
 
   discountForm = this.fb.group({
+    id: [null],
     title: ["", [Validators.required]],
     discount_type: ["discount", [Validators.required]],
     value_type: ["percentage", [Validators.required]],
@@ -121,14 +118,11 @@ export class EditDiscountComponent implements OnInit {
   }
 
   getProductGroups() {
-    this.discountForm.patchValue({
-      product_group: [[]]
-    });
     let vendor;
-    if (!this.is_vendor) {
-      vendor = this.discountForm.get('vendor').value;
-    } else {
+    if (this.is_vendor) {
       vendor = this.vendorID
+    } else {
+      vendor = this.discountForm.get('vendor').value;
     }
     this.productsService.getProductGroups(1, 250, "&vendor=" + vendor, "").then(resp => {
       if (resp) {
@@ -137,14 +131,7 @@ export class EditDiscountComponent implements OnInit {
     });
   }
 
-  getProductGroupsForDetail() {
-    let vendor = this.discountForm.get('vendor').value;
-    this.productsService.getProductGroups(1, 250, "&vendor=" + vendor, "").then(resp => {
-      if (resp) {
-        this.productGroups = resp.data.results;
-      }
-    });
-  }
+
 
   onVendorChange() {
     this.discountForm.patchValue({
@@ -156,8 +143,7 @@ export class EditDiscountComponent implements OnInit {
 
   onAddItems(items) {
     this.products = items;
-    let productID = [];
-    productID = items.map(this.mapProductID);
+    let productID = items.map(this.mapProductID);
     this.discountForm.patchValue({
       product: productID
     })
@@ -165,8 +151,7 @@ export class EditDiscountComponent implements OnInit {
 
   getYFreeAddItems(items) {
     this.yProducts = items;
-    let productID = [];
-    productID = items.map(this.mapProductID);
+    let productID = items.map(this.mapProductID);
     this.discountForm.patchValue({
       y_product: productID
     })
@@ -212,30 +197,30 @@ export class EditDiscountComponent implements OnInit {
     this.mainCategoryID = data.filter(this.filterMainCategory).map(this.mapCategoryID);
     this.discountForm.patchValue({
       main_category: this.mainCategoryID
-    })
+    });
     this.subCategoryID = data.filter(this.filterSubCategory).map(this.mapCategoryID);
     this.discountForm.patchValue({
       sub_category: this.subCategoryID
-    })
+    });
     this.superSubCategoryID = data.filter(this.filterSuperSubCategory).map(this.mapCategoryID);
     this.discountForm.patchValue({
       super_sub_category: this.superSubCategoryID
-    })
+    });
   }
 
   getYFreeCategorySelection(data) {
     this.mainCategoryID = data.filter(this.filterMainCategory).map(this.mapCategoryID);
     this.discountForm.patchValue({
       y_main_category: this.mainCategoryID
-    })
+    });
     this.subCategoryID = data.filter(this.filterSubCategory).map(this.mapCategoryID);
     this.discountForm.patchValue({
       y_sub_category: this.subCategoryID
-    })
+    });
     this.superSubCategoryID = data.filter(this.filterSuperSubCategory).map(this.mapCategoryID);
     this.discountForm.patchValue({
       y_super_sub_category: this.superSubCategoryID
-    })
+    });
   }
 
   onDiscountTypeChange() {
@@ -254,108 +239,57 @@ export class EditDiscountComponent implements OnInit {
       if (resp) {
         this.products = resp.data.product
         this.yProducts = resp.data.y_product;
-        let mainCategoryArray = []
-        let mainCategoryObj = {
-          id: null,
-          type: ''
-        }
-        if (resp.data.main_category.length > 0) {
-          for (let i = 0; i < resp.data.main_category.length; i++) {
-            mainCategoryObj = { id: resp.data.main_category[i], type: "main" }
-            mainCategoryArray.push(mainCategoryObj)
-          }
-        }
-        let subCategoryObj;
-        let subCategoryArray = []
-        if (resp.data.sub_category.length > 0) {
-          for (let i = 0; i < resp.data.sub_category.length; i++) {
-            subCategoryObj = { id: resp.data.sub_category[i], type: "sub" }
-            subCategoryArray.push(subCategoryObj)
-          }
-        }
-        let superSubCategoryArray = []
-        let superSubCategoryObj;
-        if (resp.data.super_sub_category.length > 0) {
-          for (let i = 0; i < resp.data.super_sub_category.length; i++) {
-            superSubCategoryObj = { id: resp.data.super_sub_category[i], type: "superSub" }
-            superSubCategoryArray.push(superSubCategoryObj)
-          }
-        }
-        // y categories
-        let y_mainCategoryArray = []
-        let y_mainCategoryObj = {
-          id: null,
-          type: ''
-        }
-        if (resp.data.y_main_category.length > 0) {
-          for (let i = 0; i < resp.data.y_main_category.length; i++) {
-            y_mainCategoryObj = { id: resp.data.y_main_category[i], type: "main" }
-            y_mainCategoryArray.push(y_mainCategoryObj)
-          }
-        }
-        let y_subCategoryObj;
-        let y_subCategoryArray = []
-        if (resp.data.y_sub_category.length > 0) {
-          for (let i = 0; i < resp.data.y_sub_category.length; i++) {
-            y_subCategoryObj = { id: resp.data.y_sub_category[i], type: "sub" }
-            y_subCategoryArray.push(y_subCategoryObj)
-          }
-        }
-        let y_superSubCategoryArray = []
-        let y_superSubCategoryObj;
-        if (resp.data.y_super_sub_category.length > 0) {
-          for (let i = 0; i < resp.data.y_super_sub_category.length; i++) {
-            y_superSubCategoryObj = { id: resp.data.y_super_sub_category[i], type: "superSub" }
-            y_superSubCategoryArray.push(y_superSubCategoryObj)
-          }
-        }
+        let mainCategoryArray = [];
+        let subCategoryArray = [];
+        let superSubCategoryArray = [];
 
-        this.data = this.data.concat(mainCategoryArray);
-        this.data = this.data.concat(subCategoryArray);
-        this.data = this.data.concat(superSubCategoryArray);
+        mainCategoryArray = resp.data.main_category.map(data => { return {id: data, type: "main"}})
+        subCategoryArray = resp.data.sub_category.map(data => { return {id: data, type: "sub"}})
+        superSubCategoryArray = resp.data.super_sub_category.map(data => { return {id: data, type: "superSub"}})
+      
+        // y categories
+        let y_mainCategoryArray = [];
+        let y_subCategoryArray = [];
+        let y_superSubCategoryArray = [];
+        y_mainCategoryArray = resp.data.y_main_category.map(data => { return {id: data, type:"main"}})
+        y_subCategoryArray = resp.data.y_sub_category.map(data => { return {id: data, type:"sub"}})
+        y_superSubCategoryArray = resp.data.y_super_sub_category.map(data => { return {id: data, type:"superSub"}})
+
+        this.selected_categories = this.selected_categories.concat(mainCategoryArray);
+        this.selected_categories = this.selected_categories.concat(subCategoryArray);
+        this.selected_categories = this.selected_categories.concat(superSubCategoryArray);
 
         // y categories
-        this.y_data = this.y_data.concat(y_mainCategoryArray);
-        this.y_data = this.y_data.concat(y_subCategoryArray);
-        this.y_data = this.y_data.concat(y_superSubCategoryArray);
-
+        this.selected_y_categories = this.selected_y_categories.concat(y_mainCategoryArray);
+        this.selected_y_categories = this.selected_y_categories.concat(y_subCategoryArray);
+        this.selected_y_categories = this.selected_y_categories.concat(y_superSubCategoryArray);
+        if (resp.data.y_product) {
+          resp.data.y_product = resp.data.y_product.map(this.mapProductID);
+        }
+        if (resp.data.product) {
+          resp.data.product = resp.data.product.map(this.mapProductID);
+        }
         this.discountForm.patchValue(resp.data);
-        let y_product = this.discountForm.get('y_product').value;
-        if (y_product) {
-          let y_productID = [];
-          y_productID = this.yProducts.map(this.mapProductID);
-          this.discountForm.patchValue({
-            y_product: y_productID
-          })
-        }
-
-
-        let product = this.discountForm.get('product').value;
-        if (product) {
-          let productID = [];
-          productID = this.products.map(this.mapProductID);
-          this.discountForm.patchValue({
-            product: productID
-          })
-        }
-        let vendor = this.discountForm.get('vendor').value;
-        if (vendor) {
-          this.getProductGroupsForDetail();
+        if (this.is_vendor) {
+          this.getProductGroups();
+        } else {
+          this.getVendors();
         }
       }
-    })
+    });
   }
-
-  onSubmit() {
-    this.loading = true;
+  
+  onCriteriaChange(){
     if (!this.is_vendor) {
       if (this.discountForm.get('criteria').value != "product_group"){
         this.discountForm.get("vendor").setValue(null)
       }
     }
-    let mainObj = this.discountForm.value;
-    mainObj.id = this.discountID
-    this.discountsService.updateDiscount(mainObj).then(resp => {
+  }
+
+  onSubmit() {
+    this.loading = true;
+    this.discountsService.updateDiscount(this.discountForm.value).then(resp => {
       this.loading = false;
       if (resp) {
         this.snackbarService.open("Discount updated successfully.", "", { duration: 3000 });
@@ -366,16 +300,7 @@ export class EditDiscountComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.getCustomers();
     this.getDiscountDetail();
-    if (this.is_vendor) {
-      debugger
-      this.discountForm.patchValue({
-        vendor: this.vendorID
-      })
-      this.getProductGroups();
-    } else {
-      this.getVendors();
-    }
+   
   }
 }
