@@ -36,7 +36,9 @@ const URLS = {
     navigations: 'navigations',
     headerCustomization: 'header-customization',
     footerCustomization: 'footer-customization',
-    loyality:'loyality'
+    loyality:'loyality',
+    coupons:'coupons',
+    
 }
 
 export default URLS;

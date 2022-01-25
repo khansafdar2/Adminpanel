@@ -1,3 +1,6 @@
+import { EditCouponComponent } from './views/discounts/coupons/edit-coupon/edit-coupon.component';
+import { AddCouponComponent } from './views/discounts/coupons/add-coupon/add-coupon.component';
+import { CouponsComponent } from './views/discounts/coupons/coupons.component';
 import { LoyalityComponent } from './views/configuration/loyality/loyality.component';
 import { FooterCustomizationComponent } from './views/cms/footer-customization/footer-customization.component';
 import { HeaderCustomizationComponent } from './views/cms/customization-header/customization-header.component';
@@ -121,6 +124,13 @@ const routes: Routes = [
     {path: URLS.add, component: AddDiscountComponent},
     {path: URLS.edit + '/:id', component: EditDiscountComponent}
   ]},
+  {path: URLS.coupons, canActivate: [LoggedInAuthGuard, DiscountsGuard], children: [
+    {path: '', redirectTo: URLS.all, pathMatch: 'full'},
+    {path: URLS.all, component: CouponsComponent},
+    {path: URLS.add, component: AddCouponComponent},
+    {path: URLS.edit + '/:id', component: EditCouponComponent}
+  ]},
+  
   {path: URLS.customers, canActivate: [LoggedInAuthGuard, CustomersGuard], children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
     {path: URLS.all, component: CustomersComponent},

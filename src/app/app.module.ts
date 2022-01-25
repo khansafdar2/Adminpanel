@@ -102,6 +102,9 @@ import { HeaderCustomizationComponent } from './views/cms/customization-header/c
 import { FooterCustomizationComponent } from './views/cms/footer-customization/footer-customization.component';
 import { ProductSelectorComponent, ProductSelectorDialog } from './shared/product-selector/product-selector.component';
 import { LoyalityComponent } from './views/configuration/loyality/loyality.component';
+import { CouponsComponent, CouponDeleteDialog } from './views/discounts/coupons/coupons.component';
+import { AddCouponComponent } from './views/discounts/coupons/add-coupon/add-coupon.component';
+import { EditCouponComponent } from './views/discounts/coupons/edit-coupon/edit-coupon.component';
 
 
 @NgModule({
@@ -211,6 +214,10 @@ import { LoyalityComponent } from './views/configuration/loyality/loyality.compo
     ProductSelectorComponent,
     ProductSelectorDialog,
     LoyalityComponent,
+    CouponsComponent,
+    AddCouponComponent,
+    EditCouponComponent,
+    CouponDeleteDialog
   ],
   imports: [
     BrowserModule,

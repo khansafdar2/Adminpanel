@@ -5,8 +5,8 @@
 export const environment = {
   production: false,
   client_name: "CES",
-  // backend_url: "http://localhost:8000",
-  backend_url: "https://staging-backend.kees.qa",
+  backend_url: "http://d2f5-110-93-244-53.ngrok.io",
+  // backend_url: "https://staging-backend.kees.qa",
   client_img_folder: "img",
   currency: "QAR"
 };

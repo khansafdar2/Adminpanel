@@ -32,7 +32,7 @@
                 </a>
             </li>
             <li *ngIf="userPermissions.discounts">
-                <a [routerLink]="'/' + Urls.discounts" routerLinkActive="active">
+                <a (click)="toggleDrawer('discount')" [class.active]="sideDrawer === 'discount'">
                     <span class="link-icon" [inlineSVG]="'/assets/img/DiscountsIcon.svg'"></span>Discounts
                 </a>
             </li>
@@ -92,4 +92,19 @@
 
         </ul>
     </nav>
+
+  
+</div>
+
+<div class="sidenav-drawer" [class.show]="sideDrawer === 'discount'" (click)="stopPropagation($event)">
+    <h4 class="sidenav-title">Discount</h4>
+
+    <nav>
+        <ul>
+            <li><a [routerLink]="['/' + Urls.discounts]" routerLinkActive="active">Discount</a></li>
+            <li><a [routerLink]="['/', Urls.coupons]" routerLinkActive="active">Coupons</a></li>
+
+        </ul>
+    </nav>
+
 </div>

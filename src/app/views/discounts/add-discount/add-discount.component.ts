@@ -20,12 +20,12 @@ import { AuthService } from 'src/app/auth/auth.service';
 export class AddDiscountComponent implements OnInit {
 
   constructor(
-    private fb: FormBuilder,
     private discountsService: DiscountsService,
-    private snackbarService: MatSnackBar,
     private vendorService: VendorsService,
     private productsService: ProductsService,
     private orderSerive: OrdersService,
+    private snackbarService: MatSnackBar,
+    private fb: FormBuilder,
     private router: Router,
     private authService: AuthService
   ) { }
