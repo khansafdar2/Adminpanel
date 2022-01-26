@@ -79,7 +79,7 @@ const routes: Routes = [
   {path: URLS.tax, component: TaxConfigurationComponent, canActivate: [LoggedInAuthGuard, ConfigurationGuard]},
   {path: URLS.generalInformation, component: GeneralInformationComponent, canActivate: [LoggedInAuthGuard, ConfigurationGuard]},
   {path: URLS.shipping, component: ShippingComponent, canActivate: [LoggedInAuthGuard, ConfigurationGuard]},
-  {path: URLS.loyality, component: LoyalityComponent, canActivate: [LoggedInAuthGuard, ConfigurationGuard]},
+  {path: URLS.loyality, component: LoyalityComponent, canActivate: [LoggedInAuthGuard, ConfigurationGuard, VendorGuard]},
   {path: URLS.categories, canActivate: [LoggedInAuthGuard, ProductsGuard], children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
     {path: URLS.all, component: CategoryStructureComponent},
@@ -126,9 +126,9 @@ const routes: Routes = [
   ]},
   {path: URLS.coupons, canActivate: [LoggedInAuthGuard, DiscountsGuard], children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
-    {path: URLS.all, component: CouponsComponent},
-    {path: URLS.add, component: AddCouponComponent},
-    {path: URLS.edit + '/:id', component: EditCouponComponent}
+    {path: URLS.all, component: CouponsComponent, canActivate: [VendorGuard]},
+    {path: URLS.add, component: AddCouponComponent, canActivate: [VendorGuard]},
+    {path: URLS.edit + '/:id', component: EditCouponComponent, canActivate: [VendorGuard]}
   ]},
   
   {path: URLS.customers, canActivate: [LoggedInAuthGuard, CustomersGuard], children: [

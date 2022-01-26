@@ -31,9 +31,15 @@
                     <span class="link-icon" [inlineSVG]="'/assets/img/CustomersIcon.svg'"></span>Customers
                 </a>
             </li>
-            <li *ngIf="userPermissions.discounts">
+            <li *ngIf="!is_vendor && userPermissions.discounts">
                 <a (click)="toggleDrawer('discount')" [class.active]="sideDrawer === 'discount'">
                     <span class="link-icon" [inlineSVG]="'/assets/img/DiscountsIcon.svg'"></span>Discounts
+                </a>
+            </li>
+
+            <li *ngIf="is_vendor && userPermissions.discounts">
+                <a [routerLink]="'/' + Urls.discounts" routerLinkActive="active">
+                    <span class="link-icon" [inlineSVG]="'/assets/img/SettingsIcon.svg'"></span>Discounts
                 </a>
             </li>
             <li *ngIf="!is_vendor && userPermissions.configuration">
