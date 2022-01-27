@@ -1,6 +1,5 @@
 import { ProductsService } from './../../views/products/products.service';
 import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
-import { MatSelectionListChange } from '@angular/material/list';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Debounce } from '../utils';
 import { environment } from 'src/environments/environment';

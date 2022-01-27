@@ -2,7 +2,6 @@ import { LoyalityService } from './loyality.service';
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { AuthService } from 'src/app/auth/auth.service';
-import { catchError, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import URLS from 'src/app/shared/urls';
@@ -18,7 +17,6 @@ export class LoyalityComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private router: Router,
-    private authService: AuthService,
     private snackbarService: MatSnackBar,
     private loyalityService: LoyalityService
   ) { }

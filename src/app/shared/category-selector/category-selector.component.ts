@@ -42,8 +42,6 @@ export class CategorySelectorComponent implements OnInit {
   superSubCategories = [];
   handleArray = [];
   idArray = [];
-
-
   setWrapperAsSubcategory: boolean = false;
   setWrapperAsSuperSubcategory: boolean = false;
   categoryArray = [];
@@ -114,38 +112,72 @@ export class CategorySelectorComponent implements OnInit {
       if (this.valueType === 'id') {
         if (this.multiple) {
           this.idArray.push(category.id);
-          this.valueChange.emit(this.idArray);
+          this.value = this.idArray;
         } else {
-          this.valueChange.emit(category.id);
+          this.value = category.id;
         }
       } else if (this.valueType === 'handle') {
         if (this.multiple) {
           this.handleArray.push(category.handle);
-          this.valueChange.emit(this.handleArray);
+          this.value = this.handleArray;
         } else {
-          this.valueChange.emit(category.handle);
+          this.value = category.handle;
         }
       } else if (this.valueType === 'object.handle') {
         if (this.multiple) {
           this.categoryArray.push(categoryObj)
-          this.valueChange.emit(this.categoryArray);
+          this.value = this.categoryArray;
         } else {
-          this.valueChange.emit(category);
+          this.value = category;
         }
       } else if (this.valueType === 'object.id') {
         if (this.multiple) {
-          this.categoryArray.push(categoryObj)
-          this.valueChange.emit(this.categoryArray);
+          this.categoryArray.push(categoryObj);
+          this.value = this.categoryArray;
         } else {
-          this.valueChange.emit(category);
+          this.value = category;
         }
       }
-
     } else {
-      let removeObjId = this.categoryArray.find(itm => itm.id === categoryObj.category_id);
-      this.categoryArray.splice(this.categoryArray.indexOf(removeObjId), 1)
-      this.valueChange.emit(this.categoryArray);
+      if (this.valueType === 'handle') {
+        if (this.multiple) {
+          let removeHandle = this.value.indexOf(category.handle);
+          this.handleArray.splice(removeHandle, 1);
+          this.value = this.handleArray;
+        } else {
+          category.handle = '';
+          this.value = category.handle;
+        }
+      } else if (this.valueType === 'object.handle') {
+        if (this.multiple) {
+          let removeObjHandle = this.value.indexOf(category.handle);
+          this.categoryArray.splice(removeObjHandle, 1);
+          this.value = this.categoryArray;
+        } else {
+          category = '';
+          this.value = category;
+        }
+      } else if (this.valueType === 'object.id') {
+        if (this.multiple) {
+          let removeObjId = this.value.indexOf(category.id);
+          this.categoryArray.splice(removeObjId, 1);
+          this.value = this.categoryArray;
+        } else {
+          category = null;
+          this.value = category;
+        }
+      } else if (this.valueType === 'id') {
+        if (this.multiple) {
+          let removeId = this.value.indexOf(category.id);
+          this.idArray.splice(removeId, 1);
+          this.value = this.idArray;
+        } else {
+          category.id = null;
+          this.value = category.id;
+        }
+      }
     }
+    this.valueChange.emit(this.value);
   }
 
   isCategorySelected(category, type) {
@@ -154,25 +186,25 @@ export class CategorySelectorComponent implements OnInit {
       return this.value === category.handle;
     } else if (this.valueType === 'object.handle') {
       return this.value.handle === category.handle;
-    }  else if (this.valueType === 'object.id') {
-      for (let i =0; i < this.value.length; i++) {
-        if (this.value[i].id == category.id && this.value[i].type == type){
-          return this.value[i].id && this.value[i].type;
+    } else if (this.valueType === 'object.id') {
+      if (this.value) {
+        for (let i = 0; i < this.value.length; i++) {
+          if (this.value[i].id == category.id && this.value[i].type == type) {
+            return this.value[i].id && this.value[i].type;
+          }
         }
       }
     }
   }
- 
+
 
   onCheckboxClick(event) {
     event.stopPropagation();
-    console.log(this.value);
-    
   }
 
   ngOnInit(): void {
     this.getMainCategories();
-    
+
   }
 
   ngAfterViewChecked(): void {
@@ -190,5 +222,4 @@ export class CategorySelectorComponent implements OnInit {
       }, 50);
     }
   }
-
 }
