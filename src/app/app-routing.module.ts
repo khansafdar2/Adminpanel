@@ -63,6 +63,7 @@ import { ShippingZoneComponent } from './views/configuration/shipping/zones/ship
 import { ShippingRatesComponent } from './views/configuration/shipping/shipping-rates/shipping-rates.component';
 import { AddShippingRatesComponent } from './views/configuration/shipping/shipping-rates/add-shippping-rate/add-shipping-rate.component';
 import { DefaultShippingComponent } from './views/configuration/shipping/default-shipping/default-shipping.component';
+import { FiltersComponent } from './views/cms/filters/filters/filters.component';
 
 
 const routes: Routes = [
@@ -178,9 +179,14 @@ const routes: Routes = [
   ]},
   {path: URLS.defaultShipping, canActivate: [LoggedInAuthGuard], children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
-    // {path: URLS.all, component: DefaultShippingComponent},
     {path: URLS.add, component: DefaultShippingComponent},
     {path: URLS.edit + '/:id', component: DefaultShippingComponent}
+  ]},
+  {path: URLS.filters, canActivate: [LoggedInAuthGuard], children: [
+    {path: '', redirectTo: URLS.all, pathMatch: 'full'},
+    {path: URLS.all, component: FiltersComponent},
+    // {path: URLS.add, component: DefaultShippingComponent},
+    // {path: URLS.edit + '/:id', component: DefaultShippingComponent}
   ]}
 ];
 

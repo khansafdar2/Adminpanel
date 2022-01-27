@@ -38,7 +38,8 @@ const URLS = {
     footerCustomization: 'footer-customization',
     zones : 'zones',
     shippingRates : 'shipping-rates',
-    defaultShipping : 'default-shipping'
+    defaultShipping : 'default-shipping',
+    filters : 'filters'
 }
 
 export default URLS;

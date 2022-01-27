@@ -110,6 +110,7 @@ import { DeleteShippingRateDialog, ShippingRatesComponent } from './views/config
 import { AddShippingRatesComponent } from './views/configuration/shipping/shipping-rates/add-shippping-rate/add-shipping-rate.component';
 import { DefaultShippingComponent } from './views/configuration/shipping/default-shipping/default-shipping.component';
 import { MultiSelectDialog, MultiSelectModelComponent } from './shared/multi-select-model/multi-select-model.component';
+import { AddFilterDialog, FiltersComponent } from './views/cms/filters/filters/filters.component';
 
 @NgModule({
   declarations: [
@@ -228,7 +229,9 @@ import { MultiSelectDialog, MultiSelectModelComponent } from './shared/multi-sel
     DeleteShippingRateDialog,
     DefaultShippingComponent,
     MultiSelectModelComponent,
-    MultiSelectDialog
+    MultiSelectDialog,
+    FiltersComponent,
+    AddFilterDialog
   ],
   imports: [
     BrowserModule,
