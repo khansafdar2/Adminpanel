@@ -14,23 +14,38 @@
     <div fxLayout="row">
         <div fxFlex="0 1 60%">
             <mat-card class="order-details">
-                <h3>Order details</h3>
+                <div flexLayout="row" fxLayoutAlign="space-between">
+                    <h3>Order details</h3>
+
+                    <variant-selector
+                        [vendor]="vendorID"
+                        (addItems)="onAddItems($event)"
+                    ></variant-selector>
+                </div>
 
                 <div class="order-lineitems">
-                    <div class="lineitem-wrapper" *ngFor="let lineitem of lineitems;">
-                        <div class="lineitem-productdata">
-                            <img [src]="lineitem.product_image ? lineitem.product_image : '/assets/img/placeholder-image.png'" />
-                            <div>
-                                <span class="product-name">{{lineitem.product_title}}</span>
-                                <span class="variant_info">{{lineitem.vendor}}<br>{{lineitem.variant_title !== "Default Title" ? lineitem.variant_title : ""}}</span>
+                    <div class="lineitem-wrapper" *ngFor="let lineitemGroup of lineitemsFormArray['controls']; let i = index">
+                        <ng-container [formGroup]="lineitemGroup">
+                            <div class="lineitem-productdata">
+                                <img [src]="lineitemGroup.get('product_image').value ? lineitemGroup.get('product_image').value : '/assets/img/placeholder-image.png'" />
+                                <div>
+                                    <span class="product-name">{{lineitemGroup.get('product_title').value}}</span>
+                                    <span class="variant_info">{{lineitemGroup.get('variant_title').value !== "Default Title" ? lineitemGroup.get('variant_title').value : ""}}</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="lineitem-price-qty">
-                            {{lineitem.price}} {{storeCurrency}} x {{lineitem.quantity}}
-                        </div>
-                        <div class="lineitem-subtotal">
-                            <span>{{lineitem.subtotal}} {{storeCurrency}}</span>
-                        </div>
+                            <!-- <div class="lineitem-price-qty">
+                                {{lineitemGroup.get('price').value}} {{storeCurrency}} x {{lineitemGroup.get('quantity').value}}
+                            </div> -->
+                            <div class="lineitem-price-qty">
+                                {{lineitemGroup.get('price').value}} {{storeCurrency}} x <input type="number" class="lineitem-qty" min="1" formControlName="quantity" (keydown)="onQtyKeydown($event)" (change)="onQtyChange()" />
+                            </div>
+                            <div class="lineitem-subtotal">
+                                <span>{{lineitemGroup.get('subtotal').value}} {{storeCurrency}}</span>
+                            </div>
+                            <div>
+                                <button mat-icon-button color="warn" *ngIf="lineitemsFormArray.length > 1" (click)="removeLineItem(i)"><mat-icon>delete</mat-icon></button>
+                            </div>
+                        </ng-container>
                     </div>
                 </div>
                 <div class="fulfillent-status">

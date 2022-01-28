@@ -10,8 +10,8 @@ import { environment } from 'src/environments/environment';
 export class VariantSelectorService {
   constructor(private authService: AuthService) { }
 
-  getProductsWithVariants(page: number, limit: number, searchQuery: string) {
-    return Axios.get( environment.backend_url + '/order/orders_product_list?page=' + page + "&limit=" + limit + "&search=" + searchQuery, {
+  getProductsWithVariants(page: number, limit: number, searchQuery: string, vendor: string = "") {
+    return Axios.get( environment.backend_url + '/order/orders_product_list?page=' + page + "&limit=" + limit + "&search=" + searchQuery + "&vendor=" + vendor, {
       headers: {
         Authorization: this.authService.token
       }

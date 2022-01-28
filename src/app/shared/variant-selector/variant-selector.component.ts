@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, Input, Output } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelectionListChange } from '@angular/material/list';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -13,6 +13,8 @@ import { environment } from 'src/environments/environment';
 })
 export class VariantSelectorComponent implements OnInit {
 
+  @Input() vendor = null;
+
   @Output() addItems = new EventEmitter<any>();
 
   constructor(
@@ -21,7 +23,10 @@ export class VariantSelectorComponent implements OnInit {
 
   openDialog() {
     let dialogRef = this.dialog.open(VariantSelectorDialog, {
-      width: "600px"
+      width: "600px",
+      data: {
+        vendor: this.vendor
+      }
     });
 
     dialogRef.afterClosed().subscribe(selectedVariants => {
@@ -63,7 +68,7 @@ export class VariantSelectorDialog {
 
   getProducts() {
     this.loading = true;
-    this.variantSelectorService.getProductsWithVariants(this.pageNumber, 5, this.searchQuery).then(resp => {
+    this.variantSelectorService.getProductsWithVariants(this.pageNumber, 5, this.searchQuery, this.data.vendor).then(resp => {
       this.loading = false;
       if(resp) {
         this.products = this.products.concat(resp.data.results);
