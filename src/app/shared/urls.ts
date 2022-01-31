@@ -28,6 +28,7 @@ const URLS = {
     customers: 'customers',
     orders: 'orders',
     draftOrders: 'draft-orders',
+    addChildOrder: 'add-child',
     editMainOrder: 'edit-main',
     editChildOrder: 'edit-child',
     pages: 'pages',

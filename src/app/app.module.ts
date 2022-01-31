@@ -111,6 +111,7 @@ import { AddShippingRatesComponent } from './views/configuration/shipping/shippi
 import { DefaultShippingComponent } from './views/configuration/shipping/default-shipping/default-shipping.component';
 import { MultiSelectDialog, MultiSelectModelComponent } from './shared/multi-select-model/multi-select-model.component';
 import { AddFilterDialog, FiltersComponent } from './views/cms/filters/filters/filters.component';
+import { AddChildOrderComponent } from './views/orders/add-child-order/add-child-order.component';
 
 @NgModule({
   declarations: [
@@ -231,7 +232,8 @@ import { AddFilterDialog, FiltersComponent } from './views/cms/filters/filters/f
     MultiSelectModelComponent,
     MultiSelectDialog,
     FiltersComponent,
-    AddFilterDialog
+    AddFilterDialog,
+    AddChildOrderComponent
   ],
   imports: [
     BrowserModule,

@@ -64,6 +64,7 @@ import { ShippingRatesComponent } from './views/configuration/shipping/shipping-
 import { AddShippingRatesComponent } from './views/configuration/shipping/shipping-rates/add-shippping-rate/add-shipping-rate.component';
 import { DefaultShippingComponent } from './views/configuration/shipping/default-shipping/default-shipping.component';
 import { FiltersComponent } from './views/cms/filters/filters/filters.component';
+import { AddChildOrderComponent } from './views/orders/add-child-order/add-child-order.component';
 
 
 const routes: Routes = [
@@ -136,6 +137,7 @@ const routes: Routes = [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
     {path: URLS.all, component: OrdersComponent},
     {path: URLS.add, component: AddOrderComponent},
+    {path: URLS.addChildOrder + '/:mainID', component: AddChildOrderComponent},
     {path: URLS.editMainOrder + '/:id', component: EditMainOrderComponent},
     {path: URLS.editChildOrder + '/:id', component: EditChildOrderComponent}
   ]},

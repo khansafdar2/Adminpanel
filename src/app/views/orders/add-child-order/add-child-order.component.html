@@ -1,0 +1,104 @@
+<app-topbar></app-topbar>
+<app-sidenav></app-sidenav>
+<main id="main">
+  <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+  <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
+    <h1>New child order for {{mainOrderName}}</h1>
+
+    <div class="header-actions">
+      <a [routerLink]="['/', URLS.orders, URLS.editMainOrder, mainOrderID]" mat-stroked-button color="primary">Cancel</a>
+      <button mat-flat-button color="primary" [disabled]="loading || orderForm.get('line_items')['controls'].length < 1 || !orderForm.valid" (click)="onSubmit()">Save</button>
+    </div>
+  </div>
+
+  <div fxLayout="row">
+    <div fxFlex="0 1 50%">
+      <mat-card [formGroup]="orderForm">
+        <h3>Order details</h3>
+
+        <div fxLayout="row">
+          <div fxFlex="0 1 50%">
+            <mat-form-field appearance="outline">
+              <mat-label>Vendor</mat-label>
+              <mat-select formControlName="vendor" (selectionChange)="onVendorChange()">
+                <mat-option *ngFor="let vendor of vendors" [value]="vendor.id">{{vendor.name}}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="orderForm.get('vendor').hasError('required')">Please select vendor.</mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex="0 1 50%">
+            <variant-selector
+              *ngIf="orderForm.get('vendor').value"
+              [vendor]="orderForm.get('vendor').value"
+              (addItems)="onAddItems($event)"
+            ></variant-selector>
+          </div>
+        </div>
+
+        <div class="order-lineitems">
+          <div class="lineitem-wrapper" *ngFor="let lineitemGroup of orderForm.get('line_items')['controls']; let i = index">
+              <ng-container [formGroup]="lineitemGroup">
+                  <div class="lineitem-productdata">
+                      <img [src]="lineitemGroup.get('product_image').value ? lineitemGroup.get('product_image').value : '/assets/img/placeholder-image.png'" />
+                      <div>
+                          <span class="product-name">{{lineitemGroup.get('product_title').value}}</span>
+                          <span class="variant_info">{{lineitemGroup.get('variant_title').value !== "Default Title" ? lineitemGroup.get('variant_title').value : ""}}</span>
+                      </div>
+                  </div>
+                  <div class="lineitem-price-qty">
+                      {{lineitemGroup.get('price').value}} {{storeCurrency}} x <input type="number" class="lineitem-qty" min="1" formControlName="quantity" (keydown)="onQtyKeydown($event)" (change)="onQtyChange()" />
+                  </div>
+                  <div class="lineitem-subtotal">
+                      <span>{{lineitemGroup.get('subtotal').value}} {{storeCurrency}}</span>
+                  </div>
+                  <div>
+                      <button mat-icon-button color="warn" (click)="removeLineItem(i)"><mat-icon>delete</mat-icon></button>
+                  </div>
+              </ng-container>
+          </div>
+        </div>
+
+        <div class="lineitems-total" *ngIf="orderForm.get('line_items')['controls'].length">
+          <div fxLayout="row" fxLayoutAlign="space-between">
+              <div>
+                  <span>Subtotal</span>
+              </div>
+              <div>
+                  <span>{{subTotal}} {{storeCurrency}}</span>
+              </div>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="space-between">
+              <div>
+                  <span>Shipping</span>
+              </div>
+              <div>
+                  <span>{{totalShipping}} {{storeCurrency}}</span>
+              </div>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="space-between" class="lineitems-total-row">
+              <div>
+                  <span>Total</span>
+              </div>
+              <div>
+                  <span>{{grandTotal}} {{storeCurrency}}</span>
+              </div>
+          </div>
+        </div>
+      </mat-card>
+
+      <mat-card>
+        <h3>Payment detail</h3>
+
+        <div fxLayout="row" fxLayoutAlign="space-between">
+            <div>
+                <span [class]="'label ' + (paymentStatus === 'Paid' ? 'success' : 'warning')" *ngIf="paymentStatus">Payment: {{paymentStatus}}</span>
+            </div>
+            <div>
+                <button mat-stroked-button color="primary" (click)="changePaymentStatus('Pending')" *ngIf="paymentStatus !== 'Pending'" style="margin-right: 10px">Mark as Pending</button>
+                <button mat-flat-button color="primary" (click)="changePaymentStatus('Paid')" *ngIf="paymentStatus !== 'Paid'">Mark as Paid</button>
+            </div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</main>

@@ -97,7 +97,12 @@
                 </div>
             </mat-card>
 
-            <h2 style="margin-top: 20px">Child orders</h2>
+            <div fxLayout="row" fxLayoutAlign="space-between center">
+                <h2 style="margin-top: 20px">Child orders</h2>
+                <div>
+                    <a mat-stroked-button color="primary" [routerLink]="['/', URLS.orders, URLS.addChildOrder, orderID]">Add child order</a>
+                </div>
+            </div>
             <mat-card class="table-wrapper-card">
                 <datatable
                     [data]="childOrders"
