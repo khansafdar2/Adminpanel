@@ -10,8 +10,7 @@
 
     <p *ngIf="productsCount === 0 && !loading">No products found.</p>
     <div class="products-list" *ngIf="productsCount > 0">
-        <mat-selection-list [(ngModel)]="selectedProducts" [compareWith]="compareSelection"
-            >
+        <mat-selection-list [(ngModel)]="selectedProducts" [compareWith]="compareSelection">
             <div class="product-wrapper">
                 <mat-list-option class="product-selection" *ngFor="let product of products" [value]="product">
                     <div class="product-data" fxLayout="row" fxLayoutAlign="start center">

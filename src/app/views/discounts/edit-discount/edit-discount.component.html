@@ -72,7 +72,7 @@
                         </mat-select>
                     </mat-form-field>
 
-                    <ng-container *ngIf="discountForm.get('criteria').value === 'category' ">
+                    <ng-container *ngIf="discountForm.get('criteria').value === 'category'">
                         <h4>Categories</h4>
                         <category-selector [(value)]="selected_categories" valueType="object.id" [multiple]="true"
                             (valueChange)=onCategorySelection($event)></category-selector>

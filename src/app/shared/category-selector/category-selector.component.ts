@@ -1,3 +1,4 @@
+import { concat } from 'rxjs';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { CategoryService } from 'src/app/views/products/category-structure/category.service';
 import { trigger, transition, animate, style } from '@angular/animations'
@@ -24,14 +25,13 @@ export class CategorySelectorComponent implements OnInit {
 
   constructor(
     private categoryService: CategoryService
-
   ) { }
 
   @ViewChild('selector') selector;
   @ViewChild('subCategoryWrapper') subCategoryWrapper;
   @ViewChild('superSubCategoryWrapper') superSubCategoryWrapper;
 
-  @Input() value = null;
+  @Input() value: any;
   @Input() multiple = false;
   @Input() valueType = 'handle';
 
@@ -40,8 +40,6 @@ export class CategorySelectorComponent implements OnInit {
   mainCategories = [];
   subCategories = [];
   superSubCategories = [];
-  handleArray = [];
-  idArray = [];
   setWrapperAsSubcategory: boolean = false;
   setWrapperAsSuperSubcategory: boolean = false;
   categoryArray = [];
@@ -111,29 +109,46 @@ export class CategorySelectorComponent implements OnInit {
     if (event.checked) {
       if (this.valueType === 'id') {
         if (this.multiple) {
-          this.idArray.push(category.id);
-          this.value = this.idArray;
+          if (this.value) {
+            this.value.push(category.id);
+          } else {
+            this.value = [];
+            this.value.push(category.id);
+          }
         } else {
           this.value = category.id;
         }
       } else if (this.valueType === 'handle') {
         if (this.multiple) {
-          this.handleArray.push(category.handle);
-          this.value = this.handleArray;
+          if (this.value) {
+            this.value.push(category.handle);
+          } else {
+            this.value = [];
+            this.value.push(category.handle);
+          }
         } else {
           this.value = category.handle;
         }
       } else if (this.valueType === 'object.handle') {
         if (this.multiple) {
-          this.categoryArray.push(categoryObj)
-          this.value = this.categoryArray;
+          if (this.value) {
+            this.value.push(categoryObj);
+          } else {
+            this.value = [];
+            this.value.push(categoryObj);
+          }
         } else {
           this.value = category;
         }
       } else if (this.valueType === 'object.id') {
         if (this.multiple) {
-          this.categoryArray.push(categoryObj);
-          this.value = this.categoryArray;
+          if (this.value) {
+            this.value.push(categoryObj);
+          } else {
+            this.value = [];
+            this.value.push(categoryObj);
+          }
+
         } else {
           this.value = category;
         }
@@ -142,57 +157,86 @@ export class CategorySelectorComponent implements OnInit {
       if (this.valueType === 'handle') {
         if (this.multiple) {
           let removeHandle = this.value.indexOf(category.handle);
-          this.handleArray.splice(removeHandle, 1);
-          this.value = this.handleArray;
+          this.value.splice(removeHandle, 1);
         } else {
-          category.handle = '';
-          this.value = category.handle;
+          this.value = null;
         }
       } else if (this.valueType === 'object.handle') {
         if (this.multiple) {
-          let removeObjHandle = this.value.indexOf(category.handle);
-          this.categoryArray.splice(removeObjHandle, 1);
-          this.value = this.categoryArray;
+          let removeObjHandleIndex = this.value.findIndex(category => category.category_handle == category.handle);
+          this.value.splice(removeObjHandleIndex, 1);
         } else {
-          category = '';
-          this.value = category;
+          this.value = null;
         }
       } else if (this.valueType === 'object.id') {
         if (this.multiple) {
-          let removeObjId = this.value.indexOf(category.id);
-          this.categoryArray.splice(removeObjId, 1);
-          this.value = this.categoryArray;
+          let removeObjId = this.value.findIndex(category => category.category_id == categoryObj.category_id);
+          this.value.splice(removeObjId, 1);
         } else {
-          category = null;
-          this.value = category;
+          this.value = null;
         }
       } else if (this.valueType === 'id') {
         if (this.multiple) {
           let removeId = this.value.indexOf(category.id);
-          this.idArray.splice(removeId, 1);
-          this.value = this.idArray;
+          this.value.splice(removeId, 1);
         } else {
-          category.id = null;
-          this.value = category.id;
+          this.value = null;
         }
       }
-    }
+    }    
     this.valueChange.emit(this.value);
   }
 
   isCategorySelected(category, type) {
     if (this.valueType === 'id') {
-    } else if (this.valueType === 'handle') {
-      return this.value === category.handle;
-    } else if (this.valueType === 'object.handle') {
-      return this.value.handle === category.handle;
-    } else if (this.valueType === 'object.id') {
-      if (this.value) {
-        for (let i = 0; i < this.value.length; i++) {
-          if (this.value[i].id == category.id && this.value[i].type == type) {
-            return this.value[i].id && this.value[i].type;
+      if (this.multiple) {
+        if (this.value) {
+          for (let i = 0; i < this.value.length; i++) {
+            if (this.value[i].category_id == category.id) {
+              return this.value[i].category_id;
+            }
           }
         }
+      } else {
+        this.value === category.id
+      }
+    } else if (this.valueType === 'handle') {
+      if (this.multiple) {
+        if (this.value) {
+          for (let i = 0; i < this.value.length; i++) {
+            if (this.value[i].handle == category.handle) {
+              return this.value[i].handle;
+            }
+          }
+        }
+      } else {
+        return this.value === category.handle;
+      }
+    } else if (this.valueType === 'object.handle') {
+      if (this.multiple) {
+        if (this.value) {
+          for (let i = 0; i < this.value.length; i++) {
+            if (this.value[i].handle == category.handle) {
+              return this.value[i].handle;
+            }
+          }
+        }
+
+      } else {
+        return this.value.handle === category.handle;
+      }
+    } else if (this.valueType === 'object.id') {
+      if (this.multiple) {
+        if (this.value) {
+          for (let i = 0; i < this.value.length; i++) {
+            if (this.value[i].category_id == category.id && this.value[i].category_type == type) {
+              return this.value[i].category_id && this.value[i].category_type;
+            }
+          }
+        }
+
+      } else {
+        return this.value === category.id;
       }
     }
   }
@@ -200,11 +244,11 @@ export class CategorySelectorComponent implements OnInit {
 
   onCheckboxClick(event) {
     event.stopPropagation();
+
   }
 
   ngOnInit(): void {
     this.getMainCategories();
-
   }
 
   ngAfterViewChecked(): void {

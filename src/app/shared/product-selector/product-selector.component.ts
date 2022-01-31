@@ -1,6 +1,5 @@
 import { ProductsService } from './../../views/products/products.service';
 import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Debounce } from '../utils';
 import { environment } from 'src/environments/environment';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -47,7 +46,6 @@ export class ProductSelectorDialog {
   constructor(
     public dialogRef: MatDialogRef<ProductSelectorDialog>,
     @Inject(MAT_DIALOG_DATA) public data,
-    private snackbar: MatSnackBar,
     private productService: ProductsService
   ) {
 
@@ -88,15 +86,12 @@ export class ProductSelectorDialog {
   }
 
   addItems() {
-    console.log(this.selectedProducts);
     this.dialogRef.close(this.selectedProducts);
   }
 
   getSelectedProducts() {
     if (this.data.length > 0) {
-      console.log(this.data);
-      
-        this.selectedProducts = this.data;
+      this.selectedProducts = this.data;
     }
   }
 

@@ -7,7 +7,7 @@ import URLS from 'src/app/shared/urls';
 import { DiscountsService } from '../discounts.service';
 import { environment } from 'src/environments/environment';
 import { Observable, Subject, concat, of } from 'rxjs';
-import { distinctUntilChanged, tap, switchMap, catchError, filter } from 'rxjs/operators';
+import { distinctUntilChanged, tap, switchMap, catchError } from 'rxjs/operators';
 import { OrdersService } from '../../orders/orders.service';
 import { ProductsService } from '../../products/products.service';
 import { VendorsService } from '../../vendors/vendors.service';
@@ -248,17 +248,17 @@ export class EditDiscountComponent implements OnInit {
         let subCategoryArray = [];
         let superSubCategoryArray = [];
 
-        mainCategoryArray = resp.data.main_category.map(data => { return {id: data, type: "main"}})
-        subCategoryArray = resp.data.sub_category.map(data => { return {id: data, type: "sub"}})
-        superSubCategoryArray = resp.data.super_sub_category.map(data => { return {id: data, type: "superSub"}})
+        mainCategoryArray = resp.data.main_category.map(data => { return {category_id: data, category_type: "main"}})
+        subCategoryArray = resp.data.sub_category.map(data => { return {category_id: data, category_type: "sub"}})
+        superSubCategoryArray = resp.data.super_sub_category.map(data => { return {category_id: data, category_type: "superSub"}})
       
         // y categories
         let y_mainCategoryArray = [];
         let y_subCategoryArray = [];
         let y_superSubCategoryArray = [];
-        y_mainCategoryArray = resp.data.y_main_category.map(data => { return {id: data, type:"main"}})
-        y_subCategoryArray = resp.data.y_sub_category.map(data => { return {id: data, type:"sub"}})
-        y_superSubCategoryArray = resp.data.y_super_sub_category.map(data => { return {id: data, type:"superSub"}})
+        y_mainCategoryArray = resp.data.y_main_category.map(data => { return {category_id: data, category_type:"main"}})
+        y_subCategoryArray = resp.data.y_sub_category.map(data => { return {category_id: data, category_type:"sub"}})
+        y_superSubCategoryArray = resp.data.y_super_sub_category.map(data => { return {category_id: data, category_type:"superSub"}})
 
         this.selected_categories = this.selected_categories.concat(mainCategoryArray);
         this.selected_categories = this.selected_categories.concat(subCategoryArray);
