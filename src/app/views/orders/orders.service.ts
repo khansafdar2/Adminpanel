@@ -193,4 +193,18 @@ export class OrdersService {
       return error;
     });
   }
+
+  deleteLineItem(id) {
+    return Axios.delete(environment.backend_url + '/order/childorder_lineitem/' + id, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+      return error;
+    });
+  }
 }

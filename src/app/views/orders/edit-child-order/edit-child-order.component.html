@@ -33,9 +33,6 @@
                                     <span class="variant_info">{{lineitemGroup.get('variant_title').value !== "Default Title" ? lineitemGroup.get('variant_title').value : ""}}</span>
                                 </div>
                             </div>
-                            <!-- <div class="lineitem-price-qty">
-                                {{lineitemGroup.get('price').value}} {{storeCurrency}} x {{lineitemGroup.get('quantity').value}}
-                            </div> -->
                             <div class="lineitem-price-qty">
                                 {{lineitemGroup.get('price').value}} {{storeCurrency}} x <input type="number" class="lineitem-qty" min="1" formControlName="quantity" (keydown)="onQtyKeydown($event)" (change)="onQtyChange()" />
                             </div>

@@ -11,7 +11,8 @@ export class VariantSelectorService {
   constructor(private authService: AuthService) { }
 
   getProductsWithVariants(page: number, limit: number, searchQuery: string, vendor: string = "") {
-    return Axios.get( environment.backend_url + '/order/orders_product_list?page=' + page + "&limit=" + limit + "&search=" + searchQuery + "&vendor=" + vendor, {
+    let vendorString = vendor ?  "&vendor=" + vendor : "";
+    return Axios.get( environment.backend_url + '/order/orders_product_list?page=' + page + "&limit=" + limit + "&search=" + searchQuery + vendorString, {
       headers: {
         Authorization: this.authService.token
       }

@@ -156,8 +156,23 @@ export class EditChildOrderComponent implements OnInit {
   }
 
   removeLineItem(index) {
-    this.lineitemsFormArray.removeAt(index);
-    this.updateTotals();
+    let lineItem = (this.lineitemsFormArray.at(index) as FormGroup).value;
+    if(lineItem.id) {
+      this.loading = true;
+      this.ordersService.deleteLineItem(lineItem.id).then(resp => {
+        this.loading = false;
+        if(resp) {
+          console.log(resp.data);
+          this.lineitemsFormArray.removeAt(index);
+          this.updateTotals();
+          this.snackbar.open("Line item deleted.", "", {duration: 2000});
+        }
+      })
+    } else {
+      this.lineitemsFormArray.removeAt(index);
+      this.updateTotals();
+      this.snackbar.open("Line item deleted.", "", {duration: 2000});
+    }
   }
 
   onQtyKeydown(event: KeyboardEvent) {
