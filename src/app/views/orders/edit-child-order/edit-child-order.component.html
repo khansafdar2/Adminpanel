@@ -24,7 +24,7 @@
                 </div>
 
                 <div class="order-lineitems">
-                    <div class="lineitem-wrapper" *ngFor="let lineitemGroup of lineitemsFormArray['controls']; let i = index">
+                    <div class="lineitem-wrapper" [class.deleted]="lineitemGroup.get('deleted').value" *ngFor="let lineitemGroup of lineitemsFormArray['controls']; let i = index">
                         <ng-container [formGroup]="lineitemGroup">
                             <div class="lineitem-productdata">
                                 <img [src]="lineitemGroup.get('product_image').value ? lineitemGroup.get('product_image').value : '/assets/img/placeholder-image.png'" />
@@ -34,13 +34,23 @@
                                 </div>
                             </div>
                             <div class="lineitem-price-qty">
-                                {{lineitemGroup.get('price').value}} {{storeCurrency}} x <input type="number" class="lineitem-qty" min="1" formControlName="quantity" (keydown)="onQtyKeydown($event)" (change)="onQtyChange()" />
+                                <span>{{lineitemGroup.get('price').value}} {{storeCurrency}} </span>
+                                <input
+                                    type="number"
+                                    class="lineitem-qty"
+                                    min="1"
+                                    formControlName="quantity"
+                                    *ngIf="!lineitemGroup.get('deleted').value"
+                                    (keydown)="onQtyKeydown($event)"
+                                    (change)="onQtyChange()"
+                                />
+                                <span *ngIf="lineitemGroup.get('deleted').value" class="lineitem-qty"> x {{ lineitemGroup.get('quantity').value }}</span>
                             </div>
                             <div class="lineitem-subtotal">
                                 <span>{{lineitemGroup.get('subtotal').value}} {{storeCurrency}}</span>
                             </div>
                             <div>
-                                <button mat-icon-button color="warn" *ngIf="lineitemsFormArray.length > 1" (click)="removeLineItem(i)"><mat-icon>delete</mat-icon></button>
+                                <button mat-icon-button color="warn" *ngIf="!lineitemGroup.get('deleted').value" (click)="removeLineItem(i)"><mat-icon>delete</mat-icon></button>
                             </div>
                         </ng-container>
                     </div>

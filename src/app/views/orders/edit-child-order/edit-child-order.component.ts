@@ -115,13 +115,13 @@ export class EditChildOrderComponent implements OnInit {
       // Calculate Subtotal
       let price = lineItemGroup.get('price').value;
       let quantity = lineItemGroup.get('quantity').value;
-      if(lineItemGroup.get('quantity').valid) {
+      if(lineItemGroup.get('quantity').valid && !lineItemGroup.get('deleted').value) {
         subTotal += (price * quantity);
       }
 
       // Calculate Shipping
       let shipping = lineItemGroup.get('shipping').value;
-      if(shipping) {
+      if(shipping && !lineItemGroup.get('deleted').value) {
         totalShipping += parseFloat(shipping);
       }
     }
@@ -141,6 +141,7 @@ export class EditChildOrderComponent implements OnInit {
           variant_id: item.variant.id,
           product_title: item.title,
           variant_title: item.variant.title,
+          deleted: false,
           product_image: item.image,
           shipping: item.shipping,
           available_quantity: item.variant.inventory_quantity,
@@ -163,13 +164,17 @@ export class EditChildOrderComponent implements OnInit {
         this.loading = false;
         if(resp) {
           console.log(resp.data);
-          this.lineitemsFormArray.removeAt(index);
+          (this.lineitemsFormArray.at(index) as FormGroup).patchValue({
+            deleted: true
+          });
           this.updateTotals();
           this.snackbar.open("Line item deleted.", "", {duration: 2000});
         }
       })
     } else {
-      this.lineitemsFormArray.removeAt(index);
+      (this.lineitemsFormArray.at(index) as FormGroup).patchValue({
+        deleted: true
+      });
       this.updateTotals();
       this.snackbar.open("Line item deleted.", "", {duration: 2000});
     }

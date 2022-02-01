@@ -5,3 +5,14 @@
         border-top: 1px solid #ddd;
     }
 }
+.lineitem-wrapper{
+    &.deleted {
+        .product-name, .lineitem-subtotal {
+            text-decoration: line-through;
+        }
+    }
+
+    .lineitem-qty {
+        margin-left: 2px;
+    }
+}
