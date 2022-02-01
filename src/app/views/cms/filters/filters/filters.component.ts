@@ -73,7 +73,6 @@ export class FiltersComponent implements OnInit {
             filter.tags = filter.tags.split(",")
           }
         }
-        debugger
         this.filters = resp.data
       }
     });
@@ -81,18 +80,15 @@ export class FiltersComponent implements OnInit {
 
   onPublish() {
     this.loading = true;
-    debugger
     for (let filter of this.filters) {
       if(filter.tags)
       {
         filter.tags = filter.tags.toString()
       }
     }
-     debugger
     this.filtersService.createFilters(this.filters).then(resp => {
       this.loading = false;
       if(resp) {
-        debugger
         this.snackbar.open("Filters updated.", "", {duration: 2000});
       }
     });
@@ -102,9 +98,6 @@ export class FiltersComponent implements OnInit {
     this.getFilters();
   }
 
-
-  // ngOnInit(): void {
-  // }
 
 }
 

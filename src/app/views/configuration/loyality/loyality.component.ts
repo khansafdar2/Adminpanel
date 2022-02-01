@@ -31,6 +31,7 @@ export class LoyalityComponent implements OnInit {
     start_loyalty_amount: [null],
     minimum_orders_loyalty_start: [null],
     minimum_point_redeem: [null],
+    is_paid: [null],
     rule: this.fb.array([])
   })
 
