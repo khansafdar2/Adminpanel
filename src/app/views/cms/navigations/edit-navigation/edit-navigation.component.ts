@@ -248,16 +248,6 @@ export class EditNavigationComponent {
     this.navNodeToUpdate = null
   }
 
-  ngOnInit () : void {
-    this.navigationService.getSingleNAvigation(this.navId).then((res) => {
-      if (res)
-      {
-        this.navTitle = res.data.title
-        this.createNavDragDropFormate(res.data.navigation_json)
-      }
-    })
-  }
-
   createNavDragDropFormate(nav)
   {
     
@@ -285,6 +275,16 @@ export class EditNavigationComponent {
     }
     this.navigation = nav
   }
-  
-}
 
+  ngOnInit () : void {
+    this.loading = true;
+    this.navigationService.getSingleNAvigation(this.navId).then((res) => {
+      this.loading = false;
+      if (res)
+      {
+        this.navTitle = res.data.title
+        this.createNavDragDropFormate(res.data.navigation_json)
+      }
+    })
+  }
+}

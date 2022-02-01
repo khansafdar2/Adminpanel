@@ -38,7 +38,9 @@ export class NavigationsComponent implements OnInit {
   ]
 
   fetchNavigations() {
+    this.loading = true;
     this.navigationService.getNavigations().then((resp) => {
+      this.loading = false;
       if (resp)
       {
         this.allNavigations = resp.data
