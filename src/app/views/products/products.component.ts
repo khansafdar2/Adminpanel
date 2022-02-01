@@ -1,6 +1,6 @@
 import { AuthService } from 'src/app/auth/auth.service';
 import { SelectionModel } from '@angular/cdk/collections';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -95,7 +95,7 @@ export class ProductsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(imported => {
-      if(imported) {
+      if (imported) {
         this.getProducts();
       }
     })
@@ -110,7 +110,7 @@ export class ProductsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(updated => {
-      if(updated) {
+      if (updated) {
         this.getProducts();
       }
     });
@@ -125,7 +125,7 @@ export class ProductsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(updated => {
-      if(updated) {
+      if (updated) {
         this.getProducts();
       }
     });
@@ -140,7 +140,7 @@ export class ProductsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(applied => {
-      if(applied) {
+      if (applied) {
         this.productSelection.clear();
       }
     });
@@ -155,7 +155,7 @@ export class ProductsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(applied => {
-      if(applied) {
+      if (applied) {
         this.productSelection.clear();
         this.getProducts();
       }
@@ -171,7 +171,7 @@ export class ProductsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(deleted => {
-      if(deleted) {
+      if (deleted) {
         this.getProducts();
       }
     });
@@ -186,7 +186,7 @@ export class ProductsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(exported => {
-      if(exported) {
+      if (exported) {
         this.productSelection.clear();
       }
     });
@@ -197,7 +197,7 @@ export class ProductsComponent implements OnInit {
     this.productSelection.clear();
     this.productsService.getProductsList(this.page, this.pageLimit, this.filterString, this.searchString).then(resp => {
       this.loading = false;
-      if(resp) {
+      if (resp) {
         this.totalCount = resp.data.count;
         this.products = resp.data.results;
       }
@@ -206,7 +206,7 @@ export class ProductsComponent implements OnInit {
 
   getVendors() {
     this.vendorsService.getVendorsList(1, 50).then(resp => {
-      if(resp) {
+      if (resp) {
         let filters = [
           {
             title: "Status",
@@ -224,7 +224,7 @@ export class ProductsComponent implements OnInit {
           }
         ];
 
-        if (!this.is_vendor){
+        if (!this.is_vendor) {
           let vendors = [];
           vendors = resp.data.results.map(vendor => {
             return {
@@ -245,15 +245,15 @@ export class ProductsComponent implements OnInit {
     })
   }
 
-  vendorCheck(){
-    if (!this.is_vendor){
+  showVendorColumnAndFilter() {
+    if (!this.is_vendor) {
       this.displayedColumns.push({
         title: "Vendor",
         selector: "vendor_name"
       })
     }
   }
-  
+
   onPageChange(event: PageEvent) {
     this.page = event.pageIndex + 1;
     this.pageLimit = event.pageSize;
@@ -261,7 +261,7 @@ export class ProductsComponent implements OnInit {
   }
 
   onCellClick(data) {
-    if(data.column === "title") {
+    if (data.column === "title") {
       this.router.navigate(["/", URLS.products, URLS.edit, data.row.id]);
     }
   }
@@ -270,7 +270,7 @@ export class ProductsComponent implements OnInit {
     this.page = 1;
     let tempFilterString: string = "";
     for (let i = 0; i < filters.length; i++) {
-      if(filters[i].value) {
+      if (filters[i].value) {
         tempFilterString += '&' + filters[i].key + '=' + filters[i].value;
       }
     }
@@ -281,7 +281,7 @@ export class ProductsComponent implements OnInit {
   onSearch(data) {
     this.page = 1;
     let tempSearchString = "";
-    if(data.query) {
+    if (data.query) {
       tempSearchString += "&search=" + data.query + "&column=" + data.column;
     }
     this.searchString = tempSearchString;
@@ -289,7 +289,7 @@ export class ProductsComponent implements OnInit {
   }
 
   onRowAction(data) {
-    if(data.action === "Activate" || data.action === "Deactivate") {
+    if (data.action === "Activate" || data.action === "Deactivate") {
       this.loading = true;
       this.productsService.changeProductStatus({
         ids: [data.row.id],
@@ -297,10 +297,10 @@ export class ProductsComponent implements OnInit {
         value: data.action === "Activate"
       }).then(resp => {
         this.loading = false;
-        this.snackbBar.open("Product status updated", "", {duration: 3000});
+        this.snackbBar.open("Product status updated", "", { duration: 3000 });
         this.getProducts();
       });
-    } else if(data.action === "Delete") {
+    } else if (data.action === "Delete") {
       let dialogRef = this.dialog.open(ProductsBulkDeleteDialog, {
         width: "600px",
         data: {
@@ -309,7 +309,7 @@ export class ProductsComponent implements OnInit {
       });
 
       dialogRef.afterClosed().subscribe(deleted => {
-        if(deleted) {
+        if (deleted) {
           this.getProducts();
         }
       });
@@ -319,8 +319,10 @@ export class ProductsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProducts();
-    this.getVendors();
-    this.vendorCheck();
+    if (!this.authservice.user.is_vendor) {
+      this.getVendors();
+    }
+    this.showVendorColumnAndFilter();
   }
 }
 
@@ -334,7 +336,7 @@ export class ImportProductsDialog {
     public dialogRef: MatDialogRef<ImportProductsDialog>,
     private productsService: ProductsService,
     private snackbar: MatSnackBar
-  ) {}
+  ) { }
 
   loading: boolean = false;
   fileName = "";
@@ -360,7 +362,7 @@ export class ImportProductsDialog {
     let fileObj: File = event.target.files[0];
     let nameArray = fileObj.name.split(".");
     let extension = nameArray[nameArray.length - 1];
-    if(extension === "csv") {
+    if (extension === "csv") {
       this.file = fileObj;
       this.fileName = fileObj.name;
     } else {
@@ -374,8 +376,8 @@ export class ImportProductsDialog {
     this.loading = true;
     this.productsService.importProducts(formData).then(resp => {
       this.loading = false;
-      if(resp) {
-        this.snackbar.open("Products imported.", "", {duration: 3000});
+      if (resp) {
+        this.snackbar.open("Products imported.", "", { duration: 3000 });
         this.dialogRef.close(true);
       }
     });
@@ -409,8 +411,8 @@ export class ProductsChangeStatusDialog {
       value: this.activeStatus === "Active"
     }).then(resp => {
       this.loading = false;
-      if(resp) {
-        this.snackBar.open("Products status updated.", "", {duration: 3000});
+      if (resp) {
+        this.snackBar.open("Products status updated.", "", { duration: 3000 });
         this.dialogRef.close(true);
       }
     });
@@ -444,8 +446,8 @@ export class ProductsChangeApprovalDialog {
       value: this.approvalStatus === "Approved"
     }).then(resp => {
       this.loading = false;
-      if(resp) {
-        this.snackBar.open("Products approval status updated.", "", {duration: 3000});
+      if (resp) {
+        this.snackBar.open("Products approval status updated.", "", { duration: 3000 });
         this.dialogRef.close(true);
       }
     });
@@ -466,6 +468,7 @@ export class ProductsBulkOrganizeDialog {
     private vendorsService: VendorsService,
     private collectionsService: CollectionsService,
     private brandsService: BrandsService,
+    private authService: AuthService,
     private snackBar: MatSnackBar
   ) {
     this.ids = this.data.products.map(product => product.id);
@@ -478,6 +481,8 @@ export class ProductsBulkOrganizeDialog {
   vendors = [];
   productGroups = [];
   collections = [];
+  is_vendor = this.authService.user.is_vendor;
+  vendorID = this.authService.user.vendor_id;
   organizeForm = this.fb.group({
     ids: [],
     brand: [""],
@@ -488,7 +493,7 @@ export class ProductsBulkOrganizeDialog {
 
   getBrands() {
     this.brandsService.getBrandsList(1, 1000, "").then(resp => {
-      if(resp) {
+      if (resp) {
         this.brands = resp.data.results;
         this.loading = false;
       }
@@ -497,26 +502,36 @@ export class ProductsBulkOrganizeDialog {
 
   getVendors() {
     this.vendorsService.getVendorsList(1, 250).then(resp => {
-      if(resp) {
+      if (resp) {
         this.vendors = resp.data.results;
       }
     });
   }
 
   getProductGroups() {
-    let vendor = this.organizeForm.get('vendor').value;
+    let vendor;
+    if (!this.is_vendor) {
+      vendor = this.organizeForm.get('vendor').value;
+    } else {
+      vendor = this.vendorID
+    }
     this.productsService.getProductGroups(1, 250, "&vendor=" + vendor, "").then(resp => {
-      if(resp) {
-        console.log(resp.data);
+      if (resp) {
         this.productGroups = resp.data.results;
       }
     });
+
   }
 
   getCollections() {
-    let vendor = this.organizeForm.get('vendor').value;
+    let vendor;
+    if (!this.is_vendor) {
+      vendor = this.organizeForm.get('vendor').value;
+    } else {
+      vendor = this.vendorID;
+    }
     this.collectionsService.getCollectionsList(1, 250, "&vendor=" + vendor, "").then(resp => {
-      if(resp) {
+      if (resp) {
         this.collections = resp.data.results;
         this.vendorDataLoaded = true;
       }
@@ -529,25 +544,40 @@ export class ProductsBulkOrganizeDialog {
   }
 
   isSaveDisabled() {
-    return !this.organizeForm.get('brand').value && !this.organizeForm.get('vendor').value
+    if (!this.is_vendor) {
+      return !this.organizeForm.get('brand').value && !this.organizeForm.get('vendor').value
+    } else {
+      return !this.organizeForm.get('brand').value
+    }
   }
 
   onSubmit() {
     this.loading = true;
     let data = this.organizeForm.value;
     this.productsService.bulkOrganizeProducts(data).then(resp => {
-      if(resp) {
-        this.snackBar.open("Products updated.", "", {duration: 3000});
+      if (resp) {
+        this.snackBar.open("Products updated.", "", { duration: 3000 });
         this.dialogRef.close(true);
       }
     });
   }
 
   ngOnInit() {
+
     this.organizeForm.patchValue({
       ids: this.ids
     });
-    this.getVendors();
+
+    if (!this.is_vendor) {
+      this.getVendors();
+    } else {
+      this.getProductGroups();
+      this.getCollections();
+
+      this.organizeForm.patchValue({
+        vendor: this.vendorID
+      });
+    }
     this.getBrands();
   }
 }
@@ -602,8 +632,8 @@ export class AddBulkTagsDialog {
     this.loading = true;
     this.productsService.applyBulkTags(data).then(resp => {
       this.loading = false;
-      if(resp) {
-        this.snackBar.open("Tags applied on selected products.", "", {duration: 3000});
+      if (resp) {
+        this.snackBar.open("Tags applied on selected products.", "", { duration: 3000 });
         this.dialogRef.close(true);
       }
     })
@@ -634,8 +664,8 @@ export class ProductsBulkDeleteDialog {
     this.loading = true;
     this.productsService.deleteProducts(this.ids).then(resp => {
       this.loading = false;
-      if(resp) {
-        this.snackBar.open("Product deleted successfully.", "", {duration: 3000});
+      if (resp) {
+        this.snackBar.open("Product deleted successfully.", "", { duration: 3000 });
         this.dialogRef.close(true);
       }
     })
@@ -666,7 +696,7 @@ export class ProductsExportDialog {
     this.loading = true;
     this.productsService.exportProducts(this.exportType === "all" ? "all" : this.ids).then(resp => {
       this.loading = false;
-      if(resp) {
+      if (resp) {
         let csv_data = resp.data;
         var fileURL = window.URL.createObjectURL(new Blob([csv_data], { type: 'text/csv;charset=utf-8;' }));
         var fileLink = document.createElement('a');

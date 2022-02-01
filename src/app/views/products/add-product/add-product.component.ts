@@ -56,6 +56,7 @@ export class AddProductComponent implements OnInit {
   productGroups: any[] = [];
   collections: any[] = [];
   vendors: any[] = [];
+  commissionList:any[] = [];
   brands: any[] = [];
   productTags:string[] = [];
   editorModules = {
@@ -103,6 +104,7 @@ export class AddProductComponent implements OnInit {
     product_brand: [null],
     vendor: [null, [Validators.required]],
     collection: [[]],
+    commission: [null],
     is_active: [{value: false, disabled: true}],
     whatsapp: [true],
     hide_out_of_stock: [false],
@@ -220,6 +222,17 @@ export class AddProductComponent implements OnInit {
     });
   }
 
+  getCommissions(){
+      let vendorId = this.productForm.get('vendor').value;
+        this.loading = true;
+        this.productsService.getCommissions(vendorId).then(resp=>{
+          this.loading = false;
+          let commissions;
+          commissions = resp;
+          this.commissionList = commissions.data;
+        })
+  }
+
   removeVariant(index) {
     (this.variantsForm.get('variants') as FormArray).removeAt(index);
   }
@@ -301,6 +314,7 @@ export class AddProductComponent implements OnInit {
     });
     this.getProductGroups();
     this.getCollections();
+    this.getCommissions();
   }
 
   onProductGroupChange() {
@@ -399,11 +413,6 @@ export class AddProductComponent implements OnInit {
   ngOnInit(): void {
     this.getVendors();
     this.getBrands();
-    if (this.is_vendor) {
-      this.productForm.patchValue({
-        vendor: [null]
-      });
-    }
   }
 
 }

@@ -13,6 +13,8 @@ export class OrdersService {
 
   constructor(private authService: AuthService, private readonly http: HttpClient) { }
 
+  is_vendor = this.authService.user.is_vendor;
+
   getCustomersList(search: string = ""): Observable<any> {
     return this.http.get(environment.backend_url + '/order/orders_customer_list?search=' + search, {
       headers: {
@@ -49,6 +51,19 @@ export class OrdersService {
 
   getOrders(page: number, limit: number, search: string, filterScring: string) {
     return Axios.get(environment.backend_url + '/order/parent_order_list?page=' + page + '&limit=' + limit + '&search=' + search + filterScring, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
+  getVendorOrder() {
+    return Axios.get(environment.backend_url + '/vendors/vendor_order_list', {
       headers: {
         Authorization: this.authService.token
       }

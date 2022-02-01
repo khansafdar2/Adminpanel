@@ -8,7 +8,7 @@
         <mat-checkbox
           (change)="onCategorySelectionChange($event, mainCategory, 'main')"
           (click)="onCheckboxClick($event)"
-          [checked]="isCategorySelected(mainCategory)"
+          [checked]="isCategorySelected(mainCategory, 'main')"
         ></mat-checkbox>
         {{mainCategory.name}}
       </div>
@@ -28,7 +28,7 @@
           <mat-checkbox
             (change)="onCategorySelectionChange($event, subCategory, 'sub')"
             (click)="onCheckboxClick($event)"
-            [checked]="isCategorySelected(subCategory)"
+            [checked]="isCategorySelected(subCategory, 'sub')"
           ></mat-checkbox>
           {{subCategory.name}}
         </div>
@@ -48,7 +48,7 @@
           <mat-checkbox
             (change)="onCategorySelectionChange($event, superSubCategory, 'superSub')"
             (click)="onCheckboxClick($event)"
-            [checked]="isCategorySelected(superSubCategory)"
+            [checked]="isCategorySelected(superSubCategory, 'superSub')"
           ></mat-checkbox>
           {{superSubCategory.name}}
         </div>

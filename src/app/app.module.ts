@@ -73,7 +73,7 @@ import { EditVariantComponent } from './views/products/edit-variant/edit-variant
 import { AddVariantComponent } from './views/products/add-variant/add-variant.component';
 import { AddDiscountComponent } from './views/discounts/add-discount/add-discount.component';
 import { EditDiscountComponent } from './views/discounts/edit-discount/edit-discount.component';
-import { AddShippingDialog, AddZoneDialog, DeleteShippingDialog,DeleteZoneDialog, EditShippingDialog, ShippingComponent } from './views/configuration/shipping/shipping.component';
+import { AddShippingDialog, AddZoneDialog, DeleteShippingDialog, DeleteZoneDialog, EditShippingDialog, ShippingComponent } from './views/configuration/shipping/shipping.component';
 import { OrdersComponent, OrdersExportDialog } from './views/orders/orders.component';
 import { AddOrderComponent } from './views/orders/add-order/add-order.component';
 import { CustomerDeleteDialog, CustomersComponent } from './views/customers/customers.component';
@@ -92,11 +92,11 @@ import { EditPageComponent } from './views/cms/pages/edit-page/edit-page.compone
 import { HomepageComponent, HomepageAddSectionDialog } from './views/cms/homepage/homepage.component';
 import { VendorsComponent, DeleteVendorDialog } from './views/vendors/vendors.component';
 import { AddVendorComponent } from './views/vendors/add-vendor/add-vendor.component';
-import { EditVendorComponent } from './views/vendors/edit-vendor/edit-vendor.component';
 import { NavigationDeleteDialog, NavigationsComponent } from './views/cms/navigations/navigations.component';
 import { AddNavigationComponent } from './views/cms/navigations/add-navigation/add-navigation.component';
 import { EditNavigationComponent } from './views/cms/navigations/edit-navigation/edit-navigation.component';
 import { EditNavigationNodeComponent } from './views/cms/navigations/edit-navigation-node/edit-navigation-node.component';
+import { DeleteCommissionDialog, EditVendorComponent } from './views/vendors/edit-vendor/edit-vendor.component';
 import { HomepageSliderSection, HomepageCategoriesCarousel, HomepageBrands, HomepageProductsCarousel, HomepageSingleBanner, HomepageCategoriesTabs, HomepageTwoBanners, HomepageFeatureIcons } from './views/cms/homepage/homepage-sections.components';
 import { ImageSelectorComponent } from './shared/image-selector/image-selector.component';
 import { CategorySelectorComponent } from './shared/category-selector/category-selector.component';
@@ -112,6 +112,12 @@ import { DefaultShippingComponent } from './views/configuration/shipping/default
 import { MultiSelectDialog, MultiSelectModelComponent } from './shared/multi-select-model/multi-select-model.component';
 import { AddFilterDialog, FiltersComponent } from './views/cms/filters/filters/filters.component';
 import { AddChildOrderComponent } from './views/orders/add-child-order/add-child-order.component';
+import { ProductSelectorComponent, ProductSelectorDialog } from './shared/product-selector/product-selector.component';
+import { LoyalityComponent } from './views/configuration/loyality/loyality.component';
+import { CouponsComponent, CouponDeleteDialog } from './views/discounts/coupons/coupons.component';
+import { AddCouponComponent } from './views/discounts/coupons/add-coupon/add-coupon.component';
+import { EditCouponComponent } from './views/discounts/coupons/edit-coupon/edit-coupon.component';
+
 
 @NgModule({
   declarations: [
@@ -233,7 +239,15 @@ import { AddChildOrderComponent } from './views/orders/add-child-order/add-child
     MultiSelectDialog,
     FiltersComponent,
     AddFilterDialog,
-    AddChildOrderComponent
+    AddChildOrderComponent,
+    DeleteCommissionDialog,
+    ProductSelectorComponent,
+    ProductSelectorDialog,
+    LoyalityComponent,
+    CouponsComponent,
+    AddCouponComponent,
+    EditCouponComponent,
+    CouponDeleteDialog
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router, UrlSegment } from '@angular/router';
 import { Observable } from 'rxjs';
 import URLS from '../shared/urls';
 import { AuthService } from './auth.service';
@@ -42,7 +42,6 @@ export class DashboardGuard implements CanActivate {
     }
   }
 }
-
 
 
 @Injectable({
@@ -281,7 +280,6 @@ export class CustomizationGuard implements CanActivate {
 }
 
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -291,14 +289,19 @@ export class VendorGuard implements CanActivate {
     private router: Router
   ) { }
 
+  vendor_id = this.authService.user.vendor_id;
   canActivate(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (!this.authService.user.is_vendor) {
+    state: RouterStateSnapshot
+  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    if(this.authService.user.is_vendor) {
+      if(route.url[0].path === "edit" && route.url[1].path ==  this.vendor_id) {
+        return true;
+      }
+    } else if (this.authService.user_permissions.vendor) {
       return true;
-    } else {
-      this.router.navigate(['/products'])
-      return false;
-    }  
+    }
+    this.router.navigate(['/']);
+    return false;
   }
 }

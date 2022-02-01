@@ -186,7 +186,6 @@ export class OrdersComponent implements OnInit {
         orders: this.orderSelection.selected
       }
     });
-
     dialogRef.afterClosed().subscribe(exported => {
       if(exported) {
         this.orderSelection.clear();
@@ -196,13 +195,23 @@ export class OrdersComponent implements OnInit {
 
   getOrders() {
     this.loading = true;
-    this.ordersService.getOrders(this.page, this.pageSize, this.searchString, this.filterString).then(resp => {
-      this.loading = false;
-      if(resp) {
-        this.totalCount = resp.data.count;
-        this.orders = resp.data.results;
-      }
-    });
+    if (!this.is_vendor) {
+      this.ordersService.getOrders(this.page, this.pageSize, this.searchString, this.filterString).then(resp => {
+        this.loading = false;
+        if(resp) {
+          this.totalCount = resp.data.count;
+          this.orders = resp.data.results;
+        }
+      });
+    } else {
+      this.ordersService.getVendorOrder().then(resp => {
+        this.loading = false;
+        if(resp) {
+          this.totalCount = resp.data.count;
+          this.orders = resp.data.results;
+        }
+      });
+    }
   }
 
   ngOnInit(): void {

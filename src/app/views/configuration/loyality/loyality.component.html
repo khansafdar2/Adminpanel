@@ -1,0 +1,152 @@
+<app-topbar></app-topbar>
+<app-sidenav></app-sidenav>
+<main id="main">
+    <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
+        <h1>Loyality setting</h1>
+        <div class="header-actions">
+            <a [routerLink]="['/', URLS.configuration]" mat-stroked-button color="primary">Cancel</a>
+            <button mat-flat-button color="primary" [disabled]="loading || !loyalityForm.valid"
+                (click)="onSubmit()">Save</button>
+        </div>
+    </div>
+
+    <form [formGroup]="loyalityForm">
+        <div fxLayout="row">
+            <div fxFlex="0 1 50%">
+                <mat-card>
+                    <div fxLayout="row">
+                        <div fxFlex="0 1 50%">
+                            <p>Point collection</p>
+                            <div fxLayout="row" fxLayoutAlign="space-between center">
+                                <p>1 {{storeCurrency}} = </p>
+                                <mat-form-field style="width: 70%;" appearance="outline">
+                                    <mat-label>Points</mat-label>
+                                    <input matInput type="number" formControlName="amount_equal_point" />
+                                </mat-form-field>
+                            </div>
+
+                        </div>
+
+                        <div fxFlex="0 1 50%">
+                            <p>Point redemption</p>
+                            <div fxLayout="row" fxLayoutAlign="space-between center">
+                                <p>1 {{storeCurrency}} = </p>
+                                <mat-form-field style="width: 70%;" appearance="outline">
+                                    <mat-label>Points</mat-label>
+                                    <input matInput type="number" formControlName="point_equal_amount" />
+                                </mat-form-field>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </mat-card>
+
+                <mat-card>
+                    <h3>Loyality rules</h3>
+                    <ng-container *ngFor="let ruleGroup of loyalityForm.get('rule')['controls']; let i = index;">
+                        <div [formGroup]=ruleGroup>
+                            <div fxLayout="row" fxLayoutAlign="space-between">
+                                <h4>Rule {{i+1}}</h4>
+                                <div class="delete-button">
+                                    <button mat-icon-button color="warn" (click)="removeRule(i)">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+                                </div>
+
+                            </div>
+                            <div fxLayout="row">
+                                <div fxFlex="0 1 50%">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Apply rules based on</mat-label>
+                                        <mat-select formControlName="type">
+                                            <mat-option value='amount'>Amount spent</mat-option>
+                                            <mat-option value='order'>No of orders</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+
+                                <div fxFlex="0 1 50%"
+                                    *ngIf="ruleGroup.get('type').value === 'amount'">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Amount spent</mat-label>
+                                        <input matInput type="number" formControlName="spending_amount" />
+                                    </mat-form-field>
+                                </div>
+
+                                <div fxFlex="0 1 50%"
+                                    *ngIf="ruleGroup.get('type').value === 'order'">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>No of orders</mat-label>
+                                        <input matInput type="number" formControlName="no_of_order" />
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div fxLayout="row" fxLayoutAlign="center">
+                                <div fxFlex="0 1 50%">
+                                    <mat-checkbox class="paid-order" formControlName="paid_order">Apply on paid orders
+                                        only</mat-checkbox>
+                                </div>
+
+                                <div fxFlex="0 1 50%">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>No of points earned</mat-label>
+                                        <input matInput type="number" formControlName="no_of_point" />
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div fxLayout="row">
+                                <div fxFlex="0 1 50%">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Start date</mat-label>
+                                        <input type="datetime-local" matInput formControlName="start_date" />
+                                    </mat-form-field>
+                                </div>
+
+                                <div fxFlex="0 1 50%">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>End date</mat-label>
+                                        <input type="datetime-local" matInput formControlName="end_date" />
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="line"></div>
+                        </div>
+                    </ng-container>
+
+                    <button mat-flat-button color="primary" (click)="addRule()">+ Add Rule</button>
+
+                </mat-card>
+            </div>
+            <div fxFlex="0 1 50%">
+                <mat-card fxLayout="column">
+                    <h3>Loyality condition</h3>
+                    <div>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Minimum spending</mat-label>
+                            <input matInput type="number" formControlName="start_loyalty_amount" />
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Minimum no of orders</mat-label>
+                            <input matInput type="number" formControlName="minimum_orders_loyalty_start" />
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Minimum points for redemption</mat-label>
+                            <input matInput type="number" formControlName="minimum_point_redeem" />
+                        </mat-form-field>
+                    </div>
+                </mat-card>
+            </div>
+
+        </div>
+    </form>
+</main>

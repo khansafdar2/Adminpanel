@@ -138,7 +138,7 @@ export class CollectionsComponent implements OnInit {
     })
   }
 
-  vendorCheck(){
+  showVendorColumnAndFilter(){
     if (!this.is_vendor) {
       this.displayedColumns.push({
         title: "Vendor",
@@ -250,8 +250,10 @@ export class CollectionsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCollections();
-    this.getVendorsList();
-    this.vendorCheck();
+    if(!this.is_vendor) {
+      this.getVendorsList();
+    }
+    this.showVendorColumnAndFilter();
   }
 }
 

@@ -6,7 +6,7 @@
         <h1>Edit order {{orderTitle}}</h1>
 
         <div class="header-actions">
-            <a (click)="vendorPath()" mat-stroked-button color="primary">Cancel</a>
+            <a [routerLink]="is_vendor ? ['/', URLS.orders]:['/', URLS.orders, URLS.editMainOrder, this.mainOrderID]" mat-stroked-button color="primary">Cancel</a>
             <button mat-flat-button color="primary" (click)="onSubmit()">Save</button>
         </div>
     </div>

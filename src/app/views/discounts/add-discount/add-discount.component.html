@@ -7,7 +7,8 @@
 
         <div class="header-actions">
             <a [routerLink]="['/', URLS.discounts, URLS.all]" mat-stroked-button color="primary">Cancel</a>
-            <button mat-flat-button color="primary" [disabled]="loading || !discountForm.valid" (click)="onSubmit()">Save</button>
+            <button mat-flat-button color="primary" [disabled]="loading || !discountForm.valid"
+                (click)="onSubmit()">Save</button>
         </div>
     </div>
 
@@ -15,47 +16,304 @@
         <div fxLayout="row">
             <div fxFlex="0 1 66.66666%">
                 <mat-card>
+                    <h3>Title</h3>
                     <mat-form-field appearance="outline">
                         <mat-label>Title</mat-label>
                         <input matInput formControlName="title" />
-                        <mat-error *ngIf="discountForm.get('title').hasError('required')">Please enter a title for your discount.</mat-error>
+                        <mat-error *ngIf="discountForm.get('title').hasError('required')">Please enter a title for your
+                            discount.</mat-error>
                     </mat-form-field>
 
-                    <h3>Discount type</h3>
-                    <mat-radio-group fxLayout="column" class="collection-type-radio" formControlName="discount_type" (change)="onDiscountTypeChange()">
-                        <mat-radio-button value="percentage">Percentage</mat-radio-button>
-                        <mat-radio-button value="fixed_amount">Amount</mat-radio-button>
+                    <h3>Type</h3>
+                    <mat-radio-group class="collection-type-radio" formControlName="discount_type" fxLayout="row">
+                        <div fxLayout="column">
+                            <mat-radio-button value="discount">Discount</mat-radio-button>
+                            <h5>Customer will get discount automatically</h5>
+
+                            <mat-radio-button value="shipping_discount">Shipping discount</mat-radio-button>
+                            <h5>This discount will implememnt on shipping only</h5>
+                        </div>
+
+                        <div fxLayout="column">
+                            <mat-radio-button value="promo">Promo Code</mat-radio-button>
+                            <h5>Customer will get discount if they will enter this promo code</h5>
+
+                            <mat-radio-button value="buy">Buy X get Y free</mat-radio-button>
+                            <h5>This discount will implememnt on shipping only</h5>
+                        </div>
                     </mat-radio-group>
-        
+                </mat-card>
+
+                <mat-card>
+                    <mat-form-field *ngIf="discountForm.get('discount_type').value === 'promo'" appearance="outline">
+                        <mat-label>Promocode</mat-label>
+                        <input type="text" matInput formControlName="promo_code" />
+                    </mat-form-field>
+
+                    <h3>Criteria</h3>
+                    <ng-container *ngIf="discountForm.get('discount_type').value === 'buy'">
+                        <h4>Buy X from</h4>
+                        <div fxLayout="row">
+                            <div fxFlex="0 1 50%">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Min no of products</mat-label>
+                                    <input type="number" min="0" matInput formControlName="x_minimum_no_products" />
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </ng-container>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Dropdown</mat-label>
+                        <mat-select formControlName="criteria" (selectionChange)="onCriteriaChange()">
+                            <mat-option value='product'>Products</mat-option>
+                            <mat-option value='category'>Categories</mat-option>
+                            <mat-option value='product_group'>Product Groups</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <ng-container *ngIf="discountForm.get('criteria').value === 'category' ">
+                        <h4>Categories</h4>
+                        <category-selector valueType="object.id" [multiple]="true"
+                            (valueChange)=onCategorySelection($event)></category-selector>
+                    </ng-container>
+
+                    <ng-container *ngIf="discountForm.get('criteria').value === 'product_group'">
+                        <div fxLayout="row">
+                            <div fxFlex="0 1 50%" *ngIf="!is_vendor">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Vendor</mat-label>
+                                    <mat-select formControlName="vendor" (selectionChange)="onVendorChange()">
+                                        <mat-option [value]="vendor.id" *ngFor="let vendor of vendors">{{vendor.name}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                            <div fxFlex="0 1 50%">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Product group</mat-label>
+                                    <mat-select formControlName="product_group" multiple>
+                                        <mat-option [value]="group.id" *ngFor="let group of productGroups">
+                                            {{group.title}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </ng-container>
+
+                    <div *ngIf="discountForm.get('criteria').value === 'product'">
+                        <product-selector [productValue]="products" (addItems)="onAddItems($event)"></product-selector>
+                        <div class="order-lineitems" *ngIf="products.length">
+                            <div class="lineitem-wrapper" *ngFor="let item of products let i = index">
+                                <ng-container>
+                                    <div class="lineitem-productdata">
+                                        <ng-container>
+                                            <img
+                                                [src]="item.image ? item.image : '/assets/img/placeholder-image.png'" />
+                                            <div>
+                                                <span class="product-name">{{item.title}}</span>
+                                                <span class="variant_info">{{item.vendor_name}}</span>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+
+                                    <div>
+                                        <button mat-icon-button color="primary" (click)="deleteSelectedProduct(i)">
+                                            <mat-icon>delete</mat-icon>
+                                        </button>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </mat-card>
+
+                <mat-card *ngIf="discountForm.get('discount_type').value === 'buy'">
+                    <h4>Get free from</h4>
                     <div fxLayout="row">
                         <div fxFlex="0 1 50%">
-                            <mat-form-field appearance="outline" style="margin-top: 20px">
-                                <mat-label>Discount value</mat-label>
-                                <input matInput formControlName="type_value" />
-                                <span matSuffix *ngIf="discountForm.get('discount_type').value === 'percentage'">%</span>
-                                <span matSuffix *ngIf="discountForm.get('discount_type').value === 'fixed_amount'">{{storeCurrency}}</span>
-                                <mat-error *ngIf="discountForm.get('discount_type').hasError('required')">Please select a type of your discount.</mat-error>
+                            <mat-form-field appearance="outline">
+                                <mat-label>No of products</mat-label>
+                                <input type="number" min="0" matInput formControlName="y_minimum_no_products" />
                             </mat-form-field>
                         </div>
                     </div>
-    
+
                     <mat-form-field appearance="outline">
-                        <mat-label>Usage</mat-label>
-                        <textarea matInput formControlName="usage"></textarea>
+                        <mat-label>Dropdown</mat-label>
+                        <mat-select formControlName="y_criteria">
+                            <mat-option value='product'>Products</mat-option>
+                            <mat-option value='category'>Categories</mat-option>
+                            <mat-option value='product_group'>Product Groups</mat-option>
+                        </mat-select>
                     </mat-form-field>
+
+                    <ng-container *ngIf="discountForm.get('y_criteria').value === 'category'">
+                        <h4>Categories</h4>
+                        <category-selector valueType="object.id" [multiple]="true"
+                            (valueChange)=getYFreeCategorySelection($event)></category-selector>
+                    </ng-container>
+
+                    <ng-container *ngIf="discountForm.get('y_criteria').value === 'product_group'">
+                        <div fxLayout="row">
+                            <div fxFlex="0 1 50%">
+                                <mat-form-field *ngIf="discountForm.get('y_criteria').value === 'product_group'"
+                                    appearance="outline">
+                                    <mat-label>Product group</mat-label>
+                                    <mat-select formControlName="y_product_group" multiple>
+                                        <mat-option [value]="group.id" *ngFor="let group of productGroups">
+                                            {{group.title}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <div *ngIf="discountForm.get('y_criteria').value === 'product'">
+                        <div class="order-lineitems" *ngIf="yProducts.length">
+                            <product-selector [productValue]="yProducts" (addItems)="getYFreeAddItems($event)"></product-selector>
+                            <div class="lineitem-wrapper" *ngFor="let item of yProducts let i = index">
+                                <ng-container>
+                                    <div class="lineitem-productdata">
+                                        <ng-container>
+                                            <img
+                                                [src]="item.image ? item.image : '/assets/img/placeholder-image.png'" />
+                                            <div>
+                                                <span class="product-name">{{item.title}}</span>
+                                                <span class="variant_info">{{item.vendor_name}}</span>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+
+                                    <div>
+                                        <button mat-icon-button color="primary"
+                                            (click)="deleteSelectedGetYFreeProduct(i)">
+                                            <mat-icon>delete</mat-icon>
+                                        </button>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+
+                    </div>
                 </mat-card>
+
+                <mat-card>
+                    <h3>Basic details</h3>
+                    <div fxLayout="row">
+                        <div fxFlex="0 1 50%" fxLayoutAlign="start center">
+                            <mat-radio-group fxLayout="row" class="collection-type-radio" formControlName="value_type"
+                                (change)="onDiscountTypeChange()">
+                                <mat-radio-button value="percentage">Percentage</mat-radio-button>
+                                <mat-radio-button value="fixed_amount">Fixed amount</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+
+                        <div fxFlex="0 1 50%">
+                            <mat-form-field appearance="outline" style="margin-top: 20px">
+                                <mat-label>Discount value</mat-label>
+                                <input matInput formControlName="value" />
+                                <span matSuffix *ngIf="discountForm.get('value_type').value === 'percentage'">%</span>
+                                <span matSuffix *ngIf="discountForm.get('value_type').value === 'fixed_amount'">{{storeCurrency}}</span>
+                                <mat-error *ngIf="discountForm.get('value_type').hasError('required')">Please select a type of your discount.</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div fxLayout="row">
+                        <div fxFlex="0 1 50%">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Start</mat-label>
+                                <input type="datetime-local" matInput formControlName="start_date" />
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="0 1 50%">
+                            <mat-form-field appearance="outline">
+                                <mat-label>End</mat-label>
+                                <input type="datetime-local" matInput formControlName="end_date" />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div fxLayout="row">
+                        <div fxFlex="0 1 50%">
+                            <mat-form-field *ngIf="discountForm.get('discount_type').value === 'promo'"
+                                appearance="outline">
+                                <mat-label>Usage limit</mat-label>
+                                <input type="number" matInput formControlName="usage_limit" />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </mat-card>
+
+                <ng-container *ngIf="discountForm.get('discount_type').value !== 'discount'">
+                    <mat-card *ngIf="discountForm.get('discount_type').value !== 'buy'">
+                        <h3>Minimum amount</h3>
+                        <mat-radio-group formControlName="check_minimum_purchase_amount" fxLayout="row">
+                            <mat-radio-button value="none">None</mat-radio-button>
+                            <mat-radio-button value="minimum_purchase_amount">Minimum purchase amount</mat-radio-button>
+                        </mat-radio-group>
+
+                        <div fxLayout="row">
+                            <div fxFlex="0 1 50%">
+                                <mat-form-field
+                                    *ngIf="discountForm.get('check_minimum_purchase_amount').value === 'minimum_purchase_amount'"
+                                    appearance="outline">
+                                    <mat-label>Amount</mat-label>
+                                    <input type="number" matInput formControlName="minimum_purchase_amount" />
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </mat-card>
+
+                    <mat-card>
+                        <h3>Customer eligibility</h3>
+                        <mat-radio-group formControlName="customer_eligibility" fxLayout="row">
+                            <mat-radio-button value="everyone">Everyone</mat-radio-button>
+                            <mat-radio-button value="specific_customers">Specific customers</mat-radio-button>
+                        </mat-radio-group>
+
+                        <div fxLayout="row">
+                            <div fxFlex="0 1 50%">
+                                <div class="card-section" *ngIf="discountForm.get('customer_eligibility').value === 'specific_customers' ">
+
+                                    <h3>Customer</h3>
+                                    <ng-select [items]="customers | async" bindLabel="first_name" bindValue="id"
+                                        [trackByFn]="trackByFn" [minTermLength]="2" [loading]="customersLoading"
+                                        [typeahead]="customerInput" formControlName="customer" multiple="true">
+                                        <ng-template ng-label-tmp let-item="item">
+                                            <div class="customer-dropdown-label">
+                                                <span class="customer-name">{{item.first_name}}
+                                                    {{item.last_name}}</span>
+                                                <span class="customer-email">{{item.email}}</span>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template ng-option-tmp let-item="item">
+                                            <div class="customer-dropdown-label">
+                                                <span class="customer-name">{{item.first_name}}
+                                                    {{item.last_name}}</span>
+                                                <span class="customer-email">{{item.email}}</span>
+                                            </div>
+                                        </ng-template>
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-card>
+                </ng-container>
             </div>
+
             <div fxFlex="0 1 33.33333%">
                 <mat-card>
                     <h2>Status</h2>
-
                     <mat-checkbox formControlName="is_active">Active</mat-checkbox>
                 </mat-card>
 
                 <mat-card>
                     <h2>Website view</h2>
-
-                    <mat-checkbox formControlName="show_both_price">Show both discounted and original price on web.</mat-checkbox>
+                    <mat-checkbox formControlName="show_both_price">Show both discounted and original price on web.
+                    </mat-checkbox>
                     <mat-checkbox formControlName="show_tag">Show tag on products</mat-checkbox>
                 </mat-card>
             </div>

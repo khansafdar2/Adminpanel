@@ -479,16 +479,17 @@ body {
         overflow-x: hidden;
 
         .product-data {
-            padding: 5px 0;
+            padding: 2px 0;
+            padding-top: 18px;
             border-width: 0 0 0 0;
             border-color: #ddd;
             border-style: solid;
-            font-size: 17px;
+            font-size: 10px;
 
             .product-image {
                 width: 50px;
                 height: 50px;
-                padding: 2px;
+                padding: 1px;
                 border: 1px solid #ddd;
                 border-radius: 2px;
                 display: block;
@@ -503,9 +504,15 @@ body {
                 margin-top: 5px;
             }
         }
-
+        .product-selection{
+            padding: 8px 0px;
+            height: auto;
+            
+        }
         .product-variants {
             .mat-list-option {
+               
+
                 & + .mat-list-option {
                     border-top: 1px solid #ddd;
                 }
@@ -723,6 +730,11 @@ body {
             border-color: $primary;
         }
     }
+
+}
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value{
+    background-color: $primaryHighlight;
+    color: $textColor;
 }
 .shipping-rate{
     .mat-form-field-appearance-outline .mat-form-field-wrapper
@@ -755,3 +767,10 @@ body {
     }
 }
 
+.Loyality{
+    svg{
+        padding-right: 25px;
+        width: 70px;
+        height: auto;
+    }
+ }

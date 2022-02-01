@@ -24,6 +24,19 @@ export class ProductsService {
     });
   }
 
+  getProducts(page: number, limit: number, searchQuery: string) {
+    return Axios.get( environment.backend_url + '/order/orders_product_list?page=' + page + "&limit=" + limit + "&search=" + searchQuery, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
   getProductTypes() {
     return Axios.get( environment.backend_url + '/products/product_type', {
       headers: {
@@ -194,6 +207,22 @@ export class ProductsService {
       }
     });
   }
+
+  getCommissions(vendor_id) {
+    return Axios.get( environment.backend_url + '/vendors/commission_list?vendor_id=' + vendor_id , {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
+
+
 
   /**
    * 

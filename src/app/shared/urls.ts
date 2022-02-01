@@ -40,7 +40,10 @@ const URLS = {
     zones : 'zones',
     shippingRates : 'shipping-rates',
     defaultShipping : 'default-shipping',
-    filters : 'filters'
+    filters : 'filters',
+    loyality:'loyality',
+    coupons:'coupons',
+    
 }
 
 export default URLS;

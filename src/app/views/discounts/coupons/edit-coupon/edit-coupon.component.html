@@ -1,0 +1,78 @@
+<app-topbar></app-topbar>
+<app-sidenav></app-sidenav>
+<main id="main">
+    <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+    <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
+        <h1>Edit coupon</h1>
+
+        <div class="header-actions">
+            <a [routerLink]="['/', URLS.coupons, URLS.all]" mat-stroked-button color="primary">Cancel</a>
+            <button mat-flat-button color="primary" [disabled]="loading || !couponForm.valid"
+                (click)="onSubmit()">Save</button>
+        </div>
+    </div>
+    <div class="page-container">
+
+        <form [formGroup]="couponForm">
+            <div fxLayout="row">
+                <div fxFlex="0 1 100%">
+                    <mat-card>
+                        <div fxLayout="row">
+                            <div fxFlex="0 1 50%">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Coupon name</mat-label>
+                                    <input matInput formControlName="unique_id" placeholder="Auto generated" />
+                                </mat-form-field>
+                            </div>
+
+                            <div fxFlex="0 1 50%">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Coupon value</mat-label>
+                                    <input matInput type="number" formControlName="value" />
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div fxLayout="row">
+                            <div fxFlex="0 1 50%">
+                                <div class="card-section">
+                                    <ng-select [items]="customers | async" bindLabel="first_name" bindValue="id"
+                                        [trackByFn]="trackByFn" [minTermLength]="2" [loading]="customersLoading"
+                                        [typeahead]="customerInput" formControlName="customer"
+                                        [compareWith]="compareData" placeholder="Customer">
+                                        <ng-template ng-label-tmp let-item="item">
+                                            <div class="customer-dropdown-label">
+                                                <span class="customer-name">{{item.first_name}}
+                                                    {{item.last_name}}</span>
+                                                <span class="customer-email">{{item.email}}</span>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template ng-option-tmp let-item="item">
+                                            <div class="customer-dropdown-label">
+                                                <span class="customer-name">{{item.first_name}}
+                                                    {{item.last_name}}</span>
+                                                <span class="customer-email">{{item.email}}</span>
+                                            </div>
+                                        </ng-template>
+                                    </ng-select>
+                                </div>
+                            </div>
+
+                            <div fxFlex="0 1 50%">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Expiry date</mat-label>
+                                    <input type="datetime-local" matInput formControlName="expiry_date" />
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div fxLayout="row">
+                            <mat-form-field appearance="outline">
+                                <textarea rows="7" placeholder="Add note" matInput formControlName="note"></textarea>
+                            </mat-form-field>
+                        </div>
+                    </mat-card>
+                </div>
+            </div>
+        </form>
+    </div>
+</main>

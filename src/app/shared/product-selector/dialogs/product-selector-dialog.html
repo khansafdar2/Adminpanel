@@ -1,0 +1,46 @@
+<button mat-icon-button mat-dialog-close class="dialog-close">
+    <mat-icon>close</mat-icon>
+</button>
+<h2 mat-dialog-title>Browse products</h2>
+<mat-dialog-content class="mat-typography browse-products">
+    <mat-form-field appearance="outline">
+        <mat-label>Search</mat-label>
+        <input matInput [(ngModel)]="searchQuery" (keyup)="onSearch()" type="search" />
+    </mat-form-field>
+
+    <p *ngIf="productsCount === 0 && !loading">No products found.</p>
+    <div class="products-list" *ngIf="productsCount > 0">
+        <mat-selection-list [(ngModel)]="selectedProducts" [compareWith]="compareSelection">
+            <div class="product-wrapper">
+                <mat-list-option class="product-selection" *ngFor="let product of products" [value]="product">
+                    <div class="product-data" fxLayout="row" fxLayoutAlign="start center">
+                        <div>
+                            <img class="product-image"
+                                [src]="product.image ? product.image : '/assets/img/placeholder-image.png'" />
+                        </div>
+                        <div>
+                            <span class="product-title">{{product.title}} <br />
+                                <span class="product-vendor">{{product.vendor_name}}</span>
+                            </span>
+                        </div>
+                    </div>
+                </mat-list-option>
+            </div>
+        </mat-selection-list>
+
+
+        <div fxLayout="row" fxLayoutAlign="center">
+            <button mat-stroked-button color="primary" class="load-more"
+                *ngIf="products.length < productsCount && !loading" (click)="loadMore()">Load more</button>
+        </div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center">
+        <mat-spinner *ngIf="loading" diameter="40"></mat-spinner>
+    </div>
+</mat-dialog-content>
+
+<div mat-dialog-actions class="variant-selector-actions">
+    <button mat-stroked-button color="primary" mat-dialog-close>Close</button>
+    <button mat-flat-button color="primary" [disabled]="selectedProducts.length === 0" (click)="addItems()">Add</button>
+    <span class="items-selected">{{selectedProducts.length}} items selected</span>
+</div>

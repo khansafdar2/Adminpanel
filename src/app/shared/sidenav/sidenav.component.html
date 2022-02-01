@@ -1,7 +1,7 @@
 <div id="side-nav" (click)="stopPropagation($event)">
     <nav>
         <ul>
-            <li *ngIf="!is_vendor && userPermissions.dashboard">
+            <li *ngIf="userPermissions.dashboard">
                 <a [routerLink]="'/' + Urls.home" routerLinkActive="active">
                     <span class="link-icon" [inlineSVG]="'/assets/img/HomeIcon.svg'"></span>Home
                 </a>
@@ -26,14 +26,20 @@
                     <span class="link-icon" [inlineSVG]="'/assets/img/OrdersIcon.svg'"></span>Vendors
                 </a>
             </li>
-            <li *ngIf="userPermissions.customer">
+            <li *ngIf="!is_vendor && userPermissions.customer">
                 <a [routerLink]="['/', Urls.customers]" routerLinkActive="active">
                     <span class="link-icon" [inlineSVG]="'/assets/img/CustomersIcon.svg'"></span>Customers
                 </a>
             </li>
-            <li *ngIf="userPermissions.discounts">
-                <a [routerLink]="'/' + Urls.discounts" routerLinkActive="active">
+            <li *ngIf="!is_vendor && userPermissions.discounts">
+                <a (click)="toggleDrawer('discount')" [class.active]="sideDrawer === 'discount'">
                     <span class="link-icon" [inlineSVG]="'/assets/img/DiscountsIcon.svg'"></span>Discounts
+                </a>
+            </li>
+
+            <li *ngIf="is_vendor && userPermissions.discounts">
+                <a [routerLink]="'/' + Urls.discounts" routerLinkActive="active">
+                    <span class="link-icon" [inlineSVG]="'/assets/img/SettingsIcon.svg'"></span>Discounts
                 </a>
             </li>
             <li *ngIf="!is_vendor && userPermissions.configuration">
@@ -41,10 +47,14 @@
                     <span class="link-icon" [inlineSVG]="'/assets/img/SettingsIcon.svg'"></span>Configuration
                 </a>
             </li>
-
             <li *ngIf="is_vendor">
-                <a [routerLink]="['/', Urls.vendors]" routerLinkActive="active">
+                <a [routerLink]="['/', Urls.vendors, Urls.edit, this.vendorID]" routerLinkActive="active">
                     <span class="link-icon" [inlineSVG]="'/assets/img/OrdersIcon.svg'"></span>Vendor profile
+                </a>
+            </li>
+            <li *ngIf="userPermissions.configuration">
+                <a [routerLink]="['/', Urls.navigations]" routerLinkActive="active">
+                    <span class="link-icon" [inlineSVG]="'/assets/img/OrdersIcon.svg'"></span>Navigation
                 </a>
             </li>
         </ul>
@@ -52,7 +62,6 @@
 </div>
 <div class="sidenav-drawer" [class.show]="sideDrawer === 'products'" (click)="stopPropagation($event)">
     <h4 class="sidenav-title">Products</h4>
-
     <nav>
         <ul>
             <li><a [routerLink]="['/', Urls.products]" routerLinkActive="active">All products</a></li>
@@ -66,7 +75,6 @@
 
 <div class="sidenav-drawer" [class.show]="sideDrawer === 'orders'" (click)="stopPropagation($event)">
     <h4 class="sidenav-title">Orders</h4>
-
     <nav>
         <ul>
             <li><a [routerLink]="['/', Urls.orders]" routerLinkActive="active">All orders</a></li>
@@ -76,7 +84,6 @@
 </div>
 <div class="sidenav-drawer" [class.show]="sideDrawer === 'customization'" (click)="stopPropagation($event)">
     <h4 class="sidenav-title">Customization</h4>
-
     <nav>
         <ul>
             <li><a [routerLink]="['/', Urls.homepage]" routerLinkActive="active">Homepage</a></li>
@@ -87,4 +94,16 @@
             <li><a [routerLink]="['/', Urls.filters]" routerLinkActive="active">Filters</a></li>
         </ul>
     </nav>
+</div>
+
+<div class="sidenav-drawer" [class.show]="sideDrawer === 'discount'" (click)="stopPropagation($event)">
+    <h4 class="sidenav-title">Discounts</h4>
+    <nav>
+        <ul>
+            <li><a [routerLink]="['/' + Urls.discounts]" routerLinkActive="active">Discounts</a></li>
+            <li><a [routerLink]="['/', Urls.coupons]" routerLinkActive="active">Coupons</a></li>
+
+        </ul>
+    </nav>
+
 </div>

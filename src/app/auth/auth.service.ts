@@ -37,6 +37,20 @@ export class AuthService {
   signedIn: boolean = false;
   token: string;
   user_permissions: UserPermission;
+
+  vendor_permission = {
+    id:0,
+    dashboard: true,
+    customization: false,
+    theme: false,
+    products: true,
+    orders: true,
+    customer: true,
+    discounts: true,
+    configuration: false,
+    vendor: false
+  }
+
   user = {
     id: null,
     email: "",
@@ -44,18 +58,27 @@ export class AuthService {
     last_name: "",
     token: "",
     username: "",
-    is_vendor: false
+    is_vendor: false,
+    vendor_id:null
   };
 
   signin(token: string, permissions: UserPermission, user) {
     this.cookies.set('token', token, 1, '/');
     this.token = token;
-    this.user_permissions = permissions;
     delete user.permission;
     this.user = user;
-    localStorage.setItem('permissions', JSON.stringify(permissions));
     localStorage.setItem('user', JSON.stringify(user));
-    this.signedIn = true;
+    if (user.is_vendor) {
+      this.user_permissions = this.vendor_permission;
+      localStorage.setItem('permissions', JSON.stringify(this.vendor_permission));
+      this.signedIn = true;
+
+    } else {
+      this.user_permissions = permissions;
+      localStorage.setItem('permissions', JSON.stringify(permissions));
+      this.signedIn = true;
+
+    }
   }
 
   signout() {
