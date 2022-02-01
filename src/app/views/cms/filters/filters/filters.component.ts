@@ -80,11 +80,13 @@ export class FiltersComponent implements OnInit {
 
   onPublish() {
     this.loading = true;
-    for (let filter of this.filters) {
+    for (let i = 0; i < this.filters.length; i++) {
+      const filter = this.filters[i];
       if(filter.tags)
       {
         filter.tags = filter.tags.toString()
       }
+      filter.position = i;
     }
     this.filtersService.createFilters(this.filters).then(resp => {
       this.loading = false;
