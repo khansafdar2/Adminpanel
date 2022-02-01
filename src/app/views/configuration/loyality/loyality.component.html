@@ -45,8 +45,8 @@
 
                 <mat-card>
                     <h3>Loyality rules</h3>
-                    <ng-container *ngFor="let rules of loyalityForm.get('rule')['controls']; let i = index;">
-                        <div [formGroup]=rules>
+                    <ng-container *ngFor="let ruleGroup of loyalityForm.get('rule')['controls']; let i = index;">
+                        <div [formGroup]=ruleGroup>
                             <div fxLayout="row" fxLayoutAlign="space-between">
                                 <h4>Rule {{i+1}}</h4>
                                 <div class="delete-button">
@@ -68,7 +68,7 @@
                                 </div>
 
                                 <div fxFlex="0 1 50%"
-                                    *ngIf="loyalityForm.get('rule').at(i).get('type').value === 'amount'">
+                                    *ngIf="ruleGroup.get('type').value === 'amount'">
                                     <mat-form-field appearance="outline">
                                         <mat-label>Amount spent</mat-label>
                                         <input matInput type="number" formControlName="spending_amount" />
@@ -76,7 +76,7 @@
                                 </div>
 
                                 <div fxFlex="0 1 50%"
-                                    *ngIf="loyalityForm.get('rule').at(i).get('type').value === 'order'">
+                                    *ngIf="ruleGroup.get('type').value === 'order'">
                                     <mat-form-field appearance="outline">
                                         <mat-label>No of orders</mat-label>
                                         <input matInput type="number" formControlName="no_of_order" />

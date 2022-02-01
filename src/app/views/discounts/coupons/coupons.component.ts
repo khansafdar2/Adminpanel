@@ -1,4 +1,4 @@
-import { CouponService } from './coupon.service';
+import { CouponService } from './coupons.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
@@ -27,8 +27,8 @@ export class CouponsComponent implements OnInit {
     storeCurrency = environment.currency;
     columns: Column[] = [
       {
-        title: "Name",
-        selector: "name",
+        title: "Coupon",
+        selector: "unique_id",
         clickable: true
       },
       {
@@ -41,7 +41,9 @@ export class CouponsComponent implements OnInit {
       },
       {
         title: "Expiry date",
-        selector: "expiry_date",  
+        selector: "expiry_date",
+        pipe: 'date',
+        dateFormat: 'MMM d, h:mm a', 
       }
     ]
 

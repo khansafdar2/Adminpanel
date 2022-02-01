@@ -1,12 +1,11 @@
-import { CouponService } from './../coupon.service';
+import { CouponService } from '../coupons.service';
 import { OrdersService } from './../../../orders/orders.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from 'src/app/auth/auth.service';
 import URLS from 'src/app/shared/urls';
-import { concat, Observable, of, Subject, pipe } from 'rxjs';
+import { concat, Observable, of, Subject} from 'rxjs';
 import { catchError, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 
 @Component({
@@ -26,20 +25,20 @@ export class EditCouponComponent implements OnInit {
     private route: ActivatedRoute,
 
   ) {
-    this.coupinID =this.route.snapshot.paramMap.get('id');
+    this.couponID =this.route.snapshot.paramMap.get('id');
    }
 
   loading: boolean = false;
   URLS = URLS;
-  coupinID:any;
-  custmerID:any
+  couponID:any;
   customers: Observable<any[]>;
   customerInput = new Subject<string>();
   customersLoading: boolean = false;
   couponForm = this.fb.group({
     id:[null],
-    name: [''],
+    unique_id: [{value:"", disabled:true}],
     value: [null],
+    name: [""],
     customer: [null],
     expiry_date:['', [Validators.required]],
     note:['']
@@ -71,13 +70,11 @@ export class EditCouponComponent implements OnInit {
 
 
   getCouponDetaial(){
-    this.couponService.getCouponDetail(this.coupinID).then(resp => {
+    this.couponService.getCouponDetail(this.couponID).then(resp => {
       this.loading = false;
       if (resp){
         this.couponForm.patchValue(resp.data);
-        if (resp.data.customer) {
-         this.custmerID = resp.data.customer.id;
-        }
+
       }
     })
   }
@@ -85,9 +82,7 @@ export class EditCouponComponent implements OnInit {
 
   onSubmit() {
     this.loading = true;
-    let mainObj = this.couponForm.value;
-    mainObj.customer = this.custmerID;
-    this.couponService.updateCoupon(mainObj).then(resp => {
+    this.couponService.updateCoupon(this.couponForm.value).then(resp => {
       this.loading = false;
       if (resp) {
         this.snackbarService.open("Coupon updated successfully.", "", { duration: 3000 });

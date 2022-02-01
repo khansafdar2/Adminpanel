@@ -1,4 +1,4 @@
-import { CouponService } from './../coupon.service';
+import { CouponService } from '../coupons.service';
 import { OrdersService } from './../../../orders/orders.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
@@ -31,7 +31,8 @@ export class AddCouponComponent implements OnInit {
   customerInput = new Subject<string>();
   customersLoading: boolean = false;
   couponForm = this.fb.group({
-    name: [''],
+    unique_id: [{value:"Auto generated", disabled:true}],
+    name: [""],
     value: [null],
     customer: [null],
     expiry_date:['', [Validators.required]],
@@ -59,6 +60,7 @@ export class AddCouponComponent implements OnInit {
 
   onSubmit() {
     this.loading = true;
+    this.couponForm.removeControl("unique_id");
     this.couponService.createCoupon(this.couponForm.value).then(resp => {
       this.loading = false;
       if (resp) {

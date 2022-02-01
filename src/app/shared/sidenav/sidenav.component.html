@@ -62,14 +62,12 @@
 </div>
 <div class="sidenav-drawer" [class.show]="sideDrawer === 'products'" (click)="stopPropagation($event)">
     <h4 class="sidenav-title">Products</h4>
-
     <nav>
         <ul>
             <li><a [routerLink]="['/', Urls.products]" routerLinkActive="active">All products</a></li>
             <li><a [routerLink]="['/', Urls.productGroups]" routerLinkActive="active">Product groups</a></li>
             <li><a [routerLink]="'/' + Urls.collections" routerLinkActive="active">Collections</a></li>
-            <li *ngIf="!is_vendor"><a [routerLink]="'/' + Urls.categories" routerLinkActive="active">Category
-                    structure</a></li>
+            <li *ngIf="!is_vendor"><a [routerLink]="'/' + Urls.categories" routerLinkActive="active">Category structure</a></li>
             <li *ngIf="!is_vendor"><a [routerLink]="'/' + Urls.brands" routerLinkActive="active">Brands</a></li>
         </ul>
     </nav>
@@ -77,7 +75,6 @@
 
 <div class="sidenav-drawer" [class.show]="sideDrawer === 'orders'" (click)="stopPropagation($event)">
     <h4 class="sidenav-title">Orders</h4>
-
     <nav>
         <ul>
             <li><a [routerLink]="['/', Urls.orders]" routerLinkActive="active">All orders</a></li>
@@ -87,27 +84,21 @@
 </div>
 <div class="sidenav-drawer" [class.show]="sideDrawer === 'customization'" (click)="stopPropagation($event)">
     <h4 class="sidenav-title">Customization</h4>
-
     <nav>
         <ul>
             <li><a [routerLink]="['/', Urls.homepage]" routerLinkActive="active">Homepage</a></li>
             <li><a [routerLink]="['/', Urls.pages]" routerLinkActive="active">Pages</a></li>
             <li><a [routerLink]="['/', Urls.headerCustomization]" routerLinkActive="active">Header</a></li>
             <li><a [routerLink]="['/', Urls.footerCustomization]" routerLinkActive="active">Footer</a></li>
-
-
         </ul>
     </nav>
-
-  
 </div>
 
 <div class="sidenav-drawer" [class.show]="sideDrawer === 'discount'" (click)="stopPropagation($event)">
-    <h4 class="sidenav-title">Discount</h4>
-
+    <h4 class="sidenav-title">Discounts</h4>
     <nav>
         <ul>
-            <li><a [routerLink]="['/' + Urls.discounts]" routerLinkActive="active">Discount</a></li>
+            <li><a [routerLink]="['/' + Urls.discounts]" routerLinkActive="active">Discounts</a></li>
             <li><a [routerLink]="['/', Urls.coupons]" routerLinkActive="active">Coupons</a></li>
 
         </ul>

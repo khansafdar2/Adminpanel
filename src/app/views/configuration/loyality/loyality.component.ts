@@ -1,11 +1,10 @@
 import { LoyalityService } from './loyality.service';
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { AuthService } from 'src/app/auth/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import URLS from 'src/app/shared/urls';
-import { FormBuilder, FormControl, Validators, FormArray } from '@angular/forms';
+import { FormBuilder, FormArray } from '@angular/forms';
 
 
 @Component({
@@ -24,8 +23,7 @@ export class LoyalityComponent implements OnInit {
   URLS = URLS;
   loading = false;
   storeCurrency = environment.currency;
-  loyalitydetails: any;
-
+  loyalityDetails: any;
 
   loyalityForm = this.fb.group({
     amount_equal_point: [null],
@@ -46,7 +44,7 @@ export class LoyalityComponent implements OnInit {
         start_date: [''],
         end_date: [''],
         type: ['amount'],
-        paid_order: [true],
+        paid_order: [false],
         is_active: [true]
       })
     )
@@ -68,27 +66,15 @@ export class LoyalityComponent implements OnInit {
   }
 
 
-
   getLoyality() {
     this.loyalityService.getLoyality().then((resp) => {
       this.loading = false;
       if (resp) {
-        this.loyalitydetails = resp.data[0];
-        for (let i = 0; i < this.loyalitydetails.rule.length; i++) {
-          (this.loyalityForm.get('rule') as FormArray).push(
-            this.fb.group({
-              spending_amount: [null],
-              no_of_point: [null],
-              no_of_order: [null],
-              start_date: [''],
-              end_date: [''],
-              type: ['amount'],
-              paid_order: [true],
-              is_active: [true]
-            })
-          )
+        this.loyalityDetails = resp.data[0];
+        for (let i = 0; i < this.loyalityDetails.rule.length; i++) {
+          this.addRule();
         }
-        this.loyalityForm.patchValue(this.loyalitydetails);
+        this.loyalityForm.patchValue(this.loyalityDetails);
       }
     })
   }
