@@ -139,10 +139,15 @@ export class EditDiscountComponent implements OnInit {
 
 
   onVendorChange() {
-    this.discountForm.patchValue({
-      product_group: [[]]
-    });
+    if (this.discountForm.get('vendor').value){
     this.getProductGroups();
+    } else {
+      this.discountForm.patchValue({
+        product_group: [[]]
+      });
+      this.getProductGroups();
+    }
+
   }
 
 
@@ -278,6 +283,7 @@ export class EditDiscountComponent implements OnInit {
         if (this.is_vendor) {
           this.getProductGroups();
         } else {
+          this.onVendorChange();
           this.getVendors();
         }
       }

@@ -86,8 +86,7 @@
 
                             <div fxLayout="row" fxLayoutAlign="center">
                                 <div fxFlex="0 1 50%">
-                                    <mat-checkbox class="paid-order" formControlName="paid_order">Apply on paid orders
-                                        only</mat-checkbox>
+                                    <mat-checkbox class="paid-order" formControlName="paid_order">Apply on paid orders only</mat-checkbox>
                                 </div>
 
                                 <div fxFlex="0 1 50%">
@@ -124,6 +123,7 @@
             <div fxFlex="0 1 50%">
                 <mat-card fxLayout="column">
                     <h3>Loyality condition</h3>
+                    <mat-checkbox class="paid-order-rules" formControlName="is_paid">Apply on paid orders only</mat-checkbox>
                     <div>
                         <mat-form-field appearance="outline">
                             <mat-label>Minimum spending</mat-label>
