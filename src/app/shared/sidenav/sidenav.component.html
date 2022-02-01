@@ -23,7 +23,7 @@
             </li>
             <li *ngIf="!is_vendor && userPermissions.vendor">
                 <a [routerLink]="['/', Urls.vendors]" routerLinkActive="active">
-                    <span class="link-icon" [inlineSVG]="'/assets/img/OrdersIcon.svg'"></span>Vendors
+                    <span class="link-icon" [inlineSVG]="'/assets/img/vendor.svg'"></span>Vendors
                 </a>
             </li>
             <li *ngIf="!is_vendor && userPermissions.customer">
@@ -39,7 +39,7 @@
 
             <li *ngIf="is_vendor && userPermissions.discounts">
                 <a [routerLink]="'/' + Urls.discounts" routerLinkActive="active">
-                    <span class="link-icon" [inlineSVG]="'/assets/img/SettingsIcon.svg'"></span>Discounts
+                    <span class="link-icon" [inlineSVG]="'/assets/img/DiscountsIcon.svg'"></span>Discounts
                 </a>
             </li>
             <li *ngIf="!is_vendor && userPermissions.configuration">
@@ -49,12 +49,7 @@
             </li>
             <li *ngIf="is_vendor">
                 <a [routerLink]="['/', Urls.vendors, Urls.edit, this.vendorID]" routerLinkActive="active">
-                    <span class="link-icon" [inlineSVG]="'/assets/img/OrdersIcon.svg'"></span>Vendor profile
-                </a>
-            </li>
-            <li *ngIf="userPermissions.configuration">
-                <a [routerLink]="['/', Urls.navigations]" routerLinkActive="active">
-                    <span class="link-icon" [inlineSVG]="'/assets/img/OrdersIcon.svg'"></span>Navigation
+                    <span class="link-icon" [inlineSVG]="'/assets/img/vendor.svg'"></span>Vendor profile
                 </a>
             </li>
         </ul>

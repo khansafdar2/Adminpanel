@@ -169,10 +169,9 @@ const routes: Routes = [
   {path: URLS.homepage, canActivate: [LoggedInAuthGuard, CustomizationGuard], component: HomepageComponent},
   {path: URLS.navigations, canActivate: [LoggedInAuthGuard, CustomizationGuard], children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
-    {path: URLS.all, component: NavigationsComponent},
-    {path: URLS.all, component: NavigationsComponent},
-    {path: URLS.add, component: AddNavigationComponent},
-    {path: URLS.edit + '/:id', component: EditNavigationComponent}
+    {path: URLS.all, component: NavigationsComponent, canActivate: [VendorGuard]},
+    {path: URLS.add, component: AddNavigationComponent, canActivate: [VendorGuard]},
+    {path: URLS.edit + '/:id', component: EditNavigationComponent, canActivate: [VendorGuard]}
   ]},
   {path: URLS.vendors, canActivate: [LoggedInAuthGuard], children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
@@ -195,9 +194,9 @@ const routes: Routes = [
     {path: URLS.add, component: DefaultShippingComponent},
     {path: URLS.edit + '/:id', component: DefaultShippingComponent}
   ]},
-  {path: URLS.filters, canActivate: [LoggedInAuthGuard], children: [
+  {path: URLS.filters, canActivate: [LoggedInAuthGuard, CustomizationGuard], children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
-    {path: URLS.all, component: FiltersComponent}
+    {path: URLS.all, component: FiltersComponent, canActivate: [VendorGuard]}
   ]}
 ];
 
