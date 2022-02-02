@@ -143,7 +143,7 @@ export class EditDiscountComponent implements OnInit {
     this.getProductGroups();
     } else {
       this.discountForm.patchValue({
-        product_group: [[]]
+        product_group: []
       });
       this.getProductGroups();
     }
