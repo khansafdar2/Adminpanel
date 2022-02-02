@@ -44,7 +44,7 @@
                     </mat-radio-group>
                 </mat-card>
 
-                <mat-card>
+                <mat-card *ngIf="discountForm.get('discount_type').value !== 'shipping_discount'">
                     <mat-form-field *ngIf="discountForm.get('discount_type').value === 'promo'" appearance="outline">
                         <mat-label>Promocode</mat-label>
                         <input type="text" matInput formControlName="promo_code" />
