@@ -82,7 +82,9 @@ export class EditCouponComponent implements OnInit {
 
   onSubmit() {
     this.loading = true;
-    this.couponService.updateCoupon(this.couponForm.value).then(resp => {
+    let mainObj = this.couponForm.value;
+    mainObj.customer = mainObj.customer.id;
+    this.couponService.updateCoupon(mainObj).then(resp => {
       this.loading = false;
       if (resp) {
         this.snackbarService.open("Coupon updated successfully.", "", { duration: 3000 });
