@@ -176,7 +176,7 @@ export class AddZoneDialog {
       this.loading = false;
       if (resp)
       {
-        this.regions = resp.data
+        this.regions = resp.data.results;
       }
     })
   }
@@ -190,7 +190,7 @@ export class AddZoneDialog {
       this.shippingService.getCountries(this.zoneForm.value.region[0]).then(resp => {
         if (resp)
         {
-          this.countries = resp.data
+          this.countries = resp.data.results;
         }
       })
     }
@@ -204,7 +204,7 @@ export class AddZoneDialog {
       this.shippingService.getCities(this.zoneForm.value.country[0]).then(resp => {
         if (resp)
         {
-          this.cities = resp.data
+          this.cities = resp.data.results;
         }
       })
     }
