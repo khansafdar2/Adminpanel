@@ -1,0 +1,29 @@
+<app-topbar></app-topbar>
+<app-sidenav></app-sidenav>
+<main id="main">
+    <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+    <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
+        <h1>Cities</h1>
+
+        <div class="header-actions">
+            
+            <a [routerLink]="['/', URLS.discounts, URLS.add]" mat-flat-button color="primary">Create new</a>
+        </div>
+    </div>
+
+    <div class="page-container">
+        <mat-card class="table-wrapper-card">
+            <datatable
+                [data]="city"
+                [columns]="columns"
+                [pagination]="true"
+                [count]="totalCount"
+                [itemsPerPage]="pageSize"
+                [rowActions]="rowActions"
+
+                (page)="onPageChange($event)"
+                (rowAction)="onRowAction($event)">
+          </datatable>
+        </mat-card>
+    </div>
+</main>

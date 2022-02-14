@@ -43,6 +43,9 @@ const URLS = {
     filters : 'filters',
     loyality:'loyality',
     coupons:'coupons',
+    shippingRegions: 'shipping-regions',
+    country: 'country',
+    cities:'cities'
     
 }
 

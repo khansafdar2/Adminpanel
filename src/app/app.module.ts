@@ -117,6 +117,9 @@ import { LoyalityComponent } from './views/configuration/loyality/loyality.compo
 import { CouponsComponent, CouponDeleteDialog } from './views/discounts/coupons/coupons.component';
 import { AddCouponComponent } from './views/discounts/coupons/add-coupon/add-coupon.component';
 import { EditCouponComponent } from './views/discounts/coupons/edit-coupon/edit-coupon.component';
+import { ShippingRegionCreateDialog, ShippingRegionDeleteDialog, ShippingRegionsComponent } from './views/configuration/shipping-regions/shipping-regions.component';
+import { CountriesComponent, CountryDeleteDialog } from './views/configuration/shipping-regions/countries/countries.component';
+import { CitiesComponent, CityDeleteDialog } from './views/configuration/shipping-regions/countries/cities/cities.component';
 
 
 @NgModule({
@@ -247,7 +250,14 @@ import { EditCouponComponent } from './views/discounts/coupons/edit-coupon/edit-
     CouponsComponent,
     AddCouponComponent,
     EditCouponComponent,
-    CouponDeleteDialog
+    CouponDeleteDialog,
+    ShippingRegionsComponent,
+    ShippingRegionDeleteDialog,
+    CountriesComponent,
+    CitiesComponent,
+    CountryDeleteDialog,
+    CityDeleteDialog,
+    ShippingRegionCreateDialog,
   ],
   imports: [
     BrowserModule,

@@ -73,6 +73,16 @@
                         </mat-card-header>
                     </mat-card>
                 </div>
+
+                <div class="settings-section-card" fxFlex="0 1 33.3333%">
+                    <mat-card (click)="goToSettings('shippingRegions')">
+                        <mat-card-header>
+                            <div mat-card-avatar [inlineSVG]="'/assets/img/ShippingIcon.svg'"></div>
+                            <mat-card-title>Shipping regions</mat-card-title>
+                            <mat-card-subtitle>Manage shipping regions on your store.</mat-card-subtitle>
+                        </mat-card-header>
+                    </mat-card>
+                </div>
             </div>
         </div>
     </div>

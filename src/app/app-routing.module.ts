@@ -1,3 +1,5 @@
+import { CitiesComponent } from './views/configuration/shipping-regions/countries/cities/cities.component';
+import { ShippingRegionsComponent } from './views/configuration/shipping-regions/shipping-regions.component';
 import { FooterCustomizationComponent } from './views/cms/footer-customization/footer-customization.component';
 import { HeaderCustomizationComponent } from './views/cms/customization-header/customization-header.component';
 import { NgModule } from '@angular/core';
@@ -69,6 +71,7 @@ import { EditCouponComponent } from './views/discounts/coupons/edit-coupon/edit-
 import { AddCouponComponent } from './views/discounts/coupons/add-coupon/add-coupon.component';
 import { CouponsComponent } from './views/discounts/coupons/coupons.component';
 import { LoyalityComponent } from './views/configuration/loyality/loyality.component';
+import { CountriesComponent } from './views/configuration/shipping-regions/countries/countries.component';
 
 
 const routes: Routes = [
@@ -183,13 +186,13 @@ const routes: Routes = [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
     {path: URLS.all, component: ShippingZoneComponent},
   ]},
-  {path: URLS.shippingRates, canActivate: [LoggedInAuthGuard], children: [
+  {path: URLS.shippingRates, canActivate: [LoggedInAuthGuard, ConfigurationGuard], children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
     {path: URLS.all, component: ShippingRatesComponent},
     {path: URLS.add, component: AddShippingRatesComponent},
     {path: URLS.edit + '/:id', component: AddShippingRatesComponent}
   ]},
-  {path: URLS.defaultShipping, canActivate: [LoggedInAuthGuard], children: [
+  {path: URLS.defaultShipping, canActivate: [LoggedInAuthGuard, ConfigurationGuard], children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
     {path: URLS.add, component: DefaultShippingComponent},
     {path: URLS.edit + '/:id', component: DefaultShippingComponent}
@@ -197,7 +200,11 @@ const routes: Routes = [
   {path: URLS.filters, canActivate: [LoggedInAuthGuard, CustomizationGuard], children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
     {path: URLS.all, component: FiltersComponent, canActivate: [VendorGuard]}
-  ]}
+  ]},
+  {path: URLS.shippingRegions, component: ShippingRegionsComponent,  canActivate: [LoggedInAuthGuard, ConfigurationGuard, VendorGuard]},
+  {path: URLS.country + '/:id', component: CountriesComponent,  canActivate: [LoggedInAuthGuard, ConfigurationGuard, VendorGuard]},
+  {path: URLS.cities + '/:id', component: CitiesComponent,  canActivate: [LoggedInAuthGuard, ConfigurationGuard, VendorGuard]},
+
 ];
 
 @NgModule({
