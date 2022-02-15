@@ -42,7 +42,7 @@ export class CountriesComponent implements OnInit {
 
   getCountryList() {
     this.loading = true;
-    this.shippingRegionService.getCountryList(this.regionID).then(resp => {
+    this.shippingRegionService.getCountryList(this.regionID, this.pageNumber, this.pageSize).then(resp => {
       this.loading = false;
       if(resp) {
         this.country = resp.data.results;
@@ -54,9 +54,7 @@ export class CountriesComponent implements OnInit {
 
   
   getRegionDetail(){
-    this.loading = true;
     this.shippingRegionService.getShippingRegionDetail(this.regionID).then(resp=>{
-      this.loading = false;
       if (resp) {
         this.region_name = resp.data.name
       }

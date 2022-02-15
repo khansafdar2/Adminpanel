@@ -11,8 +11,8 @@ export class ShippingRegionService {
 
   constructor(private authService: AuthService) { }
 
-  getShippingRegionList() {
-    return Axios.get( environment.backend_url + '/setting/region_list', {
+  getShippingRegionList(page, limit) {
+    return Axios.get( environment.backend_url + '/setting/region_list?page=' + page + "&limit=" + limit, {
       headers: {
         Authorization: this.authService.token
       }
@@ -37,8 +37,8 @@ export class ShippingRegionService {
     });
   }
 
-  getCountryList(id) {
-    return Axios.get( environment.backend_url + '/setting/country_list?region_id=' + id, {
+  getCountryList(id, page, limit) {
+    return Axios.get( environment.backend_url + '/setting/country_list?region_id=' + id + "&page=" + page + "&limit=" + limit, {
       headers: {
         Authorization: this.authService.token
       }
@@ -63,8 +63,8 @@ export class ShippingRegionService {
     });
   }
 
-  getCityList(id) {
-    return Axios.get( environment.backend_url + '/setting/city_list?country_id=' + id, {
+  getCityList(id, page, limit) {
+    return Axios.get( environment.backend_url + '/setting/city_list?country_id=' + id + "&page=" + page + "&limit=" + limit, {
       headers: {
         Authorization: this.authService.token
       }

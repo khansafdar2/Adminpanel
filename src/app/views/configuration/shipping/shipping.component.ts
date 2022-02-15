@@ -7,6 +7,7 @@ import URLS from 'src/app/shared/urls';
 import { ShippingService } from './shipping.service';
 import { Router } from '@angular/router';
 import { ProductsService } from '../../products/products.service';
+import { ShippingRegionService } from '../shipping-regions/shipping-region.service';
 
 
 @Component({
@@ -165,6 +166,7 @@ export class AddZoneDialog {
     @Inject(MAT_DIALOG_DATA) public data,
     private fb: FormBuilder,
     private shippingService: ShippingService,
+    private shippingRegionService: ShippingRegionService,
     private snackbar: MatSnackBar
   ) {
     this.zoneId = this.data ? this.data.zoneId : null //for editing zone
@@ -184,7 +186,7 @@ export class AddZoneDialog {
 
   getRegions()
   {
-    this.shippingService.getRegions().then(resp => {
+    this.shippingRegionService.getShippingRegionList(1, 50).then(resp => {
       this.loading = false;
       if (resp)
       {
@@ -199,7 +201,7 @@ export class AddZoneDialog {
     {
       this.countries = []
       this.cities = []
-      this.shippingService.getCountries(this.zoneForm.value.region[0]).then(resp => {
+      this.shippingRegionService.getCountryList(this.zoneForm.value.region[0], 1, 100).then(resp => {
         if (resp)
         {
           this.countries = resp.data.results;
@@ -213,7 +215,7 @@ export class AddZoneDialog {
     if (this.zoneForm.value.country.length == 1)
     {
       this.cities = []
-      this.shippingService.getCities(this.zoneForm.value.country[0]).then(resp => {
+      this.shippingRegionService.getCityList(this.zoneForm.value.country[0], 1, 500).then(resp => {
         if (resp)
         {
           this.cities = resp.data.results;

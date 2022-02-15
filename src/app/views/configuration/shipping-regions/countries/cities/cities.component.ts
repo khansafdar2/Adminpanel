@@ -45,7 +45,7 @@ export class CitiesComponent implements OnInit {
 
   getCityList() {
     this.loading = true;
-    this.shippingRegionService.getCityList(this.country_id).then(resp => {
+    this.shippingRegionService.getCityList(this.country_id, this.pageNumber, this.pageSize).then(resp => {
       this.loading = false;
       if(resp) {
         this.city = resp.data.results;
@@ -56,9 +56,7 @@ export class CitiesComponent implements OnInit {
   }
 
   getCountryDetail(){
-    this.loading = true;
     this.shippingRegionService.getCountryDetail(this.country_id).then(resp=>{
-      this.loading = false;
       if (resp) {
         this.country_name = resp.data.name;
         this.countryID = resp.data.region;

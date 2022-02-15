@@ -34,7 +34,7 @@ export class ShippingRegionsComponent implements OnInit {
 
   getShippingRegionList() {
     this.loading = true;
-    this.shippingRegionService.getShippingRegionList().then(resp => {
+    this.shippingRegionService.getShippingRegionList(this.pageNumber, this.pageSize).then(resp => {
       this.loading = false;
       if (resp) {
         this.shippingRegion = resp.data.results;
