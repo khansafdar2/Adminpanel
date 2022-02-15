@@ -6,7 +6,6 @@
         <h1>Countries of {{region_name}} </h1>
         <div class="header-actions">
             <a [routerLink]="['/', URLS.shippingRegions]" mat-stroked-button color="primary">Back</a>
-            <a (click)="onCreate()" mat-flat-button color="primary">Create new</a>
         </div>
     </div>
 
@@ -18,11 +17,9 @@
                 [pagination]="true"
                 [count]="totalCount"
                 [itemsPerPage]="pageSize"
-                [rowActions]="rowActions"
 
                 (page)="onPageChange($event)"
                 (cellClick)="onCellClick($event)"
-                (rowAction)="onRowAction($event)"
             >
           </datatable>
         </mat-card>

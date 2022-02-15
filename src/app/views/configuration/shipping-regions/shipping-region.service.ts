@@ -24,47 +24,8 @@ export class ShippingRegionService {
     });
   }
 
-  createShippingRegion(data) {
-    return Axios.post( environment.backend_url + '/setting/region', data, {
-      headers: {
-        Authorization: this.authService.token
-      }
-    })
-    .catch(error => {
-      if (error.response.data.detail == "Session expired, Reopen the application!") {
-        this.authService.signout();
-      }
-    });
-  }
-
   getShippingRegionDetail(id) {
     return Axios.get( environment.backend_url + '/setting/region/' + id, {
-      headers: {
-        Authorization: this.authService.token
-      }
-    })
-    .catch(error => {
-      if (error.response.data.detail == "Session expired, Reopen the application!") {
-        this.authService.signout();
-      }
-    });
-  }
-
-  updateShippingRegion(data) {
-    return Axios.put( environment.backend_url + '/setting/region', data, {
-      headers: {
-        Authorization: this.authService.token
-      }
-    })
-    .catch(error => {
-      if (error.response.data.detail == "Session expired, Reopen the application!") {
-        this.authService.signout();
-      }
-    });
-  }
-
-  deleteShippingRegion(id) {
-    return Axios.delete( environment.backend_url + '/setting/region/' + id, {
       headers: {
         Authorization: this.authService.token
       }
@@ -89,47 +50,8 @@ export class ShippingRegionService {
     });
   }
 
-  createCountry(data) {
-    return Axios.post( environment.backend_url + '/setting/country', data, {
-      headers: {
-        Authorization: this.authService.token
-      }
-    })
-    .catch(error => {
-      if (error.response.data.detail == "Session expired, Reopen the application!") {
-        this.authService.signout();
-      }
-    });
-  }
-
   getCountryDetail(id) {
     return Axios.get( environment.backend_url + '/setting/country/' + id, {
-      headers: {
-        Authorization: this.authService.token
-      }
-    })
-    .catch(error => {
-      if (error.response.data.detail == "Session expired, Reopen the application!") {
-        this.authService.signout();
-      }
-    });
-  }
-
-  updateCountry(data) {
-    return Axios.put( environment.backend_url + '/setting/country', data, {
-      headers: {
-        Authorization: this.authService.token
-      }
-    })
-    .catch(error => {
-      if (error.response.data.detail == "Session expired, Reopen the application!") {
-        this.authService.signout();
-      }
-    });
-  }
-
-  deleteCountry(id) {
-    return Axios.delete( environment.backend_url + '/setting/country/' + id, {
       headers: {
         Authorization: this.authService.token
       }
@@ -205,7 +127,4 @@ export class ShippingRegionService {
       }
     });
   }
-
-
-
 }

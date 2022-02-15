@@ -1,12 +1,10 @@
 import { ShippingRegionService } from './shipping-region.service';
-import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Column } from 'src/app/shared/datatable/datatable.component';
 import URLS from 'src/app/shared/urls';
-import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-shipping-regions',
@@ -17,8 +15,7 @@ export class ShippingRegionsComponent implements OnInit {
 
   constructor(
     private shippingRegionService: ShippingRegionService,
-    private router: Router,
-    private dialog: MatDialog
+    private router: Router
   ) { }
 
   loading: boolean = false;
@@ -30,7 +27,6 @@ export class ShippingRegionsComponent implements OnInit {
       clickable: true
     },
   ];
-  rowActions = ["Edit", "Delete"]
   shippingRegion = [];
   totalCount: number = 0;
   pageNumber: number = 1;
@@ -57,124 +53,8 @@ export class ShippingRegionsComponent implements OnInit {
     this.router.navigate(["/", URLS.country, data.row.id]);
   }
 
-
-
-  onCreate() {
-    let dialogRef = this.dialog.open(ShippingRegionCreateDialog, {
-      width: "600px",
-    });
-
-    dialogRef.afterClosed().subscribe(data => {
-      if (data) {
-        this.getShippingRegionList();
-      }
-    });
-  }
-
-  onRowAction(data) {
-    if (data.action === "Edit") {
-      let dialogRef = this.dialog.open(ShippingRegionCreateDialog, {
-        width: "600px",
-        data: {
-          region: data.row
-        }
-      });
-
-      dialogRef.afterClosed().subscribe(data => {
-        if (data) {
-          this.getShippingRegionList();
-        }
-      });
-    }
-    else if (data.action === "Delete") {
-      let dialogRef = this.dialog.open(ShippingRegionDeleteDialog, {
-        width: "600px",
-        data: {
-          region: data.row
-        }
-      });
-
-      dialogRef.afterClosed().subscribe(deleted => {
-        if (deleted) {
-          this.getShippingRegionList();
-        }
-      });
-    }
-  }
-
-
   ngOnInit(): void {
     this.getShippingRegionList();
   }
 
-}
-
-
-@Component({
-  selector: 'shipping-region-delete-dialog',
-  templateUrl: './dialogs/shipping-region-delete-dialog.html',
-})
-export class ShippingRegionDeleteDialog {
-  constructor(
-    public dialogRef: MatDialogRef<ShippingRegionDeleteDialog>,
-    @Inject(MAT_DIALOG_DATA) public data,
-    private shippingRegionService: ShippingRegionService,
-    private snackBar: MatSnackBar
-  ) { }
-
-  loading: boolean = false;
-  region_name = this.data.region.name
-  onDelete() {
-    this.loading = true;
-    this.shippingRegionService.deleteShippingRegion(this.data.region.id).then(resp => {
-      if (resp) {
-        this.snackBar.open("Region deleted.", "", { duration: 2000 });
-        this.dialogRef.close(true);
-      }
-    })
-  }
-}
-
-@Component({
-  selector: 'shipping-region-create-dialog',
-  templateUrl: './dialogs/shipping-region-create.html',
-})
-export class ShippingRegionCreateDialog {
-  constructor(
-    public dialogRef: MatDialogRef<ShippingRegionCreateDialog>,
-    @Inject(MAT_DIALOG_DATA) public data,
-    private shippingRegionService: ShippingRegionService,
-    private snackBar: MatSnackBar,
-    private fb: FormBuilder,
-  ) { }
-
-  loading: boolean = false;
-
-  regionForm = this.fb.group({
-    name: ['']
-  })
-
-  onSave() {
-    this.loading = true;
-    let shippingRegionApiCall: any;
-    if (this.data) {
-      let mainObj = this.regionForm.value;
-      mainObj.id = this.data.region.id;
-      shippingRegionApiCall = this.shippingRegionService.updateShippingRegion(mainObj)
-    } else {
-      shippingRegionApiCall = this.shippingRegionService.createShippingRegion(this.regionForm.value)
-    }
-    shippingRegionApiCall.then(resp => {
-      if (resp) {
-        this.snackBar.open("Region saved.", "", { duration: 2000 });
-        this.dialogRef.close(true);
-      }
-    })
-  }
-
-  ngOnInit(): void {
-    if (this.data) {
-      this.regionForm.patchValue(this.data.region)
-    }
-  }
 }

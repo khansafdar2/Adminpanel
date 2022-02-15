@@ -1,8 +1,6 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Column } from 'src/app/shared/datatable/datatable.component';
 import URLS from 'src/app/shared/urls';
@@ -20,7 +18,6 @@ export class CountriesComponent implements OnInit {
   constructor(
     private shippingRegionService: ShippingRegionService,
     private router: Router,
-    private dialog: MatDialog,
     private route: ActivatedRoute
   ) {
     this.regionID = this.route.snapshot.paramMap.get('id') ? this.route.snapshot.paramMap.get('id') : null
@@ -36,7 +33,6 @@ export class CountriesComponent implements OnInit {
       clickable: true
     },
   ];
-  rowActions = ["Edit", "Delete"]
   country = [];
   totalCount: number = 0;
   pageNumber: number = 1;
@@ -78,129 +74,9 @@ export class CountriesComponent implements OnInit {
   }
   
 
-  onCreate() {
-    let dialogRef = this.dialog.open(CreateCountryDialog, {
-      width: "600px",
-      data: {
-        region_id: this.regionID
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(data => {
-      if (data) {
-        this.getCountryList();
-      }
-    });
-  }
-  onRowAction(data) {
-    if (data.action === "Edit") {
-      let dialogRef = this.dialog.open(CreateCountryDialog, {
-        width: "600px",
-        data: {
-          country: data.row
-        }
-      });
-
-      dialogRef.afterClosed().subscribe(data => {
-        if (data) {
-          this.getCountryList();
-        }
-      });
-    }
-   else if(data.action === "Delete") {
-      let dialogRef = this.dialog.open(CountryDeleteDialog, {
-        width: "600px",
-        data: {
-          country: data.row
-        }
-      });
-      dialogRef.afterClosed().subscribe(deleted => {
-        if(deleted) {
-          this.getCountryList();
-        }
-      });
-    }
-  }
-
-
   ngOnInit(): void {
-    this.getCountryList();
     this.getRegionDetail();
+    this.getCountryList();
   }
 
-}
-
-
-@Component({
-  selector: 'country-delete-dialog',
-  templateUrl: '../dialogs/country-delete-dialog.html',
-})
-export class CountryDeleteDialog {
-  constructor(
-    public dialogRef: MatDialogRef<CountryDeleteDialog>,
-    @Inject(MAT_DIALOG_DATA) public data,
-    private shippingRegionService: ShippingRegionService,
-    private snackBar: MatSnackBar
-  ) {}
-
-  loading: boolean = false;
-  country_name = this.data.country.name
-    
-  onDelete() {
-    this.loading = true;
-    this.shippingRegionService.deleteCountry(this.data.country.id).then(resp => {
-      if(resp) {
-        this.snackBar.open("Country deleted.", "", {duration: 2000});
-        this.dialogRef.close(true);
-      }
-    })
-  }
-}
-
-
-@Component({
-  selector: 'create-country-dialog',
-  templateUrl: '../dialogs/create-country.html',
-})
-export class CreateCountryDialog {
-  constructor(
-    public dialogRef: MatDialogRef<CreateCountryDialog>,
-    @Inject(MAT_DIALOG_DATA) public data,
-    private shippingRegionService: ShippingRegionService,
-    private snackBar: MatSnackBar,
-    private fb: FormBuilder,
-  ) { }
-
-  loading: boolean = false;
-
-  countryForm = this.fb.group({
-    name: ['']
-  })
-
-  onSave() {
-    this.loading = true;
-    let countryApiCall: any;
-    if (this.data.region_id) {
-      let mainObj = this.countryForm.value;
-      mainObj.region_id = this.data.region_id;
-      countryApiCall = this.shippingRegionService.createCountry(mainObj)
-    } else {
-      let mainObj = this.countryForm.value;
-      mainObj.id = this.data.country.id;
-      mainObj.region_id = this.data.country.region;      
-      countryApiCall = this.shippingRegionService.updateCountry(mainObj)
-    }
-    countryApiCall.then(resp => {
-      if (resp) {
-        this.snackBar.open("Country saved.", "", { duration: 2000 });
-        this.dialogRef.close(true);
-      }
-    })
-  }
-
-  ngOnInit(): void {
-    if (this.data) {
-      this.countryForm.patchValue(this.data.country)
-    }
-  }
 }
