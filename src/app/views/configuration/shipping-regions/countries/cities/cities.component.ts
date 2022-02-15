@@ -1,4 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -52,18 +53,20 @@ export class CitiesComponent implements OnInit {
       dateFormat: 'h:mm a MMM d'
     }
   ];
-  rowActions = ["Delete", "Edit"]
+  rowActions = ["Edit", "Delete"]
   city = [];
   totalCount: number = 0;
   pageNumber: number = 1;
   pageSize: number = 20;
+  country_name = '';
 
   getCityList() {
     this.loading = true;
     this.shippingRegionService.getCityList(this.country_id).then(resp => {
       this.loading = false;
       if(resp) {
-        this.city = resp.data;
+        this.city = resp.data.results;
+        this.country_name = resp.data.results[0].country_name;
         this.totalCount = resp.data.count;
       }
     });
@@ -75,9 +78,37 @@ export class CitiesComponent implements OnInit {
     this.getCityList();
   }
 
+  onCreate() {
+    let dialogRef = this.dialog.open(CreateCityDialog, {
+      width: "600px",
+      data: {
+        country_id: this.country_id
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(data => {
+      if (data) {
+        this.getCityList();
+      }
+    });
+  }
 
   onRowAction(data) {
-    if(data.action === "Delete") {
+    if (data.action === "Edit") {
+      let dialogRef = this.dialog.open(CreateCityDialog, {
+        width: "600px",
+        data: {
+          city: data.row
+        }
+      });
+
+      dialogRef.afterClosed().subscribe(data => {
+        if (data) {
+          this.getCityList();
+        }
+      });
+    }
+   else if(data.action === "Delete") {
       let dialogRef = this.dialog.open(CityDeleteDialog, {
         width: "600px",
         data: {
@@ -122,5 +153,53 @@ export class CityDeleteDialog {
         this.dialogRef.close(true);
       }
     })
+  }
+}
+
+
+@Component({
+  selector: 'create-city-dialog',
+  templateUrl: '../../dialogs/create-city.html',
+})
+export class CreateCityDialog {
+  constructor(
+    public dialogRef: MatDialogRef<CreateCityDialog>,
+    @Inject(MAT_DIALOG_DATA) public data,
+    private shippingRegionService: ShippingRegionService,
+    private snackBar: MatSnackBar,
+    private fb: FormBuilder,
+  ) { }
+
+  loading: boolean = false;
+
+  cityForm = this.fb.group({
+    name: ['']
+  })
+
+  onSave() {
+    this.loading = true;
+    let cityApiCall: any;
+    if (this.data.country_id) {
+      let mainObj = this.cityForm.value;
+      mainObj.country_id = this.data.country_id;
+      cityApiCall = this.shippingRegionService.createCity(mainObj)
+    } else {
+      let mainObj = this.cityForm.value;
+      mainObj.id = this.data.city.id;
+      mainObj.country_id = this.data.city.country;
+      cityApiCall = this.shippingRegionService.updateCity(mainObj)
+    }
+    cityApiCall.then(resp => {
+      if (resp) {
+        this.snackBar.open("City saved.", "", { duration: 2000 });
+        this.dialogRef.close(true);
+      }
+    })
+  }
+
+  ngOnInit(): void {
+    if (this.data) {
+      this.cityForm.patchValue(this.data.city)
+    }
   }
 }

@@ -45,7 +45,7 @@
                 </mat-card>
 
                 <mat-card>
-                    <h3>Loyality rules</h3>
+                    <h3>Loyalty rules</h3>
                     <ng-container *ngFor="let ruleGroup of loyalityForm.get('rule')['controls']; let i = index;">
                         <div [formGroup]=ruleGroup>
                             <div fxLayout="row" fxLayoutAlign="space-between">
@@ -123,7 +123,7 @@
             </div>
             <div fxFlex="0 1 50%">
                 <mat-card fxLayout="column">
-                    <h3>Loyality condition</h3>
+                    <h3>Loyalty condition</h3>
                     <mat-checkbox class="paid-order-rules" formControlName="is_paid">Apply on paid orders only</mat-checkbox>
                     <div>
                         <mat-form-field appearance="outline">

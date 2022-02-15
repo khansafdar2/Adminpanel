@@ -1,4 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -53,18 +54,21 @@ export class CountriesComponent implements OnInit {
       dateFormat: 'h:mm a MMM d'
     }
   ];
-  rowActions = ["Delete", "Edit"]
+  rowActions = ["Edit", "Delete"]
   country = [];
   totalCount: number = 0;
   pageNumber: number = 1;
   pageSize: number = 20;
+  region_name = ""
+  region_id = null
 
   getCountryList() {
     this.loading = true;
     this.shippingRegionService.getCountryList(this.regionID).then(resp => {
       this.loading = false;
       if(resp) {
-        this.country = resp.data;
+        this.country = resp.data.results;
+        this.region_name = resp.data.results[0].region_name
         this.totalCount = resp.data.count;
       }
     });
@@ -79,9 +83,38 @@ export class CountriesComponent implements OnInit {
   onCellClick(data) {
     this.router.navigate(["/", URLS.cities, data.row.id]);
   }
+  
 
+  onCreate() {
+    let dialogRef = this.dialog.open(CreateCountryDialog, {
+      width: "600px",
+      data: {
+        region_id: this.regionID
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(data => {
+      if (data) {
+        this.getCountryList();
+      }
+    });
+  }
   onRowAction(data) {
-    if(data.action === "Delete") {
+    if (data.action === "Edit") {
+      let dialogRef = this.dialog.open(CreateCountryDialog, {
+        width: "600px",
+        data: {
+          country: data.row
+        }
+      });
+
+      dialogRef.afterClosed().subscribe(data => {
+        if (data) {
+          this.getCountryList();
+        }
+      });
+    }
+   else if(data.action === "Delete") {
       let dialogRef = this.dialog.open(CountryDeleteDialog, {
         width: "600px",
         data: {
@@ -126,5 +159,53 @@ export class CountryDeleteDialog {
         this.dialogRef.close(true);
       }
     })
+  }
+}
+
+
+@Component({
+  selector: 'create-country-dialog',
+  templateUrl: '../dialogs/create-country.html',
+})
+export class CreateCountryDialog {
+  constructor(
+    public dialogRef: MatDialogRef<CreateCountryDialog>,
+    @Inject(MAT_DIALOG_DATA) public data,
+    private shippingRegionService: ShippingRegionService,
+    private snackBar: MatSnackBar,
+    private fb: FormBuilder,
+  ) { }
+
+  loading: boolean = false;
+
+  countryForm = this.fb.group({
+    name: ['']
+  })
+
+  onSave() {
+    this.loading = true;
+    let countryApiCall: any;
+    if (this.data.region_id) {
+      let mainObj = this.countryForm.value;
+      mainObj.region_id = this.data.region_id;
+      countryApiCall = this.shippingRegionService.createCountry(mainObj)
+    } else {
+      let mainObj = this.countryForm.value;
+      mainObj.id = this.data.country.id;
+      mainObj.region_id = this.data.country.region;      
+      countryApiCall = this.shippingRegionService.updateCountry(mainObj)
+    }
+    countryApiCall.then(resp => {
+      if (resp) {
+        this.snackBar.open("Country saved.", "", { duration: 2000 });
+        this.dialogRef.close(true);
+      }
+    })
+  }
+
+  ngOnInit(): void {
+    if (this.data) {
+      this.countryForm.patchValue(this.data.country)
+    }
   }
 }

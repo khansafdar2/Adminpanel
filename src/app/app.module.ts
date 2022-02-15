@@ -118,8 +118,8 @@ import { CouponsComponent, CouponDeleteDialog } from './views/discounts/coupons/
 import { AddCouponComponent } from './views/discounts/coupons/add-coupon/add-coupon.component';
 import { EditCouponComponent } from './views/discounts/coupons/edit-coupon/edit-coupon.component';
 import { ShippingRegionCreateDialog, ShippingRegionDeleteDialog, ShippingRegionsComponent } from './views/configuration/shipping-regions/shipping-regions.component';
-import { CountriesComponent, CountryDeleteDialog } from './views/configuration/shipping-regions/countries/countries.component';
-import { CitiesComponent, CityDeleteDialog } from './views/configuration/shipping-regions/countries/cities/cities.component';
+import { CountriesComponent, CountryDeleteDialog, CreateCountryDialog } from './views/configuration/shipping-regions/countries/countries.component';
+import { CitiesComponent, CityDeleteDialog, CreateCityDialog } from './views/configuration/shipping-regions/countries/cities/cities.component';
 
 
 @NgModule({
@@ -258,6 +258,8 @@ import { CitiesComponent, CityDeleteDialog } from './views/configuration/shippin
     CountryDeleteDialog,
     CityDeleteDialog,
     ShippingRegionCreateDialog,
+    CreateCountryDialog,
+    CreateCityDialog
   ],
   imports: [
     BrowserModule,
