@@ -141,6 +141,32 @@ export class ShippingService {
     });
   }
 
+  getZoneCount() {
+    return Axios.get(environment.backend_url + "/shipping/zone_count", {
+      headers: {
+        Authorization: this.authservice.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authservice.signout();
+      }
+    });
+  }
+
+  getRegionCount() {
+    return Axios.get(environment.backend_url + "/shipping/region_count", {
+      headers: {
+        Authorization: this.authservice.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authservice.signout();
+      }
+    });
+  }
+  
   getSingleZones(id) {
     return Axios.get(environment.backend_url + "/shipping/zone/" + id, {
       headers: {

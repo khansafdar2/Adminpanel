@@ -18,10 +18,15 @@ export class ShippingZoneComponent implements OnInit {
     private shippingService: ShippingService,
   ) { }
 
-  loading = false
-  URLS = URLS
-  shippingMethods = null
+  loading = false;
+  URLS = URLS;
+  shippingMethods = null;
   zones = []
+  regions = null;
+  countries = null;
+  countriesWithoutZone = null;
+  regionsWithoutZone = null;
+
 
   getzones()
   {
@@ -105,7 +110,21 @@ export class ShippingZoneComponent implements OnInit {
     });
   }
 
+
+  getRegionsAndCountries(){
+    this.shippingService.getRegionCount().then(resp=>{
+      if (resp) {
+        console.log(resp.data);
+        this.countries = resp.data.countries;
+        this.regions = resp.data.region;
+        this.countriesWithoutZone = resp.data.countries_without_zone;
+        this.regionsWithoutZone = resp.data.region_without_zone;
+      }
+    })
+  }
+
   ngOnInit(): void {
-    this.getzones()
+    this.getzones();
+    this.getRegionsAndCountries();
   }
 }

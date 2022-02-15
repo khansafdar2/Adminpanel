@@ -65,24 +65,26 @@
                     </mat-card>
                 </div> -->
                 <div class="settings-section-card" fxFlex="0 1 33.3333%">
+                    <mat-card (click)="goToSettings('shippingRegions')">
+                        <mat-card-header>
+                            <div mat-card-avatar class="shipping_regions" [inlineSVG]="'/assets/img/shipping_regions.svg'"></div>
+                            <mat-card-title>Shipping regions</mat-card-title>
+                            <mat-card-subtitle>Create shipping zones to manage countries and their respective cities where you are delivering your products.</mat-card-subtitle>
+                        </mat-card-header>
+                    </mat-card>
+                </div>
+
+                <div class="settings-section-card" fxFlex="0 1 33.3333%">
                     <mat-card (click)="goToSettings('shipping')">
                         <mat-card-header>
-                            <div mat-card-avatar [inlineSVG]="'/assets/img/ShippingIcon.svg'"></div>
+                            <div mat-card-avatar  [inlineSVG]="'/assets/img/ShippingIcon.svg'"></div>
                             <mat-card-title>Shipping methods</mat-card-title>
                             <mat-card-subtitle>Manage shipping rates on your store.</mat-card-subtitle>
                         </mat-card-header>
                     </mat-card>
                 </div>
 
-                <div class="settings-section-card" fxFlex="0 1 33.3333%">
-                    <mat-card (click)="goToSettings('shippingRegions')">
-                        <mat-card-header>
-                            <div mat-card-avatar [inlineSVG]="'/assets/img/ShippingIcon.svg'"></div>
-                            <mat-card-title>Shipping regions</mat-card-title>
-                            <mat-card-subtitle>Manage shipping regions on your store.</mat-card-subtitle>
-                        </mat-card-header>
-                    </mat-card>
-                </div>
+
             </div>
         </div>
     </div>

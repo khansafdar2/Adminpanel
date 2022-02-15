@@ -25,6 +25,8 @@ export class ShippingComponent implements OnInit {
   URLS = URLS;
   loading: boolean = false;
   shippingMethods = [];
+  zoneCount = null;
+
   // displayedColumns: Column[] = [
   //   {
   //     title: "Title",
@@ -60,6 +62,15 @@ export class ShippingComponent implements OnInit {
       }
     })
   }
+
+  getZoneCount() {
+    this.shippingService.getZoneCount().then(resp=>{
+      if (resp) {
+        this.zoneCount = resp.data;
+      }
+    })
+  }
+
 
   onNewShippingMethod() {
     let dialogRef = this.dialog.open(AddShippingDialog, {
@@ -104,6 +115,7 @@ export class ShippingComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getZoneCount();
     
   }
 
@@ -209,6 +221,9 @@ export class AddZoneDialog {
       })
     }
   }
+
+
+
 
   onSubmit() {
     
