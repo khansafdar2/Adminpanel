@@ -12,6 +12,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     document.title = environment.client_name + " dashboard";
-    console.log("Version 4.91 Loyalty fixes.");
+    console.log("Version 4.92 Shipping regions");
   }
 }
