@@ -3,10 +3,10 @@
 <main id="main">
     <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
     <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
-        <h1 *ngIf="country_name">Cities of {{country_name}}</h1>
-        <h1 *ngIf="!country_name">No cities</h1>
+        <h1>Cities of {{country_name}}</h1>
 
         <div class="header-actions">
+            <a (click)="navigateToCountry()" mat-stroked-button color="primary">Back</a>
             <a (click)="onCreate()" mat-flat-button color="primary">Create new</a>
         </div>
     </div>

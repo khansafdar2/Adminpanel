@@ -3,11 +3,9 @@
 <main id="main">
     <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
     <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
-        <h1 *ngIf="region_name">Countries of {{region_name}} </h1>
-        <h1 *ngIf="!region_name">No Countries</h1>
-
-
+        <h1>Countries of {{region_name}} </h1>
         <div class="header-actions">
+            <a [routerLink]="['/', URLS.shippingRegions]" mat-stroked-button color="primary">Back</a>
             <a (click)="onCreate()" mat-flat-button color="primary">Create new</a>
         </div>
     </div>

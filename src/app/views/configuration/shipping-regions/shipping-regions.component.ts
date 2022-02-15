@@ -29,24 +29,6 @@ export class ShippingRegionsComponent implements OnInit {
       selector: "name",
       clickable: true
     },
-
-    {
-      title: "Status",
-      selector: "is_active",
-      cell: row => row.is_active === true ? "Active" : "Inactive"
-    },
-    {
-      title: "Created at",
-      selector: "created_at",
-      pipe: 'date',
-      dateFormat: 'h:mm a MMM d'
-    },
-    {
-      title: "Updated at",
-      selector: "updated_at",
-      pipe: 'date',
-      dateFormat: 'h:mm a MMM d'
-    }
   ];
   rowActions = ["Edit", "Delete"]
   shippingRegion = [];
@@ -141,7 +123,7 @@ export class ShippingRegionDeleteDialog {
   ) { }
 
   loading: boolean = false;
-
+  region_name = this.data.region.name
   onDelete() {
     this.loading = true;
     this.shippingRegionService.deleteShippingRegion(this.data.region.id).then(resp => {

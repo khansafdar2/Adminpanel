@@ -35,24 +35,6 @@ export class CountriesComponent implements OnInit {
       selector: "name",
       clickable: true
     },
-    
-    {
-      title: "Status",
-      selector: "is_active",
-      cell: row => row.is_active === true ? "Active" : "Inactive"
-    },
-    {
-      title: "Created at",
-      selector: "created_at",
-      pipe: 'date',
-      dateFormat: 'h:mm a MMM d'
-    },
-    {
-      title: "Updated at",
-      selector: "updated_at",
-      pipe: 'date',
-      dateFormat: 'h:mm a MMM d'
-    }
   ];
   rowActions = ["Edit", "Delete"]
   country = [];
@@ -74,6 +56,17 @@ export class CountriesComponent implements OnInit {
     });
   }
 
+  
+  getRegionDetail(){
+    this.loading = true;
+    this.shippingRegionService.getShippingRegionDetail(this.regionID).then(resp=>{
+      this.loading = false;
+      if (resp) {
+        this.region_name = resp.data.name
+      }
+    })
+  }
+  
   onPageChange(event: PageEvent) {
     this.pageNumber = event.pageIndex + 1;
     this.pageSize = event.pageSize;
@@ -132,6 +125,7 @@ export class CountriesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCountryList();
+    this.getRegionDetail();
   }
 
 }
@@ -150,7 +144,8 @@ export class CountryDeleteDialog {
   ) {}
 
   loading: boolean = false;
-
+  country_name = this.data.country.name
+    
   onDelete() {
     this.loading = true;
     this.shippingRegionService.deleteCountry(this.data.country.id).then(resp => {

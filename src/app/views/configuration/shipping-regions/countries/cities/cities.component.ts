@@ -34,24 +34,6 @@ export class CitiesComponent implements OnInit {
       title: "Name",
       selector: "name",
     },
-    
-    {
-      title: "Status",
-      selector: "is_active",
-      cell: row => row.is_active === true ? "Active" : "Inactive"
-    },
-    {
-      title: "Created at",
-      selector: "created_at",
-      pipe: 'date',
-      dateFormat: 'h:mm a MMM d'
-    },
-    {
-      title: "Updated at",
-      selector: "updated_at",
-      pipe: 'date',
-      dateFormat: 'h:mm a MMM d'
-    }
   ];
   rowActions = ["Edit", "Delete"]
   city = [];
@@ -59,6 +41,7 @@ export class CitiesComponent implements OnInit {
   pageNumber: number = 1;
   pageSize: number = 20;
   country_name = '';
+  countryID = null
 
   getCityList() {
     this.loading = true;
@@ -70,6 +53,22 @@ export class CitiesComponent implements OnInit {
         this.totalCount = resp.data.count;
       }
     });
+  }
+
+  getCountryDetail(){
+    this.loading = true;
+    this.shippingRegionService.getCountryDetail(this.country_id).then(resp=>{
+      this.loading = false;
+      if (resp) {
+        this.country_name = resp.data.name;
+        this.countryID = resp.data.region;
+      }
+    })
+  }
+
+
+  navigateToCountry() {
+    this.router.navigate(["/", URLS.country, this.countryID]);
   }
 
   onPageChange(event: PageEvent) {
@@ -126,6 +125,7 @@ export class CitiesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCityList();
+    this.getCountryDetail();
   }
 
 }
@@ -144,7 +144,7 @@ export class CityDeleteDialog {
   ) {}
 
   loading: boolean = false;
-
+  city_name = this.data.city.name
   onDelete() {
     this.loading = true;
     this.shippingRegionService.deleteCity(this.data.city.id).then(resp => {
