@@ -66,8 +66,8 @@ export class LoyalityComponent implements OnInit {
     });
   }
 
-
   getLoyality() {
+    this.loading = true;
     this.loyalityService.getLoyality().then((resp) => {
       this.loading = false;
       if (resp) {
