@@ -132,7 +132,7 @@ export class AddShippingRatesComponent implements OnInit {
   getEndpointString()
   {
     let vendor = this.rateForm.get('vendor').value;
-    this.endPoints = "/products/product_group_list?vendor=" + vendor
+    this.endPoints = "/shipping/shipping_productgroup_list?vendor=" + vendor;
   }
 
   onVendorChange()
