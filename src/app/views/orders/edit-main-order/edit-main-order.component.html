@@ -26,7 +26,7 @@
                 </div>
 
                 <div class="order-lineitems">
-                    <div class="lineitem-wrapper" *ngFor="let lineitem of lineitems;">
+                    <div class="lineitem-wrapper" [class.deleted]="lineitem.deleted" *ngFor="let lineitem of lineitems;">
                         <div class="lineitem-productdata">
                             <img [src]="lineitem.product_image ? lineitem.product_image : '/assets/img/placeholder-image.png'" />
                             <div>
