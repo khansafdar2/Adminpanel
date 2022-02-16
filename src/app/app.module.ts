@@ -119,7 +119,7 @@ import { AddCouponComponent } from './views/discounts/coupons/add-coupon/add-cou
 import { EditCouponComponent } from './views/discounts/coupons/edit-coupon/edit-coupon.component';
 import { ShippingRegionsComponent } from './views/configuration/shipping-regions/shipping-regions.component';
 import { CountriesComponent } from './views/configuration/shipping-regions/countries/countries.component';
-import { CitiesComponent, CityDeleteDialog, CreateCityDialog } from './views/configuration/shipping-regions/countries/cities/cities.component';
+import { CitiesComponent, CityDeleteDialog, CityDialog } from './views/configuration/shipping-regions/countries/cities/cities.component';
 
 
 @NgModule({
@@ -255,7 +255,7 @@ import { CitiesComponent, CityDeleteDialog, CreateCityDialog } from './views/con
     CountriesComponent,
     CitiesComponent,
     CityDeleteDialog,
-    CreateCityDialog
+    CityDialog
   ],
   imports: [
     BrowserModule,

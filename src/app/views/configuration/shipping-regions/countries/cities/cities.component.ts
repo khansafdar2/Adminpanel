@@ -76,7 +76,7 @@ export class CitiesComponent implements OnInit {
   }
 
   onCreate() {
-    let dialogRef = this.dialog.open(CreateCityDialog, {
+    let dialogRef = this.dialog.open(CityDialog, {
       width: "600px",
       data: {
         country_id: this.country_id
@@ -92,7 +92,7 @@ export class CitiesComponent implements OnInit {
 
   onRowAction(data) {
     if (data.action === "Edit") {
-      let dialogRef = this.dialog.open(CreateCityDialog, {
+      let dialogRef = this.dialog.open(CityDialog, {
         width: "600px",
         data: {
           city: data.row
@@ -156,12 +156,12 @@ export class CityDeleteDialog {
 
 
 @Component({
-  selector: 'create-city-dialog',
-  templateUrl: '../../dialogs/create-city.html',
+  selector: 'city-dialog',
+  templateUrl: '../../dialogs/city-dialog.html',
 })
-export class CreateCityDialog {
+export class CityDialog {
   constructor(
-    public dialogRef: MatDialogRef<CreateCityDialog>,
+    public dialogRef: MatDialogRef<CityDialog>,
     @Inject(MAT_DIALOG_DATA) public data,
     private shippingRegionService: ShippingRegionService,
     private snackBar: MatSnackBar,
