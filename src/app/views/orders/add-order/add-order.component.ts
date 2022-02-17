@@ -41,7 +41,6 @@ export class AddOrderComponent implements OnInit {
   loading: boolean = false;
   URLS = URLS;
   storeCurrency = environment.currency;
-  lineitems = [];
   lineitemsForm = this.fb.group({
     lineitems: this.fb.array([])
   });
@@ -63,12 +62,12 @@ export class AddOrderComponent implements OnInit {
     this.customers = concat(
       of([]),
       this.customerInput.pipe(
-          distinctUntilChanged(),
-          tap(() => this.customersLoading = true),
-          switchMap(term => this.ordersService.getCustomersList(term).pipe(
-              catchError(() => of([])),
-              tap(() => this.customersLoading = false)
-          ))
+        distinctUntilChanged(),
+        tap(() => this.customersLoading = true),
+        switchMap(term => this.ordersService.getCustomersList(term).pipe(
+          catchError(() => of([])),
+          tap(() => this.customersLoading = false)
+        ))
       )
     );
   }
@@ -78,7 +77,7 @@ export class AddOrderComponent implements OnInit {
   }
 
   onQtyKeydown(event: KeyboardEvent) {
-    if(event.key === ".") {
+    if (event.key === ".") {
       event.preventDefault();
     }
   }
@@ -89,26 +88,58 @@ export class AddOrderComponent implements OnInit {
   }
 
   onAddItems(items) {
-    this.lineitems = this.lineitems.concat(items);
-    for (let i = 0; i < items.length; i++) {
-      const item = items[i];
-      (this.lineitemsForm.get('lineitems') as FormArray).push(
-        this.fb.group({
-          id: item.variant.id,
-          vendor_name: item.vendor_name,
-          vendor: item.vendor_id,
-          product_name: item.title,
-          variant_title: item.variant.title,
-          image: item.image,
-          shipping: item.shipping,
-          inventory_quantity: item.variant.inventory_quantity,
-          qty: [1, [Validators.required, Validators.min(1), Validators.max(item.variant.inventory_quantity)]],
-          price: item.variant.price,
-          sku: item.variant.sku,
-        })
-      );
+    if ((this.lineitemsForm.get('lineitems') as FormArray).length > 0) {
+      for (let i = 0; i < items.length; i++) {
+        let idMatch = false;
+        const item = items[i];
+        for (let j = 0; j < (this.lineitemsForm.get('lineitems') as FormArray).length; j++) {
+          const lineItemGroup = (this.lineitemsForm.get('lineitems')['controls'] as FormArray)[j] as FormGroup;
+          let variant_id = lineItemGroup.get('id').value;
+          if (item.variant.id === variant_id) {
+            idMatch = true
+            let qty = lineItemGroup.get('qty').value;
+            qty += 1
+            lineItemGroup.get('qty').patchValue(qty);
+          }
+        }
+        if (!idMatch) {
+          (this.lineitemsForm.get('lineitems') as FormArray).push(
+            this.fb.group({
+              id: item.variant.id,
+              vendor_name: item.vendor_name,
+              vendor: item.vendor_id,
+              product_name: item.title,
+              variant_title: item.variant.title,
+              image: item.image,
+              shipping_amount: 0,
+              inventory_quantity: item.variant.inventory_quantity,
+              qty: [1, [Validators.required, Validators.min(1), Validators.max(item.variant.inventory_quantity)]],
+              price: item.variant.price,
+              sku: item.variant.sku,
+            })
+          );
+        }
+      }
+    } else {
+      for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+        (this.lineitemsForm.get('lineitems') as FormArray).push(
+          this.fb.group({
+            id: item.variant.id,
+            vendor_name: item.vendor_name,
+            vendor: item.vendor_id,
+            product_name: item.title,
+            variant_title: item.variant.title,
+            image: item.image,
+            shipping_amount: 0,
+            inventory_quantity: item.variant.inventory_quantity,
+            qty: [1, [Validators.required, Validators.min(1), Validators.max(item.variant.inventory_quantity)]],
+            price: item.variant.price,
+            sku: item.variant.sku,
+          })
+        );
+      }
     }
-
     this.updateTotals();
   }
 
@@ -124,13 +155,13 @@ export class AddOrderComponent implements OnInit {
       // Calculate Subtotal
       let price = lineItemGroup.get('price').value;
       let qty = lineItemGroup.get('qty').value;
-      if(lineItemGroup.get('qty').valid) {
+      if (lineItemGroup.get('qty').valid) {
         subTotal += (price * qty);
       }
 
       // Calculate Shipping
-      let shipping = lineItemGroup.get('shipping').value;
-      if(shipping) {
+      let shipping = lineItemGroup.get('shipping_amount').value;
+      if (shipping) {
         totalShipping += shipping;
       }
     }
@@ -151,7 +182,7 @@ export class AddOrderComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(address => {
-      if(address) {
+      if (address) {
         this.shippingAddress = address;
       }
     });
@@ -167,7 +198,7 @@ export class AddOrderComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(address => {
-      if(address) {
+      if (address) {
         this.billingAddress = address;
       }
     });
@@ -182,7 +213,7 @@ export class AddOrderComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(method => {
-      if(method) {
+      if (method) {
         this.paymentMethod = method;
         this.paymentStatus = status;
       }
@@ -190,7 +221,7 @@ export class AddOrderComponent implements OnInit {
   }
 
   onSubmit() {
-    let data:any = {
+    let data: any = {
       customer: this.selectedCustomer,
       notes: this.notes,
       tags: this.tags.join(",")
@@ -200,17 +231,18 @@ export class AddOrderComponent implements OnInit {
       return {
         variant_id: lineitem.id,
         quantity: lineitem.qty,
-        vendor: lineitem.vendor
+        vendor: lineitem.vendor,
+        shipping_amount: lineitem.shipping_amount
       }
     });
     data.line_items = lineitems;
-    if(this.shippingAddress) {
+    if (this.shippingAddress) {
       data.shipping_address = this.shippingAddress;
     }
-    if(this.billingAddress) {
+    if (this.billingAddress) {
       data.billing_address = this.billingAddress;
     }
-    if(this.paymentStatus) {
+    if (this.paymentStatus) {
       data.payment_status = this.paymentStatus;
       data.payment_method = this.paymentMethod;
       data.open_order = true;
@@ -221,9 +253,9 @@ export class AddOrderComponent implements OnInit {
     }
 
     this.ordersService.createOrder(data).then(resp => {
-      if(resp) {
-        this.snackbar.open("Order created successfully", "", {duration: 3000});
-        if(data.open_order) {
+      if (resp) {
+        this.snackbar.open("Order created successfully", "", { duration: 3000 });
+        if (data.open_order) {
           this.router.navigate(['/', URLS.orders]);
         } else {
           this.router.navigate(['/', URLS.draftOrders]);

@@ -28,16 +28,28 @@
                                     <span class="product-name">{{lineitemGroup.get('product_name').value}}</span>
                                     <span class="variant_info">{{lineitemGroup.get('vendor_name').value}}<br>{{lineitemGroup.get('variant_title').value == "Default Title" ? "" : lineitemGroup.get('variant_title').value }}</span>
                                 </div>
+
                             </div>
                             <div class="lineitem-price-qty">
-                                {{lineitemGroup.get('price').value}} {{storeCurrency}} x <input type="number" class="lineitem-qty" min="1" formControlName="qty" (keydown)="onQtyKeydown($event)" (change)="onQtyChange()" />
+                                
+                                {{lineitemGroup.get('price').value}} {{storeCurrency}} x <input type="number" class="lineitem-qty" min="1" formControlName="qty" (keydown)="onQtyKeydown($event)" (change)="onQtyChange()" />                                
                             </div>
+
                             <div class="lineitem-subtotal">
-                                <span>{{lineitemGroup.get('price').value * lineitemGroup.get('qty').value}} {{storeCurrency}}</span>
+                                <span>{{lineitemGroup.get('price').value * lineitemGroup.get('qty').value}} {{storeCurrency}}</span><br>
+                                <div class="shipping-container">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Shipping</mat-label>
+                                        <input matInput placeholder="shipping" type="number"  formControlName="shipping_amount"/>
+                                    </mat-form-field>
+                                </div>
                             </div>
                             <div>
                                 <button mat-icon-button color="warn" (click)="deleteLineItem(i)"><mat-icon>delete</mat-icon></button>
                             </div>
+
+
+
                         </ng-container>
                     </div>
                 </div>

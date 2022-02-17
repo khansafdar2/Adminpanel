@@ -44,10 +44,17 @@
                                     (keydown)="onQtyKeydown($event)"
                                     (change)="onQtyChange()"
                                 />
+
                                 <span *ngIf="lineitemGroup.get('deleted').value" class="lineitem-qty"> x {{ lineitemGroup.get('quantity').value }}</span>
                             </div>
                             <div class="lineitem-subtotal">
                                 <span>{{lineitemGroup.get('subtotal').value}} {{storeCurrency}}</span>
+                                <div class="shipping-container">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Shipping</mat-label>
+                                        <input matInput placeholder="shipping" type="number"  formControlName="shipping_amount"/>
+                                    </mat-form-field>
+                                </div>
                             </div>
                             <div>
                                 <button mat-icon-button color="warn" *ngIf="!lineitemGroup.get('deleted').value" (click)="removeLineItem(i)"><mat-icon>delete</mat-icon></button>

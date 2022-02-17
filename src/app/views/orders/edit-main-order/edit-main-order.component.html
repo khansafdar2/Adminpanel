@@ -35,10 +35,11 @@
                             </div>
                         </div>
                         <div class="lineitem-price-qty">
-                            {{lineitem.price}} {{storeCurrency}} x {{lineitem.quantity}}
+                            {{lineitem.price}} {{storeCurrency}} x {{lineitem.quantity}} 
                         </div>
                         <div class="lineitem-subtotal">
                             <span>{{lineitem.subtotal}} {{storeCurrency}}</span>
+                            <div> Shipping amount {{lineitem.shipping_amount}}</div>
                         </div>
                     </div>
                 </div>

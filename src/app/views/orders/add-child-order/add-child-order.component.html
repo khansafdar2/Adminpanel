@@ -46,10 +46,21 @@
                       </div>
                   </div>
                   <div class="lineitem-price-qty">
-                      {{lineitemGroup.get('price').value}} {{storeCurrency}} x <input type="number" class="lineitem-qty" min="1" formControlName="quantity" (keydown)="onQtyKeydown($event)" (change)="onQtyChange()" />
+                      {{lineitemGroup.get('price').value}} {{storeCurrency}} x 
+                      <span>
+                        <input type="number" class="lineitem-qty" min="1" formControlName="quantity" (keydown)="onQtyKeydown($event)" (change)="onQtyChange()" />
+                      </span>
+
+
                   </div>
                   <div class="lineitem-subtotal">
                       <span>{{lineitemGroup.get('subtotal').value}} {{storeCurrency}}</span>
+                      <div class="shipping-container">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Shipping</mat-label>
+                            <input matInput placeholder="shipping" type="number"  formControlName="shipping_amount"/>
+                        </mat-form-field>
+                    </div>
                   </div>
                   <div>
                       <button mat-icon-button color="warn" (click)="removeLineItem(i)"><mat-icon>delete</mat-icon></button>

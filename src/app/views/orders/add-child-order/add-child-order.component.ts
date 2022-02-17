@@ -84,7 +84,7 @@ export class AddChildOrderComponent implements OnInit {
       }
 
       // Calculate Shipping
-      let shipping = lineItemGroup.get('shipping').value;
+      let shipping = lineItemGroup.get('shipping_amount').value;
       if(shipping) {
         totalShipping += parseFloat(shipping);
       }
@@ -100,28 +100,62 @@ export class AddChildOrderComponent implements OnInit {
     this.grandTotal = subTotal + totalShipping;
   }
 
-  onAddItems(items) {
-    console.log(items);
-    for (let i = 0; i < items.length; i++) {
-      const item = items[i];
-      (this.orderForm.get('line_items') as FormArray).push(
-        this.fb.group({
-          variant_id: item.variant.id,
-          product_title: item.title,
-          variant_title: item.variant.title,
-          product_image: item.image,
-          shipping: item.shipping,
-          available_quantity: item.variant.inventory_quantity,
-          quantity: [1, [Validators.required, Validators.min(1), Validators.max(item.variant.inventory_quantity)]],
-          subtotal: item.variant.price,
-          price: item.variant.price,
-          sku: item.variant.sku,
-        })
-      );
-    }
 
+  onAddItems(items) {
+    if ((this.orderForm.get('line_items') as FormArray).length > 0) {
+      for (let i = 0; i < items.length; i++) {
+        let idMatch = false;
+        const item = items[i];
+        for (let j = 0; j < (this.orderForm.get('line_items') as FormArray).length; j++) {
+          const lineItemGroup = (this.orderForm.get('line_items')['controls'] as FormArray)[j] as FormGroup;
+          let variant_id = lineItemGroup.get('variant_id').value;
+          if (item.variant.id === variant_id) {
+            idMatch = true
+            let qty = lineItemGroup.get('quantity').value;
+            qty += 1
+            lineItemGroup.get('quantity').patchValue(qty);
+          }
+        }
+        if (!idMatch) {
+          (this.orderForm.get('line_items') as FormArray).push(
+            this.fb.group({
+              variant_id: item.variant.id,
+              product_title: item.title,
+              variant_title: item.variant.title,
+              product_image: item.image,
+              shipping_amount: 0,
+              available_quantity: item.variant.inventory_quantity,
+              quantity: [1, [Validators.required, Validators.min(1), Validators.max(item.variant.inventory_quantity)]],
+              subtotal: item.variant.price,
+              price: item.variant.price,
+              sku: item.variant.sku,
+            })
+          );
+        }
+      }
+    } else {
+      for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+        (this.orderForm.get('line_items') as FormArray).push(
+          this.fb.group({
+            variant_id: item.variant.id,
+            product_title: item.title,
+            variant_title: item.variant.title,
+            product_image: item.image,
+            shipping_amount: 0,
+            available_quantity: item.variant.inventory_quantity,
+            quantity: [1, [Validators.required, Validators.min(1), Validators.max(item.variant.inventory_quantity)]],
+            subtotal: item.variant.price,
+            price: item.variant.price,
+            sku: item.variant.sku,
+          })
+        );
+      }
+    }
     this.updateTotals();
   }
+
+
 
   removeLineItem(index) {
     (this.orderForm.get('line_items') as FormArray).removeAt(index);
@@ -169,7 +203,8 @@ export class AddChildOrderComponent implements OnInit {
       line_items: formValue.line_items.map(item => {
         return {
           variant_id: item.variant_id,
-          quantity: item.quantity
+          quantity: item.quantity,
+          shipping_amount: item.shipping_amount
         }
       })
     }

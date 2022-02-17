@@ -89,7 +89,7 @@ export class EditChildOrderComponent implements OnInit {
             product_image: [lineitem.product_image],
             product_title: [lineitem.product_title],
             quantity: [lineitem.quantity, [Validators.required, Validators.min(1), Validators.max(lineitem.available_quantity)]],
-            shipping: [lineitem.shipping],
+            shipping_amount: [lineitem.shipping_amount],
             subtotal: [lineitem.subtotal],
             variant_title: [lineitem.variant_title],
             variant_id: [lineitem.variant_id]
@@ -120,7 +120,7 @@ export class EditChildOrderComponent implements OnInit {
       }
 
       // Calculate Shipping
-      let shipping = lineItemGroup.get('shipping').value;
+      let shipping = lineItemGroup.get('shipping_amount').value;
       if(shipping && !lineItemGroup.get('deleted').value) {
         totalShipping += parseFloat(shipping);
       }
@@ -133,26 +133,58 @@ export class EditChildOrderComponent implements OnInit {
   }
 
   onAddItems(items) {
-    console.log(this.lineitems, items);
-    for (let i = 0; i < items.length; i++) {
-      const item = items[i];
-      this.lineitemsFormArray.push(
-        this.fb.group({
-          variant_id: item.variant.id,
-          product_title: item.title,
-          variant_title: item.variant.title,
-          deleted: false,
-          product_image: item.image,
-          shipping: item.shipping,
-          available_quantity: item.variant.inventory_quantity,
-          quantity: [1, [Validators.required, Validators.min(1), Validators.max(item.variant.inventory_quantity)]],
-          subtotal: item.variant.price,
-          price: item.variant.price,
-          sku: item.variant.sku,
-        })
-      );
+    if (this.lineitemsFormArray.length > 0) {
+      for (let i = 0; i < items.length; i++) {
+        let idMatch = false;
+        const item = items[i];
+        for (let j = 0; j < this.lineitemsFormArray.length; j++) {
+          const lineItemGroup = (this.lineitemsFormArray['controls'][j] as FormGroup) ;
+          let variant_id = lineItemGroup.get('variant_id').value;
+          if (item.variant.id == variant_id) {
+            idMatch = true
+            let qty = lineItemGroup.get('quantity').value;
+            qty += 1
+            lineItemGroup.get('quantity').patchValue(qty);
+          }
+        }
+        if (!idMatch) {
+          (this.lineitemsFormArray.push(
+            this.fb.group({
+              variant_id: item.variant.id,
+              product_title: item.title,
+              variant_title: item.variant.title,
+              deleted: false,
+              product_image: item.image,
+              shipping_amount: 0,
+              available_quantity: item.variant.inventory_quantity,
+              quantity: [1, [Validators.required, Validators.min(1), Validators.max(item.variant.inventory_quantity)]],
+              subtotal: item.variant.price,
+              price: item.variant.price,
+              sku: item.variant.sku,
+            })
+          ));
+        }
+      }
+    } else {
+      for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+        (this.lineitemsFormArray.push(
+          this.fb.group({
+            variant_id: item.variant.id,
+            product_title: item.title,
+            variant_title: item.variant.title,
+            deleted: false,
+            product_image: item.image,
+            shipping_amount: 0,
+            available_quantity: item.variant.inventory_quantity,
+            quantity: [1, [Validators.required, Validators.min(1), Validators.max(item.variant.inventory_quantity)]],
+            subtotal: item.variant.price,
+            price: item.variant.price,
+            sku: item.variant.sku,
+          })
+        ))
+      }
     }
-
     this.updateTotals();
   }
 
@@ -195,7 +227,9 @@ export class EditChildOrderComponent implements OnInit {
       let obj = {
         id: lineitem.id ? lineitem.id : null,
         quantity: lineitem.quantity,
-        variant_id: lineitem.variant_id
+        variant_id: lineitem.variant_id,
+        shipping_amount: lineitem.shipping_amount
+
       }
       if(!obj.id) {
         delete obj.id;
