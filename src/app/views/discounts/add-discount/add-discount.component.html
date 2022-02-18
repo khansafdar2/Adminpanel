@@ -310,7 +310,7 @@
                     <mat-checkbox formControlName="is_active">Active</mat-checkbox>
                 </mat-card>
 
-                <mat-card>
+                <mat-card *ngIf="discountForm.get('discount_type').value === 'simple_discount'">
                     <h2>Website view</h2>
                     <mat-checkbox formControlName="show_both_price">Show both discounted and original price on web.
                     </mat-checkbox>

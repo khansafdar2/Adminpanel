@@ -189,8 +189,13 @@ export class AddProductComponent implements OnInit {
     this.productForm.patchValue({
       product_group: ""
     });
-    let vendor = this.productForm.get('vendor').value;
-    this.productsService.getProductGroups(1, 250, "&vendor=" + vendor, "").then(resp => {
+    let vendor:any
+    if (this.is_vendor) {
+      vendor = ""
+    } else {
+     vendor =  "&vendor=" + this.productForm.get('vendor').value;
+    }
+    this.productsService.getProductGroups(1, 250,  vendor, "").then(resp => {
       if(resp) {
         this.productGroups = resp.data.results;
       }
@@ -198,8 +203,13 @@ export class AddProductComponent implements OnInit {
   }
 
   getCollections() {
-    let vendor = this.productForm.get('vendor').value;
-    this.collectionsService.getCollectionsList(1, 250, "&vendor=" + vendor, "").then(resp => {
+    let vendor:any
+    if (this.is_vendor) {
+      vendor = ""
+    } else {
+     vendor =  "&vendor=" + this.productForm.get('vendor').value;
+    }
+    this.collectionsService.getCollectionsList(1, 250, vendor, "").then(resp => {
       if(resp) {
         this.collections = resp.data.results;
       }
@@ -413,6 +423,10 @@ export class AddProductComponent implements OnInit {
   ngOnInit(): void {
     this.getVendors();
     this.getBrands();
+    if (this.is_vendor) {
+      this.getProductGroups();
+      this.getCollections();
+    }
   }
 
 }
