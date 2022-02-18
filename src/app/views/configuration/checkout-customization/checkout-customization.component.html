@@ -1,0 +1,56 @@
+<app-topbar></app-topbar>
+<app-sidenav></app-sidenav>
+<main id="main">
+    <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+    <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
+        <h1>Checkout setting</h1>
+        <div class="header-actions">
+            <a [routerLink]="['/', URLS.configuration]" mat-stroked-button color="primary">Cancel</a>
+            <button mat-flat-button color="primary">Save</button>
+        </div>
+    </div>
+
+    <form>
+        <div fxLayout="row">
+            <div fxFlex="0 1 50%">
+                <h3>Customer accounts</h3>
+                <h4>Choose if you </h4>
+                <mat-card>
+                    <div fxLayout="row">
+                        <div fxFlex="0 1 50%">
+                            <mat-radio-group class="collection-type-radio"  fxLayout="row">
+                                <div fxLayout="column">
+                                    <mat-radio-button value="account_disabled">Accounts are disabled</mat-radio-button>
+                                    <h5>Customer will only be able to check out as guests</h5>
+        
+                                    <mat-radio-button value="account_optional">Accounts are optional</mat-radio-button>
+                                    <h5>Customer will be able to check out with a customer account or as guests</h5>
+
+                                    <mat-radio-button value="account_required">Accounts are required</mat-radio-button>
+                                    <h5>Customer will only be able to check out as if they have customer account</h5>
+                                </div>
+        
+                            </mat-radio-group>
+
+                        </div>
+
+                        <div fxFlex="0 1 50%">
+                           
+                        </div>
+                    </div>
+
+
+                </mat-card>
+
+
+            </div>
+            <div fxFlex="0 1 50%">
+                <h3>Customer contact</h3>
+                <mat-card fxLayout="column">
+                   
+                </mat-card>
+            </div>
+
+        </div>
+    </form>
+</main>

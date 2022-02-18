@@ -45,7 +45,8 @@ const URLS = {
     coupons:'coupons',
     shippingRegions: 'shipping-regions',
     country: 'country',
-    cities:'cities'
+    cities:'cities',
+    checkoutCustomization: 'checkout-customization'
     
 }
 

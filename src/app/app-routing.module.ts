@@ -1,3 +1,4 @@
+import { CheckoutCustomizationComponent } from './views/configuration/checkout-customization/checkout-customization.component';
 import { CitiesComponent } from './views/configuration/shipping-regions/countries/cities/cities.component';
 import { ShippingRegionsComponent } from './views/configuration/shipping-regions/shipping-regions.component';
 import { FooterCustomizationComponent } from './views/cms/footer-customization/footer-customization.component';
@@ -204,6 +205,8 @@ const routes: Routes = [
   {path: URLS.shippingRegions, component: ShippingRegionsComponent,  canActivate: [LoggedInAuthGuard, ConfigurationGuard, VendorGuard]},
   {path: URLS.country + '/:id', component: CountriesComponent,  canActivate: [LoggedInAuthGuard, ConfigurationGuard, VendorGuard]},
   {path: URLS.cities + '/:id', component: CitiesComponent,  canActivate: [LoggedInAuthGuard, ConfigurationGuard, VendorGuard]},
+  {path: URLS.checkoutCustomization, component: CheckoutCustomizationComponent,  canActivate: [LoggedInAuthGuard, ConfigurationGuard, VendorGuard]},
+
 
 ];
 
