@@ -101,6 +101,14 @@
                         <span>{{grandTotal}} {{storeCurrency}}</span>
                     </div>
                 </div>
+                <div fxLayout="row" fxLayoutAlign="space-between" *ngIf="paidByWallet > 0">
+                    <div>
+                        <span>Paid by wallet</span>
+                    </div>
+                    <div>
+                        <span>{{paidByWallet}} {{storeCurrency}}</span>
+                    </div>
+                </div>
                 <div class="payment-status">
                     <div fxLayout="row" fxLayoutAlign="space-between">
                         <div>
