@@ -22,10 +22,11 @@ export class AddProductGroupComponent implements OnInit {
     private router: Router,
     private authService: AuthService,) { }
 
-  loading: boolean = true;
+  loading: boolean = false;
   URLS = URLS;
   is_vendor = this.authService.user.is_vendor;
   vendors: [];
+  vendorId = this.authService.user.vendor_id;
   productGroupForm = this.fb.group({
     title: ['', [Validators.required]],
     vendor: [null, [Validators.required]],
@@ -54,7 +55,11 @@ export class AddProductGroupComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (!this.is_vendor) {
+    if (this.is_vendor) {
+      this.productGroupForm.patchValue({
+        vendor:this.vendorId
+      })
+    } else {
       this.getVendors();
     }
 

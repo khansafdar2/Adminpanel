@@ -52,6 +52,7 @@ export class AddProductComponent implements OnInit {
   loading: boolean = false;
   URLS = URLS;
   is_vendor = this.authService.user.is_vendor;
+  vendorID = this.authService.user.vendor_id;
   productTypes: any[] = [];
   productGroups: any[] = [];
   collections: any[] = [];
@@ -424,6 +425,9 @@ export class AddProductComponent implements OnInit {
     this.getVendors();
     this.getBrands();
     if (this.is_vendor) {
+      this.productForm.patchValue({
+        vendor: this.vendorID
+      })
       this.getProductGroups();
       this.getCollections();
     }

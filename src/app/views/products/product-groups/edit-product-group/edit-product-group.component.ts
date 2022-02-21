@@ -59,7 +59,6 @@ export class EditProductGroupComponent implements OnInit {
   }
 
 
-
   onSubmit() {
     this.loading = true;
     this.productsService.updateProductGroup(this.productGroupForm.value).then(resp => {
@@ -74,7 +73,6 @@ export class EditProductGroupComponent implements OnInit {
     if (!this.is_vendor) {
       this.getVendors();
     }
-
     this.getProductGroupDetails();
   }
 

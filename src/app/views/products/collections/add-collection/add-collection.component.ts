@@ -27,6 +27,7 @@ export class AddCollectionComponent implements OnInit {
   loading: boolean = false;
   file_uploading: boolean = false;
   is_vendor = this.authservice.user.is_vendor;
+  vendorID = this.authservice.user.vendor_id;
   bannerFile: File;
   vendors = [];
   editorModules = {
@@ -132,6 +133,7 @@ export class AddCollectionComponent implements OnInit {
 
   getCategories() {
     this.collectionsService.getCategoriesList().then(resp => {
+      debugger
       if(resp) {
         this.main_categories = resp.data.main_categories;
         this.sub_categories = resp.data.sub_categories;
@@ -157,7 +159,13 @@ export class AddCollectionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getVendorsList();
+    if (this.is_vendor) {
+      this.collectionForm.patchValue({
+        vendor:this.vendorID
+      })
+    } else {
+      this.getVendorsList();
+    }
     this.getCategories();
   }
 
