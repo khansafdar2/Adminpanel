@@ -204,7 +204,7 @@
                         <div fxFlex="0 1 50%">
                             <mat-form-field appearance="outline" style="margin-top: 20px">
                                 <mat-label>Discount value</mat-label>
-                                <input matInput formControlName="value" />
+                                <input matInput type="number" formControlName="value" />
                                 <span matSuffix *ngIf="discountForm.get('value_type').value === 'percentage'">%</span>
                                 <span matSuffix
                                     *ngIf="discountForm.get('value_type').value === 'fixed_amount'">{{storeCurrency}}</span>
