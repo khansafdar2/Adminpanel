@@ -58,7 +58,7 @@
                       <div class="shipping-container">
                         <mat-form-field appearance="outline">
                             <mat-label>Shipping</mat-label>
-                            <input matInput placeholder="shipping" type="number"  formControlName="shipping_amount"/>
+                            <input matInput placeholder="shipping" type="number" (change)="updateTotals()"  formControlName="shipping_amount"/>
                         </mat-form-field>
                     </div>
                   </div>

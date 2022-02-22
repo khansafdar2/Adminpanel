@@ -162,7 +162,7 @@ export class AddOrderComponent implements OnInit {
       // Calculate Shipping
       let shipping = lineItemGroup.get('shipping_amount').value;
       if (shipping) {
-        totalShipping += shipping;
+        totalShipping += parseFloat(shipping);
       }
     }
     this.subTotal = subTotal;

@@ -120,8 +120,8 @@ export class EditDraftOrderComponent implements OnInit {
     for (let i = 0; i < this.lineitems.length; i++) {
       const lineItem = this.lineitems[i];
       subtotal += lineItem.subtotal;
-      if(lineItem.shipping) {
-        totalShipping += lineItem.shipping;
+      if(lineItem.shipping_amount) {
+        totalShipping += parseFloat(lineItem.shipping_amount);
       }
     }
 
@@ -160,7 +160,8 @@ export class EditDraftOrderComponent implements OnInit {
       return {
         variant_id: lineitem.variant,
         quantity: lineitem.quantity,
-        vendor: lineitem.vendor
+        vendor: lineitem.vendor,
+        shipping_amount: lineitem.shipping_amount
       }
     });
     data.line_items = lineitems;

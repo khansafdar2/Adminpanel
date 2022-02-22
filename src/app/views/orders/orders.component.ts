@@ -151,11 +151,11 @@ export class OrdersComponent implements OnInit {
   }
 
   onCellClick(data) {
-    if(data.column === 'name') {
-      if (!this.is_vendor) {
-        this.router.navigate(["/", URLS.orders, URLS.editMainOrder, data.row.id]);
-      } else {
+    if (data.column === 'name') {
+      if (this.is_vendor) {
         this.router.navigate(["/", URLS.orders, URLS.editChildOrder, data.row.id]);
+      } else {
+        this.router.navigate(["/", URLS.orders, URLS.editMainOrder, data.row.id]);
       }
     }
   }
@@ -170,7 +170,7 @@ export class OrdersComponent implements OnInit {
     let filterString = "";
     for (let i = 0; i < appliedFilters.length; i++) {
       const filter = appliedFilters[i];
-      if(filter.value) {
+      if (filter.value) {
         filterString += "&" + filter.key + "=" + filter.value;
       }
     }
@@ -187,7 +187,7 @@ export class OrdersComponent implements OnInit {
       }
     });
     dialogRef.afterClosed().subscribe(exported => {
-      if(exported) {
+      if (exported) {
         this.orderSelection.clear();
       }
     });
@@ -195,23 +195,19 @@ export class OrdersComponent implements OnInit {
 
   getOrders() {
     this.loading = true;
-    if (!this.is_vendor) {
-      this.ordersService.getOrders(this.page, this.pageSize, this.searchString, this.filterString).then(resp => {
-        this.loading = false;
-        if(resp) {
-          this.totalCount = resp.data.count;
-          this.orders = resp.data.results;
-        }
-      });
+    let orderservice;
+    if (this.is_vendor) {
+      orderservice = this.ordersService.getVendorOrder(this.page, this.pageSize, this.searchString, this.filterString);
     } else {
-      this.ordersService.getVendorOrder().then(resp => {
-        this.loading = false;
-        if(resp) {
-          this.totalCount = resp.data.count;
-          this.orders = resp.data.results;
-        }
-      });
+      orderservice = this.ordersService.getOrders(this.page, this.pageSize, this.searchString, this.filterString);
     }
+    orderservice.then(resp => {
+      this.loading = false;
+      if (resp) {
+        this.totalCount = resp.data.count;
+        this.orders = resp.data.results;
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -243,7 +239,7 @@ export class OrdersExportDialog {
     this.loading = true;
     this.ordersService.exportOrders(this.exportType === "all" ? "all" : this.ids).then(resp => {
       this.loading = false;
-      if(resp) {
+      if (resp) {
         let csv_data = resp.data;
         var fileURL = window.URL.createObjectURL(new Blob([csv_data], { type: 'text/csv;charset=utf-8;' }));
         var fileLink = document.createElement('a');

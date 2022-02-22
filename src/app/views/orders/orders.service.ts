@@ -62,8 +62,8 @@ export class OrdersService {
     });
   }
 
-  getVendorOrder() {
-    return Axios.get(environment.backend_url + '/vendors/vendor_order_list', {
+  getVendorOrder(page: number, limit: number, search: string, filterString: string) {
+    return Axios.get(environment.backend_url + '/vendors/vendor_order_list?page=' + page + '&limit=' + limit + '&search=' + search + filterString, {
       headers: {
         Authorization: this.authService.token
       }
