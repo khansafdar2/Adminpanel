@@ -114,7 +114,6 @@ export class EditProductComponent implements OnInit {
     whatsapp: [true],
     hide_out_of_stock: [false],
     has_variants: [false],
-    track_inventory: [true],
     warranty: [""],
     tags: [""]
   });
@@ -301,7 +300,8 @@ export class EditProductComponent implements OnInit {
             inventory_quantity: variant.inventory_quantity,
             sku: variant.sku,
             is_physical: variant.is_physical,
-            weight: variant.weight
+            weight: variant.weight,
+            track_inventory: resp.data.track_inventory
           });
           this.priceForm.patchValue({
             price: variant.price,

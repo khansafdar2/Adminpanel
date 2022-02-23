@@ -1,3 +1,4 @@
+import { AuthService } from './../../../auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -28,7 +29,8 @@ export class EditDraftOrderComponent implements OnInit {
     private dialog: MatDialog,
     private route: ActivatedRoute,
     private router: Router,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
+    private authService: AuthService
   ) {
     this.orderID = this.route.snapshot.paramMap.get('id');
   }
@@ -36,6 +38,7 @@ export class EditDraftOrderComponent implements OnInit {
   loading: boolean = true;
   URLS = URLS;
   storeCurrency = environment.currency;
+  is_vendor = this.authService.user.is_vendor;
   orderID = "";
   orderTitle = "";
   lineitems = [];

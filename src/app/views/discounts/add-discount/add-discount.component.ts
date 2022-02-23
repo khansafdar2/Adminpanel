@@ -225,9 +225,9 @@ export class AddDiscountComponent implements OnInit {
     }
   }
 
-  onCriteriaChange(){
+  onCriteriaChange() {
     if (!this.is_vendor) {
-      if (this.discountForm.get('criteria').value != "product_group"){        
+      if (this.discountForm.get('criteria').value != "product_group") {
         this.discountForm.get("vendor").setValue(null)
       }
     }
@@ -244,6 +244,20 @@ export class AddDiscountComponent implements OnInit {
     });
   }
 
+
+
+  discountTypeChange() {
+    let discountType = this.discountForm.get('discount_type').value
+    if (discountType !== 'simple_discount') {
+      (this.discountForm.controls['start_date'] as FormControl).setValidators([Validators.required]);
+      (this.discountForm.controls['end_date'] as FormControl).setValidators([Validators.required]);
+    } else {
+      (this.discountForm.controls['start_date'] as FormControl).clearValidators();
+      (this.discountForm.controls['end_date'] as FormControl).clearValidators();
+    }
+    (this.discountForm.controls['start_date'] as FormControl).updateValueAndValidity();
+    (this.discountForm.controls['end_date'] as FormControl).updateValueAndValidity();
+  }
 
   ngOnInit(): void {
     this.getCustomers();
