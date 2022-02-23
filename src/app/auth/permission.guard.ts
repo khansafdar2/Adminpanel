@@ -294,7 +294,6 @@ export class VendorGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if(this.authService.user.is_vendor) {
-      debugger
       if(route.url[0].path === "edit" && route.url[1].path ==  this.authService.user.vendor_id) {
         return true;
       }
