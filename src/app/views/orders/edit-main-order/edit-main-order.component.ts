@@ -48,6 +48,7 @@ export class EditMainOrderComponent implements OnInit {
   totalShipping: number = 0;
   totalTax: number = 0;
   grandTotal: number = 0;
+  paidByWallet: number = 0;
   tags: string[] = [];
   childOrders = [];
   notes: string = "";
@@ -144,6 +145,7 @@ export class EditMainOrderComponent implements OnInit {
         this.subTotal = resp.data.subtotal_price;
         this.totalShipping = resp.data.total_shipping;
         this.grandTotal = resp.data.total_price;
+        this.paidByWallet = parseFloat(resp.data.paid_by_wallet);
         this.shippingAddress = resp.data.shipping_address.address ? resp.data.shipping_address : null;
         this.billingAddress = resp.data.billing_address.address ? resp.data.billing_address : null;
         this.customer = resp.data.customer;

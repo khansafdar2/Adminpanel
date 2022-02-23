@@ -52,7 +52,7 @@
                                 <div class="shipping-container" *ngIf="!lineitemGroup.get('deleted').value">
                                     <mat-form-field appearance="outline">
                                         <mat-label>Shipping</mat-label>
-                                        <input matInput placeholder="shipping" type="number"  formControlName="shipping_amount"/>
+                                        <input matInput placeholder="shipping" type="number" (change)="updateTotals()"  formControlName="shipping_amount"/>
                                     </mat-form-field>
                                 </div>
                                 <div *ngIf="lineitemGroup.get('deleted').value">Shipping {{lineitemGroup.get('shipping_amount').value}}</div>
@@ -101,6 +101,14 @@
                         <span>{{grandTotal}} {{storeCurrency}}</span>
                     </div>
                 </div>
+                <div fxLayout="row" fxLayoutAlign="space-between" *ngIf="paidByWallet > 0">
+                    <div>
+                        <span>Paid by wallet</span>
+                    </div>
+                    <div>
+                        <span>{{paidByWallet}} {{storeCurrency}}</span>
+                    </div>
+                </div>
                 <div class="payment-status">
                     <div fxLayout="row" fxLayoutAlign="space-between">
                         <div>
@@ -119,7 +127,8 @@
                 <div class="card-section">
                     <h3>Customer detail</h3>
 
-                    <a [routerLink]="['/', URLS.customers, URLS.edit, customer.id]" target="_blank">{{customer.name}}</a>
+                    <a *ngIf="!is_vendor" [routerLink]="['/', URLS.customers, URLS.edit, customer.id]" target="_blank">{{customer.name}}</a>
+                    <p *ngIf="is_vendor">{{customer.name}}</p>
                 </div>
                 <div class="card-section">
                     <h3>Contact information</h3>

@@ -1,3 +1,4 @@
+import { AuthService } from './../../../auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -28,7 +29,8 @@ export class EditDraftOrderComponent implements OnInit {
     private dialog: MatDialog,
     private route: ActivatedRoute,
     private router: Router,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
+    private authService: AuthService
   ) {
     this.orderID = this.route.snapshot.paramMap.get('id');
   }
@@ -36,6 +38,7 @@ export class EditDraftOrderComponent implements OnInit {
   loading: boolean = true;
   URLS = URLS;
   storeCurrency = environment.currency;
+  is_vendor = this.authService.user.is_vendor;
   orderID = "";
   orderTitle = "";
   lineitems = [];
@@ -120,8 +123,8 @@ export class EditDraftOrderComponent implements OnInit {
     for (let i = 0; i < this.lineitems.length; i++) {
       const lineItem = this.lineitems[i];
       subtotal += lineItem.subtotal;
-      if(lineItem.shipping) {
-        totalShipping += lineItem.shipping;
+      if(lineItem.shipping_amount) {
+        totalShipping += parseFloat(lineItem.shipping_amount);
       }
     }
 
@@ -160,7 +163,8 @@ export class EditDraftOrderComponent implements OnInit {
       return {
         variant_id: lineitem.variant,
         quantity: lineitem.quantity,
-        vendor: lineitem.vendor
+        vendor: lineitem.vendor,
+        shipping_amount: lineitem.shipping_amount
       }
     });
     data.line_items = lineitems;

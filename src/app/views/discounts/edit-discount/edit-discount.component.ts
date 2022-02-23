@@ -90,8 +90,7 @@ export class EditDiscountComponent implements OnInit {
     minimum_purchase_amount: [null]
   });
 
-  compareData(ob1, ob2)
-  {
+  compareData(ob1, ob2) {
     return ob1.id === ob2.id
   }
 
@@ -139,8 +138,8 @@ export class EditDiscountComponent implements OnInit {
 
 
   onVendorChange() {
-    if (this.discountForm.get('vendor').value){
-    this.getProductGroups();
+    if (this.discountForm.get('vendor').value) {
+      this.getProductGroups();
     } else {
       this.discountForm.patchValue({
         product_group: []
@@ -253,17 +252,17 @@ export class EditDiscountComponent implements OnInit {
         let subCategoryArray = [];
         let superSubCategoryArray = [];
 
-        mainCategoryArray = resp.data.main_category.map(data => { return {category_id: data, category_type: "main"}})
-        subCategoryArray = resp.data.sub_category.map(data => { return {category_id: data, category_type: "sub"}})
-        superSubCategoryArray = resp.data.super_sub_category.map(data => { return {category_id: data, category_type: "superSub"}})
-      
+        mainCategoryArray = resp.data.main_category.map(data => { return { category_id: data, category_type: "main" } })
+        subCategoryArray = resp.data.sub_category.map(data => { return { category_id: data, category_type: "sub" } })
+        superSubCategoryArray = resp.data.super_sub_category.map(data => { return { category_id: data, category_type: "superSub" } })
+
         // y categories
         let y_mainCategoryArray = [];
         let y_subCategoryArray = [];
         let y_superSubCategoryArray = [];
-        y_mainCategoryArray = resp.data.y_main_category.map(data => { return {category_id: data, category_type:"main"}})
-        y_subCategoryArray = resp.data.y_sub_category.map(data => { return {category_id: data, category_type:"sub"}})
-        y_superSubCategoryArray = resp.data.y_super_sub_category.map(data => { return {category_id: data, category_type:"superSub"}})
+        y_mainCategoryArray = resp.data.y_main_category.map(data => { return { category_id: data, category_type: "main" } })
+        y_subCategoryArray = resp.data.y_sub_category.map(data => { return { category_id: data, category_type: "sub" } })
+        y_superSubCategoryArray = resp.data.y_super_sub_category.map(data => { return { category_id: data, category_type: "superSub" } })
 
         this.selected_categories = this.selected_categories.concat(mainCategoryArray);
         this.selected_categories = this.selected_categories.concat(subCategoryArray);
@@ -289,13 +288,27 @@ export class EditDiscountComponent implements OnInit {
       }
     });
   }
-  
-  onCriteriaChange(){
+
+  onCriteriaChange() {
     if (!this.is_vendor) {
-      if (this.discountForm.get('criteria').value != "product_group"){
+      if (this.discountForm.get('criteria').value != "product_group") {
         this.discountForm.get("vendor").setValue(null)
       }
     }
+  }
+
+
+  discountTypeChange() {
+    let discountType = this.discountForm.get('discount_type').value
+    if (discountType !== 'simple_discount') {
+      (this.discountForm.controls['start_date'] as FormControl).setValidators([Validators.required]);
+      (this.discountForm.controls['end_date'] as FormControl).setValidators([Validators.required]);
+    } else {
+      (this.discountForm.controls['start_date'] as FormControl).clearValidators();
+      (this.discountForm.controls['end_date'] as FormControl).clearValidators();
+    }
+    (this.discountForm.controls['start_date'] as FormControl).updateValueAndValidity();
+    (this.discountForm.controls['end_date'] as FormControl).updateValueAndValidity();
   }
 
   onSubmit() {
@@ -313,6 +326,6 @@ export class EditDiscountComponent implements OnInit {
   ngOnInit(): void {
     this.getCustomers();
     this.getDiscountDetail();
-   
+
   }
 }

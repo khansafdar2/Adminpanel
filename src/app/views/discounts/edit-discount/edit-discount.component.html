@@ -25,21 +25,21 @@
                     </mat-form-field>
 
                     <h3>Type</h3>
-                    <mat-radio-group class="collection-type-radio" formControlName="discount_type" fxLayout="row">
+                    <mat-radio-group class="collection-type-radio" (change)="discountTypeChange()" formControlName="discount_type" fxLayout="row">
                         <div fxLayout="column">
                             <mat-radio-button value="simple_discount">Discount</mat-radio-button>
                             <h5>Customer will get discount automatically</h5>
 
-                            <mat-radio-button value="shipping_discount">Shipping discount</mat-radio-button>
-                            <h5>This discount will implement on shipping only</h5>
+                            <mat-radio-button value="buy_x_get_y">Buy X get Y free</mat-radio-button>
+                            <h5>This discount will allow customers to get additional products on discount based on set conditions</h5>
                         </div>
 
                         <div fxLayout="column">
                             <mat-radio-button value="promo">Promo Code</mat-radio-button>
                             <h5>Customer will get discount if they will enter this promo code</h5>
 
-                            <mat-radio-button value="buy_x_get_y">Buy X get Y free</mat-radio-button>
-                            <h5>This discount will allow customers to get additional products on discount based on set conditions</h5>
+                            <mat-radio-button *ngIf="!is_vendor" value="shipping_discount">Shipping discount</mat-radio-button>
+                            <h5 *ngIf="!is_vendor">This discount will implement on shipping only</h5>
                         </div>
                     </mat-radio-group>
                 </mat-card>
@@ -204,7 +204,7 @@
                         <div fxFlex="0 1 50%">
                             <mat-form-field appearance="outline" style="margin-top: 20px">
                                 <mat-label>Discount value</mat-label>
-                                <input matInput formControlName="value" />
+                                <input matInput type="number" min="0" formControlName="value" />
                                 <span matSuffix *ngIf="discountForm.get('value_type').value === 'percentage'">%</span>
                                 <span matSuffix
                                     *ngIf="discountForm.get('value_type').value === 'fixed_amount'">{{storeCurrency}}</span>
@@ -297,13 +297,13 @@
                 </ng-container>
             </div>
 
-            <div fxFlex="0 1 33.33333%">
+            <div fxFlex="0 1 33.33333%" >
                 <mat-card>
                     <h2>Status</h2>
                     <mat-checkbox formControlName="is_active">Active</mat-checkbox>
                 </mat-card>
 
-                <mat-card>
+                <mat-card *ngIf="discountForm.get('discount_type').value === 'simple_discount'">
                     <h2>Website view</h2>
                     <mat-checkbox formControlName="show_both_price">Show both discounted and original price on web.</mat-checkbox>
                     <mat-checkbox formControlName="show_tag">Show tag on products</mat-checkbox>

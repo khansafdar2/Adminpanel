@@ -221,7 +221,9 @@ export class EditCollectionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getVendorsList();
+    if (this.is_vendor) {
+      this.getVendorsList();
+    }
     this.getCategories();
     this.getProducts();
     this.getCollectionDetail();

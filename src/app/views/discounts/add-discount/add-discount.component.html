@@ -25,21 +25,22 @@
                     </mat-form-field>
 
                     <h3>Type</h3>
-                    <mat-radio-group class="collection-type-radio" formControlName="discount_type" fxLayout="row">
+                    <mat-radio-group class="collection-type-radio" (change)="discountTypeChange()" formControlName="discount_type" fxLayout="row">
                         <div fxLayout="column">
                             <mat-radio-button value="simple_discount">Discount</mat-radio-button>
                             <h5>Customer will get discount automatically</h5>
 
-                            <mat-radio-button value="shipping_discount">Shipping discount</mat-radio-button>
-                            <h5>This discount will implement on shipping only</h5>
+                            <mat-radio-button value="buy_x_get_y">Buy X get Y free</mat-radio-button>
+                            <h5>This discount will allow customers to get additional products on discount based on set conditions</h5>
                         </div>
 
                         <div fxLayout="column">
                             <mat-radio-button value="promo">Promo Code</mat-radio-button>
                             <h5>Customer will get discount if they will enter this promo code</h5>
 
-                            <mat-radio-button value="buy_x_get_y">Buy X get Y free</mat-radio-button>
-                            <h5>This discount will allow customers to get additional products on discount based on set conditions</h5>
+                            <mat-radio-button *ngIf="!is_vendor" value="shipping_discount">Shipping discount</mat-radio-button>
+                            <h5 *ngIf="!is_vendor">This discount will implement on shipping only</h5>
+
                         </div>
                     </mat-radio-group>
                 </mat-card>
@@ -172,8 +173,8 @@
                         </div>
                     </ng-container>
                     <div *ngIf="discountForm.get('y_criteria').value === 'product'">
+                        <product-selector [productValue]="yProducts" (addItems)="getYFreeAddItems($event)"></product-selector>
                         <div class="order-lineitems" *ngIf="yProducts.length">
-                            <product-selector [productValue]="yProducts" (addItems)="getYFreeAddItems($event)"></product-selector>
                             <div class="lineitem-wrapper" *ngFor="let item of yProducts let i = index">
                                 <ng-container>
                                     <div class="lineitem-productdata">
@@ -214,7 +215,7 @@
                         <div fxFlex="0 1 50%">
                             <mat-form-field appearance="outline" style="margin-top: 20px">
                                 <mat-label>Discount value</mat-label>
-                                <input matInput formControlName="value" />
+                                <input matInput type="number" min="0" formControlName="value" />
                                 <span matSuffix *ngIf="discountForm.get('value_type').value === 'percentage'">%</span>
                                 <span matSuffix *ngIf="discountForm.get('value_type').value === 'fixed_amount'">{{storeCurrency}}</span>
                                 <mat-error *ngIf="discountForm.get('value_type').hasError('required')">Please select a type of your discount.</mat-error>
@@ -241,7 +242,7 @@
                             <mat-form-field *ngIf="discountForm.get('discount_type').value === 'promo'"
                                 appearance="outline">
                                 <mat-label>Usage limit</mat-label>
-                                <input type="number" matInput formControlName="usage_limit" />
+                                <input type="number" min="0" matInput formControlName="usage_limit" />
                             </mat-form-field>
                         </div>
                     </div>
@@ -310,7 +311,7 @@
                     <mat-checkbox formControlName="is_active">Active</mat-checkbox>
                 </mat-card>
 
-                <mat-card>
+                <mat-card *ngIf="discountForm.get('discount_type').value === 'simple_discount'">
                     <h2>Website view</h2>
                     <mat-checkbox formControlName="show_both_price">Show both discounted and original price on web.
                     </mat-checkbox>

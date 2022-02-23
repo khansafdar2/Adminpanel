@@ -3,10 +3,9 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import URLS from 'src/app/shared/urls';
-import { ShippingService } from 'src/app/views/configuration/shipping/shipping.service';
-import { DiscountsService } from 'src/app/views/discounts/discounts.service';
 import { ProductsService } from '../../products.service';
 import { VendorsService } from '../../../vendors/vendors.service';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-add-product-group',
@@ -19,21 +18,18 @@ export class AddProductGroupComponent implements OnInit {
     private fb: FormBuilder,
     private vendorsService: VendorsService,
     private productsService: ProductsService,
-    private shippingService: ShippingService,
     private snackbarService: MatSnackBar,
     private router: Router,
-    private discountsService: DiscountsService) { }
+    private authService: AuthService,) { }
 
-  loading: boolean = true;
+  loading: boolean = false;
   URLS = URLS;
+  is_vendor = this.authService.user.is_vendor;
   vendors: [];
-  discounts: [];
-  shippingMethods = [];
+  vendorId = this.authService.user.vendor_id;
   productGroupForm = this.fb.group({
     title: ['', [Validators.required]],
     vendor: [null, [Validators.required]],
-    discount: [""],
-    shipping: [""],
     tat: [""]
   });
 
@@ -45,22 +41,6 @@ export class AddProductGroupComponent implements OnInit {
         this.vendors = resp.data.results;
       }
     });
-  }
-
-  getDiscounts() {
-    this.discountsService.getDiscountsList().then(resp => {
-      if(resp) {
-        this.discounts = resp.data.results;
-      }
-    })
-  }
-
-  getShippingMethods() {
-    this.shippingService.getShippingMethods(1, 50).then(resp => {
-      if(resp) {
-        this.shippingMethods = resp.data.results;
-      }
-    })
   }
 
   onSubmit() {
@@ -75,9 +55,14 @@ export class AddProductGroupComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getVendors();
-    this.getDiscounts();
-    this.getShippingMethods();
+    if (this.is_vendor) {
+      this.productGroupForm.patchValue({
+        vendor:this.vendorId
+      })
+    } else {
+      this.getVendors();
+    }
+
   }
 
 }

@@ -46,6 +46,7 @@ export class EditChildOrderComponent implements OnInit {
   totalShipping: number = 0;
   totalTax: number = 0;
   grandTotal: number = 0;
+  paidByWallet: number = 0;
   tags: string[] = [];
   notes: string = "";
   customer = {
@@ -75,6 +76,7 @@ export class EditChildOrderComponent implements OnInit {
         this.fulfillmentStatus = resp.data.fulfillment_status;
         this.paymentStatus = resp.data.payment_status;
         this.isPaid = resp.data.payment_status === "Paid";
+        this.paidByWallet = parseFloat(resp.data.paid_by_wallet);
         this.subTotal = resp.data.subtotal_price;
         this.totalShipping = resp.data.total_shipping;
         this.grandTotal = resp.data.total_price;
@@ -251,7 +253,12 @@ export class EditChildOrderComponent implements OnInit {
       this.loading = false;
       if(resp) {
         this.snackbar.open("Order updated.", "", {duration: 3000});
-        this.router.navigate(["/", URLS.orders, URLS.editMainOrder, this.mainOrderID]);
+        if (this.is_vendor) {
+          this.router.navigate(["/", URLS.orders]);
+        } else {
+          this.router.navigate(["/", URLS.orders, URLS.editMainOrder, this.mainOrderID]);
+
+        }
       }
     });
   }

@@ -80,7 +80,8 @@
                 <div class="card-section" *ngIf="customer">
                     <h3>Customer detail</h3>
 
-                    <a [routerLink]="['/', URLS.customers, URLS.edit, customer.id]" target="_blank">{{customer.name}}</a>
+                    <a *ngIf="!is_vendor" [routerLink]="['/', URLS.customers, URLS.edit, customer.id]" target="_blank">{{customer.name}}</a>
+                    <p *ngIf="is_vendor">{{customer.name}}</p>
                 </div>
                 <div class="card-section" *ngIf="customer">
                     <h3>Contact information</h3>
