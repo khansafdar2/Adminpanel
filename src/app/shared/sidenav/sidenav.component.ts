@@ -11,13 +11,12 @@ import URLS from '../urls';
 })
 export class SidenavComponent implements OnInit {
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(public authService: AuthService, private router: Router) { }
 
   Urls = URLS;
   sideDrawer: string = "";
   userPermissions = this.authService.user_permissions;
   is_vendor = this.authService.user.is_vendor;
-  vendorID = this.authService.user.vendor_id;
 
   toggleDrawer(drawer) {
     this.sideDrawer = this.sideDrawer == drawer ? "" : drawer;
