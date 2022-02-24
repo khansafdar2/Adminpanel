@@ -134,7 +134,6 @@ export class AddShippingRatesComponent implements OnInit {
     } else {
       this.endPoints = "/shipping/shipping_productgroup_list?vendor=" + vendor + '&zone_id=' + this.selectedZoneId;
     }
-
     if (this.zoneId == this.selectedZoneId) {
       this.selectedProductGroups = this.previousZoneProductGroup;
     } else {
@@ -158,7 +157,6 @@ export class AddShippingRatesComponent implements OnInit {
 
   onSubmit() {
     this.loading = true;
-
     if (this.shippingRateId) {
       //update existing shipping rate 
       this.rateForm.value.id = this.shippingRateId
@@ -178,7 +176,6 @@ export class AddShippingRatesComponent implements OnInit {
     else {
       // create new zone
       this.rateForm.value.product_group = this.selectedProductGroups.map((ob) => ob.id)
-
       this.shippingService.createShippingRate(this.rateForm.value).then(resp => {
         this.loading = false;
         if (resp) {
@@ -240,10 +237,6 @@ export class AddShippingRatesComponent implements OnInit {
             this.getVendors()
           }
           this.getZones()
-          this.zones.push({
-            title: resp.data.zone_name,
-            id: resp.data.zone
-          })
         }
       })
     }
