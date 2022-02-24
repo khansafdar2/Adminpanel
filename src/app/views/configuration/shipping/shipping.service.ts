@@ -115,8 +115,14 @@ export class ShippingService {
     });
   }
 
-  getZones() {
-    return Axios.get(environment.backend_url + "/shipping/custom_zone_list", {
+  getCustomZones(id) {
+    let endpoint = ''
+    if (id == null) {
+     endpoint = "/shipping/custom_zone_list";
+    } else {
+      endpoint = "/shipping/custom_zone_list?shipping_id=" + id;
+    }
+    return Axios.get(environment.backend_url + endpoint, {
       headers: {
         Authorization: this.authservice.token
       }
@@ -128,8 +134,27 @@ export class ShippingService {
     });
   }
 
-  getDefaultZones() {
-    return Axios.get(environment.backend_url + "/shipping/default_zone_list", {
+  getZones() {
+    return Axios.get(environment.backend_url + "/shipping/zone_list", {
+      headers: {
+        Authorization: this.authservice.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authservice.signout();
+      }
+    });
+  }
+
+  getDefaultZones(id) {
+    let endpoint = ''
+    if (id == null) {
+     endpoint = "/shipping/custom_zone_list";
+    } else {
+      endpoint = "/shipping/custom_zone_list?shipping_id=" + id;
+    }
+    return Axios.get(environment.backend_url + endpoint, {
       headers: {
         Authorization: this.authservice.token
       }
