@@ -150,9 +150,9 @@ export class ShippingService {
   getDefaultZones(id) {
     let endpoint = ''
     if (id == null) {
-     endpoint = "/shipping/custom_zone_list";
+     endpoint = "/shipping/default_zone_list";
     } else {
-      endpoint = "/shipping/custom_zone_list?shipping_id=" + id;
+      endpoint = "/shipping/default_zone_list?shipping_id=" + id;
     }
     return Axios.get(environment.backend_url + endpoint, {
       headers: {
