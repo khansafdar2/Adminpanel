@@ -42,7 +42,7 @@
             </mat-select>
           </mat-form-field>
   
-          <multi-select-model class="product-group-browsing" (addItems)="onAddItems($event)" *ngIf="this.rateForm.get('vendor').value && this.rateForm.get('zone').value" btnText="Browse Product Groups" [endPoints]="endPoints" [alreadySelectedData]="selectedProductGroups" ></multi-select-model>
+          <multi-select-model class="product-group-browsing" (addItems)="onAddItems($event)" *ngIf="this.rateForm.get('vendor').value && this.rateForm.get('zone').value" btnText="Browse Product Groups" [endPoints]="endPoints" [alreadySelectedData]="selectedProductGroups" [errorMessage]="errorMessage" ></multi-select-model>
 
         </div>
       </mat-card-content>

@@ -115,12 +115,12 @@ export class ShippingService {
     });
   }
 
-  getCustomZones(id) {
+  getCustomZones(id, vendorID) {
     let endpoint = ''
     if (id == null) {
-     endpoint = "/shipping/custom_zone_list";
+     endpoint = "/shipping/custom_zone_list?vendor="+ vendorID;
     } else {
-      endpoint = "/shipping/custom_zone_list?shipping_id=" + id;
+      endpoint = "/shipping/custom_zone_list?shipping_id=" + id + '&?vendor=' + vendorID;
     }
     return Axios.get(environment.backend_url + endpoint, {
       headers: {

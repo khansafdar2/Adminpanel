@@ -34,5 +34,5 @@
 </mat-dialog-content>
 <div mat-dialog-actions>
     <button mat-stroked-button color="primary" mat-dialog-close>Cancel</button>
-    <button mat-flat-button color="primary" [disabled]="loading || !zoneForm.valid" (click)="onSubmit()">Save</button>
+    <button mat-flat-button color="primary" [disabled]="loading || !zoneForm.valid || !citiesCheck" (click)="onSubmit()">Save</button>
 </div>

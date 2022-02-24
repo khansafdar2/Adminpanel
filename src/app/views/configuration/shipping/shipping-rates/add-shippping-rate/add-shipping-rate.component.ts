@@ -25,24 +25,25 @@ export class AddShippingRatesComponent implements OnInit {
   ) {
     this.shippingRateId = this.route.snapshot.paramMap.get('id') ? this.route.snapshot.paramMap.get('id') : null;
   }
-  URLS = URLS
+  URLS = URLS;
   is_vendor = this.authservice.user.is_vendor;
-  zoneId = null
+  zoneId = null;
   loading: boolean = false;
-  productGroups: []
-  zones = []
-  selectedRegions: []
-  vendors: []
-  shippingRateId = ""
-  endPoints: string
-
-  selectedProductGroups = []
+  productGroups: [];
+  zones = [];
+  selectedRegions: [];
+  vendors: [];
+  vendorID = null;
+  shippingRateId = "";
+  endPoints: string;
+  errorMessage = "All product groups are associated";
+  selectedProductGroups = [];
   selectedZoneId = null;
   previousZoneProductGroup = [];
 
   rateForm = this.fb.group({
     title: ["", [Validators.required]],
-    vendor: [this.authservice.user.is_vendor ? this.authservice.user.id : "", [Validators.required]],
+    vendor: [this.authservice.user.is_vendor ? this.authservice.user.id : '', [Validators.required]],
     zone: ["", [Validators.required]],
     product_group: [[]],
     condition_type: ["", [Validators.required]],
@@ -118,10 +119,10 @@ export class AddShippingRatesComponent implements OnInit {
   }
 
   getZones() {
-    this.shippingService.getCustomZones(this.shippingRateId).then(resp => {
+    this.shippingService.getCustomZones(this.shippingRateId, this.vendorID).then(resp => {
       this.loading = false;
       if (resp) {
-        this.zones = [...this.zones, ...resp.data.results]
+        this.zones = [...this.zones, ...resp.data.results];
       }
     })
   }
@@ -143,14 +144,22 @@ export class AddShippingRatesComponent implements OnInit {
   }
 
   onVendorChange() {
-    this.selectedProductGroups = []
-    this.onZoneChange()
+    this.selectedProductGroups = [];
+    this.vendorID = this.rateForm.get('vendor').value;
+    this.getZones();
+    this.onZoneChange();
   }
 
   getVendors() {
     this.vendorsService.getVendorsList(1, 250).then(resp => {
       if (resp) {
         this.vendors = resp.data.results;
+        this.vendorID = resp.data.results[0].id;
+        this.rateForm.patchValue({
+          vendor:this.vendorID
+        })
+      this.vendorID = this.rateForm.get('vendor').value;
+      this.getZones()
       }
     });
   }
@@ -159,8 +168,7 @@ export class AddShippingRatesComponent implements OnInit {
     this.loading = true;
     if (this.shippingRateId) {
       //update existing shipping rate 
-      this.rateForm.value.id = this.shippingRateId
-
+      this.rateForm.value.id = this.shippingRateId;
       if (this.selectedProductGroups[0].id) {
         this.rateForm.value.product_group = this.selectedProductGroups.map((ob) => ob.id)
       }
@@ -228,23 +236,21 @@ export class AddShippingRatesComponent implements OnInit {
             }
           }
           this.rateForm.patchValue(resp.data)
-          this.onZoneChange()
-
+          this.onZoneChange();
+          this.vendorID = this.rateForm.get('vendor').value;
           this.selectedProductGroups = resp.data.product_group;
           this.previousZoneProductGroup = resp.data.product_group;
 
           if (!this.is_vendor) {
-            this.getVendors()
+            this.getVendors();
           }
-          this.getZones()
         }
       })
     }
     else {
       // create new shipping rate
-      this.getZones()
       if (!this.is_vendor) {
-        this.getVendors()
+        this.getVendors();
       }
     }
   }

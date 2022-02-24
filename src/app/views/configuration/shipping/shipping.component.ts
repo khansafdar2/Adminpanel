@@ -171,12 +171,13 @@ export class AddZoneDialog {
   ) {
     this.zoneId = this.data ? this.data.zoneId : null //for editing zone
   }
-  zoneId = null
+  zoneId = null;
   loading: boolean = false;
-  regions : []
-  countries : []
-  cities : []
-  selectedRegions : []
+  citiesCheck: boolean = true;
+  regions : [];
+  countries : [];
+  cities : [];
+  selectedRegions : [];
   zoneForm = this.fb.group({
     title: ["", [Validators.required]],
     region: [[], [Validators.required]],
@@ -215,10 +216,18 @@ export class AddZoneDialog {
     if (this.zoneForm.value.country.length == 1)
     {
       this.cities = []
-      this.shippingRegionService.getCityList(this.zoneForm.value.country[0], 1, 500).then(resp => {
+      this.shippingRegionService.getzoneCityList(this.zoneForm.value.country[0], this.zoneId, 1, 500).then(resp => {
         if (resp)
         {
           this.cities = resp.data.results;
+          console.log(this.cities.length);
+          
+          if (this.cities.length == 0) {
+
+            this.citiesCheck = false;
+          } else {
+            this.citiesCheck = true
+          }
         }
       })
     }

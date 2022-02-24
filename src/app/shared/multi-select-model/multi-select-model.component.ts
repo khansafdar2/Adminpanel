@@ -19,6 +19,7 @@ export class MultiSelectModelComponent implements OnInit {
   @Input() btnText = '';
   @Input() endPoints = '';
   @Input() alreadySelectedData = '';
+  @Input() errorMessage = '';
 
   constructor(
     private dialog: MatDialog,
@@ -33,7 +34,8 @@ export class MultiSelectModelComponent implements OnInit {
       data : {
         heading: this.btnText,
         endPoints : this.endPoints,
-        alreadySelectedData: this.alreadySelectedData
+        alreadySelectedData: this.alreadySelectedData,
+        errorMessage:this.errorMessage 
       }
     });
 
