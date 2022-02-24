@@ -30,7 +30,7 @@
   
           <mat-form-field  appearance="outline">
             <mat-label>Zone</mat-label>
-            <mat-select formControlName="zone"  (selectionChange)="getEndpointString()">
+            <mat-select formControlName="zone"  (selectionChange)="onZoneChange()">
               <mat-option  [value]="zone.id" *ngFor="let zone of zones">{{zone.title}}</mat-option>
             </mat-select>
           </mat-form-field>

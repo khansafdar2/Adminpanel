@@ -38,7 +38,7 @@ export class AddShippingRatesComponent implements OnInit {
 
   selectedProductGroups = []
   selectedZoneId = null;
-  zoneChangeProductGroup = [];
+  previousZoneProductGroup = [];
 
   rateForm = this.fb.group({
     title: ["", [Validators.required]],
@@ -126,7 +126,7 @@ export class AddShippingRatesComponent implements OnInit {
     })
   }
 
-  getEndpointString() {
+  onZoneChange() {
     let vendor = this.rateForm.get('vendor').value;
     this.selectedZoneId = this.rateForm.get('zone').value;
     if (this.shippingRateId) {
@@ -135,12 +135,17 @@ export class AddShippingRatesComponent implements OnInit {
       this.endPoints = "/shipping/shipping_productgroup_list?vendor=" + vendor + '&zone_id=' + this.selectedZoneId;
     }
 
-    this.zoneChange();
+    if (this.zoneId == this.selectedZoneId) {
+      this.selectedProductGroups = this.previousZoneProductGroup;
+    } else {
+      this.selectedProductGroups = [];
+      this.rateForm.value.product_group = [];
+    }
   }
 
   onVendorChange() {
     this.selectedProductGroups = []
-    this.getEndpointString()
+    this.onZoneChange()
   }
 
   getVendors() {
@@ -209,16 +214,6 @@ export class AddShippingRatesComponent implements OnInit {
   }
 
 
-  zoneChange(){
-    if (this.zoneId == this.selectedZoneId) {
-      this.selectedProductGroups = this.zoneChangeProductGroup;
-    } else {
-      this.selectedProductGroups = [];
-      this.rateForm.value.product_group = [];
-    }
-  }
-
-
 
   ngOnInit() {
     this.loading = true
@@ -236,10 +231,10 @@ export class AddShippingRatesComponent implements OnInit {
             }
           }
           this.rateForm.patchValue(resp.data)
-          this.getEndpointString()
+          this.onZoneChange()
 
           this.selectedProductGroups = resp.data.product_group;
-          this.zoneChangeProductGroup = resp.data.product_group;
+          this.previousZoneProductGroup = resp.data.product_group;
 
           if (!this.is_vendor) {
             this.getVendors()
