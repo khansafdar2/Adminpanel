@@ -118,7 +118,7 @@ export class DefaultShippingComponent implements OnInit {
 
   getZones()
   {
-    this.shippingService.getDefaultZones().then(resp => {
+    this.shippingService.getDefaultZones(this.shippingRateId).then(resp => {
       this.loading = false;
       if (resp)
       {

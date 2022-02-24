@@ -23,31 +23,33 @@ export class AddShippingRatesComponent implements OnInit {
     private vendorsService: VendorsService,
     private route: ActivatedRoute,
   ) {
-    this.shippingRateId = this.route.snapshot.paramMap.get('id') ? this.route.snapshot.paramMap.get('id') : null ;
+    this.shippingRateId = this.route.snapshot.paramMap.get('id') ? this.route.snapshot.paramMap.get('id') : null;
   }
   URLS = URLS
   is_vendor = this.authservice.user.is_vendor;
   zoneId = null
   loading: boolean = false;
-  productGroups : []
+  productGroups: []
   zones = []
-  selectedRegions : []
-  vendors : []
+  selectedRegions: []
+  vendors: []
   shippingRateId = ""
-  endPoints : string
+  endPoints: string
 
   selectedProductGroups = []
+  selectedZoneId = null;
+  previousZoneProductGroup = [];
 
   rateForm = this.fb.group({
     title: ["", [Validators.required]],
-    vendor: [ this.authservice.user.is_vendor ? this.authservice.user.id : "" , [Validators.required]],
+    vendor: [this.authservice.user.is_vendor ? this.authservice.user.id : "", [Validators.required]],
     zone: ["", [Validators.required]],
     product_group: [[]],
-    condition_type : ["", [Validators.required]],
-    rules : this.fb.array([
+    condition_type: ["", [Validators.required]],
+    rules: this.fb.array([
       this.fb.group({
         title: ['', [Validators.required]],
-        conditional_rates : this.fb.array([
+        conditional_rates: this.fb.array([
           this.fb.group({
             min_value: ['', [Validators.required]],
             max_value: ['', [Validators.required]],
@@ -58,9 +60,8 @@ export class AddShippingRatesComponent implements OnInit {
     ])
   });
 
-  createNewCondition(index)
-  {
-    (this.rateForm.get('rules.'+index+'.conditional_rates') as FormArray).push(
+  createNewCondition(index) {
+    (this.rateForm.get('rules.' + index + '.conditional_rates') as FormArray).push(
       this.fb.group({
         min_value: ['', [Validators.required]],
         max_value: ['', [Validators.required]],
@@ -69,12 +70,11 @@ export class AddShippingRatesComponent implements OnInit {
     )
   }
 
-  createNewRule()
-  {
+  createNewRule() {
     (this.rateForm.get('rules') as FormArray).push(
       this.fb.group({
         title: ['', [Validators.required]],
-        conditional_rates : this.fb.array([
+        conditional_rates: this.fb.array([
           this.fb.group({
             min_value: ['', [Validators.required]],
             max_value: ['', [Validators.required]],
@@ -85,22 +85,21 @@ export class AddShippingRatesComponent implements OnInit {
     )
   }
 
-  goBack()
-  {
+  goBack() {
     this.router.navigate([URLS.shippingRates]);
   }
 
-  deleteCondition(i, j){
+  deleteCondition(i, j) {
     (this.rateForm.get('rules.' + i + '.conditional_rates') as FormArray).removeAt(j);
   }
 
-  deleteRule(i){
+  deleteRule(i) {
     (this.rateForm.get('rules') as FormArray).removeAt(i);
   }
 
-  duplicateRule(i){
-    let childLength2 = this.rateForm.get('rules.'+i+'.conditional_rates').value.length
-    let dummy =  this.fb.array([])
+  duplicateRule(i) {
+    let childLength2 = this.rateForm.get('rules.' + i + '.conditional_rates').value.length
+    let dummy = this.fb.array([])
     for (let i = 0; i < childLength2; i++) {
       dummy.push(this.fb.group({
         min_value: ['', [Validators.required]],
@@ -111,40 +110,47 @@ export class AddShippingRatesComponent implements OnInit {
     (this.rateForm.get('rules') as FormArray).push(
       this.fb.group({
         title: ['', [Validators.required]],
-        conditional_rates : dummy
+        conditional_rates: dummy
       })
-    ) 
-    this.rateForm.get('rules.'+(this.rateForm.value.rules.length - 1)).patchValue(this.rateForm.get('rules.' + i).value)
-    
+    )
+    this.rateForm.get('rules.' + (this.rateForm.value.rules.length - 1)).patchValue(this.rateForm.get('rules.' + i).value)
+
   }
 
-  getZones()
-  {
-    this.shippingService.getZones().then(resp => {
+  getZones() {
+    this.shippingService.getCustomZones(this.shippingRateId).then(resp => {
       this.loading = false;
-      if (resp)
-      {
+      if (resp) {
         this.zones = [...this.zones, ...resp.data.results]
       }
     })
   }
-  
-  getEndpointString()
-  {
+
+  onZoneChange() {
     let vendor = this.rateForm.get('vendor').value;
-    this.endPoints = "/shipping/shipping_productgroup_list?vendor=" + vendor;
+    this.selectedZoneId = this.rateForm.get('zone').value;
+    if (this.shippingRateId) {
+      this.endPoints = "/shipping/shipping_productgroup_list?vendor=" + vendor + '&zone_id=' + this.selectedZoneId + '&shipping_id=' + this.shippingRateId;
+    } else {
+      this.endPoints = "/shipping/shipping_productgroup_list?vendor=" + vendor + '&zone_id=' + this.selectedZoneId;
+    }
+
+    if (this.zoneId == this.selectedZoneId) {
+      this.selectedProductGroups = this.previousZoneProductGroup;
+    } else {
+      this.selectedProductGroups = [];
+      this.rateForm.value.product_group = [];
+    }
   }
 
-  onVendorChange()
-  {
+  onVendorChange() {
     this.selectedProductGroups = []
-    this.getEndpointString()
+    this.onZoneChange()
   }
 
-  getVendors()
-  {
+  getVendors() {
     this.vendorsService.getVendorsList(1, 250).then(resp => {
-      if(resp) {
+      if (resp) {
         this.vendors = resp.data.results;
       }
     });
@@ -152,33 +158,31 @@ export class AddShippingRatesComponent implements OnInit {
 
   onSubmit() {
     this.loading = true;
-    
-    if(this.shippingRateId)
-    {
+
+    if (this.shippingRateId) {
       //update existing shipping rate 
       this.rateForm.value.id = this.shippingRateId
 
-      if (this.selectedProductGroups[0].id)
-      {
+      if (this.selectedProductGroups[0].id) {
         this.rateForm.value.product_group = this.selectedProductGroups.map((ob) => ob.id)
       }
 
       this.shippingService.updateShippingRate(this.rateForm.value).then(resp => {
         this.loading = false;
-        if(resp) {
-          this.snackbar.open("Shipping rate updates successfuly.", "", {duration: 3000});
+        if (resp) {
+          this.snackbar.open("Shipping rate updates successfuly.", "", { duration: 3000 });
           this.router.navigate([URLS.shippingRates]);
         }
-      }) 
+      })
     }
-    else{
+    else {
       // create new zone
       this.rateForm.value.product_group = this.selectedProductGroups.map((ob) => ob.id)
 
       this.shippingService.createShippingRate(this.rateForm.value).then(resp => {
         this.loading = false;
-        if(resp) {
-          this.snackbar.open("shipping rate created successfuly.", "", {duration: 3000});
+        if (resp) {
+          this.snackbar.open("shipping rate created successfuly.", "", { duration: 3000 });
           this.router.navigate([URLS.shippingRates]);
         }
       })
@@ -187,7 +191,7 @@ export class AddShippingRatesComponent implements OnInit {
   }
 
   addEmptyConditions(conditionArrayLength) {
-    let dummy =  this.fb.array([])
+    let dummy = this.fb.array([])
     for (let i = 0; i < conditionArrayLength; i++) {
       dummy.push(this.fb.group({
         min_value: ['', [Validators.required]],
@@ -195,45 +199,44 @@ export class AddShippingRatesComponent implements OnInit {
         amount: ['', [Validators.required]]
       }))
     }
-    
+
     (this.rateForm.get('rules') as FormArray).push(
       this.fb.group({
         title: ['', [Validators.required]],
-        conditional_rates : dummy
+        conditional_rates: dummy
       })
     )
   }
 
-  onAddItems(e)
-  {
-    this.selectedProductGroups = [...e]
-    this.rateForm.value.product_group = this.selectedProductGroups.map((ob) => ob.id)
+  onAddItems(e) {
+    this.selectedProductGroups = [...e];
+    this.rateForm.value.product_group = this.selectedProductGroups.map((ob) => ob.id);
   }
+
+
 
   ngOnInit() {
     this.loading = true
-    if (this.shippingRateId)
-    {
+    if (this.shippingRateId) {
       // edit shipping rate 
       this.shippingService.getSingleShippingRate(this.shippingRateId).then((resp) => {
-        if(resp)
-        {
-          this.loading = false ;
-
+        if (resp) {
+          this.loading = false;
+          this.zoneId = resp.data.zone;
           (this.rateForm.get('rules') as FormArray).removeAt(0)
-          if(resp.data.rules.length) {
+          if (resp.data.rules.length) {
             for (let i = 0; i < resp.data.rules.length; i++) {
               let conditionArray = resp.data.rules[i].conditional_rates.length
               this.addEmptyConditions(conditionArray)
             }
           }
           this.rateForm.patchValue(resp.data)
-          this.getEndpointString()
-          
-          this.selectedProductGroups = resp.data.product_group
+          this.onZoneChange()
 
-          if(!this.is_vendor)
-          {
+          this.selectedProductGroups = resp.data.product_group;
+          this.previousZoneProductGroup = resp.data.product_group;
+
+          if (!this.is_vendor) {
             this.getVendors()
           }
           this.getZones()
@@ -244,12 +247,10 @@ export class AddShippingRatesComponent implements OnInit {
         }
       })
     }
-    else 
-    {
+    else {
       // create new shipping rate
       this.getZones()
-      if(!this.is_vendor)
-      {
+      if (!this.is_vendor) {
         this.getVendors()
       }
     }

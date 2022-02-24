@@ -30,7 +30,7 @@
   
           <mat-form-field  appearance="outline">
             <mat-label>Zone</mat-label>
-            <mat-select formControlName="zone">
+            <mat-select formControlName="zone"  (selectionChange)="onZoneChange()">
               <mat-option  [value]="zone.id" *ngFor="let zone of zones">{{zone.title}}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -42,7 +42,7 @@
             </mat-select>
           </mat-form-field>
   
-          <multi-select-model class="product-group-browsing" (addItems)="onAddItems($event)" *ngIf="this.rateForm.get('vendor').value" btnText="Browse Product Groups" [endPoints]="endPoints" [alreadySelectedData]="selectedProductGroups" ></multi-select-model>
+          <multi-select-model class="product-group-browsing" (addItems)="onAddItems($event)" *ngIf="this.rateForm.get('vendor').value && this.rateForm.get('zone').value" btnText="Browse Product Groups" [endPoints]="endPoints" [alreadySelectedData]="selectedProductGroups" ></multi-select-model>
 
         </div>
       </mat-card-content>
