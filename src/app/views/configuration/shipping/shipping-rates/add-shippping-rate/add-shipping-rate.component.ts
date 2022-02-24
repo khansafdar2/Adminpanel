@@ -122,7 +122,7 @@ export class AddShippingRatesComponent implements OnInit {
     this.shippingService.getCustomZones(this.shippingRateId, this.vendorID).then(resp => {
       this.loading = false;
       if (resp) {
-        this.zones = [...this.zones, ...resp.data.results];
+        this.zones = resp.data.results;
       }
     })
   }
