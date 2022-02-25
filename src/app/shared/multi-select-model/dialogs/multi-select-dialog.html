@@ -6,7 +6,7 @@
         <input matInput [(ngModel)]="searchQuery" (keyup)="onSearch()" type="search" />
     </mat-form-field>
 
-    <p *ngIf="dataCount === 0 && !loading">{{data.errorMessage}}</p>
+    <p *ngIf="dataCount === 0 && !loading">{{data.emptyMessage}}</p>
     <div class="products-list" *ngIf="dataCount > 0">
       <!--   -->
         <mat-selection-list [ngModel]="selectedData" [compareWith]="compareSelection" (selectionChange)="onSelection($event)" >

@@ -26,6 +26,7 @@ export class LoyalityComponent implements OnInit {
   loyalityDetails: any;
 
   loyalityForm = this.fb.group({
+    id: [null],
     amount_equal_point: [null],
     point_equal_amount: [null],
     start_loyalty_amount: [null],
@@ -73,7 +74,19 @@ export class LoyalityComponent implements OnInit {
       if (resp) {
         this.loyalityDetails = resp.data[0];
         for (let i = 0; i < this.loyalityDetails.rule.length; i++) {
-          this.addRule();
+          (this.loyalityForm.get("rule") as FormArray).push(
+            this.fb.group({
+              id: [null],
+              spending_amount: [null],
+              no_of_point: [null],
+              no_of_order: [null],
+              start_date: [''],
+              end_date: [''],
+              type: ['amount'],
+              paid_order: [false],
+              is_active: [true]
+            })
+          )
         }
         this.loyalityForm.patchValue(this.loyalityDetails);
       }

@@ -45,7 +45,7 @@ export class AddShippingRatesComponent implements OnInit {
     title: ["", [Validators.required]],
     vendor: [this.authservice.user.is_vendor ? this.authservice.user.id : '', [Validators.required]],
     zone: ["", [Validators.required]],
-    product_group: [[]],
+    product_group: [[],[Validators.required]],
     condition_type: ["", [Validators.required]],
     rules: this.fb.array([
       this.fb.group({
@@ -215,7 +215,9 @@ export class AddShippingRatesComponent implements OnInit {
 
   onAddItems(e) {
     this.selectedProductGroups = [...e];
-    this.rateForm.value.product_group = this.selectedProductGroups.map((ob) => ob.id);
+    this.rateForm.patchValue({
+      product_group: this.selectedProductGroups.map((ob) => ob.id)
+    }) 
   }
 
 
