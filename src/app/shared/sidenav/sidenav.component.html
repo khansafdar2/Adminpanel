@@ -48,6 +48,11 @@
                 </a>
             </li>
             <li *ngIf="is_vendor">
+                <a [routerLink]="['/', Urls.shipping]" routerLinkActive="active">
+                    <span class="link-icon" [inlineSVG]="'/assets/img/vendor.svg'"></span>Shipping
+                </a>
+            </li>
+            <li *ngIf="is_vendor">
                 <a [routerLink]="['/', Urls.vendors, Urls.edit, authService.user.vendor_id]" routerLinkActive="active">
                     <span class="link-icon" [inlineSVG]="'/assets/img/vendor.svg'"></span>Vendor profile
                 </a>

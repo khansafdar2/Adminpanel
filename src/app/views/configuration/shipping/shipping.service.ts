@@ -120,7 +120,7 @@ export class ShippingService {
     if (id == null) {
      endpoint = "/shipping/custom_zone_list?vendor="+ vendorID;
     } else {
-      endpoint = "/shipping/custom_zone_list?shipping_id=" + id + '&?vendor=' + vendorID;
+      endpoint = "/shipping/custom_zone_list?shipping_id=" + id + '&vendor=' + vendorID;
     }
     return Axios.get(environment.backend_url + endpoint, {
       headers: {
@@ -194,6 +194,19 @@ export class ShippingService {
   
   getSingleZones(id) {
     return Axios.get(environment.backend_url + "/shipping/zone/" + id, {
+      headers: {
+        Authorization: this.authservice.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authservice.signout();
+      }
+    });
+  }
+
+  getVendorZones(id) {
+    return Axios.get(environment.backend_url + "/shipping/vendor_zone/" + id, {
       headers: {
         Authorization: this.authservice.token
       }

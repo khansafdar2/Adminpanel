@@ -1,0 +1,29 @@
+<button mat-icon-button mat-dialog-close class="dialog-close"><mat-icon>close</mat-icon></button>
+
+<mat-dialog-content class="mat-typography">
+    <div fxLayout="column">
+        <div fxLayout="column">
+            <h3>Zone name</h3>
+            <p>{{title}}</p>
+        </div>
+
+        <div  fxLayout="row">
+            <div>
+                <h3>Region</h3>
+                <p>{{region}}</p>
+
+            </div>
+            <div >
+                <h3>Country</h3>
+                <p>{{country}}</p>
+            </div>
+        </div>
+
+        <div fxLayout="column">
+            <h3>City</h3>
+            <div  *ngFor="let item of city">
+                <p>{{item}}</p>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>

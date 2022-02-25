@@ -216,6 +216,12 @@ export class ConfigurationGuard implements CanActivate {
     if (this.authService.user_permissions.configuration) {
       return true;
     } else {
+    if(this.authService.user.is_vendor) {
+      if(route.url[0].path === "shipping" || route.url[0].path === "zone" || route.url[0].path === "shipping-rates" ) {
+        return true;
+      } 
+    }
+    
       if (this.authService.user_permissions.dashboard) {
         this.router.navigate(["/", URLS.home]);
         return false;

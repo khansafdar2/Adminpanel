@@ -1,9 +1,11 @@
+import { ViewZoneDialog } from './../../shipping.component';
+import { AuthService } from 'src/app/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ShippingService } from '../../shipping.service';
 import URLS from 'src/app/shared/urls';
 import { MatDialog } from '@angular/material/dialog';
-import {AddZoneDialog, DeleteZoneDialog } from '../../shipping.component'
+import { AddZoneDialog, DeleteZoneDialog } from '../../shipping.component'
 
 @Component({
   selector: 'app-shipping-zone',
@@ -16,10 +18,12 @@ export class ShippingZoneComponent implements OnInit {
     private router: Router,
     private dialog: MatDialog,
     private shippingService: ShippingService,
+    private authService: AuthService,
   ) { }
 
   loading = false;
   URLS = URLS;
+  is_vendor = this.authService.user.is_vendor;
   shippingMethods = null;
   zones = []
   regions = null;
@@ -28,20 +32,17 @@ export class ShippingZoneComponent implements OnInit {
   regionsWithoutZone = null;
 
 
-  getzones()
-  {
+  getzones() {
     this.loading = true
     this.shippingService.getZones().then((resp) => {
       this.loading = false
-      if (resp)
-      {
+      if (resp) {
         this.zones = resp.data.results
       }
     })
   }
 
-  goBack()
-  {
+  goBack() {
     this.router.navigate([URLS.shipping]);
   }
 
@@ -49,53 +50,62 @@ export class ShippingZoneComponent implements OnInit {
     this.loading = true;
     this.shippingService.getShippingMethods(1, 50).then(resp => {
       this.loading = false;
-      if(resp) {
+      if (resp) {
         this.shippingMethods = resp.data.results;
       }
     })
   }
-  
-  editZone(id)
-  {
+
+  editZone(id) {
     let dialogRef = this.dialog.open(AddZoneDialog, {
       width: "600px",
-      data : {
-        zoneId : id
+      data: {
+        zoneId: id
       }
     });
 
     dialogRef.afterClosed().subscribe(added => {
-      if(added) {
+      if (added) {
         this.getShippingMethods();
       }
     });
   }
 
-  getRegionName(regions)
-  {
-    let name =  regions.map((reg) => {
+  getRegionName(regions) {
+    let name = regions.map((reg) => {
       return reg.name
     })
     return name.join(', ')
   }
 
-  deleteZone(id, name)
-  {
+  deleteZone(id, name) {
     let dialogRef = this.dialog.open(DeleteZoneDialog, {
       width: "600px",
-      data : {
-        zoneId : id,
-        zoneName : name
+      data: {
+        zoneId: id,
+        zoneName: name
       }
     });
 
     dialogRef.afterClosed().subscribe(added => {
-      if(added) {
+      if (added) {
         this.getShippingMethods()
         this.getzones()
       }
     });
   }
+
+
+  viewZone(id) {
+    let dialogRef = this.dialog.open(ViewZoneDialog, {
+      width: "600px",
+      data: {
+        zoneId: id,
+      }
+    });
+
+  }
+
 
   onNewShippingMethod() {
     let dialogRef = this.dialog.open(AddZoneDialog, {
@@ -103,7 +113,7 @@ export class ShippingZoneComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(added => {
-      if(added) {
+      if (added) {
         this.getShippingMethods();
         this.getzones()
       }
@@ -111,8 +121,8 @@ export class ShippingZoneComponent implements OnInit {
   }
 
 
-  getRegionsAndCountries(){
-    this.shippingService.getRegionCount().then(resp=>{
+  getRegionsAndCountries() {
+    this.shippingService.getRegionCount().then(resp => {
       if (resp) {
         console.log(resp.data);
         this.countries = resp.data.countries;

@@ -73,7 +73,7 @@ import { EditVariantComponent } from './views/products/edit-variant/edit-variant
 import { AddVariantComponent } from './views/products/add-variant/add-variant.component';
 import { AddDiscountComponent } from './views/discounts/add-discount/add-discount.component';
 import { EditDiscountComponent } from './views/discounts/edit-discount/edit-discount.component';
-import { AddShippingDialog, AddZoneDialog, DeleteShippingDialog, DeleteZoneDialog, EditShippingDialog, ShippingComponent } from './views/configuration/shipping/shipping.component';
+import { AddShippingDialog, AddZoneDialog, DeleteShippingDialog, DeleteZoneDialog, EditShippingDialog, ShippingComponent, ViewZoneDialog } from './views/configuration/shipping/shipping.component';
 import { OrdersComponent, OrdersExportDialog } from './views/orders/orders.component';
 import { AddOrderComponent } from './views/orders/add-order/add-order.component';
 import { CustomerDeleteDialog, CustomersComponent } from './views/customers/customers.component';
@@ -235,6 +235,7 @@ import { CitiesComponent, CityDeleteDialog, CityDialog } from './views/configura
     ShippingZoneComponent,
     ShippingRatesComponent,
     DeleteZoneDialog,
+    ViewZoneDialog,
     AddShippingRatesComponent,
     DeleteShippingRateDialog,
     DefaultShippingComponent,

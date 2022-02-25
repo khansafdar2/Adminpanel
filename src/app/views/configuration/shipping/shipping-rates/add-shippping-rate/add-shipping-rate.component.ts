@@ -34,6 +34,7 @@ export class AddShippingRatesComponent implements OnInit {
   selectedRegions: [];
   vendors: [];
   vendorID = null;
+  
   shippingRateId = "";
   endPoints: string;
   errorMessage = "All product groups are associated";
@@ -43,7 +44,7 @@ export class AddShippingRatesComponent implements OnInit {
 
   rateForm = this.fb.group({
     title: ["", [Validators.required]],
-    vendor: [this.authservice.user.is_vendor ? this.authservice.user.id : '', [Validators.required]],
+    vendor: [this.authservice.user.is_vendor ? this.authservice.user.vendor_id : '', [Validators.required]],
     zone: ["", [Validators.required]],
     product_group: [[],[Validators.required]],
     condition_type: ["", [Validators.required]],
@@ -119,6 +120,10 @@ export class AddShippingRatesComponent implements OnInit {
   }
 
   getZones() {
+    debugger
+    if (this.is_vendor) {
+      this.vendorID = this.authservice.user.vendor_id;
+    }
     this.shippingService.getCustomZones(this.shippingRateId, this.vendorID).then(resp => {
       this.loading = false;
       if (resp) {
@@ -245,6 +250,8 @@ export class AddShippingRatesComponent implements OnInit {
 
           if (!this.is_vendor) {
             this.getVendors();
+          } else {
+            this.getZones();
           }
         }
       })
@@ -253,6 +260,8 @@ export class AddShippingRatesComponent implements OnInit {
       // create new shipping rate
       if (!this.is_vendor) {
         this.getVendors();
+      } else {
+        this.getZones();
       }
     }
   }
