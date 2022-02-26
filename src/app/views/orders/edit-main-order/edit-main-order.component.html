@@ -141,12 +141,12 @@
             </mat-card>
 
             <mat-card>
-                <div class="card-section">
+                <div class="card-section" *ngIf="customer">
                     <h3>Customer detail</h3>
 
                     <a [routerLink]="['/', URLS.customers, URLS.edit, customer.id]" target="_blank">{{customer.name}}</a>
                 </div>
-                <div class="card-section">
+                <div class="card-section" *ngIf="customer">
                     <h3>Contact information</h3>
 
                     <p><a href="mailto: {{customer.email}}">{{customer.email}}</a></p>

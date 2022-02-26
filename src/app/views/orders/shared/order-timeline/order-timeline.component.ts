@@ -37,12 +37,19 @@ export class OrderTimelineComponent implements OnInit {
 
   onSubmit() {
     this.loading = true;
+    let formValue = this.commentForm.value;
     this.orderService.postComment(this.commentForm.value).then(resp => {
       this.loading = false;
+      this.commentForm.reset();
       this.commentForm.patchValue({
-        message: ""
+        order_id: formValue.order_id,
+        childorder_id: formValue.childorder_id
       });
-      this.commentForm.get("message").markAsPristine();
+      this.commentForm.get("message").setValidators([]);
+      this.commentForm.get("message").updateValueAndValidity();
+      this.commentForm.get("message").markAsTouched();
+      this.commentForm.get("message").setValidators([Validators.required]);
+      this.commentForm.get("message").updateValueAndValidity();
       this.getHistory();
     });
   }

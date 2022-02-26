@@ -252,9 +252,12 @@ export class OrdersService {
   }
 
   getOrderHistory(orderID, childOrderID) {
-    let endpoint = "/order/order_history?order_id=" + orderID;
+    let endpoint = "/order/order_history";
+    if(orderID) {
+      endpoint += "?order_id=" + orderID;
+    }
     if(childOrderID) {
-      endpoint += "&childorder_id=" + childOrderID;
+      endpoint += "?childorder_id=" + childOrderID;
     }
     return Axios.get(environment.backend_url + endpoint, {
       headers: {
