@@ -224,6 +224,21 @@ export class EditChildOrderComponent implements OnInit {
     this.updateTotals();
   }
 
+  onCancelOrder() {
+    let data = {
+      id: this.orderID,
+      order_status: "Cancelled"
+    }
+    this.loading = true;
+    this.ordersService.changeOrderStatus(data).then(resp => {
+      this.loading = false;
+      if(resp) {
+        this.snackbar.open("Order cancelled.", "", {duration: 3000});
+        this.router.navigate(["/", URLS.orders]);
+      }
+    })
+  }
+
   onSubmit() {
     let lineitems = this.lineitemsFormArray.value.map(lineitem => {
       let obj = {

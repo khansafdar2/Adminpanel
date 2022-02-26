@@ -15,7 +15,12 @@
         <div fxFlex="0 1 60%">
             <mat-card class="order-details">
                 <div flexLayout="row" fxLayoutAlign="space-between">
-                    <h3>Order details</h3>
+                    <div>
+                        <h3>Order details</h3>
+                    </div>
+                    <div *ngIf="is_vendor">
+                        <button mat-stroked-button color="warn" (click)="onCancelOrder()" *ngIf="orderStatus !== 'Cancelled'">Cancel order</button>
+                    </div>
 
                     <variant-selector
                         [vendor]="vendorID"
