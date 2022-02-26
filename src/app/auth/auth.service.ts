@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { environment } from 'src/environments/environment';
 import URLS from '../shared/urls';
 
 interface UserPermission {
@@ -32,11 +33,16 @@ export class AuthService {
     if(localStorage.getItem('user')) {
       this.user = JSON.parse(localStorage.getItem('user'));
     }
+    if(window.location.hostname.indexOf("vendor") > -1) {
+      this.isVendorPortal = true;
+      document.title = environment.client_name + " seller portal";
+    }
   }
 
   signedIn: boolean = false;
   token: string;
   user_permissions: UserPermission;
+  isVendorPortal: boolean = false;
 
   vendor_permission = {
     id:0,
