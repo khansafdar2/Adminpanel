@@ -1,10 +1,11 @@
 import { LoyalityService } from './loyality.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import URLS from 'src/app/shared/urls';
 import { FormBuilder, FormArray } from '@angular/forms';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 
 @Component({
@@ -17,13 +18,15 @@ export class LoyalityComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private router: Router,
     private snackbarService: MatSnackBar,
-    private loyalityService: LoyalityService
+    private loyalityService: LoyalityService,
+    public dialog: MatDialog
   ) { }
 
   URLS = URLS;
   loading = false;
   storeCurrency = environment.currency;
   loyalityDetails: any;
+  ruleID:any;
 
   loyalityForm = this.fb.group({
     id: [null],
@@ -52,7 +55,31 @@ export class LoyalityComponent implements OnInit {
     )
   }
 
+
   removeRule(index) {
+    if ((this.loyalityForm.get("rule") as FormArray).at(index).get('id')) {
+    let ruleID = (this.loyalityForm.get("rule") as FormArray).at(index).get('id').value;
+      let dialogRef = this.dialog.open(DeleteRuleDialog, {
+        width: "600px",
+        data: {
+          ruleID: ruleID,
+          ruleNumber: index + 1
+        }
+      });
+      dialogRef.afterClosed().subscribe(updated => {
+        if (updated) {
+          this.removeRuleAfterConfirmation(index);
+        }
+      });
+
+
+    } else {
+      (this.loyalityForm.get('rule') as FormArray).removeAt(index)
+
+    }
+  }
+
+  removeRuleAfterConfirmation(index) {
     (this.loyalityForm.get('rule') as FormArray).removeAt(index);
   }
 
@@ -97,4 +124,35 @@ export class LoyalityComponent implements OnInit {
     this.getLoyality();
   }
 
+}
+
+
+@Component({
+  selector: 'delete-rule-dialog',
+  templateUrl: './dialog/delete-rule-dialog.html',
+})
+export class DeleteRuleDialog {
+  constructor(
+    public dialogRef: MatDialogRef<DeleteRuleDialog>,
+    @Inject(MAT_DIALOG_DATA) public data,
+    private snackbar: MatSnackBar,
+    private loyaltyService: LoyalityService
+  ) {
+    this.ruleID = data.ruleID;
+  }
+
+  loading: boolean = false;
+  ruleID = null;
+  ruleNumber = this.data.ruleNumber;
+
+  onDelete() {
+    this.loading = true;
+    this.loyaltyService.deleteRule(this.ruleID).then(resp => {
+      this.loading = false;
+      if (resp) {
+        this.snackbar.open("Rule deleted.", "", { duration: 3000 });
+        this.dialogRef.close(true);
+      }
+    })
+  }
 }

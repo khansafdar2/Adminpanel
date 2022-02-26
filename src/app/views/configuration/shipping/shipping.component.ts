@@ -412,12 +412,6 @@ export class ViewZoneDialog {
   selectedRegions: [];
 
 
-
-
-
-
-
-
   ngOnInit() {
     this.loading = true
     this.regions = []

@@ -217,7 +217,7 @@ export class ConfigurationGuard implements CanActivate {
       return true;
     } else {
     if(this.authService.user.is_vendor) {
-      if(route.url[0].path === "shipping" || route.url[0].path === "zone" || route.url[0].path === "shipping-rates" ) {
+      if(route.url[0].path === "shipping" || route.url[0].path === "zones" || route.url[0].path === "shipping-rates" ) {
         return true;
       } 
     }

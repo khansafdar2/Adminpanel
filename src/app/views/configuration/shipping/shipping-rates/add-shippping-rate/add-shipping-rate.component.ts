@@ -120,7 +120,6 @@ export class AddShippingRatesComponent implements OnInit {
   }
 
   getZones() {
-    debugger
     if (this.is_vendor) {
       this.vendorID = this.authservice.user.vendor_id;
     }

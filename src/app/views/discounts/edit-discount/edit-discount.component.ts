@@ -59,7 +59,10 @@ export class EditDiscountComponent implements OnInit {
   discountForm = this.fb.group({
     id: [null],
     title: ["", [Validators.required]],
-    discount_type: ["simple_discount", [Validators.required]],
+    discount_type: [{
+      value: "simple_discount",
+      disabled: true
+    },[Validators.required]],
     value_type: ["percentage", [Validators.required]],
     value: [0, [Validators.required]],
     check_minimum_purchase_amount: ["none"],
