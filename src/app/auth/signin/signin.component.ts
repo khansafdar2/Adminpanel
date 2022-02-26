@@ -46,6 +46,9 @@ export class SigninComponent implements OnInit {
             vendorCheck = true;
           }
         }
+        if(!environment.production) {
+          vendorCheck = true;
+        }
 
         if(vendorCheck) {
           this.authService.signin(response.data.token, response.data.permission, response.data);
