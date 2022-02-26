@@ -20,7 +20,7 @@
                     <div>
                         <h3>Order details</h3>
                     </div>
-                    
+
                     <variant-selector [vendor]="vendorID" (addItems)="onAddItems($event)"></variant-selector>
                 </div>
 
@@ -199,6 +199,6 @@
     </div>
 
     <mat-menu #actionsMenu="matMenu">
-        <button mat-menu-item (click)="onCancelOrder()" *ngIf="orderStatus !== 'Cancelled'">Cancel order</button>
+        <button mat-menu-item *ngIf="orderStatus !== 'Cancelled'">Cancel order</button>
     </mat-menu>
 </main>
