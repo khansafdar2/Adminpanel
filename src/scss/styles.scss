@@ -775,10 +775,21 @@ body {
     }
  }
 
- .shipping_regions{
+.shipping_regions{
     svg{
         padding-right: 25px;
         width: 65px;
         height: auto;
     }
- }
+}
+
+.comment-field-wrapper {
+    .mat-form-field-appearance-outline
+    .mat-form-field-wrapper {
+        padding: 0;
+    }
+
+    .mat-form-field-infix {
+        padding-right: 90px;
+    }
+}
