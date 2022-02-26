@@ -95,7 +95,7 @@ export class CollectionsComponent implements OnInit {
   pageSize: number = 50;
 
 
-  rowActions(row) {
+  public rowActions = (row) => {
     let actions = [];
     row.is_active ? actions.push("Deactivate") : actions.push("Activate");
     row.is_approved ? actions.push("Disapprove") : actions.push("Approve");
