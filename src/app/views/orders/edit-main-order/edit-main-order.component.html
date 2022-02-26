@@ -119,6 +119,8 @@
                     (cellClick)="onCellClick($event)"
                 ></datatable>
             </mat-card>
+
+            <order-timeline [orderId]="orderID"></order-timeline>
         </div>
         <div fxFlex="0 1 40%">
             <mat-card *ngIf="!isCancelled">
