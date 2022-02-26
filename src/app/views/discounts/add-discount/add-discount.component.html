@@ -227,13 +227,13 @@
                         <div fxFlex="0 1 50%">
                             <mat-form-field appearance="outline">
                                 <mat-label>Start</mat-label>
-                                <input type="datetime-local" matInput formControlName="start_date" />
+                                <input type="datetime-local" (change)="statusActiveCondition()" matInput formControlName="start_date" />
                             </mat-form-field>
                         </div>
                         <div fxFlex="0 1 50%">
                             <mat-form-field appearance="outline">
                                 <mat-label>End</mat-label>
-                                <input type="datetime-local" matInput formControlName="end_date" />
+                                <input type="datetime-local" (change)="statusActiveCondition()" matInput formControlName="end_date" />
                             </mat-form-field>
                         </div>
                     </div>

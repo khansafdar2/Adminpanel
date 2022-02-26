@@ -98,7 +98,9 @@ export class CollectionsComponent implements OnInit {
   public rowActions = (row) => {
     let actions = [];
     row.is_active ? actions.push("Deactivate") : actions.push("Activate");
-    row.is_approved ? actions.push("Disapprove") : actions.push("Approve");
+    if (!this.is_vendor) {
+      row.is_approved ? actions.push("Disapprove") : actions.push("Approve");
+    }
     actions.push("Delete");
     return actions;
   }
