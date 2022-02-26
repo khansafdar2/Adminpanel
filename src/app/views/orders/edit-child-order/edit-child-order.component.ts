@@ -38,6 +38,7 @@ export class EditChildOrderComponent implements OnInit {
   orderID = "";
   mainOrderID = "";
   orderTitle = "";
+  orderStatus = "";
   lineitems = [];
   fulfillmentStatus: string = "Unfulfilled";
   paymentStatus: string = "Pending";
@@ -71,6 +72,7 @@ export class EditChildOrderComponent implements OnInit {
         this.orderTitle = resp.data.name;
         this.lineitems = resp.data.line_items;
         this.vendorID = resp.data.vendor;
+        this.orderStatus = resp.data.order_status;
         this.shippingAddress = resp.data.shipping_address.address ? resp.data.shipping_address : null;
         this.billingAddress = resp.data.billing_address.address ? resp.data.billing_address : null;
         this.fulfillmentStatus = resp.data.fulfillment_status;
@@ -258,6 +260,7 @@ export class EditChildOrderComponent implements OnInit {
       id: this.orderID,
       fulfillment_status: this.fulfillmentStatus,
       payment_status: this.paymentStatus,
+      order_status: this.orderStatus,
       notes: this.notes,
       line_items: lineitems,
       tags: this.tags.length ? this.tags.join(",") : ""

@@ -20,9 +20,7 @@
                         <h3>Order details</h3>
                         <p class="order-number">Order No. {{orderNumber}}</p>
                     </div>
-                    <div>
-                        <button mat-stroked-button color="warn" (click)="onCancelOrder()" *ngIf="orderStatus !== 'Cancelled'">Cancel order</button>
-                    </div>
+
                 </div>
 
                 <div class="order-lineitems">
@@ -207,5 +205,6 @@
 
     <mat-menu #actionsMenu="matMenu">
         <button mat-menu-item (click)="downloadInvoice()">Download invoice</button>
+        <button mat-menu-item (click)="onCancelOrder()" *ngIf="orderStatus !== 'Cancelled'">Cancel order</button>
     </mat-menu>
 </main>
