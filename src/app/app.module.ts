@@ -113,7 +113,7 @@ import { MultiSelectDialog, MultiSelectModelComponent } from './shared/multi-sel
 import { AddFilterDialog, FiltersComponent } from './views/cms/filters/filters/filters.component';
 import { AddChildOrderComponent } from './views/orders/add-child-order/add-child-order.component';
 import { ProductSelectorComponent, ProductSelectorDialog } from './shared/product-selector/product-selector.component';
-import { DeleteRuleDialog, LoyalityComponent } from './views/configuration/loyality/loyality.component';
+import { DeleteLoyaltyRuleDialog, LoyalityComponent } from './views/configuration/loyality/loyality.component';
 import { CouponsComponent, CouponDeleteDialog } from './views/discounts/coupons/coupons.component';
 import { AddCouponComponent } from './views/discounts/coupons/add-coupon/add-coupon.component';
 import { EditCouponComponent } from './views/discounts/coupons/edit-coupon/edit-coupon.component';
@@ -235,7 +235,7 @@ import { CitiesComponent, CityDeleteDialog, CityDialog } from './views/configura
     ShippingZoneComponent,
     ShippingRatesComponent,
     DeleteZoneDialog,
-    DeleteRuleDialog,
+    DeleteLoyaltyRuleDialog,
     ViewZoneDialog,
     AddShippingRatesComponent,
     DeleteShippingRateDialog,

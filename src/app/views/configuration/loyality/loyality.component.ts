@@ -59,7 +59,7 @@ export class LoyalityComponent implements OnInit {
   removeRule(index) {
     if ((this.loyalityForm.get("rule") as FormArray).at(index).get('id')) {
     let ruleID = (this.loyalityForm.get("rule") as FormArray).at(index).get('id').value;
-      let dialogRef = this.dialog.open(DeleteRuleDialog, {
+      let dialogRef = this.dialog.open(DeleteLoyaltyRuleDialog, {
         width: "600px",
         data: {
           ruleID: ruleID,
@@ -131,9 +131,9 @@ export class LoyalityComponent implements OnInit {
   selector: 'delete-rule-dialog',
   templateUrl: './dialog/delete-rule-dialog.html',
 })
-export class DeleteRuleDialog {
+export class DeleteLoyaltyRuleDialog {
   constructor(
-    public dialogRef: MatDialogRef<DeleteRuleDialog>,
+    public dialogRef: MatDialogRef<DeleteLoyaltyRuleDialog>,
     @Inject(MAT_DIALOG_DATA) public data,
     private snackbar: MatSnackBar,
     private loyaltyService: LoyalityService
