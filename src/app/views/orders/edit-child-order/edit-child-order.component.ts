@@ -78,7 +78,7 @@ export class EditChildOrderComponent implements OnInit {
         this.fulfillmentStatus = resp.data.fulfillment_status;
         this.paymentStatus = resp.data.payment_status;
         this.isPaid = resp.data.payment_status === "Paid";
-        this.paidByWallet = parseFloat(resp.data.paid_by_wallet);
+        this.paidByWallet = parseFloat(resp.data.paid_amount);
         this.subTotal = resp.data.subtotal_price;
         this.totalShipping = resp.data.total_shipping;
         this.grandTotal = resp.data.total_price;
@@ -232,7 +232,7 @@ export class EditChildOrderComponent implements OnInit {
       order_status: "Cancelled"
     }
     this.loading = true;
-    this.ordersService.changeOrderStatus(data).then(resp => {
+    this.ordersService.changeChildOrderStatus(data).then(resp => {
       this.loading = false;
       if(resp) {
         this.snackbar.open("Order cancelled.", "", {duration: 3000});
@@ -240,6 +240,25 @@ export class EditChildOrderComponent implements OnInit {
       }
     })
   }
+
+  downloadInvoice() {
+    this.loading = true;
+    this.ordersService.downloadOrderInvoice(this.orderID).then(resp => {
+      this.loading = false;
+      if(resp) {
+        console.log(resp)
+        let pdf_data = resp.data;
+        var fileURL = window.URL.createObjectURL(new Blob([pdf_data], { type: 'text/pdf;charset=utf-8;' }));
+        var fileLink = document.createElement('a');
+        fileLink.href = fileURL;
+        fileLink.setAttribute('download', 'invoice_'+ this.orderID +'.pdf');
+        document.body.appendChild(fileLink);
+        fileLink.click();
+        document.body.removeChild(fileLink);
+      }
+    });
+  }
+
 
   onSubmit() {
     let lineitems = this.lineitemsFormArray.value.map(lineitem => {

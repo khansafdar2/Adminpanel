@@ -271,7 +271,7 @@
                                     *ngIf="discountForm.get('customer_eligibility').value === 'specific_customers' ">
 
                                     <h3>Customer</h3>
-                                    <ng-select [items]="customers | async" bindLabel="first_name" bindValue="id"
+                                    <ng-select [items]="customers | async" bindLabel="first_name" 
                                         [trackByFn]="trackByFn" [loading]="customersLoading" [typeahead]="customerInput"
                                         formControlName="customer" multiple="true"
                                         [compareWith]="compareData">

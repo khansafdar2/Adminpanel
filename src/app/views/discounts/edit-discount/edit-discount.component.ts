@@ -7,7 +7,7 @@ import URLS from 'src/app/shared/urls';
 import { DiscountsService } from '../discounts.service';
 import { environment } from 'src/environments/environment';
 import { Observable, Subject, concat, of } from 'rxjs';
-import { distinctUntilChanged, tap, switchMap, catchError } from 'rxjs/operators';
+import { distinctUntilChanged, tap, switchMap, catchError, map } from 'rxjs/operators';
 import { OrdersService } from '../../orders/orders.service';
 import { ProductsService } from '../../products/products.service';
 import { VendorsService } from '../../vendors/vendors.service';
@@ -283,7 +283,9 @@ export class EditDiscountComponent implements OnInit {
         }
         this.discountForm.patchValue(resp.data);
         if (resp.data.start_date || resp.data.end_date) {
-          (this.discountForm.controls['is_active'] as FormControl).disable();
+          if (resp.data.discount_type === 'simple_discount') {
+            (this.discountForm.controls['is_active'] as FormControl).disable();
+          }
         }
         if (this.is_vendor) {
           this.getProductGroups();
@@ -346,7 +348,9 @@ export class EditDiscountComponent implements OnInit {
 
   onSubmit() {
     this.loading = true;
-    this.discountsService.updateDiscount(this.discountForm.value).then(resp => {
+    let mainObj = this.discountForm.value;
+    mainObj.customer = mainObj.customer.map(this.mapCustomerID);
+    this.discountsService.updateDiscount(mainObj).then(resp => {
       this.loading = false;
       if (resp) {
         this.snackbarService.open("Discount updated successfully.", "", { duration: 3000 });

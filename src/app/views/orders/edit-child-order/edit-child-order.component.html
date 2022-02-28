@@ -8,7 +8,7 @@
         <div class="header-actions">
             <a [routerLink]="is_vendor ? ['/', URLS.orders]:['/', URLS.orders, URLS.editMainOrder, this.mainOrderID]"
                 mat-stroked-button color="primary">Cancel</a>
-            <button mat-stroked-button color="primary" [matMenuTriggerFor]="actionsMenu">More actions</button>
+            <button mat-stroked-button color="primary"  [matMenuTriggerFor]="actionsMenu">More actions</button>
             <button mat-flat-button color="primary" (click)="onSubmit()">Save</button>
         </div>
     </div>
@@ -21,7 +21,11 @@
                         <h3>Order details</h3>
                     </div>
 
-                    <variant-selector [vendor]="vendorID" (addItems)="onAddItems($event)"></variant-selector>
+                    <variant-selector *ngIf="orderStatus !== 'Cancelled'" [vendor]="vendorID" (addItems)="onAddItems($event)"></variant-selector>
+                  <div *ngIf="orderStatus == 'Cancelled'">
+                      <span  [class]="'label ' + (orderStatus === 'Cancelled' ? 'success' : 'warning')">{{orderStatus}}</span>
+                  </div>
+                
                 </div>
 
                 <div class="order-lineitems">
@@ -73,7 +77,7 @@
                             <span
                                 [class]="'label ' + (fulfillmentStatus === 'Fulfilled' ? 'success' : 'warning')">{{fulfillmentStatus}}</span>
                         </div>
-                        <div>
+                        <div *ngIf="orderStatus !== 'Cancelled'">
                             <button mat-flat-button color="primary" (click)="fulfillmentStatus = 'Fulfilled'"
                                 *ngIf="fulfillmentStatus === 'Unfulfilled'">Mark as Fulfilled</button>
                             <button mat-stroked-button color="primary" (click)="fulfillmentStatus = 'Unfulfilled'"
@@ -110,7 +114,7 @@
                 </div>
                 <div fxLayout="row" fxLayoutAlign="space-between" *ngIf="paidByWallet > 0">
                     <div>
-                        <span>Paid by wallet</span>
+                        <span>Paid amount</span>
                     </div>
                     <div>
                         <span>{{paidByWallet}} {{storeCurrency}}</span>
@@ -199,6 +203,8 @@
     </div>
 
     <mat-menu #actionsMenu="matMenu">
-        <button mat-menu-item *ngIf="orderStatus !== 'Cancelled'">Cancel order</button>
+        <button mat-menu-item (click)="downloadInvoice()">Download invoice</button>
+        <button mat-menu-item *ngIf="fulfillmentStatus === 'Fulfilled'"  >Cancel fullfilment</button>
+        <button mat-menu-item *ngIf="orderStatus !== 'Cancelled' &&  fulfillmentStatus === 'Unfulfilled' " (click)="onCancelOrder()" >Cancel order</button>
     </mat-menu>
 </main>

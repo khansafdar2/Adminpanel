@@ -179,6 +179,20 @@ export class OrdersService {
     });
   }
 
+
+  changeChildOrderStatus(data) {
+    return Axios.put(environment.backend_url + '/order/childorder_status_change', data, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
   exportOrders(IDs) {
     return Axios.get(environment.backend_url + '/order/orders_export?ids=' + IDs, {
       headers: {

@@ -30,7 +30,6 @@ export class LoggedOutAuthGuard implements CanActivate {
       this.router.navigate(['/dashboard'])
       return false
     }
-
     return true
   }
 }
