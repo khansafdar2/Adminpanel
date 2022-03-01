@@ -41,6 +41,7 @@ export class AddShippingRatesComponent implements OnInit {
   selectedProductGroups = [];
   selectedZoneId = null;
   previousZoneProductGroup = [];
+  previousVendorProductGroup = null;
 
   rateForm = this.fb.group({
     title: ["", [Validators.required]],
@@ -140,7 +141,11 @@ export class AddShippingRatesComponent implements OnInit {
       this.endPoints = "/shipping/shipping_productgroup_list?vendor=" + vendor + '&zone_id=' + this.selectedZoneId;
     }
     if (this.zoneId == this.selectedZoneId) {
-      this.selectedProductGroups = this.previousZoneProductGroup;
+      if (vendor != this.previousVendorProductGroup) {
+        this.selectedProductGroups = [];
+      } else {
+        this.selectedProductGroups = this.previousZoneProductGroup;
+      }
     } else {
       this.selectedProductGroups = [];
       this.rateForm.value.product_group = [];
@@ -148,6 +153,9 @@ export class AddShippingRatesComponent implements OnInit {
   }
 
   onVendorChange() {
+    this.rateForm.patchValue({
+      product_group: []
+    })
     this.selectedProductGroups = [];
     this.vendorID = this.rateForm.get('vendor').value;
     this.getZones();
@@ -246,6 +254,7 @@ export class AddShippingRatesComponent implements OnInit {
           this.vendorID = this.rateForm.get('vendor').value;
           this.selectedProductGroups = resp.data.product_group;
           this.previousZoneProductGroup = resp.data.product_group;
+          this.previousVendorProductGroup = resp.data.vendor;
 
           if (!this.is_vendor) {
             this.getVendors();
