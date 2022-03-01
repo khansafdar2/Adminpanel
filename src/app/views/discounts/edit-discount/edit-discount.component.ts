@@ -7,7 +7,7 @@ import URLS from 'src/app/shared/urls';
 import { DiscountsService } from '../discounts.service';
 import { environment } from 'src/environments/environment';
 import { Observable, Subject, concat, of } from 'rxjs';
-import { distinctUntilChanged, tap, switchMap, catchError } from 'rxjs/operators';
+import { distinctUntilChanged, tap, switchMap, catchError, map } from 'rxjs/operators';
 import { OrdersService } from '../../orders/orders.service';
 import { ProductsService } from '../../products/products.service';
 import { VendorsService } from '../../vendors/vendors.service';
@@ -59,7 +59,10 @@ export class EditDiscountComponent implements OnInit {
   discountForm = this.fb.group({
     id: [null],
     title: ["", [Validators.required]],
-    discount_type: ["simple_discount", [Validators.required]],
+    discount_type: [{
+      value: "simple_discount",
+      disabled: true
+    },[Validators.required]],
     value_type: ["percentage", [Validators.required]],
     value: [0, [Validators.required]],
     check_minimum_purchase_amount: ["none"],
@@ -279,6 +282,11 @@ export class EditDiscountComponent implements OnInit {
           resp.data.product = resp.data.product.map(this.mapProductID);
         }
         this.discountForm.patchValue(resp.data);
+        if (resp.data.start_date || resp.data.end_date) {
+          if (resp.data.discount_type === 'simple_discount') {
+            (this.discountForm.controls['is_active'] as FormControl).disable();
+          }
+        }
         if (this.is_vendor) {
           this.getProductGroups();
         } else {
@@ -311,9 +319,38 @@ export class EditDiscountComponent implements OnInit {
     (this.discountForm.controls['end_date'] as FormControl).updateValueAndValidity();
   }
 
+
+
+  statusActiveCondition() {
+    let discountType = this.discountForm.get('discount_type').value
+    if (discountType === 'simple_discount') {
+      if (this.discountForm.get('start_date').value || this.discountForm.get('end_date').value) {
+        (this.discountForm.controls['start_date'] as FormControl).setValidators([Validators.required]);
+        (this.discountForm.controls['end_date'] as FormControl).setValidators([Validators.required]);
+        (this.discountForm.controls['start_date'] as FormControl).updateValueAndValidity();
+        (this.discountForm.controls['end_date'] as FormControl).updateValueAndValidity();
+        (this.discountForm.controls['is_active'] as FormControl).disable();
+        this.discountForm.patchValue({
+          is_active: false
+        });
+      } else {
+        (this.discountForm.controls['start_date'] as FormControl).clearValidators();
+        (this.discountForm.controls['end_date'] as FormControl).clearValidators();
+        (this.discountForm.controls['start_date'] as FormControl).updateValueAndValidity();
+        (this.discountForm.controls['end_date'] as FormControl).updateValueAndValidity();
+        (this.discountForm.controls['is_active'] as FormControl).enable();
+        this.discountForm.patchValue({
+          is_active: true
+        });
+      }
+    }
+  }
+
   onSubmit() {
     this.loading = true;
-    this.discountsService.updateDiscount(this.discountForm.value).then(resp => {
+    let mainObj = this.discountForm.value;
+    mainObj.customer = mainObj.customer.map(this.mapCustomerID);
+    this.discountsService.updateDiscount(mainObj).then(resp => {
       this.loading = false;
       if (resp) {
         this.snackbarService.open("Discount updated successfully.", "", { duration: 3000 });

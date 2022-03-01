@@ -183,7 +183,7 @@ const routes: Routes = [
     {path: URLS.add, component: AddVendorComponent, canActivate: [VendorGuard]},
     {path: URLS.edit + '/:id', component: EditVendorComponent, canActivate: [VendorGuard]},
   ]},
-  {path: URLS.zones, canActivate: [LoggedInAuthGuard], children: [
+  {path: URLS.zones, canActivate: [LoggedInAuthGuard,ConfigurationGuard], children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
     {path: URLS.all, component: ShippingZoneComponent},
   ]},

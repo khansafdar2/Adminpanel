@@ -20,6 +20,7 @@ export class SigninComponent implements OnInit {
   formError: string = "";
   logo_img: string = `assets/${environment.client_img_folder}/logo.png`;
   clientName: string = environment.client_name;
+  isVendorPortal = this.authService.isVendorPortal;
   signinForm = this.fb.group({
     username_or_email: ['', [Validators.required]],
     password: ['', [Validators.required]],
@@ -35,8 +36,26 @@ export class SigninComponent implements OnInit {
       Axios.post(environment.backend_url + "/authentication/signin", this.signinForm.value)
       .then((response) => {
         this.loading = false;
-        this.authService.signin(response.data.token, response.data.permission, response.data);
-        this.router.navigate(['/dashboard']);
+        let vendorCheck = false;
+        if(this.isVendorPortal) {
+          if(response.data.is_vendor) {
+            vendorCheck = true;
+          }
+        } else {
+          if(!response.data.is_vendor) {
+            vendorCheck = true;
+          }
+        }
+        if(!environment.production) {
+          vendorCheck = true;
+        }
+
+        if(vendorCheck) {
+          this.authService.signin(response.data.token, response.data.permission, response.data);
+          this.router.navigate(['/dashboard']);
+        } else {
+          this.formError = "Email or password is incorrect.";
+        }
       }, (error) => {
         this.loading = false;
         if(error.response.status === 422) {

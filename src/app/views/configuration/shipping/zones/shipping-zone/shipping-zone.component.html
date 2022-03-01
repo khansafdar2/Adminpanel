@@ -25,7 +25,7 @@
                                     <mat-card-title>Shipping zones</mat-card-title>
                                     <mat-card-subtitle>{{countries}} countries and {{regions}} regions</mat-card-subtitle>
                                 </div>
-                                <mat-card-title class="link" (click)="onNewShippingMethod()"> Create shipping zone
+                                <mat-card-title *ngIf="!is_vendor" class="link" (click)="onNewShippingMethod()"> Create shipping zone
                                 </mat-card-title>
                             </div>
                         </mat-card-content>
@@ -61,9 +61,10 @@
                                             <mat-icon>more_vert</mat-icon>
                                         </button>
                                         <mat-menu #menu="matMenu">
-                                            <button (click)="editZone(zone.id)" mat-menu-item>Edit</button>
-                                            <button mat-menu-item
-                                                (click)="deleteZone(zone.id, zone.title)">Delete</button>
+                                            <button *ngIf="!is_vendor" (click)="editZone(zone.id)" mat-menu-item>Edit</button>
+                                            <button mat-menu-item *ngIf="!is_vendor" (click)="deleteZone(zone.id, zone.title)">Delete</button>
+                                            <button mat-menu-item *ngIf="is_vendor" (click)="viewZone(zone.id)">View</button>
+
                                         </mat-menu>
                                     </div>
                                 </div>

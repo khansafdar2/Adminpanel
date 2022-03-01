@@ -1,0 +1,31 @@
+<button mat-icon-button mat-dialog-close class="dialog-close"><mat-icon>close</mat-icon></button>
+
+<mat-dialog-content class="mat-typography">
+    <div fxLayout="column">
+        <div class="spacing" fxLayout="column">
+            <h4 class="title">Zone name</h4>
+            <p>{{title}}</p>
+        </div>
+
+        <div class="spacing" fxLayout="row">
+            <div fxFlex="0 1 20%"> 
+                <h4 class="title">Region</h4>
+                <p>{{region}}</p>
+
+            </div>
+            <div fxFlex="0 1 20%">
+                <h4 class="title">Country</h4>
+                <p>{{country}}</p>
+            </div>
+        </div>
+
+        <div fxLayout="column">
+            <h4 class="title">City</h4>
+            <div fxLayout="row wrap"> 
+                <div *ngFor="let item of city">
+                    <p>{{item}},</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>

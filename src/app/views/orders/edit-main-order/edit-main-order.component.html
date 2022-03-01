@@ -19,10 +19,12 @@
                     <div>
                         <h3>Order details</h3>
                         <p class="order-number">Order No. {{orderNumber}}</p>
+
+                        <div *ngIf="orderStatus == 'Cancelled'">
+                            <span  [class]="'label ' + (orderStatus === 'Cancelled' ? 'success' : 'warning')">{{orderStatus}}</span>
+                        </div>
                     </div>
-                    <div>
-                        <button mat-stroked-button color="warn" (click)="onCancelOrder()" *ngIf="orderStatus !== 'Cancelled'">Cancel order</button>
-                    </div>
+
                 </div>
 
                 <div class="order-lineitems">
@@ -85,7 +87,7 @@
                 </div>
                 <div fxLayout="row" fxLayoutAlign="space-between" *ngIf="paidByWallet > 0">
                     <div>
-                        <span>Paid by wallet</span>
+                        <span>Paid amount</span>
                     </div>
                     <div>
                         <span>{{paidByWallet}} {{storeCurrency}}</span>
@@ -119,6 +121,8 @@
                     (cellClick)="onCellClick($event)"
                 ></datatable>
             </mat-card>
+
+            <order-timeline [orderId]="orderID"></order-timeline>
         </div>
         <div fxFlex="0 1 40%">
             <mat-card *ngIf="!isCancelled">
@@ -139,12 +143,12 @@
             </mat-card>
 
             <mat-card>
-                <div class="card-section">
+                <div class="card-section" *ngIf="customer">
                     <h3>Customer detail</h3>
 
                     <a [routerLink]="['/', URLS.customers, URLS.edit, customer.id]" target="_blank">{{customer.name}}</a>
                 </div>
-                <div class="card-section">
+                <div class="card-section" *ngIf="customer">
                     <h3>Contact information</h3>
 
                     <p><a href="mailto: {{customer.email}}">{{customer.email}}</a></p>
@@ -205,5 +209,7 @@
 
     <mat-menu #actionsMenu="matMenu">
         <button mat-menu-item (click)="downloadInvoice()">Download invoice</button>
+        <button mat-menu-item *ngIf="fulfillmentStatus === 'Fulfilled'"  >Cancel fullfilment</button>
+        <button mat-menu-item *ngIf="orderStatus !== 'Cancelled' &&  fulfillmentStatus === 'Unfulfilled' " (click)="onCancelOrder()" >Cancel order</button>
     </mat-menu>
 </main>

@@ -38,6 +38,7 @@ export class EditChildOrderComponent implements OnInit {
   orderID = "";
   mainOrderID = "";
   orderTitle = "";
+  orderStatus = "";
   lineitems = [];
   fulfillmentStatus: string = "Unfulfilled";
   paymentStatus: string = "Pending";
@@ -71,12 +72,13 @@ export class EditChildOrderComponent implements OnInit {
         this.orderTitle = resp.data.name;
         this.lineitems = resp.data.line_items;
         this.vendorID = resp.data.vendor;
+        this.orderStatus = resp.data.order_status;
         this.shippingAddress = resp.data.shipping_address.address ? resp.data.shipping_address : null;
         this.billingAddress = resp.data.billing_address.address ? resp.data.billing_address : null;
         this.fulfillmentStatus = resp.data.fulfillment_status;
         this.paymentStatus = resp.data.payment_status;
         this.isPaid = resp.data.payment_status === "Paid";
-        this.paidByWallet = parseFloat(resp.data.paid_by_wallet);
+        this.paidByWallet = parseFloat(resp.data.paid_amount);
         this.subTotal = resp.data.subtotal_price;
         this.totalShipping = resp.data.total_shipping;
         this.grandTotal = resp.data.total_price;
@@ -224,6 +226,40 @@ export class EditChildOrderComponent implements OnInit {
     this.updateTotals();
   }
 
+  onCancelOrder() {
+    let data = {
+      id: this.orderID,
+      order_status: "Cancelled"
+    }
+    this.loading = true;
+    this.ordersService.changeChildOrderStatus(data).then(resp => {
+      this.loading = false;
+      if(resp) {
+        this.snackbar.open("Order cancelled.", "", {duration: 3000});
+        this.router.navigate(["/", URLS.orders]);
+      }
+    })
+  }
+
+  downloadInvoice() {
+    this.loading = true;
+    this.ordersService.downloadOrderInvoice(this.orderID).then(resp => {
+      this.loading = false;
+      if(resp) {
+        console.log(resp)
+        let pdf_data = resp.data;
+        var fileURL = window.URL.createObjectURL(new Blob([pdf_data], { type: 'text/pdf;charset=utf-8;' }));
+        var fileLink = document.createElement('a');
+        fileLink.href = fileURL;
+        fileLink.setAttribute('download', 'invoice_'+ this.orderID +'.pdf');
+        document.body.appendChild(fileLink);
+        fileLink.click();
+        document.body.removeChild(fileLink);
+      }
+    });
+  }
+
+
   onSubmit() {
     let lineitems = this.lineitemsFormArray.value.map(lineitem => {
       let obj = {
@@ -243,6 +279,7 @@ export class EditChildOrderComponent implements OnInit {
       id: this.orderID,
       fulfillment_status: this.fulfillmentStatus,
       payment_status: this.paymentStatus,
+      order_status: this.orderStatus,
       notes: this.notes,
       line_items: lineitems,
       tags: this.tags.length ? this.tags.join(",") : ""

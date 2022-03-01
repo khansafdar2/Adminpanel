@@ -76,6 +76,25 @@ export class ShippingRegionService {
     });
   }
 
+  getzoneCityList(id, zoneID, page, limit) {
+    let endpoint;
+    if (zoneID == null) {
+      endpoint = '/setting/city_list?country_id=' + id + "&page=" + page + "&limit=" + limit
+    } else {
+      endpoint = '/setting/city_list?country_id=' + id + '&zone_id=' + zoneID + "&page=" + page + "&limit=" + limit
+    }
+    return Axios.get( environment.backend_url + endpoint, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
   createCity(data) {
     return Axios.post( environment.backend_url + '/setting/city', data, {
       headers: {

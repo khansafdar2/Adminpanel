@@ -45,12 +45,10 @@ export class ShippingComponent implements OnInit {
     this.router.navigate([URLS.configuration]);
   }
 
-  manageZones()
-  {
+  manageZones() {
     this.router.navigate([URLS.zones]);
   }
-  manageShippingRates()
-  {
+  manageShippingRates() {
     this.router.navigate([URLS.shippingRates]);
   }
 
@@ -58,14 +56,14 @@ export class ShippingComponent implements OnInit {
     this.loading = true;
     this.shippingService.getShippingMethods(1, 50).then(resp => {
       this.loading = false;
-      if(resp) {
+      if (resp) {
         this.shippingMethods = resp.data.results;
       }
     })
   }
 
   getZoneCount() {
-    this.shippingService.getZoneCount().then(resp=>{
+    this.shippingService.getZoneCount().then(resp => {
       if (resp) {
         this.zoneCount = resp.data;
       }
@@ -79,7 +77,7 @@ export class ShippingComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(added => {
-      if(added) {
+      if (added) {
         this.getShippingMethods();
       }
     });
@@ -94,7 +92,7 @@ export class ShippingComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(updated => {
-      if(updated) {
+      if (updated) {
         this.getShippingMethods();
       }
     });
@@ -109,7 +107,7 @@ export class ShippingComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(deleted => {
-      if(deleted) {
+      if (deleted) {
         this.getShippingMethods();
       }
     });
@@ -117,7 +115,7 @@ export class ShippingComponent implements OnInit {
 
   ngOnInit(): void {
     this.getZoneCount();
-    
+
   }
 
 }
@@ -134,7 +132,7 @@ export class AddShippingDialog {
     private fb: FormBuilder,
     private shippingService: ShippingService,
     private snackbar: MatSnackBar
-  ) {}
+  ) { }
 
   loading: boolean = false;
   shippingForm = this.fb.group({
@@ -146,8 +144,8 @@ export class AddShippingDialog {
     this.loading = true;
     this.shippingService.createShipping(this.shippingForm.value).then(resp => {
       this.loading = false;
-      if(resp) {
-        this.snackbar.open("Shipping method created successfuly.", "", {duration: 3000});
+      if (resp) {
+        this.snackbar.open("Shipping method created successfuly.", "", { duration: 3000 });
         this.dialogRef.close(true);
       }
     })
@@ -171,54 +169,55 @@ export class AddZoneDialog {
   ) {
     this.zoneId = this.data ? this.data.zoneId : null //for editing zone
   }
-  zoneId = null
+  zoneId = null;
   loading: boolean = false;
-  regions : []
-  countries : []
-  cities : []
-  selectedRegions : []
+  citiesCheck: boolean = true;
+  regions: [];
+  countries: [];
+  cities: [];
+  selectedRegions: [];
   zoneForm = this.fb.group({
     title: ["", [Validators.required]],
     region: [[], [Validators.required]],
     country: [[]],
-    city: [[]]    
+    city: [[]]
   });
 
-  getRegions()
-  {
+  getRegions() {
     this.shippingRegionService.getShippingRegionList(1, 50).then(resp => {
       this.loading = false;
-      if (resp)
-      {
+      if (resp) {
         this.regions = resp.data.results;
       }
     })
   }
 
-  getCountries()
-  {
-    if (this.zoneForm.value.region.length == 1)
-    {
+  getCountries() {
+    if (this.zoneForm.value.region.length == 1) {
       this.countries = []
       this.cities = []
       this.shippingRegionService.getCountryList(this.zoneForm.value.region[0], 1, 100).then(resp => {
-        if (resp)
-        {
+        if (resp) {
           this.countries = resp.data.results;
         }
       })
     }
   }
 
-  getCities()
-  {
-    if (this.zoneForm.value.country.length == 1)
-    {
+  getCities() {
+    if (this.zoneForm.value.country.length == 1) {
       this.cities = []
-      this.shippingRegionService.getCityList(this.zoneForm.value.country[0], 1, 500).then(resp => {
-        if (resp)
-        {
+      this.shippingRegionService.getzoneCityList(this.zoneForm.value.country[0], this.zoneId, 1, 500).then(resp => {
+        if (resp) {
           this.cities = resp.data.results;
+          console.log(this.cities.length);
+
+          if (this.cities.length == 0) {
+
+            this.citiesCheck = false;
+          } else {
+            this.citiesCheck = true
+          }
         }
       })
     }
@@ -228,27 +227,26 @@ export class AddZoneDialog {
 
 
   onSubmit() {
-    
+
     this.loading = true;
 
-    if(this.zoneId)
-    {
+    if (this.zoneId) {
       //update existing zone
       this.zoneForm.value.id = this.zoneId
       this.shippingService.updateZone(this.zoneForm.value).then(resp => {
         this.loading = false;
-        if(resp) {
-          this.snackbar.open("zone created successfuly.", "", {duration: 3000});
+        if (resp) {
+          this.snackbar.open("zone created successfuly.", "", { duration: 3000 });
           this.dialogRef.close(true);
         }
-      }) 
+      })
     }
-    else{
+    else {
       //create new zone
       this.shippingService.createZone(this.zoneForm.value).then(resp => {
         this.loading = false;
-        if(resp) {
-          this.snackbar.open("zone created successfuly.", "", {duration: 3000});
+        if (resp) {
+          this.snackbar.open("zone created successfuly.", "", { duration: 3000 });
           this.dialogRef.close(true);
         }
       })
@@ -262,12 +260,10 @@ export class AddZoneDialog {
     this.countries = []
     this.cities = []
 
-    if (this.zoneId)
-    {
+    if (this.zoneId) {
       // edit zone
       this.shippingService.getSingleZones(this.zoneId).then((resp) => {
-        if(resp)
-        {
+        if (resp) {
           this.zoneForm.controls['title'].setValue(resp.data.title)
           this.zoneForm.controls['region'].setValue(resp.data.region)
           this.zoneForm.controls['country'].setValue(resp.data.country)
@@ -280,8 +276,7 @@ export class AddZoneDialog {
         }
       })
     }
-    else 
-    {
+    else {
       // create new zone
       this.getRegions()
     }
@@ -312,8 +307,8 @@ export class DeleteZoneDialog {
     this.loading = true;
     this.shippingService.deleteZone(this.zoneId).then(resp => {
       this.loading = false;
-      if(resp) {
-        this.snackbar.open("Zone deleted.", "", {duration: 3000});
+      if (resp) {
+        this.snackbar.open("Zone deleted.", "", { duration: 3000 });
         this.dialogRef.close(true);
       }
     })
@@ -347,8 +342,8 @@ export class EditShippingDialog {
     this.loading = true;
     this.shippingService.updateShipping(this.shippingForm.value).then(resp => {
       this.loading = false;
-      if(resp) {
-        this.snackbar.open("Shipping method updated successfuly.", "", {duration: 3000});
+      if (resp) {
+        this.snackbar.open("Shipping method updated successfuly.", "", { duration: 3000 });
         this.dialogRef.close(true);
       }
     })
@@ -377,8 +372,8 @@ export class DeleteShippingDialog {
     this.loading = true;
     this.shippingService.deleteShipping(this.shipping.id).then(resp => {
       this.loading = false;
-      if(resp) {
-        this.snackbar.open("Shipping method deleted.", "", {duration: 3000});
+      if (resp) {
+        this.snackbar.open("Shipping method deleted.", "", { duration: 3000 });
         this.dialogRef.close(true);
       }
     })
@@ -386,3 +381,53 @@ export class DeleteShippingDialog {
 }
 
 
+@Component({
+  selector: 'view-zone-dialog',
+  styleUrls: ['./shipping.component.scss'],
+  templateUrl: './dialogs/view-zone.html',
+})
+export class ViewZoneDialog {
+  constructor(
+    public dialogRef: MatDialogRef<AddZoneDialog>,
+    @Inject(MAT_DIALOG_DATA) public data,
+    private fb: FormBuilder,
+    private shippingService: ShippingService,
+    private shippingRegionService: ShippingRegionService,
+    private snackbar: MatSnackBar
+  ) {
+    this.zoneId = this.data ? this.data.zoneId : null
+  }
+  zoneId = null;
+  loading: boolean = false;
+  citiesCheck: boolean = true;
+  regions: [];
+  countries: [];
+  cities: [];
+
+  title: string = '';
+  region: string = '';
+  country: any;
+  city = [];
+
+  selectedRegions: [];
+
+
+  ngOnInit() {
+    this.loading = true
+    this.regions = []
+    this.countries = []
+    this.cities = []
+
+    if (this.zoneId) {
+      this.shippingService.getVendorZones(this.zoneId).then((resp) => {
+        if (resp) {
+          this.title = resp.data.title;
+          this.region = resp.data.region;
+          this.country = resp.data.country;
+          this.city = resp.data.city;
+        }
+      })
+    }
+
+  }
+}

@@ -6,34 +6,15 @@
         <input matInput [(ngModel)]="searchQuery" (keyup)="onSearch()" type="search" />
     </mat-form-field>
 
-    <p *ngIf="dataCount === 0 && !loading">No products found.</p>
+    <p *ngIf="dataCount === 0 && !loading">{{data.emptyMessage}}</p>
     <div class="products-list" *ngIf="dataCount > 0">
       <!--   -->
         <mat-selection-list [ngModel]="selectedData" [compareWith]="compareSelection" (selectionChange)="onSelection($event)" >
             <div class="product-wrapper" *ngFor="let dataA of dataArray">
-                <!-- <div class="product-data" fxLayout="row" fxLayoutAlign="start center">
-                    <div>
-                        <img class="product-image" [src]="product.image ? product.image : '/assets/img/placeholder-image.png'" />
-                    </div>
-                    <div>
-                        <span class="product-title">{{dataA.title}} <br/>
-                            <span class="product-vendor">{{dataA.vendor_name}}</span>
-                        </span>
-                    </div>
-                </div> -->
-                <!-- <div class="product-variants"> -->
                     <mat-list-option  [value]="dataA">
                         <span class="variant-title">{{dataA.title}}</span>
                     </mat-list-option>
-                <!-- </div> -->
 
-                <!-- <div class="product-variants">
-                    <mat-list-option *ngFor="let variant of product.variants" [value]="variant">
-                        <span class="variant-title">{{variant.title === "Default Title" ? "Default variant" : variant.title}}</span>
-                        <span class="variant-qty">{{variant.inventory_quantity}} available</span>
-                        <span class="variant-price">{{variant.price}} {{store_currency}}</span>
-                    </mat-list-option>
-                </div> -->
             </div>
         </mat-selection-list>
 

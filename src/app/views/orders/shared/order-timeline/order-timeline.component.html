@@ -1,0 +1,25 @@
+<h2>Order history</h2>
+
+<mat-progress-bar color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+<mat-card>
+    <form [formGroup]="commentForm" (submit)="onSubmit()">
+        <div class="comment-field-wrapper">
+            <mat-form-field appearance="outline">
+                <input matInput formControlName="message" placeholder="Write a comment" />
+            </mat-form-field>
+    
+            <button type="button"
+                mat-flat-button
+                color="primary"
+                type="submit"
+                [disabled]="loading || !commentForm.valid">Submit</button>
+        </div>
+    </form>
+</mat-card>
+
+<div class="order-history">
+    <div class="order-history-message" *ngFor="let messageObj of history;">
+        <p class="message">{{messageObj.message}}</p>
+        <p class="message-time">{{messageObj.created_at | date: "h:mm aaa MMM d, YYYY"}}</p>
+    </div>
+</div>

@@ -179,6 +179,20 @@ export class OrdersService {
     });
   }
 
+
+  changeChildOrderStatus(data) {
+    return Axios.put(environment.backend_url + '/order/childorder_status_change', data, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
   exportOrders(IDs) {
     return Axios.get(environment.backend_url + '/order/orders_export?ids=' + IDs, {
       headers: {
@@ -225,6 +239,41 @@ export class OrdersService {
 
   createChildOrder(data) {
     return Axios.post(environment.backend_url + '/order/childorder', data, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+      return error;
+    });
+  }
+
+  postComment(data) {
+    return Axios.post(environment.backend_url + '/order/order_history', data, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+      return error;
+    });
+  }
+
+  getOrderHistory(orderID, childOrderID) {
+    let endpoint = "/order/order_history";
+    if(orderID) {
+      endpoint += "?order_id=" + orderID;
+    }
+    if(childOrderID) {
+      endpoint += "?childorder_id=" + childOrderID;
+    }
+    return Axios.get(environment.backend_url + endpoint, {
       headers: {
         Authorization: this.authService.token
       }

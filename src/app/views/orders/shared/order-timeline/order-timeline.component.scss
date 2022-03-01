@@ -1,0 +1,46 @@
+@import "../../../../../scss/variables.scss";
+
+h2 {
+    margin: 20px 0;
+}
+.comment-field-wrapper {
+    position: relative;
+
+    .mat-flat-button {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+}
+.order-history {
+    margin-top: 24px;
+    padding-left: 24px;
+}
+.order-history-message {
+    position: relative;
+    padding: 20px;
+    border-left: 1px solid #ddd;
+
+    &::before {
+        content: "";
+        display: block;
+        position: absolute;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        left: -7px;
+        top: 24px;
+        background-color: $primaryColor;
+    }
+
+    .message {
+        font-size: 15px;
+        margin-bottom: 0;
+    }
+    .message-time {
+        margin: 0;
+        font-size: 13px;
+        opacity: 0.7;
+    }
+}

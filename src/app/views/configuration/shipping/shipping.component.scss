@@ -40,17 +40,10 @@
     margin-right: 15px;
   }
 }
-// .mat-form-field-wrapper{
-//   padding-bottom: 0 !important;
-// }
+
 .conditions .mat-form-field{
   padding: 0 10px;
 }
-// .condition-wrapper{
-//   height: 100%;
-//   max-height: 400px;
-//   overflow-y: auto;
-// }
 
 .condition-wrapper{
   width: 100%;
@@ -74,4 +67,14 @@
   background: #cccccc38;;
   margin: 10px 0;
   padding: 10px;
+}
+
+.title{
+  margin: 0 0 0px;
+  font-weight: 700;
+
+}
+
+.spacing{
+  margin-bottom: 12px
 }

@@ -37,4 +37,19 @@ export class LoyalityService {
     });
   }
 
+
+  deleteRule(id)
+  {
+    return Axios.delete(environment.backend_url + "/setting/setting/" + id, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
 }

@@ -73,7 +73,7 @@ import { EditVariantComponent } from './views/products/edit-variant/edit-variant
 import { AddVariantComponent } from './views/products/add-variant/add-variant.component';
 import { AddDiscountComponent } from './views/discounts/add-discount/add-discount.component';
 import { EditDiscountComponent } from './views/discounts/edit-discount/edit-discount.component';
-import { AddShippingDialog, AddZoneDialog, DeleteShippingDialog, DeleteZoneDialog, EditShippingDialog, ShippingComponent } from './views/configuration/shipping/shipping.component';
+import { AddShippingDialog, AddZoneDialog, DeleteShippingDialog, DeleteZoneDialog, EditShippingDialog, ShippingComponent, ViewZoneDialog } from './views/configuration/shipping/shipping.component';
 import { OrdersComponent, OrdersExportDialog } from './views/orders/orders.component';
 import { AddOrderComponent } from './views/orders/add-order/add-order.component';
 import { CustomerDeleteDialog, CustomersComponent } from './views/customers/customers.component';
@@ -113,7 +113,7 @@ import { MultiSelectDialog, MultiSelectModelComponent } from './shared/multi-sel
 import { AddFilterDialog, FiltersComponent } from './views/cms/filters/filters/filters.component';
 import { AddChildOrderComponent } from './views/orders/add-child-order/add-child-order.component';
 import { ProductSelectorComponent, ProductSelectorDialog } from './shared/product-selector/product-selector.component';
-import { LoyalityComponent } from './views/configuration/loyality/loyality.component';
+import { DeleteLoyaltyRuleDialog, LoyalityComponent } from './views/configuration/loyality/loyality.component';
 import { CouponsComponent, CouponDeleteDialog } from './views/discounts/coupons/coupons.component';
 import { AddCouponComponent } from './views/discounts/coupons/add-coupon/add-coupon.component';
 import { EditCouponComponent } from './views/discounts/coupons/edit-coupon/edit-coupon.component';
@@ -121,6 +121,7 @@ import { ShippingRegionsComponent } from './views/configuration/shipping-regions
 import { CountriesComponent } from './views/configuration/shipping-regions/countries/countries.component';
 import { CitiesComponent, CityDeleteDialog, CityDialog } from './views/configuration/shipping-regions/countries/cities/cities.component';
 import { CheckoutCustomizationComponent } from './views/configuration/checkout-customization/checkout-customization.component';
+import { OrderTimelineComponent } from './views/orders/shared/order-timeline/order-timeline.component';
 
 
 @NgModule({
@@ -236,6 +237,8 @@ import { CheckoutCustomizationComponent } from './views/configuration/checkout-c
     ShippingZoneComponent,
     ShippingRatesComponent,
     DeleteZoneDialog,
+    DeleteLoyaltyRuleDialog,
+    ViewZoneDialog,
     AddShippingRatesComponent,
     DeleteShippingRateDialog,
     DefaultShippingComponent,
@@ -257,7 +260,8 @@ import { CheckoutCustomizationComponent } from './views/configuration/checkout-c
     CitiesComponent,
     CityDeleteDialog,
     CityDialog,
-    CheckoutCustomizationComponent
+    CheckoutCustomizationComponent,
+    OrderTimelineComponent
   ],
   imports: [
     BrowserModule,

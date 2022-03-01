@@ -133,7 +133,6 @@ export class AddCollectionComponent implements OnInit {
 
   getCategories() {
     this.collectionsService.getCategoriesList().then(resp => {
-      debugger
       if(resp) {
         this.main_categories = resp.data.main_categories;
         this.sub_categories = resp.data.sub_categories;

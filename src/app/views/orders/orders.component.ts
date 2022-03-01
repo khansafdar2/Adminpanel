@@ -37,7 +37,7 @@ export class OrdersComponent implements OnInit {
     },
     {
       title: "Order no.",
-      selector: "order_id"
+      selector: "order_id",
     },
     {
       title: "Date",
@@ -212,6 +212,9 @@ export class OrdersComponent implements OnInit {
 
   ngOnInit(): void {
     this.getOrders();
+    if (this.is_vendor) {
+      this.displayedColumns.splice(1,1);
+    }
   }
 
 }
