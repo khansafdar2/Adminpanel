@@ -71,8 +71,6 @@
             </div>
         </div>
         <div style="margin-top: 20px;" fxLayout="row">
-
-
             <div fxFlex="0 1 100%">
                 <mat-card>
                     <h4 fxLayoutAlign="center">General Analysis</h4>
@@ -101,18 +99,51 @@
             </div>
         </div>
 
-        <div fxLayout="row">
-            <div fxFlex="0 1 50%">
-                <mat-card>
+        <div style="margin-top: 20px;" fxLayout="row">
+            <div #containerRef fxFlex="0 1 50%">
+                <h4 fxLayoutAlign="center">Top 10 Sold Items</h4>
+                    <ngx-charts-pie-chart 
+                    [results]="saleData"
+                    [legendTitle]="'Product Sale Report'" 
+                    [view]="[containerRef.offsetWidth , 400]"
+                    [labels]="true" >
+                </ngx-charts-pie-chart>
 
-                </mat-card>
 
             </div>
-            <div fxFlex="0 1 50%">
-                <mat-card>
-                    
-                </mat-card>
+            <div #containerRef fxFlex="0 1 50%">
+                    <ngx-charts-bar-vertical 
+                        [view]="[containerRef.offsetWidth , 400]"
+                        [results]="saleData"
+                        [xAxisLabel]="'Products'"
+                        [legendTitle]="'Product Sale Chart'"
+                        [yAxisLabel]="'Sale'"
+                        [legend]="true"
+                        [showXAxisLabel]="true"
+                        [showYAxisLabel]="true"
+                        [xAxis]="true"
+                        [yAxis]="true"
+                        [gradient]="true">
+                    </ngx-charts-bar-vertical>
 
+            </div>
+        </div>
+
+        <div style="margin-top: 20px;" fxLayout="row">
+            <div #containerRef2 fxFlex="0 1 100%">
+                <ngx-charts-bar-horizontal
+                [view]="[containerRef2.offsetWidth , 400]"
+                [results]="saleData"
+                [xAxisLabel]="'Products'"
+                [legendTitle]="'Product Sale Chart'"
+                [yAxisLabel]="'Sale'"
+                [legend]="true"
+                [showXAxisLabel]="true"
+                [showYAxisLabel]="true"
+                [xAxis]="true"
+                [yAxis]="true"
+                [gradient]="true">
+                    </ngx-charts-bar-horizontal>
             </div>
         </div>
     </div>

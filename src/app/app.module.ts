@@ -122,6 +122,7 @@ import { ShippingRegionsComponent } from './views/configuration/shipping-regions
 import { CountriesComponent } from './views/configuration/shipping-regions/countries/countries.component';
 import { CitiesComponent, CityDeleteDialog, CityDialog } from './views/configuration/shipping-regions/countries/cities/cities.component';
 import { OrderTimelineComponent } from './views/orders/shared/order-timeline/order-timeline.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 
 @NgModule({
@@ -295,7 +296,8 @@ import { OrderTimelineComponent } from './views/orders/shared/order-timeline/ord
     MatListModule,
     MatProgressSpinnerModule,
     DragDropModule,
-    NgxDropzoneModule
+    NgxDropzoneModule,
+    NgxChartsModule
   ],
   providers: [LoggedInAuthGuard, LoggedOutAuthGuard],
   bootstrap: [AppComponent]

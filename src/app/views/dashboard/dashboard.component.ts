@@ -13,7 +13,8 @@ export class DashboardComponent implements OnInit {
   constructor(
     private dashboardService: DashboardService,
     private authService: AuthService
-  ) { }
+  ) { 
+  }
 
   loading: boolean = true;
   vendor = this.authService.user.is_vendor;
@@ -32,6 +33,8 @@ export class DashboardComponent implements OnInit {
     { name: "Headset", value: 150000 },
     { name: "Fridge", value: 20000 }
   ];
+
+
 
 
   getCardStats() {
