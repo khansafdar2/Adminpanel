@@ -6,7 +6,8 @@
         <h1>Checkout settings</h1>
         <div class="header-actions">
             <a [routerLink]="['/', URLS.configuration]" mat-stroked-button color="primary">Cancel</a>
-            <button mat-flat-button color="primary">Save</button>
+            <button mat-flat-button color="primary" [disabled]="loading || !checkoutCustomizationForm.valid"
+            (click)="onSubmit()">Save</button>
         </div>
     </div>
 
@@ -19,15 +20,12 @@
                 </div>
                 <div fxFlex="1 1 auto">
                     <mat-card>
-                        <mat-radio-group formControlName="customer_account"  fxLayout="row">
+                        <mat-radio-group formControlName="customer_accounts"  fxLayout="row">
                             <div fxLayout="column">
-                                <mat-radio-button  value="account_disabled">Accounts are disabled</mat-radio-button>
-                                <h5>Customer will only be able to check out as guests</h5>
-    
-                                <mat-radio-button class="radio-space" value="account_optional">Accounts are optional</mat-radio-button>
+                                <mat-radio-button class="radio-space" value="optional">Accounts are optional</mat-radio-button>
                                 <h5>Customer will be able to check out with a customer account or as guests</h5>
 
-                                <mat-radio-button class="radio-space" value="account_required">Accounts are required</mat-radio-button>
+                                <mat-radio-button class="radio-space" value="required">Accounts are required</mat-radio-button>
                                 <h5>Customer will only be able to check out as if they have customer account</h5>
                             </div>
                         </mat-radio-group>
@@ -45,12 +43,12 @@
                 </div>
                 <div fxFlex="1 1 auto">
                     <mat-card>
-                        <mat-radio-group class="collection-type-radio" formControlName="customer_contact"  fxLayout="row">
+                        <mat-radio-group class="collection-type-radio" formControlName="customer_contacts"  fxLayout="row">
                             <div fxLayout="column">
-                                <mat-radio-button value="checkout_with_phone_and_email">Customer can check out using either their phone number or email</mat-radio-button>
+                                <mat-radio-button value="both">Customer can check out using either their phone number or email</mat-radio-button>
                                 <h5>Customer will only be able to check out as guests</h5>
         
-                                <mat-radio-button class="radio-space" value="checkout_with_email">Customer can check out using email</mat-radio-button>
+                                <mat-radio-button class="radio-space" value="email">Customer can check out using email</mat-radio-button>
                                 <h5>Customer will be able to check out with a customer account or as guests</h5>
                             </div>
                         </mat-radio-group>
@@ -63,22 +61,12 @@
             <div fxLayout="row">
                 <div fxFlex="0 1 33.333333%">
                     <h2>Payment options</h2>
-                    <p>Choose which payment method your customer can use to pay for the order and check out. </p>
+                    <p>Choose if you want to enable wallet payment method for your customer to pay for the order and check out. </p>
                 </div>
                 <div fxFlex="1 1 auto">
                     <mat-card>
                         <div fxLayout="column">
-                            <div><mat-checkbox formControlName="credit_card" class="radio-space" >Credit/Debit card</mat-checkbox></div>
-                            <div><mat-checkbox formControlName="cod" class="radio-space" >Cash on delivery</mat-checkbox></div>
-                            <div><mat-checkbox formControlName="wallet" class="radio-space" >Wallet</mat-checkbox></div>
-                            <div><mat-checkbox formControlName="bank_transfer" class="radio-space" >Bank transfer</mat-checkbox></div>   
-                            
-                            <div class="radio-space" *ngIf="checkoutCustomizationForm.get('bank_transfer').value == 'true'" >
-                                   <mat-form-field  fxFlex="0 1 50%" appearance="outline">
-                                       <mat-label>Bank details</mat-label>
-                                       <input matInput formControlName="bank_detail" />
-                                   </mat-form-field>
-                               </div>
+                            <div><mat-checkbox formControlName="is_wallet">Show Wallet</mat-checkbox></div>
                         </div>
                     </mat-card>
                 </div>
@@ -95,10 +83,10 @@
                     <mat-card>
                         <div class="form-options">
                             <h4>Full name</h4>
-                            <mat-radio-group formControlName="full_name_option"  class="collection-type-radio"  fxLayout="row">
+                            <mat-radio-group formControlName="full_name"  class="collection-type-radio"  fxLayout="row">
                              <div fxLayout="column">
-                                 <mat-radio-button value="last_name">Require last name only</mat-radio-button>
-                                 <mat-radio-button  value="first_and_last_name">Require first name and last name</mat-radio-button>
+                                 <mat-radio-button value="first_name">Require first name only</mat-radio-button>
+                                 <mat-radio-button  value="both">Require first name and last name</mat-radio-button>
                              </div>
                          </mat-radio-group>
                         </div>

@@ -24,21 +24,38 @@ export class CheckoutCustomizationComponent implements OnInit {
   loading = false;
 
   checkoutCustomizationForm = this.fb.group({
-    customer_account : ['account_disabled'],
-    customer_contact: ['checkout_with_phone_and_email'],
-    full_name_option: ['last_name'],
+    customer_accounts : ['optional'],
+    customer_contacts: ['both'],
+    full_name: ['first_name'],
     address_second_line: ['hidden'],
     postal_code: ['hidden'],
     promo_code: ['hidden'],
-    credit_card: [true],
-    cod: [false],
-    wallet: [false],
-    bank_transfer: [false],
-    bank_detail: ['']
+    is_wallet: [true],
   })
+
+  onSubmit() {
+    this.loading = true;
+    this.checkoutCustomizationService.addCheckoutSetting(this.checkoutCustomizationForm.value).then(resp => {
+      this.loading = false;
+      if (resp) {
+        this.snackbar.open("Setting created successfully.", "", { duration: 3000 });
+        this.router.navigate(['/', URLS.configuration]);
+      }
+    });
+  }
+
+
+  getCheckoutSetting(){
+    this.checkoutCustomizationService.getCheckoutSetting().then((resp)=> {
+      if (resp) {
+        this.checkoutCustomizationForm.patchValue(resp.data);
+      }
+    })
+  }
 
 
   ngOnInit(): void {
+    this.getCheckoutSetting();
   }
 
 }
