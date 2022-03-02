@@ -29,6 +29,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 
 
 
@@ -275,6 +276,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     FlexLayoutModule,
     QuillModule.forRoot(),
     AngularFileUploaderModule,
+    NgxDaterangepickerMd.forRoot(),
 
     MatDialogModule,
     MatCardModule,

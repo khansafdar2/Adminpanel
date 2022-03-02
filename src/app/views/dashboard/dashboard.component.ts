@@ -1,7 +1,9 @@
+import { VendorsService } from './../vendors/vendors.service';
 import { AuthService } from './../../auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { DashboardService } from './dashboard.service';
 import { environment } from 'src/environments/environment';
+import {Moment} from 'moment/moment';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,12 +14,14 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private dashboardService: DashboardService,
-    private authService: AuthService
+    private authService: AuthService,
+    private vendorService: VendorsService
   ) { 
   }
 
   loading: boolean = true;
   vendor = this.authService.user.is_vendor;
+  vendors: any;
   storeCurrency = environment.currency;
   cardsStats = {
     total_orders: 0,
@@ -34,7 +38,40 @@ export class DashboardComponent implements OnInit {
     { name: "Fridge", value: 20000 }
   ];
 
+lineData =[
 
+  {
+    "name": "Germany",
+    "series": [
+      {
+        "name": "1990",
+        "value": 62000000
+      },
+      {
+        "name": "2010",
+        "value": 73000000
+      },
+      {
+        "name": "2011",
+        "value": 89400000
+      }
+    ]
+  }
+]
+
+selected: {startDate: Moment, endDate: Moment};
+
+  onVendorChange() {
+
+  }
+
+  getVendors() {
+    this.vendorService.getVendorsList(1, 150).then(resp => {
+      if (resp) {
+        this.vendors = resp.data.results;
+      }
+    });
+  }
 
 
   getCardStats() {
@@ -49,6 +86,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCardStats();
+    this.getVendors();
   }
 
 }
