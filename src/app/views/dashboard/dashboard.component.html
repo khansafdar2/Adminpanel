@@ -25,7 +25,8 @@
 
             <div fxFlex="0 1 25%">
                 <mat-card>
-                            <input  type="button" ngxDaterangepickerMd [(ngModel)]="selected" placeholder="Select date" />
+                            <input  type="button" ngxDaterangepickerMd [locale]="{applyLabel: 'ok', format: 'DD-MM-YYYY'}" [(ngModel)]="selected" placeholder="Select date" />
+                            <button (click)="testButton()">click</button>
                 </mat-card>
             </div>
 

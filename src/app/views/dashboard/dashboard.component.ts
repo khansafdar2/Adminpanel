@@ -73,6 +73,9 @@ selected: {startDate: Moment, endDate: Moment};
     });
   }
 
+  testButton() {
+    console.log(this.selected.endDate.locale())
+  }
 
   getCardStats() {
     this.loading = true;
