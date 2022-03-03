@@ -7,43 +7,60 @@
             <div fxFlex="0 1 25%">
                 <mat-card>
                     <h4 fxLayoutAlign="center">Total Revenue</h4>
-                    <p  class="dashboard-card-value"><mat-icon color="primary">inbox</mat-icon> {{cardsStats.today_orders}}</p>
+                    <p  class="dashboard-card-value"><mat-icon color="primary">inbox</mat-icon> {{totalSale | currency: storeCurrency + ' '}}</p>
                 </mat-card>
             </div>
             <div fxFlex="0 1 25%">
                 <mat-card>
                     <h4 fxLayoutAlign="center">Net Sales</h4>
-                    <p class="dashboard-card-value"><mat-icon color="primary">payments</mat-icon> {{cardsStats.today_sale | currency: storeCurrency + ' '}}</p>
+                    <p class="dashboard-card-value"><mat-icon color="primary">payments</mat-icon> {{netSale | currency: storeCurrency + ' '}}</p>
                 </mat-card>
             </div>
             <div fxFlex="0 1 25%">
                 <mat-card>
                     <h4 fxLayoutAlign="center">Inventory Size</h4>
-                    <p class="dashboard-card-value"><mat-icon color="primary">inbox</mat-icon> {{cardsStats.total_orders}}</p>
+                    <p class="dashboard-card-value"><mat-icon color="primary">inbox</mat-icon> {{inventorySize}}</p>
                 </mat-card>
             </div>
 
             <div fxFlex="0 1 25%">
                 <mat-card>
-                            <input  type="button" ngxDaterangepickerMd [locale]="{applyLabel: 'ok', format: 'DD-MM-YYYY'}" [(ngModel)]="selected" placeholder="Select date" />
-                            <button (click)="testButton()">click</button>
+            <div  fxLayout="row">
+                            <div  fxFlex="0 1 50%">
+                                <mat-form-field  class="date-filter" appearance="outline">
+                                    <mat-label>start date</mat-label>
+                                    <input type="date" (change)="dateFilter()" [(ngModel)]="start_date" matInput  />
+                                </mat-form-field>
+
+                            </div>
+
+                            <div fxFlex="0 1 50%">
+                                <mat-form-field class="date-filter" appearance="outline">
+                                    <mat-label>end date</mat-label>
+                                    <input type="date" (change)="dateFilter()" [(ngModel)]="end_date" matInput  />
+                                </mat-form-field>
+
+                            </div>
+
+            </div>
+
                 </mat-card>
             </div>
 
         </div>
 
-        <div style="margin-top: 20px;" fxLayout="row">
+        <div class="card-row" fxLayout="row">
             <div fxFlex="0 1 25%">
                 <mat-card>
                     <h4 fxLayoutAlign="center">Basket Analysis</h4>
                     <div fxLayoutAlign="space-between" fxLayout="row">
                         <div  fxLayout="column">
-                            <h4 class="card-value">10</h4>
+                            <h4 class="card-value">{{average_basket_size}}</h4>
                             <p class="card-text">Avg Basket size</p>
                         </div>
 
                         <div fxLayout="column">
-                            <h4 class="card-value">466.34</h4>
+                            <h4 class="card-value">{{average_basket_value}}</h4>
                             <p class="card-text">Avg Basket Value</p>
                         </div>
                     </div>
@@ -55,28 +72,28 @@
                     <h4 fxLayoutAlign="center">Order Analysis</h4>
                     <div fxLayoutAlign="space-between" fxLayout="row">
                         <div  fxLayout="column">
-                            <h4 class="card-value">25</h4>
+                            <h4 class="card-value">{{total_orders}}</h4>
                             <p class="card-text">Total Orders</p>
                         </div>
 
                         <div fxLayout="column">
-                            <h4 class="card-value">466.34</h4>
+                            <h4 class="card-value">{{canceled_orders_count}}</h4>
                             <p class="card-text">Total Cancelled</p>
                         </div>
 
                         <div fxLayout="column">
-                            <h4 class="card-value">466.34</h4>
+                            <h4 class="card-value">{{returned_orders_count}}</h4>
                             <p class="card-text">Total Returned</p>
                         </div>
                     </div>
                 </mat-card>
             </div>
 
-            <div fxFlex="0 1 25%">
+            <div *ngIf="!is_vendor" fxFlex="0 1 25%">
                 <mat-card>
-                        <mat-form-field style="padding-top: 12px;" appearance="outline">
+                        <mat-form-field class="vendor-field"  appearance="outline">
                             <mat-label>Vendor</mat-label>
-                            <mat-select  (selectionChange)="onVendorChange()">
+                            <mat-select  (selectionChange)="onVendorChange($event)">
                                 <mat-option [value]="vendor.id" *ngFor="let vendor of vendors">{{vendor.name}}
                                 </mat-option>
                             </mat-select>
@@ -85,24 +102,24 @@
                 </mat-card>
             </div>
         </div>
-        <div style="margin-top: 20px;" fxLayout="row">
+        <div class="card-row" fxLayout="row">
             <div fxFlex="0 1 50%">
                 <mat-card>
                     <h4 fxLayoutAlign="center">General Analysis</h4>
                     <div fxLayoutAlign="space-between" fxLayout="row">
-                        <div  fxLayout="column">
-                            <h4 class="card-value">10</h4>
+                        <div *ngIf="!is_vendor"  fxLayout="column">
+                            <h4 class="card-value">{{total_vendor_count}}</h4>
                             <p class="card-text">Total Vendors</p>
                         </div>
 
                         <div fxLayout="column">
-                            <h4 class="card-value">466.34</h4>
+                            <h4 class="card-value">{{total_collections_count}}</h4>
                             <p class="card-text">Total Collections</p>
                         </div>
 
 
                         <div  fxLayout="column">
-                            <h4 class="card-value">40</h4>
+                            <h4 class="card-value">{{total_product_group_count}}</h4>
                             <p class="card-text">Total Product Groups</p>
                         </div>
                     </div>
@@ -114,17 +131,17 @@
                     <h4 fxLayoutAlign="center">Product Analysis</h4>
                     <div fxLayoutAlign="space-between" fxLayout="row">
                         <div  fxLayout="column">
-                            <h4 class="card-value" >30</h4>
+                            <h4 class="card-value" >{{total_products_count}}</h4>
                             <p class="card-text">Total Products</p>
                         </div>
 
                         <div  fxLayout="column">
-                            <h4 class="card-value" >20</h4>
+                            <h4 class="card-value" >{{total_active_products_count}}</h4>
                             <p class="card-text">Total Active Products</p>
                         </div>
 
                         <div  fxLayout="column">
-                            <h4 class="card-value" >10</h4>
+                            <h4 class="card-value" >{{total_inactive_products_count}}</h4>
                             <p class="card-text">Total Unactive Products</p>
                         </div>
                     </div>
@@ -132,7 +149,7 @@
             </div>
         </div>
 
-        <div style="margin-top: 20px;" fxLayout="row">
+        <div class="card-row" fxLayout="row">
             <div #containerRef fxFlex="0 1 50%">
                 <mat-card fxFlex="0 1 100%">
                     <div #containerRef>
@@ -171,7 +188,7 @@
             </div>
         </div>
 
-        <div style="margin-top: 20px;" fxLayout="row">
+        <div class="card-row" fxLayout="row">
             <div #containerRef fxFlex="0 1 50%">
                 <mat-card fxFlex="0 1 100%">
                     <div #containerRef3>

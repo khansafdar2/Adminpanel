@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { DashboardService } from './dashboard.service';
 import { environment } from 'src/environments/environment';
 import {Moment} from 'moment/moment';
+import * as moment from 'moment/moment';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,19 +17,34 @@ export class DashboardComponent implements OnInit {
     private dashboardService: DashboardService,
     private authService: AuthService,
     private vendorService: VendorsService
+    
   ) { 
+
+    
   }
 
   loading: boolean = true;
-  vendor = this.authService.user.is_vendor;
+  is_vendor = this.authService.user.is_vendor;
   vendors: any;
+  vendorID:any;
   storeCurrency = environment.currency;
-  cardsStats = {
-    total_orders: 0,
-    total_sale: 0,
-    today_orders: 0,
-    today_sale: 0
-  }
+  inventorySize:number;
+  netSale:number;
+  totalSale:number;
+  average_basket_size:number;
+  average_basket_value:number;
+  canceled_orders_count:number;
+  returned_orders_count:number;
+  total_orders:number;
+  total_active_products_count:number;
+  total_collections_count:number;
+  total_inactive_products_count:number;
+  total_product_group_count:number;
+  total_products_count:number;
+  total_vendor_count:number;
+  start_date: any;
+  end_date:any;
+  showTotalVendor: boolean = true;
 
   saleData = [
     { name: "Mobiles", value: 105000 },
@@ -59,10 +75,13 @@ lineData =[
   }
 ]
 
-selected: {startDate: Moment, endDate: Moment};
 
-  onVendorChange() {
-
+  onVendorChange(event) {
+    this.vendorID = event.value;
+    this.getRevenue();
+    this.getOrderAnalysis();
+    this.getProductAnalysis();
+    this.showTotalVendor = false;
   }
 
   getVendors() {
@@ -73,23 +92,86 @@ selected: {startDate: Moment, endDate: Moment};
     });
   }
 
-  testButton() {
-    console.log(this.selected.endDate.locale())
+
+  dateFilter() {
+    if (this.start_date && this.end_date) {
+      this.getRevenue();
+      this.getOrderAnalysis();
+    }
   }
 
-  getCardStats() {
+  getRevenue() {
     this.loading = true;
-    this.dashboardService.getCardStats().then(resp => {
-      this.loading = false;
-      if(resp) {
-        this.cardsStats = resp.data;
+    if (!this.vendorID) {
+      this.vendorID = '';
+    }
+    if (!this.start_date && !this.end_date) {
+      this.start_date = null;
+      this.end_date = null;
+    }
+    this.dashboardService.getRevenue(this.is_vendor,this.vendorID,this.start_date, this.end_date).then((resp)=>{
+      if (resp) {
+        this.loading = false;
+        this.netSale = resp.data.net_sale;
+        this.inventorySize = resp.data.inventory_size;
+        this.totalSale = resp.data.total_sale;
       }
-    });
+    })
+  }
+
+
+  getOrderAnalysis() {
+    this.loading = true;
+    if (!this.vendorID) {
+      this.vendorID = '';
+    }
+
+    if (!this.start_date && !this.end_date) {
+      this.start_date = null;
+      this.end_date = null;
+    }
+    this.dashboardService.getOrderAnalysis(this.is_vendor,this.vendorID,this.start_date, this.end_date).then((resp)=>{
+      this.loading = false;
+      if (resp) {
+        this.average_basket_size = (resp.data.average_basket_size).toFixed(3);
+        this.average_basket_value = (resp.data.average_basket_value).toFixed(3);
+        this.canceled_orders_count = resp.data.canceled_orders_count;
+        this.returned_orders_count = resp.data.returned_orders_count;
+        this.total_orders = resp.data.total_orders;
+      }
+    })
+  }
+
+
+
+  getProductAnalysis() {
+    this.loading = true;
+    if (!this.vendorID) {
+      this.vendorID = '';
+    }
+    this.dashboardService.getProductAnalysis(this.is_vendor,this.vendorID).then((resp)=>{
+      this.loading = false;
+      if (resp) {
+        this.total_active_products_count = resp.data.total_active_products_count;
+        this.total_collections_count = resp.data.total_collections_count;
+        this.total_inactive_products_count = resp.data.total_inactive_products_count;
+        this.total_product_group_count = resp.data.total_product_group_count;
+        this.total_products_count = resp.data.total_products_count;
+        this.total_vendor_count = resp.data.total_vendor_count;        
+      }
+    })
   }
 
   ngOnInit(): void {
-    this.getCardStats();
-    this.getVendors();
+    let todayDate: Date = new Date();
+    this.start_date = moment(todayDate).format('YYYY-MM-DD');
+    this.end_date = moment(todayDate).format('YYYY-MM-DD');
+    if (!this.is_vendor){
+      this.getVendors();
+    }
+    this.getRevenue();
+    this.getOrderAnalysis();
+    this.getProductAnalysis();
   }
 
 }
