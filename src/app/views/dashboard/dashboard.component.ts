@@ -46,6 +46,10 @@ export class DashboardComponent implements OnInit {
   end_date:any;
   showTotalVendor: boolean = true;
   defaultSelected = '';
+  topSolditems:any;
+  saleByCity:any;
+
+
   saleData = [
     { name: "Mobiles", value: 105000 },
     { name: "Laptop", value: 55000 },
@@ -54,8 +58,9 @@ export class DashboardComponent implements OnInit {
     { name: "Fridge", value: 20000 }
   ];
 
-lineData =[
 
+
+lineData =[
   {
     "name": "Germany",
     "series": [
@@ -75,7 +80,9 @@ lineData =[
   }
 ]
 
-
+mapObject(data) {
+  return {name: data.name, value: data.value};
+}
   onVendorChange(event) {
     if (event.value == this.defaultSelected) {
       this.vendorID = '';
@@ -85,7 +92,8 @@ lineData =[
     this.getRevenue();
     this.getOrderAnalysis();
     this.getProductAnalysis();
-    this.showTotalVendor = false;
+    this.getTopSoldItems();
+    this.getSalesByCity();
   }
 
   getVendors() {
@@ -101,6 +109,8 @@ lineData =[
     if (this.start_date && this.end_date) {
       this.getRevenue();
       this.getOrderAnalysis();
+      this.getTopSoldItems();
+      this.getSalesByCity();
     }
   }
 
@@ -172,7 +182,6 @@ lineData =[
     if (!this.vendorID) {
       this.vendorID = '';
     }
-
     if (!this.start_date && !this.end_date) {
       this.start_date = null;
       this.end_date = null;
@@ -181,11 +190,34 @@ lineData =[
       this.loading = false;
       if (resp) {
         console.log(resp.data);
+        this.topSolditems = (resp.data).map(this.mapObject);
+        console.log(this.topSolditems);
         
       }
     })
-    
   }
+
+
+  getSalesByCity() {
+    this.loading = true;
+    if (!this.vendorID) {
+      this.vendorID = '';
+    }
+    if (!this.start_date && !this.end_date) {
+      this.start_date = null;
+      this.end_date = null;
+    }
+    this.dashboardService.getSaleByCity(this.is_vendor,this.vendorID,this.start_date, this.end_date).then((resp)=>{
+      this.loading = false;
+      if (resp) {
+        console.log(resp.data);
+        this.saleByCity = (resp.data).map(this.mapObject);
+        console.log(this.saleByCity);
+        
+      }
+    })
+  }
+
 
   ngOnInit(): void {
     let todayDate: Date = new Date();
@@ -199,6 +231,7 @@ lineData =[
     this.getOrderAnalysis();
     this.getProductAnalysis();
     this.getTopSoldItems();
+    this.getSalesByCity();
   }
 
 }

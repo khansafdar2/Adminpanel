@@ -94,7 +94,7 @@
                 <mat-card>
                     <mat-form-field class="vendor-field" appearance="outline">
                         <mat-label>Vendor</mat-label>
-                        <mat-select (selectionChange)="onVendorChange($event)">
+                        <mat-select [value]="defaultSelected" (selectionChange)="onVendorChange($event)">
                             <mat-option [value]="defaultSelected">All</mat-option>
                             <mat-option [value]="vendor.id" *ngFor="let vendor of vendors">{{vendor.name}}
                             </mat-option>
@@ -155,20 +155,19 @@
                 <mat-card fxFlex="0 1 100%">
                     <div #containerRef>
                         <h4 fxLayoutAlign="center">Top 10 Sold Items</h4>
-                        <ngx-charts-pie-chart [results]="saleData" [scheme]="'ocean'"
-                            [legendTitle]="'Product Sale Report'" [view]="[containerRef.offsetWidth , 300]"
+                        <ngx-charts-pie-chart [results]="topSolditems" [scheme]="'ocean'"
+                            [legendTitle]="'Product Sale Report'"  [view]="[containerRef.offsetWidth , 300]"
                             [gradient]="false" [labels]="true">
                         </ngx-charts-pie-chart>
                     </div>
                 </mat-card>
-
 
             </div>
             <div fxFlex="0 1 50%">
                 <mat-card fxFlex="0 1 100%">
                     <div #containerRef2>
                         <h4 fxLayoutAlign="center">User by Countries</h4>
-                        <ngx-charts-bar-vertical [view]="[containerRef2.offsetWidth, 300]" [results]="saleData"
+                        <ngx-charts-bar-vertical [view]="[containerRef2.offsetWidth, 300]" [results]="saleByCity"
                             [scheme]="'ocean'" [legendTitle]="'Product Sale Chart'" [xAxis]="true" [yAxis]="true"
                             [gradient]="false">
                         </ngx-charts-bar-vertical>
@@ -190,9 +189,8 @@
                         </ngx-charts-bar-horizontal>
                     </div>
                 </mat-card>
-
-
             </div>
+
             <div fxFlex="0 1 50%">
                 <mat-card fxFlex="0 1 100%">
                     <div #containerRef4>
