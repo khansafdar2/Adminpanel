@@ -94,11 +94,11 @@
                         <mat-form-field class="vendor-field"  appearance="outline">
                             <mat-label>Vendor</mat-label>
                             <mat-select  (selectionChange)="onVendorChange($event)">
+                                <mat-option [value]="defaultSelected">All</mat-option>
                                 <mat-option [value]="vendor.id" *ngFor="let vendor of vendors">{{vendor.name}}
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
-
                 </mat-card>
             </div>
         </div>

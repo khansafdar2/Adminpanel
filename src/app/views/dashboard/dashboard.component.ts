@@ -45,7 +45,7 @@ export class DashboardComponent implements OnInit {
   start_date: any;
   end_date:any;
   showTotalVendor: boolean = true;
-
+  defaultSelected = '';
   saleData = [
     { name: "Mobiles", value: 105000 },
     { name: "Laptop", value: 55000 },
@@ -77,7 +77,11 @@ lineData =[
 
 
   onVendorChange(event) {
-    this.vendorID = event.value;
+    if (event.value == this.defaultSelected) {
+      this.vendorID = '';
+    } else {
+      this.vendorID = event.value;
+    }
     this.getRevenue();
     this.getOrderAnalysis();
     this.getProductAnalysis();
@@ -166,6 +170,7 @@ lineData =[
     let todayDate: Date = new Date();
     this.start_date = moment(todayDate).format('YYYY-MM-DD');
     this.end_date = moment(todayDate).format('YYYY-MM-DD');
+    this.defaultSelected = '';
     if (!this.is_vendor){
       this.getVendors();
     }
