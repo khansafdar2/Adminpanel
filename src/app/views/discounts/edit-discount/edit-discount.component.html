@@ -214,7 +214,7 @@
                         </div>
                     </div>
                     <div fxLayout="row">
-                        <div fxFlex="0 1 50%" *ngIf="discountForm.get('discount_type').value === 'promo'" fxLayoutAlign="start center">
+                        <div [class.spacing]="discountForm.get('no_limit').value === true" fxFlex="0 1 50%" *ngIf="discountForm.get('discount_type').value === 'promo'" fxLayoutAlign="start center">
                             <mat-checkbox  formControlName="no_limit">No usage limit</mat-checkbox>
                         </div>
                         <div fxFlex="0 1 50%"  *ngIf="discountForm.get('discount_type').value === 'promo' && discountForm.get('no_limit').value === false">
