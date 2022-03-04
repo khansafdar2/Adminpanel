@@ -152,26 +152,29 @@
 
         <div class="card-row" fxLayout="row">
             <div #containerRef fxFlex="0 1 50%">
-                <mat-card fxFlex="0 1 100%">
+                <mat-card [class.emptyChart]="!soldItemLengthCheck" fxFlex="0 1 100%">
                     <div #containerRef>
                         <h4 fxLayoutAlign="center">Top 10 Sold Items</h4>
-                        <ngx-charts-pie-chart [results]="topSolditems" [scheme]="'ocean'"
+                        <ngx-charts-pie-chart *ngIf="soldItemLengthCheck" [results]="topSolditems" [scheme]="'ocean'"
                             [legendTitle]="'Product Sale Report'"  [view]="[containerRef.offsetWidth , 300]"
                             [gradient]="false" [labels]="true">
                         </ngx-charts-pie-chart>
                     </div>
+                    <h2 class="emptyChartError" fxLayoutAlign="center center" *ngIf="!soldItemLengthCheck">No data found</h2>
+
                 </mat-card>
 
             </div>
             <div fxFlex="0 1 50%">
-                <mat-card fxFlex="0 1 100%">
-                    <div #containerRef2>
-                        <h4 fxLayoutAlign="center">User by Countries</h4>
-                        <ngx-charts-bar-vertical [view]="[containerRef2.offsetWidth, 300]" [results]="saleByCity"
+                <mat-card [class.emptyChart]="!saleByCityLengthCheck" fxFlex="0 1 100%">
+                    <div  #containerRef2>
+                        <h4 fxLayoutAlign="center">Sale by Cities</h4>
+                        <ngx-charts-bar-vertical *ngIf="saleByCityLengthCheck" [view]="[containerRef2.offsetWidth, 300]" [results]="saleByCity"
                             [scheme]="'ocean'" [legendTitle]="'Product Sale Chart'" [xAxis]="true" [yAxis]="true"
                             [gradient]="false">
                         </ngx-charts-bar-vertical>
                     </div>
+                    <h2 class="emptyChartError" fxLayoutAlign="center center" *ngIf="!saleByCityLengthCheck">No data found</h2>
 
                 </mat-card>
 

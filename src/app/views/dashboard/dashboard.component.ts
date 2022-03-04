@@ -47,7 +47,9 @@ export class DashboardComponent implements OnInit {
   showTotalVendor: boolean = true;
   defaultSelected = '';
   topSolditems:any;
+  soldItemLengthCheck: boolean = false;
   saleByCity:any;
+  saleByCityLengthCheck: boolean = false;
 
 
   saleData = [
@@ -107,6 +109,11 @@ mapObject(data) {
 
   dateFilter() {
     if (this.start_date && this.end_date) {
+      this.getRevenue();
+      this.getOrderAnalysis();
+      this.getTopSoldItems();
+      this.getSalesByCity();
+    } else {
       this.getRevenue();
       this.getOrderAnalysis();
       this.getTopSoldItems();
@@ -189,10 +196,12 @@ mapObject(data) {
     this.dashboardService.getTopTenSoldItems(this.is_vendor,this.vendorID,this.start_date, this.end_date).then((resp)=>{
       this.loading = false;
       if (resp) {
-        console.log(resp.data);
         this.topSolditems = (resp.data).map(this.mapObject);
-        console.log(this.topSolditems);
-        
+        if (this.topSolditems.length) {
+          this.soldItemLengthCheck = true;
+        } else {
+          this.soldItemLengthCheck = false;
+        }
       }
     })
   }
@@ -210,10 +219,12 @@ mapObject(data) {
     this.dashboardService.getSaleByCity(this.is_vendor,this.vendorID,this.start_date, this.end_date).then((resp)=>{
       this.loading = false;
       if (resp) {
-        console.log(resp.data);
-        this.saleByCity = (resp.data).map(this.mapObject);
-        console.log(this.saleByCity);
-        
+        this.saleByCity = (resp.data).map(this.mapObject);  
+        if (this.saleByCity.length) {
+          this.saleByCityLengthCheck = true;
+        } else {
+          this.saleByCityLengthCheck = false;
+        }
       }
     })
   }
