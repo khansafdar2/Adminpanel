@@ -8,6 +8,7 @@ import URLS from 'src/app/shared/urls';
 import { TaxConfigurationService } from '../../configuration/tax-configuration/tax-configuration.service';
 import { OrdersService } from '../orders.service';
 import { environment } from 'src/environments/environment';
+import { CancelOrderDialog } from '../dialogs/cancelOrderDialog';
 
 
 @Component({
@@ -47,7 +48,7 @@ export class EditChildOrderComponent implements OnInit {
   totalShipping: number = 0;
   totalTax: number = 0;
   grandTotal: number = 0;
-  paidByWallet: number = 0;
+  paidAmount: number = 0;
   tags: string[] = [];
   notes: string = "";
   customer = {
@@ -78,7 +79,7 @@ export class EditChildOrderComponent implements OnInit {
         this.fulfillmentStatus = resp.data.fulfillment_status;
         this.paymentStatus = resp.data.payment_status;
         this.isPaid = resp.data.payment_status === "Paid";
-        this.paidByWallet = parseFloat(resp.data.paid_amount);
+        this.paidAmount = parseFloat(resp.data.paid_amount);
         this.subTotal = resp.data.subtotal_price;
         this.totalShipping = resp.data.total_shipping;
         this.grandTotal = resp.data.total_price;
@@ -227,18 +228,34 @@ export class EditChildOrderComponent implements OnInit {
   }
 
   onCancelOrder() {
-    let data = {
-      id: this.orderID,
-      order_status: "Cancelled"
-    }
+    let dialogRef = this.dialog.open(CancelOrderDialog, {
+      width: "600px",
+      data: {
+        id: this.orderID,
+        order_status: "Cancelled",
+        paid_amount: this.paidAmount,
+        orderType: "childOrder"
+
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(canceled => {
+      if(canceled) {
+        this.getOrderDetail();
+      }
+    });
+  }
+
+
+  refundOrder() {
     this.loading = true;
-    this.ordersService.changeChildOrderStatus(data).then(resp => {
-      this.loading = false;
-      if(resp) {
-        this.snackbar.open("Order cancelled.", "", {duration: 3000});
-        this.router.navigate(["/", URLS.orders]);
+    this.ordersService.refundChildOrder(this.orderID).then((resp)=> {
+    this.loading = false;
+      if (resp) {
+        this.snackbar.open("Order refunded.", "", {duration: 3000});
       }
     })
+
   }
 
   downloadInvoice() {

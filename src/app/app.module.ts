@@ -122,6 +122,7 @@ import { CountriesComponent } from './views/configuration/shipping-regions/count
 import { CitiesComponent, CityDeleteDialog, CityDialog } from './views/configuration/shipping-regions/countries/cities/cities.component';
 import { CheckoutCustomizationComponent } from './views/configuration/checkout-customization/checkout-customization.component';
 import { OrderTimelineComponent } from './views/orders/shared/order-timeline/order-timeline.component';
+import { CancelOrderDialog } from './views/orders/dialogs/cancelOrderDialog';
 
 
 @NgModule({
@@ -261,7 +262,8 @@ import { OrderTimelineComponent } from './views/orders/shared/order-timeline/ord
     CityDeleteDialog,
     CityDialog,
     CheckoutCustomizationComponent,
-    OrderTimelineComponent
+    OrderTimelineComponent,
+    CancelOrderDialog
   ],
   imports: [
     BrowserModule,

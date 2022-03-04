@@ -1,3 +1,4 @@
+import { CancelOrderDialog } from './../dialogs/cancelOrderDialog';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -47,8 +48,8 @@ export class EditMainOrderComponent implements OnInit {
   subTotal: number = 0;
   totalShipping: number = 0;
   totalTax: number = 0;
+  paidAmount:any;
   grandTotal: number = 0;
-  paidByWallet: number = 0;
   tags: string[] = [];
   childOrders = [];
   notes: string = "";
@@ -59,7 +60,7 @@ export class EditMainOrderComponent implements OnInit {
       clickable: true
     },
     {
-      title: "Vendor",
+      title: "Vendor", 
       selector: "vendor"
     },
     {
@@ -161,7 +162,7 @@ export class EditMainOrderComponent implements OnInit {
         this.subTotal = resp.data.subtotal_price;
         this.totalShipping = resp.data.total_shipping;
         this.grandTotal = resp.data.total_price;
-        this.paidByWallet = parseFloat(resp.data.paid_amount);
+        this.paidAmount = parseFloat(resp.data.paid_amount);
         this.shippingAddress = resp.data.shipping_address.address ? resp.data.shipping_address : null;
         this.billingAddress = resp.data.billing_address.address ? resp.data.billing_address : null;
         this.customer = resp.data.customer;
@@ -176,18 +177,36 @@ export class EditMainOrderComponent implements OnInit {
   }
 
   onCancelOrder() {
-    let data = {
-      id: this.orderID,
-      order_status: "Cancelled"
-    }
+
+    let dialogRef = this.dialog.open(CancelOrderDialog, {
+      width: "600px",
+      data: {
+        id: this.orderID,
+        order_status: "Cancelled",
+        paid_amount: this.paidAmount,
+        orderType: "mainOrder"
+
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(canceled => {
+      if(canceled) {
+        this.getOrderDetails();
+      }
+    });
+  }
+
+
+  refundOrder() {
     this.loading = true;
-    this.ordersService.changeOrderStatus(data).then(resp => {
-      this.loading = false;
-      if(resp) {
-        this.snackbar.open("Order cancelled.", "", {duration: 3000});
-        this.router.navigate(["/", URLS.orders]);
+    this.ordersService.refundOrder(this.orderID).then((resp)=> {
+    this.loading = false;
+      if (resp) {
+        this.snackbar.open("Order refunded.", "", {duration: 3000});
+        this.getOrderDetails();
       }
     })
+
   }
 
   downloadInvoice() {

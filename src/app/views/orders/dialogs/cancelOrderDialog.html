@@ -1,0 +1,21 @@
+<button mat-icon-button mat-dialog-close class="dialog-close"><mat-icon>close</mat-icon></button>
+<h2 mat-dialog-title>Cancel order</h2>
+<mat-dialog-content class="mat-typography">
+    <p *ngIf="data.paid_amount == 0 " >Are you sure you want to cancel order?</p>
+    <p *ngIf="data.paid_amount > 0 " >How do you want to transfer the paid amount?</p>
+</mat-dialog-content>
+
+
+<div mat-dialog-actions *ngIf="data.paid_amount > 0 ">
+    <mat-radio-group (change)="refundOption($event)" class="collection-type-radio"  fxLayout="row">
+        <div fxLayout="row" >
+            <mat-radio-button>Bank transfer</mat-radio-button>
+            <mat-radio-button value="wallet">Customer wallet</mat-radio-button>
+        </div>
+    </mat-radio-group>
+</div>
+
+<div mat-dialog-actions>
+    <button mat-stroked-button color="primary" mat-dialog-close>No</button>
+    <button mat-flat-button (click)="onCancel()" color="warn">Cancel order</button>
+</div>

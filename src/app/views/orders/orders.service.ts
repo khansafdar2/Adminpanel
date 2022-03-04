@@ -166,8 +166,8 @@ export class OrdersService {
     });
   }
 
-  changeOrderStatus(data) {
-    return Axios.put(environment.backend_url + '/order/order_status_change', data, {
+  changeOrderStatus(data, endpoint) {
+    return Axios.put(environment.backend_url + '/order/'+endpoint, data, {
       headers: {
         Authorization: this.authService.token
       }
@@ -285,4 +285,33 @@ export class OrdersService {
       return error;
     });
   }
+
+  refundChildOrder(id) {
+    return Axios.get(environment.backend_url + '/order/refund_child_order/' + id, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
+
+  refundOrder(id) {
+    return Axios.get(environment.backend_url + '/order/refund_parent_order/' + id, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
+
 }

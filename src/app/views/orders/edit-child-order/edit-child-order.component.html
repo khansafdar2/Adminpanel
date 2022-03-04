@@ -112,12 +112,12 @@
                         <span>{{grandTotal}} {{storeCurrency}}</span>
                     </div>
                 </div>
-                <div fxLayout="row" fxLayoutAlign="space-between" *ngIf="paidByWallet > 0">
+                <div fxLayout="row" fxLayoutAlign="space-between" *ngIf="paidAmount > 0">
                     <div>
                         <span>Paid amount</span>
                     </div>
                     <div>
-                        <span>{{paidByWallet}} {{storeCurrency}}</span>
+                        <span>{{paidAmount}} {{storeCurrency}}</span>
                     </div>
                 </div>
                 <div class="payment-status">
@@ -205,6 +205,7 @@
     <mat-menu #actionsMenu="matMenu">
         <button mat-menu-item (click)="downloadInvoice()">Download invoice</button>
         <button mat-menu-item *ngIf="fulfillmentStatus === 'Fulfilled'"  >Cancel fullfilment</button>
+        <button mat-menu-item (click)="refundOrder()" *ngIf="paidAmount > grandTotal">Refund</button>
         <button mat-menu-item *ngIf="orderStatus !== 'Cancelled' &&  fulfillmentStatus === 'Unfulfilled' " (click)="onCancelOrder()" >Cancel order</button>
     </mat-menu>
 </main>
