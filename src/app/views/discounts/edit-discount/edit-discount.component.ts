@@ -90,7 +90,8 @@ export class EditDiscountComponent implements OnInit {
     end_date: [''],
     show_both_price: [false],
     show_tag: [false],
-    minimum_purchase_amount: [null]
+    minimum_purchase_amount: [null],
+    no_limit:[false]
   });
 
   compareData(ob1, ob2) {
@@ -283,9 +284,7 @@ export class EditDiscountComponent implements OnInit {
         }
         this.discountForm.patchValue(resp.data);
         if (resp.data.start_date || resp.data.end_date) {
-          if (resp.data.discount_type === 'simple_discount') {
             (this.discountForm.controls['is_active'] as FormControl).disable();
-          }
         }
         if (this.is_vendor) {
           this.getProductGroups();
@@ -323,7 +322,6 @@ export class EditDiscountComponent implements OnInit {
 
   statusActiveCondition() {
     let discountType = this.discountForm.get('discount_type').value
-    if (discountType === 'simple_discount') {
       if (this.discountForm.get('start_date').value || this.discountForm.get('end_date').value) {
         (this.discountForm.controls['start_date'] as FormControl).setValidators([Validators.required]);
         (this.discountForm.controls['end_date'] as FormControl).setValidators([Validators.required]);
@@ -334,16 +332,17 @@ export class EditDiscountComponent implements OnInit {
           is_active: false
         });
       } else {
-        (this.discountForm.controls['start_date'] as FormControl).clearValidators();
-        (this.discountForm.controls['end_date'] as FormControl).clearValidators();
-        (this.discountForm.controls['start_date'] as FormControl).updateValueAndValidity();
-        (this.discountForm.controls['end_date'] as FormControl).updateValueAndValidity();
-        (this.discountForm.controls['is_active'] as FormControl).enable();
-        this.discountForm.patchValue({
-          is_active: true
-        });
+        if (discountType == 'simple_discount') {
+          (this.discountForm.controls['start_date'] as FormControl).clearValidators();
+          (this.discountForm.controls['end_date'] as FormControl).clearValidators();
+          (this.discountForm.controls['start_date'] as FormControl).updateValueAndValidity();
+          (this.discountForm.controls['end_date'] as FormControl).updateValueAndValidity();
+          (this.discountForm.controls['is_active'] as FormControl).enable();
+          this.discountForm.patchValue({
+            is_active: true
+          });
+        }
       }
-    }
   }
 
   onSubmit() {

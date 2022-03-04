@@ -78,7 +78,8 @@ export class AddDiscountComponent implements OnInit {
     end_date: [''],
     show_both_price: [false],
     show_tag: [false],
-    minimum_purchase_amount: [null]
+    minimum_purchase_amount: [null],
+    no_limit:[false]
   });
 
 
@@ -262,7 +263,6 @@ export class AddDiscountComponent implements OnInit {
 
   statusActiveCondition() {
     let discountType = this.discountForm.get('discount_type').value
-    if (discountType === 'simple_discount') {
       if (this.discountForm.get('start_date').value || this.discountForm.get('end_date').value) {
         (this.discountForm.controls['start_date'] as FormControl).setValidators([Validators.required]);
         (this.discountForm.controls['end_date'] as FormControl).setValidators([Validators.required]);
@@ -273,16 +273,17 @@ export class AddDiscountComponent implements OnInit {
           is_active: false
         });
       } else {
-        (this.discountForm.controls['start_date'] as FormControl).clearValidators();
-        (this.discountForm.controls['end_date'] as FormControl).clearValidators();
-        (this.discountForm.controls['start_date'] as FormControl).updateValueAndValidity();
-        (this.discountForm.controls['end_date'] as FormControl).updateValueAndValidity();
-        (this.discountForm.controls['is_active'] as FormControl).enable();
-        this.discountForm.patchValue({
-          is_active: true
-        });
+        if (discountType == 'simple_discount') {
+          (this.discountForm.controls['start_date'] as FormControl).clearValidators();
+          (this.discountForm.controls['end_date'] as FormControl).clearValidators();
+          (this.discountForm.controls['start_date'] as FormControl).updateValueAndValidity();
+          (this.discountForm.controls['end_date'] as FormControl).updateValueAndValidity();
+          (this.discountForm.controls['is_active'] as FormControl).enable();
+          this.discountForm.patchValue({
+            is_active: true
+          });
+        }
       }
-    }
   }
 
   ngOnInit(): void {
