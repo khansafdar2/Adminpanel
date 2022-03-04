@@ -166,6 +166,27 @@ lineData =[
     })
   }
 
+
+  getTopSoldItems() {
+    this.loading = true;
+    if (!this.vendorID) {
+      this.vendorID = '';
+    }
+
+    if (!this.start_date && !this.end_date) {
+      this.start_date = null;
+      this.end_date = null;
+    }
+    this.dashboardService.getTopTenSoldItems(this.is_vendor,this.vendorID,this.start_date, this.end_date).then((resp)=>{
+      this.loading = false;
+      if (resp) {
+        console.log(resp.data);
+        
+      }
+    })
+    
+  }
+
   ngOnInit(): void {
     let todayDate: Date = new Date();
     this.start_date = moment(todayDate).format('YYYY-MM-DD');
@@ -177,6 +198,7 @@ lineData =[
     this.getRevenue();
     this.getOrderAnalysis();
     this.getProductAnalysis();
+    this.getTopSoldItems();
   }
 
 }
