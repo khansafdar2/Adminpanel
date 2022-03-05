@@ -12,7 +12,8 @@
 
         <div class="header-actions">
             <button mat-stroked-button color="primary" (click)="goBack()">Cancel</button>
-            <button mat-flat-button color="primary" (click)="onSubmit()" [disabled]="!userForm.valid || loading ">Save</button>
+            <button mat-flat-button color="primary" (click)="onSubmit()"
+                [disabled]="!userForm.valid || loading ">Save</button>
         </div>
     </div>
 
@@ -31,14 +32,16 @@
                                     <mat-form-field appearance="outline">
                                         <mat-label>First name</mat-label>
                                         <input matInput name="first_name" formControlName="first_name" />
-                                        <mat-error *ngIf="userForm.get('first_name').hasError('required')">Enter first name of user.</mat-error>
+                                        <mat-error *ngIf="userForm.get('first_name').hasError('required')">Enter first
+                                            name of user.</mat-error>
                                     </mat-form-field>
                                 </div>
                                 <div fxFlex="0 1 50%">
                                     <mat-form-field appearance="outline">
                                         <mat-label>Last name</mat-label>
                                         <input matInput name="last_name" formControlName="last_name" />
-                                        <mat-error *ngIf="userForm.get('last_name').hasError('required')">Enter last name of user.</mat-error>
+                                        <mat-error *ngIf="userForm.get('last_name').hasError('required')">Enter last
+                                            name of user.</mat-error>
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -46,22 +49,25 @@
                                 <div fxFlex="0 1 50%">
                                     <mat-form-field appearance="outline">
                                         <mat-label>Email</mat-label>
-                                        <input matInput name="email" (keyup)="checkAfterDebounceEmail()" formControlName="email" type="email" #email />
-                                        <mat-error *ngIf="userForm.get('email').hasError('required')">Enter the email address.</mat-error>
+                                        <input matInput name="email" (keyup)="checkAfterDebounceEmail()"
+                                            formControlName="email" type="email" #email />
+                                        <mat-error *ngIf="userForm.get('email').hasError('required')">Enter the email
+                                            address.</mat-error>
                                     </mat-form-field>
-                                    <p class="error-response" > {{errorRespnse==='email already exist'? "Email already exist": ""}}</p>
-
-
-
+                                    <p class="error-response"> {{errorRespnse==='email already exist'? "Email already
+                                        exist": ""}}</p>
                                 </div>
 
                                 <div fxFlex="0 1 50%">
                                     <mat-form-field appearance="outline">
                                         <mat-label>Username</mat-label>
-                                        <input matInput name="username"  (keyup)="checkAfterDebounceUsername()" formControlName="username" #username />
-                                        <mat-error *ngIf="userForm.get('username').hasError('required')">Enter the username of user.</mat-error>
+                                        <input matInput name="username" (keyup)="checkAfterDebounceUsername()"
+                                            formControlName="username" #username />
+                                        <mat-error *ngIf="userForm.get('username').hasError('required')">Enter the
+                                            username of user.</mat-error>
                                     </mat-form-field>
-                                    <p class="error-response" >{{errorResponseUserName==='username already exist'? "Username already exist": ""}}</p>
+                                    <p class="error-response">{{errorResponseUserName==='username already exist'?
+                                        "Username already exist": ""}}</p>
 
                                 </div>
 
@@ -82,14 +88,72 @@
                     <mat-card>
                         <div fxLayout="row">
                             <div fxFlex="0 1 50%">
-                                <mat-checkbox [(ngModel)]="userPermissions.dashboard">Dashboard</mat-checkbox>
-                                <mat-checkbox [(ngModel)]="userPermissions.customization">Customization</mat-checkbox>
-                                <mat-checkbox [(ngModel)]="userPermissions.configuration">Configuration</mat-checkbox>
-                                <mat-checkbox [(ngModel)]="userPermissions.products">Products</mat-checkbox>
-                                <mat-checkbox [(ngModel)]="userPermissions.orders">Orders</mat-checkbox>
-                                <mat-checkbox [(ngModel)]="userPermissions.vendor">Vendor</mat-checkbox>
-                                <mat-checkbox [(ngModel)]="userPermissions.discounts">Discounts</mat-checkbox>
-                                <mat-checkbox [(ngModel)]="userPermissions.customer">Customer</mat-checkbox>
+                                <div fxLayout="row">
+                                    <div>
+                                        <mat-checkbox [(ngModel)]="userPermissions.dashboard">Dashboard</mat-checkbox>
+                                        <mat-checkbox (click)="stopPropagation($event)"
+                                            (click)="toggleDrawer('customization')"
+                                            [class.active]="sideDrawer === 'products'"
+                                            [(ngModel)]="userPermissions.customization">Customization</mat-checkbox>
+                                        <mat-checkbox (click)="stopPropagation($event)"
+                                            (click)="toggleDrawer('configuration')"
+                                            [class.active]="sideDrawer === 'configuration'"
+                                            [(ngModel)]="userPermissions.configuration">Configuration</mat-checkbox>
+                                        <mat-checkbox (click)="stopPropagation($event)"
+                                            (click)="toggleDrawer('products')"
+                                            [class.active]="sideDrawer === 'products'"
+                                            [(ngModel)]="userPermissions.products">Products</mat-checkbox>
+                                        <mat-checkbox [(ngModel)]="userPermissions.orders">Orders</mat-checkbox>
+                                        <mat-checkbox [(ngModel)]="userPermissions.vendor">Vendor</mat-checkbox>
+                                        <mat-checkbox (click)="stopPropagation($event)"
+                                            (click)="toggleDrawer('discount')"
+                                            [class.active]="sideDrawer === 'products'"
+                                            [(ngModel)]="userPermissions.discounts">Discounts</mat-checkbox>
+                                        <mat-checkbox [(ngModel)]="userPermissions.customer">Customer</mat-checkbox>
+                                    </div>
+
+                                    <div class="sidenav-drawer" [class.show]="sideDrawer === 'products'"
+                                        *ngIf="sideDrawer == 'products' " (click)="stopPropagation($event)"
+                                        fxFlex="0 1 50%">
+                                        <mat-checkbox>All products</mat-checkbox>
+                                        <mat-checkbox>Product groups</mat-checkbox>
+                                        <mat-checkbox>Collections</mat-checkbox>
+                                        <mat-checkbox>Category structure</mat-checkbox>
+                                        <mat-checkbox>Brands</mat-checkbox>
+                                    </div>
+
+                                    <div class="sidenav-drawer" [class.show]="sideDrawer === 'customization'"
+                                        *ngIf="sideDrawer == 'customization' " (click)="stopPropagation($event)"
+                                        fxFlex="0 1 50%">
+                                        <mat-checkbox>Homepage</mat-checkbox>
+                                        <mat-checkbox>Static pages</mat-checkbox>
+                                        <mat-checkbox>Header</mat-checkbox>
+                                        <mat-checkbox>Footer</mat-checkbox>
+                                        <mat-checkbox>Navigation</mat-checkbox>
+                                        <mat-checkbox>Filters</mat-checkbox>
+                                    </div>
+
+                                    <div class="sidenav-drawer" [class.show]="sideDrawer === 'discount'"
+                                        *ngIf="sideDrawer == 'discount' " (click)="stopPropagation($event)"
+                                        fxFlex="0 1 50%">
+                                        <mat-checkbox>Discounts</mat-checkbox>
+                                        <mat-checkbox>Coupons</mat-checkbox>
+                                    </div>
+
+                                    <div class="sidenav-drawer" [class.show]="sideDrawer === 'configuration'"
+                                        *ngIf="sideDrawer == 'configuration' " (click)="stopPropagation($event)"
+                                        fxFlex="0 1 50%">
+                                        <mat-checkbox>General info</mat-checkbox>
+                                        <mat-checkbox>User management</mat-checkbox>
+                                        <mat-checkbox>Loyalty</mat-checkbox>
+                                        <mat-checkbox>Shipping regions</mat-checkbox>
+                                        <mat-checkbox>Shipping methods</mat-checkbox>
+                                        <mat-checkbox>Checkout settings</mat-checkbox>
+                                    </div>
+                                </div>
+
+
+
                             </div>
                             <div fxFlex="0 1 50%">
                             </div>

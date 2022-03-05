@@ -2,7 +2,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Column } from 'src/app/shared/datatable/datatable.component';
 import { SharedService } from 'src/app/shared/shared.service';
 import URLS from 'src/app/shared/urls';
@@ -24,7 +24,9 @@ export class EditCollectionComponent implements OnInit {
     private snackbarService: MatSnackBar,
     private sharedService: SharedService,
     private authService: AuthService,
-    private productsService: ProductsService) {
+    private productsService: ProductsService,
+    private router: Router,
+    ) {
     this.collectionID = this.route.snapshot.paramMap.get('id');
   }
 
@@ -211,6 +213,8 @@ export class EditCollectionComponent implements OnInit {
       if(resp) {
         this.loading = false;
         this.snackbarService.open('Collection updated.', "", {duration: 3000});
+        this.router.navigate(['/', URLS.collections]);
+
       }
     })
   }

@@ -30,6 +30,8 @@ export class AddUserComponent implements OnInit {
     email: ['', [Validators.required]]
   });
 
+  sideDrawer: string = "";
+
   userPermissions = {
     dashboard: false,
     customization: false,
@@ -42,7 +44,16 @@ export class AddUserComponent implements OnInit {
     vendor: false
   }
 
-  ngOnInit(): void {
+  Urls = URLS;
+
+
+  toggleDrawer(drawer) {
+    this.sideDrawer = this.sideDrawer == drawer ? "" : drawer;
+
+  }
+
+  stopPropagation(event: PointerEvent) {
+    event.stopPropagation();
   }
 
   goBack() {
@@ -144,5 +155,8 @@ export class AddUserComponent implements OnInit {
     this.checkUsername(email = '', username);
   }, 500)
 
+
+  ngOnInit(): void {
+  }
 
 }

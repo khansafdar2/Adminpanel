@@ -1,3 +1,6 @@
+@import "src/scss/variables.scss";
+
+
 .permissions {
     * + label {
         margin-top: 20px;
@@ -11,7 +14,50 @@
     }
 }
 
+
 .error-response{
     color: red;
     font-size: 12px;
 }
+
+
+.sidenav-drawer {
+    width: 100px;
+    background-color: #ffffff;
+    box-shadow: 0px 2px 4px 1px rgba(139, 164, 176, 0.15);
+    transform: translateX(-100%);
+    transition: transform 0.4s ease-out;
+
+  
+    &.show {
+    transform: translateX(10%);
+    -webkit-transform: translateX(10%);
+    -moz-transform: translateX(10%);
+    -ms-transform: translateX(10%);
+    -o-transform: translateX(10%);
+}
+  
+    .sidenav-title {
+      padding: 18px 20px;
+      border-bottom: 1px solid #e0e0e0;
+      color: $primaryColor;
+    }
+  
+    ul {
+      padding: 0;
+      margin: 0;
+      list-style-type: none;
+  
+      li {
+        a {
+          display: block;
+          padding: 8px 20px;
+          color: inherit;
+  
+          &:hover, &:focus, &.active {
+            color: $primaryColor;
+          }
+        }
+      }
+    }
+  }

@@ -206,7 +206,6 @@ export class EditMainOrderComponent implements OnInit {
         this.getOrderDetails();
       }
     })
-
   }
 
   downloadInvoice() {

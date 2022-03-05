@@ -31,6 +31,8 @@ export class UserManagementComponent implements OnInit {
   loggedInUser = {};
   loading: boolean = true;
 
+
+
   ngOnInit(): void {
     this.getUsers();
   }

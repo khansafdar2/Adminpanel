@@ -152,7 +152,7 @@ export class AddCollectionComponent implements OnInit {
       this.loading = false;
       if(resp) {
         this.snackbarService.open('Collection created.', "", {duration: 3000});
-        this.router.navigate(['', URLS.collections]);
+        this.router.navigate(['/', URLS.collections]);
       }
     })
   }

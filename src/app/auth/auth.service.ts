@@ -15,6 +15,25 @@ interface UserPermission {
   discounts: boolean;
   configuration: boolean;
   vendor: boolean;
+  product_list : boolean;
+  product_groups : boolean;
+  collections : boolean;
+  categories : boolean;
+  brands : boolean;
+  homepage : boolean;
+  static_pages : boolean;
+  header : boolean;
+  footer : boolean;
+  navigation : boolean;
+  filters : boolean;
+  main_discounts : boolean;
+  coupons : boolean;
+  store_setting : boolean;
+  user_management : boolean;
+  loyalty : boolean;
+  shipping_regions : boolean;
+  shipping_methods : boolean;
+  checkout_setting : boolean;
 }
 
 @Injectable({
@@ -54,7 +73,26 @@ export class AuthService {
     customer: true,
     discounts: true,
     configuration: false,
-    vendor: false
+    vendor: false,
+    product_list : true,
+    product_groups : true,
+    collections : true,
+    categories : true,
+    brands : false,
+    homepage : false,
+    static_pages : false,
+    header : false,
+    footer : false,
+    navigation : false,
+    filters : false,
+    main_discounts : true,
+    coupons : true,
+    store_setting : false,
+    user_management : false,
+    loyalty : false,
+    shipping_regions : false,
+    shipping_methods : true,
+    checkout_setting : false,
   }
 
   user = {
