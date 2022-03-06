@@ -53,8 +53,8 @@
                                 [class.warning]="fulfillmentStatus === 'Partially Fulfilled'">{{fulfillmentStatus}}</span>
                         </div>
                         <div>
-                            <button mat-flat-button color="primary" (click)="fulfillmentStatus = 'Fulfilled'" *ngIf="fulfillmentStatus !== 'Fulfilled'">Mark as Fulfilled</button>
-                            <button mat-stroked-button color="primary" (click)="fulfillmentStatus = 'Unfulfilled'" *ngIf="fulfillmentStatus !== 'Unfulfilled'" style="margin-left: 10px">Mark as Unfulfilled</button>
+                            <button mat-flat-button color="primary" (click)="fullfilmentStatus('Fulfilled')" *ngIf="fulfillmentStatus !== 'Fulfilled'">Mark as Fulfilled</button>
+                            <button mat-stroked-button color="primary" (click)="fullfilmentStatus('Unfulfilled')" *ngIf="fulfillmentStatus !== 'Unfulfilled'" style="margin-left: 10px">Mark as Unfulfilled</button>
                         </div>
                     </div>
                 </div>

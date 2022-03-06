@@ -9,7 +9,7 @@
         <div class="content" fxLayout="row" fxLayout.xs="column">
             <h2 class="settings-section-heading" fxFlex="25%">Miscellaneous</h2>
             <div class="settings-section-cards" fxLayout="row wrap" fxFlex="grow">
-                <div class="settings-section-card" fxFlex="0 1 33.3333%">
+                <div class="settings-section-card" fxFlex="0 1 33.3333%" *ngIf="userPermissions.store_setting">
                     <mat-card (click)="goToSettings('generalInformation')">
                         <mat-card-header>
                             <div mat-card-avatar [inlineSVG]="'/assets/img/InformationIcon.svg'"></div>
@@ -27,7 +27,7 @@
                         </mat-card-header>
                     </mat-card>
                 </div> -->
-                <div class="settings-section-card" fxFlex="0 1 33.3333%">
+                <div class="settings-section-card" fxFlex="0 1 33.3333%" *ngIf="userPermissions.user_management">
                     <mat-card (click)="goToSettings('userManagement')">
                         <mat-card-header>
                             <div mat-card-avatar [inlineSVG]="'/assets/img/UserIcon.svg'"></div>
@@ -37,7 +37,7 @@
                     </mat-card>
                 </div>
 
-                <div class="settings-section-card" fxFlex="0 1 33.3333%">
+                <div class="settings-section-card" fxFlex="0 1 33.3333%" *ngIf="userPermissions.loyalty">
                     <mat-card (click)="goToSettings('loyality')">
                         <mat-card-header>
                             <div mat-card-avatar class="Loyality" [inlineSVG]="'/assets/img/Loyality.svg'"></div>
@@ -64,7 +64,7 @@
                         </mat-card-header>
                     </mat-card>
                 </div> -->
-                <div class="settings-section-card" fxFlex="0 1 33.3333%">
+                <div class="settings-section-card" fxFlex="0 1 33.3333%" *ngIf="userPermissions.shipping_regions">
                     <mat-card (click)="goToSettings('shippingRegions')">
                         <mat-card-header>
                             <div mat-card-avatar class="shipping_regions" [inlineSVG]="'/assets/img/shipping_regions.svg'"></div>
@@ -74,7 +74,7 @@
                     </mat-card>
                 </div>
 
-                <div class="settings-section-card" fxFlex="0 1 33.3333%">
+                <div class="settings-section-card" fxFlex="0 1 33.3333%" *ngIf="userPermissions.shipping_methods">
                     <mat-card (click)="goToSettings('shipping')">
                         <mat-card-header>
                             <div mat-card-avatar  [inlineSVG]="'/assets/img/ShippingIcon.svg'"></div>
@@ -84,7 +84,7 @@
                     </mat-card>
                 </div>
 
-                <div class="settings-section-card" fxFlex="0 1 33.3333%">
+                <div class="settings-section-card" fxFlex="0 1 33.3333%" *ngIf="userPermissions.checkout_setting">
                     <mat-card (click)="goToSettings('checkoutCustomization')">
                         <mat-card-header>
                             <div mat-card-avatar class="shipping_regions" [inlineSVG]="'/assets/img/checkoutSetting.svg'"></div>

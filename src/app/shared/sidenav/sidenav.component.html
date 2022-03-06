@@ -48,7 +48,7 @@
                 </a>
             </li>
             <li *ngIf="is_vendor">
-                <a [routerLink]="['/', Urls.shipping]" routerLinkActive="active">
+                <a [routerLink]="'/'+ Urls.shipping" routerLinkActive="active">
                     <span class="link-icon" [inlineSVG]="'/assets/img/ShippingIcon.svg'"></span>Shipping
                 </a>
             </li>
@@ -64,11 +64,11 @@
     <h4 class="sidenav-title">Products</h4>
     <nav>
         <ul>
-            <li><a [routerLink]="['/', Urls.products]" routerLinkActive="active">All products</a></li>
-            <li><a [routerLink]="['/', Urls.productGroups]" routerLinkActive="active">Product groups</a></li>
-            <li><a [routerLink]="'/' + Urls.collections" routerLinkActive="active">Collections</a></li>
-            <li *ngIf="!is_vendor"><a [routerLink]="'/' + Urls.categories" routerLinkActive="active">Category structure</a></li>
-            <li *ngIf="!is_vendor"><a [routerLink]="'/' + Urls.brands" routerLinkActive="active">Brands</a></li>
+            <li *ngIf="userPermissions.product_list"><a [routerLink]="['/', Urls.products]" routerLinkActive="active">All products</a></li>
+            <li *ngIf="userPermissions.product_groups"><a [routerLink]="['/', Urls.productGroups]" routerLinkActive="active">Product groups</a></li>
+            <li *ngIf="userPermissions.collections"><a [routerLink]="'/' + Urls.collections" routerLinkActive="active">Collections</a></li>
+            <li *ngIf="!is_vendor  && userPermissions.categories"><a [routerLink]="'/' + Urls.categories" routerLinkActive="active">Category structure</a></li>
+            <li *ngIf="!is_vendor && userPermissions.brands"><a [routerLink]="'/' + Urls.brands" routerLinkActive="active">Brands</a></li>
         </ul>
     </nav>
 </div>
@@ -86,12 +86,12 @@
     <h4 class="sidenav-title">Customization</h4>
     <nav>
         <ul>
-            <li><a [routerLink]="['/', Urls.homepage]" routerLinkActive="active">Homepage</a></li>
-            <li><a [routerLink]="['/', Urls.pages]" routerLinkActive="active">Pages</a></li>
-            <li><a [routerLink]="['/', Urls.headerCustomization]" routerLinkActive="active">Header</a></li>
-            <li><a [routerLink]="['/', Urls.footerCustomization]" routerLinkActive="active">Footer</a></li>
-            <li><a [routerLink]="['/', Urls.navigations]" routerLinkActive="active">Navigation</a></li>
-            <li><a [routerLink]="['/', Urls.filters]" routerLinkActive="active">Filters</a></li>
+            <li *ngIf="userPermissions.homepage"><a [routerLink]="['/', Urls.homepage]" routerLinkActive="active">Homepage</a></li>
+            <li *ngIf="userPermissions.static_pages"><a [routerLink]="['/', Urls.pages]" routerLinkActive="active">Pages</a></li>
+            <li *ngIf="userPermissions.header"><a [routerLink]="['/', Urls.headerCustomization]" routerLinkActive="active">Header</a></li>
+            <li *ngIf="userPermissions.footer"><a [routerLink]="['/', Urls.footerCustomization]" routerLinkActive="active">Footer</a></li>
+            <li *ngIf="userPermissions.navigation"><a [routerLink]="['/', Urls.navigations]" routerLinkActive="active">Navigation</a></li>
+            <li *ngIf="userPermissions.filters"><a [routerLink]="['/', Urls.filters]" routerLinkActive="active">Filters</a></li>
         </ul>
     </nav>
 </div>
@@ -100,9 +100,8 @@
     <h4 class="sidenav-title">Discounts</h4>
     <nav>
         <ul>
-            <li><a [routerLink]="['/' + Urls.discounts]" routerLinkActive="active">Discounts</a></li>
-            <li><a [routerLink]="['/', Urls.coupons]" routerLinkActive="active">Coupons</a></li>
-
+            <li *ngIf="userPermissions.main_discounts"><a [routerLink]="['/' + Urls.discounts]" routerLinkActive="active">Discounts</a></li>
+            <li *ngIf="userPermissions.coupons"><a [routerLink]="['/', Urls.coupons]" routerLinkActive="active">Coupons</a></li>
         </ul>
     </nav>
 

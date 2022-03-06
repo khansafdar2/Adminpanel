@@ -41,7 +41,26 @@ export class AddUserComponent implements OnInit {
     customer: false,
     discounts: false,
     configuration: false,
-    vendor: false
+    vendor: false,
+    product_list : false,
+    product_groups : false,
+    collections : false,
+    categories : false,
+    brands : false,
+    homepage : false,
+    static_pages : false,
+    header : false,
+    footer : false,
+    navigation : false,
+    filters : false,
+    main_discounts : false,
+    coupons : false,
+    store_setting : false,
+    user_management : false,
+    loyalty : false,
+    shipping_regions : false,
+    shipping_methods : true,
+    checkout_setting : false
   }
 
   Urls = URLS;

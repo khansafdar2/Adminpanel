@@ -16,7 +16,7 @@ export class UserManagementComponent implements OnInit {
     private router: Router,
     public dialog: MatDialog,
     private authService: AuthService,
-    private userService: UsersService,
+    public userService: UsersService,
   ) {
     this.loggedInUser = this.authService.user;
   }

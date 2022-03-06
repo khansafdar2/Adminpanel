@@ -196,6 +196,9 @@ export class EditMainOrderComponent implements OnInit {
     });
   }
 
+  fullfilmentStatus(data){
+    this.fulfillmentStatus = data;
+  }
 
   refundOrder() {
     this.loading = true;

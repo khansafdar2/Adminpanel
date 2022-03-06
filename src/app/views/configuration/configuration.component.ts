@@ -1,3 +1,4 @@
+import { AuthService } from './../../auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import URLS from '../../shared/urls';
@@ -9,7 +10,11 @@ import URLS from '../../shared/urls';
 })
 export class ConfigurationComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+    public authService: AuthService
+    ) { }
+
+  userPermissions = this.authService.user_permissions;
 
   ngOnInit(): void {
   }

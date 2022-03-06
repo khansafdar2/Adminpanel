@@ -90,7 +90,7 @@ const routes: Routes = [
   ]},
   {path: URLS.tax, component: TaxConfigurationComponent, canActivate: [LoggedInAuthGuard, ConfigurationGuard]},
   {path: URLS.generalInformation, component: GeneralInformationComponent, canActivate: [LoggedInAuthGuard, StoreSettingGuard]},
-  {path: URLS.shipping, component: ShippingComponent, canActivate: [LoggedInAuthGuard, ShippingMethodsGuard]},
+  {path: URLS.shipping, component: ShippingComponent, canActivate: [LoggedInAuthGuard ,ShippingMethodsGuard]},
   {path: URLS.loyality, component: LoyalityComponent, canActivate: [LoggedInAuthGuard, LoyaltyGuard, VendorGuard]},
   {path: URLS.categories, canActivate: [LoggedInAuthGuard, ProductsGuard], children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},

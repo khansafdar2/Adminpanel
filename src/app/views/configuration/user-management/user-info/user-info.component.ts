@@ -27,7 +27,8 @@ export class UserInfoComponent implements OnInit {
       this.isPermissionsEditable = true;
     }
   }
-
+  
+  sideDrawer: string = "";
   clientName: string = environment.client_name;
   userId = null;
   loggedInUserID = this.authService.user.id;
@@ -45,14 +46,33 @@ export class UserInfoComponent implements OnInit {
     permissions: {
       id: null,
       dashboard: false,
-      customization:false,
+      customization: false,
       theme: false,
       products: false,
       orders: false,
       customer: false,
       discounts: false,
       configuration: false,
-      vendor: false
+      vendor: false,
+      product_list : false,
+      product_groups : false,
+      collections : false,
+      categories : false,
+      brands : false,
+      homepage : false,
+      static_pages : false,
+      header : false,
+      footer : false,
+      navigation : false,
+      filters : false,
+      main_discounts : false,
+      coupons : false,
+      store_setting : false,
+      user_management : false,
+      loyalty : false,
+      shipping_regions : false,
+      shipping_methods : true,
+      checkout_setting : false
     }
   };
   nameInitials: string = "";
@@ -62,7 +82,14 @@ export class UserInfoComponent implements OnInit {
   ngOnInit(): void {
     this.getUserDetail();
   }
+  toggleDrawer(drawer) {
+    this.sideDrawer = this.sideDrawer == drawer ? "" : drawer;
 
+  }
+
+  stopPropagation(event: PointerEvent) {
+    event.stopPropagation();
+  }
 
   goBack() {
     this.router.navigate([URLS.userManagement, URLS.all]);

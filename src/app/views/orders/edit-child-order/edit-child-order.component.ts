@@ -276,8 +276,14 @@ export class EditChildOrderComponent implements OnInit {
     });
   }
 
+  fullfilmentStatus(data){
+    debugger
+    this.fulfillmentStatus = data;
+  }
+
 
   onSubmit() {
+    debugger
     let lineitems = this.lineitemsFormArray.value.map(lineitem => {
       let obj = {
         id: lineitem.id ? lineitem.id : null,

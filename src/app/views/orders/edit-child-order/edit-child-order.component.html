@@ -78,9 +78,9 @@
                                 [class]="'label ' + (fulfillmentStatus === 'Fulfilled' ? 'success' : 'warning')">{{fulfillmentStatus}}</span>
                         </div>
                         <div *ngIf="orderStatus !== 'Cancelled'">
-                            <button mat-flat-button color="primary" (click)="fulfillmentStatus = 'Fulfilled'"
+                            <button mat-flat-button color="primary" (click)="fullfilmentStatus('Fulfilled')"
                                 *ngIf="fulfillmentStatus === 'Unfulfilled'">Mark as Fulfilled</button>
-                            <button mat-stroked-button color="primary" (click)="fulfillmentStatus = 'Unfulfilled'"
+                            <button mat-stroked-button color="primary" (click)="fullfilmentStatus('Unfulfilled')"
                                 *ngIf="fulfillmentStatus === 'Fulfilled'">Mark as Unfulfilled</button>
                         </div>
                     </div>
