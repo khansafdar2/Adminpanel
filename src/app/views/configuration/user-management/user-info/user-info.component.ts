@@ -7,6 +7,7 @@ import URLS from 'src/app/shared/urls';
 import { UsersService } from '../users.service';
 import { FormControl, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/auth/auth.service';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-user-info',
@@ -71,8 +72,9 @@ export class UserInfoComponent implements OnInit {
       user_management : false,
       loyalty : false,
       shipping_regions : false,
-      shipping_methods : true,
-      checkout_setting : false
+      shipping_methods : false,
+      checkout_setting : false,
+      approvals: false
     }
   };
   nameInitials: string = "";
@@ -108,6 +110,105 @@ export class UserInfoComponent implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  customizationPermissionCheck(event: MatCheckboxChange) {
+    if (event.checked) {
+      this.userDetail.permissions.customization = true;
+    } else if (!this.userDetail.permissions.header && !this.userDetail.permissions.footer && !this.userDetail.permissions.homepage && 
+      !this.userDetail.permissions.static_pages && !this.userDetail.permissions.navigation && !this.userDetail.permissions.filters)
+      this.userDetail.permissions.customization = false;
+
+  }
+  customaizationCheck(event: MatCheckboxChange) {
+    if (event.checked) {
+      this.userDetail.permissions.header = true;
+      this.userDetail.permissions.footer = true;
+      this.userDetail.permissions.homepage = true;
+      this.userDetail.permissions.static_pages = true;
+      this.userDetail.permissions.navigation = true;
+      this.userDetail.permissions.filters = true;
+    } else {
+      this.userDetail.permissions.header = false;
+      this.userDetail.permissions.footer = false;
+      this.userDetail.permissions.homepage = false;
+      this.userDetail.permissions.static_pages = false;
+      this.userDetail.permissions.navigation = false;
+      this.userDetail.permissions.filters = false;
+    }
+  }
+
+  configurationPermissionCheck(event: MatCheckboxChange) {
+    if (event.checked) {
+      this.userDetail.permissions.configuration = true;
+    } else if (!this.userDetail.permissions.store_setting && !this.userDetail.permissions.loyalty && !this.userDetail.permissions.shipping_methods
+       && !this.userDetail.permissions.shipping_regions && !this.userDetail.permissions.checkout_setting && !this.userDetail.permissions.user_management) {
+      this.userDetail.permissions.configuration = false;
+    }
+  }
+
+
+  configurationCheck(event: MatCheckboxChange) {
+    if (event.checked) {
+      this.userDetail.permissions.store_setting = true;
+      this.userDetail.permissions.loyalty = true;
+      this.userDetail.permissions.shipping_methods = true;
+      this.userDetail.permissions.shipping_regions = true;
+      this.userDetail.permissions.checkout_setting = true;
+      this.userDetail.permissions.user_management = true;
+    } else {
+      this.userDetail.permissions.store_setting = false;
+      this.userDetail.permissions.loyalty = false;
+      this.userDetail.permissions.shipping_methods = false;
+      this.userDetail.permissions.shipping_regions = false;
+      this.userDetail.permissions.checkout_setting = false;
+      this.userDetail.permissions.user_management = false;
+    }
+  }
+
+  productsPermissionCheck(event: MatCheckboxChange) {
+    if (event.checked) {
+      this.userDetail.permissions.products = true;
+    } else if (!this.userDetail.permissions.product_list && !this.userDetail.permissions.product_groups && !this.userDetail.permissions.collections && 
+      !this.userDetail.permissions.categories && !this.userDetail.permissions.brands) {
+      this.userDetail.permissions.products = false;
+
+    }
+  }
+
+  productsCheck(event:MatCheckboxChange) {
+      if (event.checked) {
+        this.userDetail.permissions.product_list = true;
+        this.userDetail.permissions.product_groups = true;
+        this.userDetail.permissions.collections = true;
+        this.userDetail.permissions.brands = true;
+        this.userDetail.permissions.categories = true;
+      } else {
+        this.userDetail.permissions.product_groups = false;
+        this.userDetail.permissions.product_list = false;
+        this.userDetail.permissions.collections = false;
+        this.userDetail.permissions.brands = false;
+        this.userDetail.permissions.categories = false;
+      }
+  }
+
+
+  discountPermissionCheck(event: MatCheckboxChange){
+    if (event.checked) {
+      this.userDetail.permissions.discounts = true;
+    } else if (!this.userDetail.permissions.main_discounts && !this.userDetail.permissions.coupons) {
+      this.userDetail.permissions.discounts = false;
+    }
+  }
+
+  discountCheck(event:MatCheckboxChange) {
+    if (event.checked) {
+      this.userDetail.permissions.main_discounts = true;
+      this.userDetail.permissions.coupons = true;
+    } else {
+      this.userDetail.permissions.main_discounts = false;
+      this.userDetail.permissions.coupons = false;
+    }
   }
 
   saveInfo() {

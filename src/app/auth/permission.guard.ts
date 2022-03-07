@@ -1111,3 +1111,43 @@ export class CheckoutSettingGuard implements CanActivate {
     }
   }
 }
+
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ApprovalGuard implements CanActivate {
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) { }
+
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    if (this.authService.user_permissions.approvals) {
+      return true;
+    } else {
+      if (this.authService.user_permissions.customization) {
+        this.router.navigate(["/", URLS.homepage]);
+        return false;
+      }
+      else if (this.authService.user_permissions.products) {
+        this.router.navigate(["/", URLS.products]);
+        return false;
+      } else if (this.authService.user_permissions.orders) {
+        this.router.navigate(["/", URLS.orders]);
+        return false;
+      } else if (this.authService.user_permissions.customer) {
+        this.router.navigate(["/", URLS.customers]);
+        return false;
+      } else if (this.authService.user_permissions.discounts) {
+        this.router.navigate(["/", URLS.discounts]);
+        return false;
+      } else if (this.authService.user_permissions.configuration) {
+        this.router.navigate(["/", URLS.configuration]);
+        return false;
+      }
+    }
+  }
+}

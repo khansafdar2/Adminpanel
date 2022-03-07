@@ -106,22 +106,25 @@
                                 <div fxLayout="row">
                                     <div fxLayout="column">
                                         <mat-checkbox [(ngModel)]="userPermissions.dashboard">Dashboard</mat-checkbox>
-                                            <mat-checkbox [(ngModel)]="userPermissions.customization" [class.active]="sideDrawer === 'customization'"  >Customization</mat-checkbox>
+                                            <mat-checkbox (change)="customaizationCheck($event)" [(ngModel)]="userPermissions.customization" [class.active]="sideDrawer === 'customization'"  >Customization</mat-checkbox>
                                            
-                                            <mat-checkbox [(ngModel)]="userPermissions.configuration" [class.active]="sideDrawer === 'configuration'">Configuration</mat-checkbox>
+                                            <mat-checkbox (change)="configurationCheck($event)" [(ngModel)]="userPermissions.configuration" [class.active]="sideDrawer === 'configuration'">Configuration</mat-checkbox>
 
-                                            <mat-checkbox [(ngModel)]="userPermissions.products" [class.active]="sideDrawer === 'products'">Products</mat-checkbox>
+                                            <mat-checkbox (change)="productsCheck($event)" [(ngModel)]="userPermissions.products" [class.active]="sideDrawer === 'products'">Products</mat-checkbox>
 
 
                                         <mat-checkbox [(ngModel)]="userPermissions.orders">Orders</mat-checkbox>
                                         <mat-checkbox [(ngModel)]="userPermissions.vendor">Vendor</mat-checkbox>
-                                        <mat-checkbox [(ngModel)]="userPermissions.discounts" [class.active]="sideDrawer === 'discount'">Discounts</mat-checkbox>
+                                        <mat-checkbox (change)="discountCheck($event)" [(ngModel)]="userPermissions.discounts" [class.active]="sideDrawer === 'discount'">Discounts</mat-checkbox>
                                         <mat-checkbox [(ngModel)]="userPermissions.customer">Customer</mat-checkbox>
+                                        <mat-checkbox [(ngModel)]="userPermissions.approvals">Approval</mat-checkbox>
+
                                     </div>
                                         <div fxLayout="column">
                                             <div class="space"></div>
                                             <div fxLayout="row">
                                                 <mat-icon (click)="stopPropagation($event)"
+                                                
                                                 (click)="toggleDrawer('customization')"
                                                 [class.active]="sideDrawer === 'customization'">keyboard_arrow_right</mat-icon>
                                             </div>
@@ -146,50 +149,50 @@
                                     <div class="sidenav-drawer" [class.show]="sideDrawer === 'products'"
                                         *ngIf="sideDrawer == 'products'" (click)="stopPropagation($event)"
                                         >
-                                        <mat-checkbox [(ngModel)]="userPermissions.product_list">All products
+                                        <mat-checkbox (change)="productsPermissionCheck($event)" [(ngModel)]="userPermissions.product_list">All products
                                         </mat-checkbox>
-                                        <mat-checkbox [(ngModel)]="userPermissions.product_groups">Product groups
+                                        <mat-checkbox (change)="productsPermissionCheck($event)" [(ngModel)]="userPermissions.product_groups">Product groups
                                         </mat-checkbox>
-                                        <mat-checkbox [(ngModel)]="userPermissions.collections">Collections
+                                        <mat-checkbox (change)="productsPermissionCheck($event)" [(ngModel)]="userPermissions.collections">Collections
                                         </mat-checkbox>
-                                        <mat-checkbox [(ngModel)]="userPermissions.categories">Category structure
+                                        <mat-checkbox (change)="productsPermissionCheck($event)" [(ngModel)]="userPermissions.categories">Category structure
                                         </mat-checkbox>
-                                        <mat-checkbox [(ngModel)]="userPermissions.brands">Brands</mat-checkbox>
+                                        <mat-checkbox (change)="productsPermissionCheck($event)" [(ngModel)]="userPermissions.brands">Brands</mat-checkbox>
                                     </div>
 
                                     <div class="sidenav-drawer" [class.show]="sideDrawer === 'customization'"
                                         *ngIf="sideDrawer == 'customization'" (click)="stopPropagation($event)"
                                         >
-                                        <mat-checkbox [(ngModel)]="userPermissions.homepage">Homepage</mat-checkbox>
-                                        <mat-checkbox [(ngModel)]="userPermissions.static_pages">Static pages
+                                        <mat-checkbox (change)="customizationPermissionCheck($event)" [(ngModel)]="userPermissions.homepage">Homepage</mat-checkbox>
+                                        <mat-checkbox (change)="customizationPermissionCheck($event)" [(ngModel)]="userPermissions.static_pages">Static pages
                                         </mat-checkbox>
-                                        <mat-checkbox [(ngModel)]="userPermissions.header">Header</mat-checkbox>
-                                        <mat-checkbox [(ngModel)]="userPermissions.footer">Footer</mat-checkbox>
-                                        <mat-checkbox [(ngModel)]="userPermissions.navigation">Navigation</mat-checkbox>
-                                        <mat-checkbox [(ngModel)]="userPermissions.filters">Filters</mat-checkbox>
+                                        <mat-checkbox (change)="customizationPermissionCheck($event)" [(ngModel)]="userPermissions.header">Header</mat-checkbox>
+                                        <mat-checkbox (change)="customizationPermissionCheck($event)" [(ngModel)]="userPermissions.footer">Footer</mat-checkbox>
+                                        <mat-checkbox (change)="customizationPermissionCheck($event)" [(ngModel)]="userPermissions.navigation">Navigation</mat-checkbox>
+                                        <mat-checkbox (change)="customizationPermissionCheck($event)" [(ngModel)]="userPermissions.filters">Filters</mat-checkbox>
                                     </div>
 
                                     <div class="sidenav-drawer" [class.show]="sideDrawer === 'discount'"
                                         *ngIf="sideDrawer == 'discount'" (click)="stopPropagation($event)"
                                         >
-                                        <mat-checkbox [(ngModel)]="userPermissions.main_discounts">Discounts
+                                        <mat-checkbox (change)="discountPermissionCheck($event)" [(ngModel)]="userPermissions.main_discounts">Discounts
                                         </mat-checkbox>
-                                        <mat-checkbox [(ngModel)]="userPermissions.coupons">Coupons</mat-checkbox>
+                                        <mat-checkbox (change)="discountPermissionCheck($event)" [(ngModel)]="userPermissions.coupons">Coupons</mat-checkbox>
                                     </div>
 
                                     <div class="sidenav-drawer" [class.show]="sideDrawer === 'configuration'"
                                         *ngIf="sideDrawer == 'configuration'" (click)="stopPropagation($event)"
                                         >
-                                        <mat-checkbox [(ngModel)]="userPermissions.store_setting">General info
+                                        <mat-checkbox (change)="configurationPermissionCheck($event)" [(ngModel)]="userPermissions.store_setting">General info
                                         </mat-checkbox>
-                                        <mat-checkbox [(ngModel)]="userPermissions.user_management">User management
+                                        <mat-checkbox (change)="configurationPermissionCheck($event)" [(ngModel)]="userPermissions.user_management">User management
                                         </mat-checkbox>
-                                        <mat-checkbox [(ngModel)]="userPermissions.loyalty">Loyalty</mat-checkbox>
-                                        <mat-checkbox [(ngModel)]="userPermissions.shipping_regions">Shipping regions
+                                        <mat-checkbox (change)="configurationPermissionCheck($event)" [(ngModel)]="userPermissions.loyalty">Loyalty</mat-checkbox>
+                                        <mat-checkbox (change)="configurationPermissionCheck($event)" [(ngModel)]="userPermissions.shipping_regions">Shipping regions
                                         </mat-checkbox>
-                                        <mat-checkbox [(ngModel)]="userPermissions.shipping_methods">Shipping methods
+                                        <mat-checkbox (change)="configurationPermissionCheck($event)" [(ngModel)]="userPermissions.shipping_methods">Shipping methods
                                         </mat-checkbox>
-                                        <mat-checkbox [(ngModel)]="userPermissions.checkout_setting">Checkout settings
+                                        <mat-checkbox (change)="configurationPermissionCheck($event)" [(ngModel)]="userPermissions.checkout_setting">Checkout settings
                                         </mat-checkbox>
                                     </div>
                                 </div>
