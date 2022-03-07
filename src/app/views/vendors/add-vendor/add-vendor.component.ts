@@ -5,6 +5,7 @@ import URLS from 'src/app/shared/urls';
 import { VendorsService } from '../vendors.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 
 @Component({
@@ -37,6 +38,12 @@ export class AddVendorComponent implements OnInit {
     commissions:this.fb.array([]),
     notes: [""],
     is_active: [true],
+    is_approval: [false],
+    product_approval: [false],
+    product_group_approval: [false],
+    collection_approval: [false],
+    discount_approval: [false],
+    shipping_approval: [false]
   });
 
 
@@ -53,6 +60,16 @@ export class AddVendorComponent implements OnInit {
     )
   }
 
+
+  unSelectAllApprovals(event:MatCheckboxChange){
+    if(!event.checked) {
+        this.vendorForm.get('product_approval').setValue(false)
+        this.vendorForm.get('product_group_approval').setValue(false)
+        this.vendorForm.get('collection_approval').setValue(false)
+        this.vendorForm.get('discount_approval').setValue(false)
+        this.vendorForm.get('shipping_approval').setValue(false)
+    }
+  }
 
   removeCommission(index) {
     (this.vendorForm.get("commissions") as FormArray).removeAt(index);

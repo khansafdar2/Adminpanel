@@ -69,6 +69,24 @@
           <h4>Status</h4>
           <mat-checkbox formControlName="is_active">Active</mat-checkbox>
         </mat-card>
+
+        <mat-card *ngIf="!is_vendor">
+          <h4>Approval content </h4>
+          <mat-checkbox (change)="unSelectAllApprovals($event)" formControlName="is_approval">Approval</mat-checkbox>
+          <div *ngIf="vendorForm.get('is_approval').value === true" class="approval" >
+            <div fxLayout="column" >
+              <mat-checkbox formControlName="product_approval">Product</mat-checkbox>
+              <mat-checkbox formControlName="product_group_approval">Product group</mat-checkbox>
+            </div>
+
+            <div fxLayout="column">
+              <mat-checkbox formControlName="collection_approval">Collection</mat-checkbox>
+              <mat-checkbox formControlName="discount_approval">Discount</mat-checkbox>
+              <mat-checkbox formControlName="shipping_approval">Shipping</mat-checkbox>
+            </div>
+          </div>
+        </mat-card>
+
         <mat-card>
           <h4>Notes</h4>
           <mat-form-field appearance="outline">
@@ -80,10 +98,10 @@
     <div class="commission-container">
       <h4>Commission</h4>
       <ng-container *ngFor="let commissionGroup of vendorForm.get('commissions')['controls']; let i = index;">
-        <mat-card  [formGroup]="commissionGroup">
-          <div fxLayout="row" >
+        <mat-card [formGroup]="commissionGroup">
+          <div fxLayout="row">
             <div fxFlex="0 1 33.333333%">
-              <mat-form-field  appearance="outline">
+              <mat-form-field appearance="outline">
                 <mat-label>Commission name</mat-label>
                 <input matInput formControlName="title" />
               </mat-form-field>
@@ -92,22 +110,23 @@
             <div fxFlex="0 1 33.333333%">
               <mat-form-field appearance="outline">
                 <mat-label>Commission type</mat-label>
-                <mat-select formControlName="type" (selectionChange)="commisionTypeChange($event, i)" >
+                <mat-select formControlName="type" (selectionChange)="commisionTypeChange($event, i)">
                   <mat-option value="percentage">Percentage</mat-option>
                   <mat-option value="fixed">Fixed amount</mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
             <div fxFlex="0 1 33.333333%">
-              <mat-form-field  appearance="outline">
+              <mat-form-field appearance="outline">
                 <mat-label>Commission value</mat-label>
-                <input matInput type="number" formControlName="value"/>
+                <input matInput type="number" formControlName="value" />
                 <span matSuffix *ngIf="commissionGroup.get('type').value=== 'percentage'">%</span>
                 <span matSuffix *ngIf="commissionGroup.get('type').value === 'fixed'">{{storeCurrency}}</span>
               </mat-form-field>
             </div>
             <div>
-              <button mat-icon-button *ngIf="!is_vendor" class="delete-commission-btn" color="warn" (click)="removeCommission(i)">
+              <button mat-icon-button *ngIf="!is_vendor" class="delete-commission-btn" color="warn"
+                (click)="removeCommission(i)">
                 <mat-icon>close</mat-icon>
               </button>
             </div>

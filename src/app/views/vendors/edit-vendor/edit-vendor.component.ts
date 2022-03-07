@@ -1,3 +1,4 @@
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { AuthService } from 'src/app/auth/auth.service';
 import { ProductsService } from './../../products/products.service';
 import { Component, Inject, OnInit } from '@angular/core';
@@ -46,7 +47,13 @@ export class EditVendorComponent implements OnInit {
     license_number: [null],
     commissions: this.fb.array([]),
     notes: [""],
-    is_active: [true]
+    is_active: [true],
+    is_approval: [false],
+    product_approval: [false],
+    product_group_approval: [false],
+    collection_approval: [false],
+    discount_approval: [false],
+    shipping_approval: [false]
   });
 
 
@@ -75,6 +82,16 @@ export class EditVendorComponent implements OnInit {
         this.removeCommissionAfterConfirmation(index);
       }
     });
+  }
+
+  unSelectAllApprovals(event:MatCheckboxChange){
+    if(!event.checked) {
+        this.vendorForm.get('product_approval').setValue(false)
+        this.vendorForm.get('product_group_approval').setValue(false)
+        this.vendorForm.get('collection_approval').setValue(false)
+        this.vendorForm.get('discount_approval').setValue(false)
+        this.vendorForm.get('shipping_approval').setValue(false)
+    }
   }
 
 
