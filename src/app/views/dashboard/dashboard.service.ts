@@ -185,5 +185,40 @@ export class DashboardService {
   }
 
 
+  getSaleByCategory(is_vendor, vendorID, start_date, end_date) {
+    let endpoint;
+    if (is_vendor) {
+      if (start_date && end_date) {
+        endpoint = "/dashboard/sale_by_category?start_date=" + start_date + "&end_date=" + end_date;
+      } else {
+        endpoint = "/dashboard/sale_by_category";
+      }
+    } else {
+      if (vendorID) {
+        if (start_date && end_date) {
+          endpoint = "/dashboard/sale_by_category?vendor_id=" + vendorID + "&start_date=" + start_date + "&end_date=" + end_date;
+        } else {
+          endpoint = "/dashboard/sale_by_category?vendor_id=" + vendorID;
+        }
+      } else {
+        if (start_date && end_date) {
+          endpoint = "/dashboard/sale_by_category?start_date=" + start_date + "&end_date=" + end_date;
+        } else {
+          endpoint = "/dashboard/sale_by_category";
+        }
+      }
+    }
+    return Axios.get(environment.backend_url + endpoint, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+      .catch(error => {
+        if (error.response.data.detail == "Session expired, Reopen the application!") {
+          this.authService.signout();
+        }
+        return error;
+      });
+  }
 
 }

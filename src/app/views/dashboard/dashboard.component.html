@@ -183,26 +183,15 @@
 
         <div class="card-row" fxLayout="row">
             <div #containerRef fxFlex="0 1 50%">
-                <mat-card fxFlex="0 1 100%">
+                <mat-card [class.emptyChart]="!saleByCategoryLengthCheck" fxFlex="0 1 100%">
                     <div #containerRef3>
-                        <h4 fxLayoutAlign="center">Total Order by Category name</h4>
-                        <ngx-charts-bar-horizontal [view]="[containerRef3.offsetWidth , 400]" [results]="saleData"
+                        <h4 fxLayoutAlign="center">Sale by Category</h4>
+                        <ngx-charts-bar-horizontal *ngIf="saleByCategoryLengthCheck" [view]="[containerRef3.offsetWidth , 300]" [results]="saleByCategory"
                             [scheme]="'ocean'" [xAxisLabel]="'Products'" [legendTitle]="'Product Sale Chart'"
                             [yAxisLabel]="'Sale'" [xAxis]="true" [yAxis]="true" [gradient]="false">
                         </ngx-charts-bar-horizontal>
                     </div>
-                </mat-card>
-            </div>
-
-            <div fxFlex="0 1 50%">
-                <mat-card fxFlex="0 1 100%">
-                    <div #containerRef4>
-                        <h4 fxLayoutAlign="center">Total Sales by date</h4>
-                        <ngx-charts-line-chart [view]="[containerRef4.offsetWidth , 400]" [results]="lineData"
-                            [scheme]="'ocean'" [xAxisLabel]="'Products'" [legendTitle]="'Product Sale Chart'"
-                            [yAxisLabel]="'Sale'" [xAxis]="true" [yAxis]="true" [gradient]="false">
-                        </ngx-charts-line-chart>
-                    </div>
+                    <h2 class="emptyChartError" fxLayoutAlign="center center" *ngIf="!saleByCategoryLengthCheck">No data found</h2>
                 </mat-card>
             </div>
         </div>

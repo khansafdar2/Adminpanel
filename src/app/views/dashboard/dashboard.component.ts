@@ -50,7 +50,8 @@ export class DashboardComponent implements OnInit {
   soldItemLengthCheck: boolean = false;
   saleByCity:any;
   saleByCityLengthCheck: boolean = false;
-
+  saleByCategory:any;
+  saleByCategoryLengthCheck:boolean = false;
 
   saleData = [
     { name: "Mobiles", value: 105000 },
@@ -96,6 +97,7 @@ mapObject(data) {
     this.getProductAnalysis();
     this.getTopSoldItems();
     this.getSalesByCity();
+    this.getSaleByCategory();
   }
 
   getVendors() {
@@ -113,11 +115,15 @@ mapObject(data) {
       this.getOrderAnalysis();
       this.getTopSoldItems();
       this.getSalesByCity();
+      this.getSaleByCategory();
+
     } else {
       this.getRevenue();
       this.getOrderAnalysis();
       this.getTopSoldItems();
       this.getSalesByCity();
+      this.getSaleByCategory();
+
     }
   }
 
@@ -163,6 +169,29 @@ mapObject(data) {
     })
   }
 
+
+  getSaleByCategory() {
+    this.loading = true;
+    if (!this.vendorID) {
+      this.vendorID = '';
+    }
+
+    if (!this.start_date && !this.end_date) {
+      this.start_date = null;
+      this.end_date = null;
+    }
+    this.dashboardService.getSaleByCategory(this.is_vendor,this.vendorID,this.start_date, this.end_date).then((resp)=>{
+      this.loading = false;
+      if (resp) {
+        this.saleByCategory = resp.data;
+        if (this.saleByCategory.length) {
+          this.saleByCategoryLengthCheck = true;
+        } else {
+          this.saleByCategoryLengthCheck = false;
+        }
+      }
+    })
+  }
 
 
   getProductAnalysis() {
@@ -243,6 +272,7 @@ mapObject(data) {
     this.getProductAnalysis();
     this.getTopSoldItems();
     this.getSalesByCity();
+    this.getSaleByCategory();
   }
 
 }
