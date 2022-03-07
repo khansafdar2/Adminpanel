@@ -46,8 +46,8 @@ const URLS = {
     shippingRegions: 'shipping-regions',
     country: 'country',
     cities:'cities',
-    checkoutCustomization: 'checkout-customization'
-    
+    checkoutCustomization: 'checkout-customization',
+    contentApproval: 'content-approval'
 }
 
 export default URLS;

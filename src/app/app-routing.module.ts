@@ -30,7 +30,7 @@ import { AddProductComponent } from './views/products/add-product/add-product.co
 import { ProductGroupsComponent } from './views/products/product-groups/product-groups.component';
 import { AddProductGroupComponent } from './views/products/product-groups/add-product-group/add-product-group.component';
 import { EditProductGroupComponent } from './views/products/product-groups/edit-product-group/edit-product-group.component';
-import { BrandsGuard, CategoryStructureGuard, CheckoutSettingGuard, ConfigurationGuard, CouponGuard, CustomersGuard, CustomizationGuard, DashboardGuard, DiscountsGuard, FilterGuard, FooterPagesGuard, HeaderPagesGuard, HomePageGuard, LoyaltyGuard, MainDiscountGuard, NavigationGuard, OrdersGuard, ProductCollectiontGuard, ProductGrouptGuard, ProductListGuard, ProductsGuard, ShippingMethodsGuard, ShippingRegionGuard, StaticPagesGuard, StoreSettingGuard, UserManagementGuard, VendorGuard} from './auth/permission.guard';
+import { ApprovalGuard, BrandsGuard, CategoryStructureGuard, CheckoutSettingGuard, ConfigurationGuard, CouponGuard, CustomersGuard, CustomizationGuard, DashboardGuard, DiscountsGuard, FilterGuard, FooterPagesGuard, HeaderPagesGuard, HomePageGuard, LoyaltyGuard, MainDiscountGuard, NavigationGuard, OrdersGuard, ProductCollectiontGuard, ProductGrouptGuard, ProductListGuard, ProductsGuard, ShippingMethodsGuard, ShippingRegionGuard, StaticPagesGuard, StoreSettingGuard, UserManagementGuard, VendorGuard} from './auth/permission.guard';
 import { NewSuperSubCategoryComponent } from './views/products/category-structure/super-sub-category/new-super-sub-category/new-super-sub-category.component';
 import { EditSuperSubCategoryComponent } from './views/products/category-structure/super-sub-category/edit-super-sub-category/edit-super-sub-category.component';
 import { EditProductComponent } from './views/products/edit-product/edit-product.component';
@@ -73,6 +73,7 @@ import { AddCouponComponent } from './views/discounts/coupons/add-coupon/add-cou
 import { CouponsComponent } from './views/discounts/coupons/coupons.component';
 import { LoyalityComponent } from './views/configuration/loyality/loyality.component';
 import { CountriesComponent } from './views/configuration/shipping-regions/countries/countries.component';
+import { ContentApprovalComponent } from './views/content-approval/content-approval.component';
 
 
 const routes: Routes = [
@@ -183,6 +184,7 @@ const routes: Routes = [
     {path: URLS.add, component: AddVendorComponent, canActivate: [VendorGuard]},
     {path: URLS.edit + '/:id', component: EditVendorComponent, canActivate: [VendorGuard]},
   ]},
+  {path: URLS.contentApproval, canActivate: [LoggedInAuthGuard, ApprovalGuard], component: ContentApprovalComponent},
   {path: URLS.zones, canActivate: [LoggedInAuthGuard, ConfigurationGuard], children: [
     {path: '', redirectTo: URLS.all, pathMatch: 'full'},
     {path: URLS.all, component: ShippingZoneComponent, canActivate: [ShippingMethodsGuard]},

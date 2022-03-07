@@ -1,0 +1,22 @@
+<app-topbar></app-topbar>
+<app-sidenav></app-sidenav>
+<main id="main">
+    <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+    <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
+        <h1>Content approval</h1>
+    </div>
+
+    <mat-card class="table-wrapper-card">
+        <datatable 
+            [data]="approvalRequests"
+            [columns]="displayedColumns"
+            [rowActions]="rowActions"
+            [pagination]="true"
+            [itemsPerPage]="pageSize"
+            [count]="totalCount"
+
+            (page)="onPage($event)"
+            (rowAction)="onRowAction($event)">
+        </datatable>
+    </mat-card>
+</main>

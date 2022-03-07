@@ -26,6 +26,11 @@
                     <span class="link-icon" [inlineSVG]="'/assets/img/vendor.svg'"></span>Vendors
                 </a>
             </li>
+            <li *ngIf="!is_vendor && userPermissions.approvals">
+                <a [routerLink]="['/', Urls.contentApproval]" routerLinkActive="active">
+                    <span class="link-icon" [inlineSVG]="'/assets/img/vendor.svg'"></span>Content approval
+                </a>
+            </li>
             <li *ngIf="!is_vendor && userPermissions.customer">
                 <a [routerLink]="['/', Urls.customers]" routerLinkActive="active">
                     <span class="link-icon" [inlineSVG]="'/assets/img/CustomersIcon.svg'"></span>Customers

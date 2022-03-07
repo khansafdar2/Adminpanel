@@ -26,7 +26,7 @@ export class ProductGroupsComponent implements OnInit {
   loading: boolean = true;
   URLS = URLS;
   is_vendor = this.authservice.user.is_vendor;
-  
+
   displayedColumns: Column[] = [
     {
       title: "Title",
