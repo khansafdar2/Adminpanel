@@ -175,6 +175,11 @@ export class AddUserComponent implements OnInit {
   }, 500)
 
 
+  permissionCheck(){
+    
+  }
+
+
   ngOnInit(): void {
   }
 

@@ -53,6 +53,8 @@ export class EditMainOrderComponent implements OnInit {
   tags: string[] = [];
   childOrders = [];
   notes: string = "";
+  fullfilmentStatusClicked: boolean = false;
+  paidStatusClicked: boolean = false;
   childOrderColumns: Column[] = [
     {
       title: "",
@@ -177,27 +179,37 @@ export class EditMainOrderComponent implements OnInit {
   }
 
   onCancelOrder() {
+    if(this.fulfillmentStatus=='Fulfilled'){
+      this.snackbar.open("First Unfulfill the order.", "", {duration: 3000});
+    } else {
+      let dialogRef = this.dialog.open(CancelOrderDialog, {
+        width: "600px",
+        data: {
+          id: this.orderID,
+          order_status: "Cancelled",
+          paid_amount: this.paidAmount,
+          orderType: "mainOrder"
+  
+        }
+      });
+  
+      dialogRef.afterClosed().subscribe(canceled => {
+        if(canceled) {
+          this.getOrderDetails();
+        }
+      });
+    }
 
-    let dialogRef = this.dialog.open(CancelOrderDialog, {
-      width: "600px",
-      data: {
-        id: this.orderID,
-        order_status: "Cancelled",
-        paid_amount: this.paidAmount,
-        orderType: "mainOrder"
-
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(canceled => {
-      if(canceled) {
-        this.getOrderDetails();
-      }
-    });
   }
 
   fullfilmentStatus(data){
+    this.fullfilmentStatusClicked = true;
     this.fulfillmentStatus = data;
+  }
+
+  paymentStatusCheck(data){
+    this.paidStatusClicked = true;
+    this.paymentStatus = data;
   }
 
   refundOrder() {
@@ -230,16 +242,50 @@ export class EditMainOrderComponent implements OnInit {
   }
 
   onSubmit() {
-    let data = {
-      id: this.orderID,
-      fulfillment_status: this.fulfillmentStatus,
-      order_status: this.orderStatus,
-      payment_status: this.paymentStatus,
-      notes: this.notes,
-      tags: this.tags.length ? this.tags.join(",") : "",
-      shipping_address: this.shippingAddress ? this.shippingAddress : null,
-      billing_address: this.billingAddress ? this.billingAddress : null
+    let data;
+    if(this.fullfilmentStatusClicked && this.paidStatusClicked){
+      data = {
+        id: this.orderID,
+        fulfillment_status: this.fulfillmentStatus,
+        order_status: this.orderStatus,
+        payment_status: this.paymentStatus,
+        notes: this.notes,
+        tags: this.tags.length ? this.tags.join(",") : "",
+        shipping_address: this.shippingAddress ? this.shippingAddress : null,
+        billing_address: this.billingAddress ? this.billingAddress : null
+      }
+    } else if(this.fullfilmentStatusClicked) {
+      data = {
+        id: this.orderID,
+        fulfillment_status: this.fulfillmentStatus,
+        order_status: this.orderStatus,
+        notes: this.notes,
+        tags: this.tags.length ? this.tags.join(",") : "",
+        shipping_address: this.shippingAddress ? this.shippingAddress : null,
+        billing_address: this.billingAddress ? this.billingAddress : null
+      }
+    } else if(this.paidStatusClicked) {
+      data = {
+        id: this.orderID,
+        order_status: this.orderStatus,
+        payment_status: this.paymentStatus,
+        notes: this.notes,
+        tags: this.tags.length ? this.tags.join(",") : "",
+        shipping_address: this.shippingAddress ? this.shippingAddress : null,
+        billing_address: this.billingAddress ? this.billingAddress : null
+      }
+    } else {
+      data = {
+        id: this.orderID,
+        order_status: this.orderStatus,
+        notes: this.notes,
+        tags: this.tags.length ? this.tags.join(",") : "",
+        shipping_address: this.shippingAddress ? this.shippingAddress : null,
+        billing_address: this.billingAddress ? this.billingAddress : null
+      }
     }
+
+    
 
     this.loading = true;
     this.ordersService.updateMainOrder(data).then(resp => {

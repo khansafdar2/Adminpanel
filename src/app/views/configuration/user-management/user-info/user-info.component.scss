@@ -1,3 +1,5 @@
+@import "src/scss/variables.scss";
+
 .mat-card-avatar {
     background-color: #97BE50;
     color: #ffffff;
@@ -51,3 +53,9 @@
         display: block;
     }
 }
+.active {
+    color: $primaryColor;
+  }
+  .space{
+    margin-top:24px ;
+  }

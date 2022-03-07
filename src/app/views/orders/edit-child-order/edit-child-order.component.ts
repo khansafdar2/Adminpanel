@@ -51,6 +51,8 @@ export class EditChildOrderComponent implements OnInit {
   paidAmount: number = 0;
   tags: string[] = [];
   notes: string = "";
+  fullfilmentStatusClicked: boolean = false;
+  paidStatusClicked: boolean = false;
   customer = {
     id: null,
     name: "",
@@ -228,22 +230,27 @@ export class EditChildOrderComponent implements OnInit {
   }
 
   onCancelOrder() {
-    let dialogRef = this.dialog.open(CancelOrderDialog, {
-      width: "600px",
-      data: {
-        id: this.orderID,
-        order_status: "Cancelled",
-        paid_amount: this.paidAmount,
-        orderType: "childOrder"
+    if(this.fulfillmentStatus=='Fulfilled'){
+      this.snackbar.open("First Unfulfill the order.", "", {duration: 3000});
+    } else {
+      let dialogRef = this.dialog.open(CancelOrderDialog, {
+        width: "600px",
+        data: {
+          id: this.orderID,
+          order_status: "Cancelled",
+          paid_amount: this.paidAmount,
+          orderType: "childOrder"
+  
+        }
+      });
+  
+      dialogRef.afterClosed().subscribe(canceled => {
+        if(canceled) {
+          this.getOrderDetail();
+        }
+      });
+    }
 
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(canceled => {
-      if(canceled) {
-        this.getOrderDetail();
-      }
-    });
   }
 
 
@@ -277,13 +284,16 @@ export class EditChildOrderComponent implements OnInit {
   }
 
   fullfilmentStatus(data){
-    debugger
+    this.fullfilmentStatusClicked = true;
     this.fulfillmentStatus = data;
   }
 
+  paymentStatusCheck(data){
+    this.paidStatusClicked = true;
+    this.paymentStatus = data;
+  }
 
   onSubmit() {
-    debugger
     let lineitems = this.lineitemsFormArray.value.map(lineitem => {
       let obj = {
         id: lineitem.id ? lineitem.id : null,
@@ -297,16 +307,45 @@ export class EditChildOrderComponent implements OnInit {
       }
       return obj;
     });
-
-    let data = {
+    let data;
+    if (this.fullfilmentStatusClicked && this.paidStatusClicked) {
+      data = {
+        id: this.orderID,
+        fulfillment_status: this.fulfillmentStatus,
+        payment_status: this.paymentStatus,
+        order_status: this.orderStatus,
+        notes: this.notes,
+        line_items: lineitems,
+        tags: this.tags.length ? this.tags.join(",") : ""
+      }
+    } else if(this.fullfilmentStatusClicked) {
+      data = {
+        id: this.orderID,
+        fulfillment_status: this.fulfillmentStatus,
+        order_status: this.orderStatus,
+        notes: this.notes,
+        line_items: lineitems,
+        tags: this.tags.length ? this.tags.join(",") : ""
+    }
+  } else if(this.paidStatusClicked){
+    data = {
       id: this.orderID,
-      fulfillment_status: this.fulfillmentStatus,
       payment_status: this.paymentStatus,
       order_status: this.orderStatus,
       notes: this.notes,
       line_items: lineitems,
       tags: this.tags.length ? this.tags.join(",") : ""
-    }
+  }
+  } else {
+    data = {
+      id: this.orderID,
+      order_status: this.orderStatus,
+      notes: this.notes,
+      line_items: lineitems,
+      tags: this.tags.length ? this.tags.join(",") : ""
+  }
+  }
+
 
     this.loading = true;
     this.ordersService.updateChildOrder(data).then(resp => {

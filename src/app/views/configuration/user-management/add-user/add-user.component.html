@@ -11,9 +11,12 @@
         </h1>
 
         <div class="header-actions">
-            <button mat-stroked-button color="primary" (click)="goBack()">Cancel</button>
-            <button mat-flat-button color="primary" (click)="onSubmit()"
-                [disabled]="!userForm.valid || loading ">Save</button>
+            <button mat-stroked-button color="primary" (click)="goBack()">
+                Cancel
+            </button>
+            <button mat-flat-button color="primary" (click)="onSubmit()" [disabled]="!userForm.valid || loading">
+                Save
+            </button>
         </div>
     </div>
 
@@ -54,8 +57,14 @@
                                         <mat-error *ngIf="userForm.get('email').hasError('required')">Enter the email
                                             address.</mat-error>
                                     </mat-form-field>
-                                    <p class="error-response"> {{errorRespnse==='email already exist'? "Email already
-                                        exist": ""}}</p>
+                                    <p class="error-response">
+                                        {{
+                                        errorRespnse === "email already exist"
+                                        ? "Email already
+                                        exist"
+                                        : ""
+                                        }}
+                                    </p>
                                 </div>
 
                                 <div fxFlex="0 1 50%">
@@ -66,11 +75,14 @@
                                         <mat-error *ngIf="userForm.get('username').hasError('required')">Enter the
                                             username of user.</mat-error>
                                     </mat-form-field>
-                                    <p class="error-response">{{errorResponseUserName==='username already exist'?
-                                        "Username already exist": ""}}</p>
-
+                                    <p class="error-response">
+                                        {{
+                                        errorResponseUserName === "username already exist"
+                                        ? "Username already exist"
+                                        : ""
+                                        }}
+                                    </p>
                                 </div>
-
                             </div>
                         </mat-card>
                     </div>
@@ -82,51 +94,75 @@
             <div fxLayout="row">
                 <div fxFlex="0 1 33.333333%">
                     <h2>Permissions</h2>
-                    <p>Customer will have option to translate the website in these languages.</p>
+                    <p>
+                        Customer will have option to translate the website in these
+                        languages.
+                    </p>
                 </div>
                 <div fxFlex="0 1 66.666666%">
                     <mat-card>
                         <div fxLayout="row">
                             <div fxFlex="0 1 50%">
                                 <div fxLayout="row">
-                                    <div>
+                                    <div fxLayout="column">
                                         <mat-checkbox [(ngModel)]="userPermissions.dashboard">Dashboard</mat-checkbox>
-                                        <mat-checkbox (click)="stopPropagation($event)"
-                                            (click)="toggleDrawer('customization')"
-                                            [class.active]="sideDrawer === 'products'"
-                                            [(ngModel)]="userPermissions.customization">Customization</mat-checkbox>
-                                        <mat-checkbox (click)="stopPropagation($event)"
-                                            (click)="toggleDrawer('configuration')"
-                                            [class.active]="sideDrawer === 'configuration'"
-                                            [(ngModel)]="userPermissions.configuration">Configuration</mat-checkbox>
-                                        <mat-checkbox (click)="stopPropagation($event)"
-                                            (click)="toggleDrawer('products')"
-                                            [class.active]="sideDrawer === 'products'"
-                                            [(ngModel)]="userPermissions.products">Products</mat-checkbox>
+                                            <mat-checkbox [(ngModel)]="userPermissions.customization" [class.active]="sideDrawer === 'customization'"  >Customization</mat-checkbox>
+                                           
+                                            <mat-checkbox [(ngModel)]="userPermissions.configuration" [class.active]="sideDrawer === 'configuration'">Configuration</mat-checkbox>
+
+                                            <mat-checkbox [(ngModel)]="userPermissions.products" [class.active]="sideDrawer === 'products'">Products</mat-checkbox>
+
+
                                         <mat-checkbox [(ngModel)]="userPermissions.orders">Orders</mat-checkbox>
                                         <mat-checkbox [(ngModel)]="userPermissions.vendor">Vendor</mat-checkbox>
-                                        <mat-checkbox (click)="stopPropagation($event)"
-                                            (click)="toggleDrawer('discount')"
-                                            [class.active]="sideDrawer === 'products'"
-                                            [(ngModel)]="userPermissions.discounts">Discounts</mat-checkbox>
+                                        <mat-checkbox [(ngModel)]="userPermissions.discounts" [class.active]="sideDrawer === 'discount'">Discounts</mat-checkbox>
                                         <mat-checkbox [(ngModel)]="userPermissions.customer">Customer</mat-checkbox>
                                     </div>
-                                    
+                                        <div fxLayout="column">
+                                            <div class="space"></div>
+                                            <div fxLayout="row">
+                                                <mat-icon (click)="stopPropagation($event)"
+                                                (click)="toggleDrawer('customization')"
+                                                [class.active]="sideDrawer === 'customization'">keyboard_arrow_right</mat-icon>
+                                            </div>
+
+                                            <mat-icon (click)="stopPropagation($event)"
+                                            (click)="toggleDrawer('configuration')"
+                                            [class.active]="sideDrawer === 'configuration'">keyboard_arrow_right</mat-icon>
+                                            
+                                            <mat-icon  (click)="stopPropagation($event)"
+                                            (click)="toggleDrawer('products')"
+                                            [class.active]="sideDrawer === 'products'">keyboard_arrow_right</mat-icon>
+
+
+                                            <div class="space"></div>
+                                            <div class="space"></div>
+
+                                            <mat-icon (click)="stopPropagation($event)"
+                                            (click)="toggleDrawer('discount')"
+                                            [class.active]="sideDrawer === 'discount'">keyboard_arrow_right</mat-icon>
+                                        </div>
+                                   
                                     <div class="sidenav-drawer" [class.show]="sideDrawer === 'products'"
-                                        *ngIf="sideDrawer == 'products' " (click)="stopPropagation($event)"
-                                        fxFlex="0 1 50%">
-                                        <mat-checkbox [(ngModel)]="userPermissions.product_list">All products</mat-checkbox>
-                                        <mat-checkbox [(ngModel)]="userPermissions.product_groups">Product groups</mat-checkbox>
-                                        <mat-checkbox [(ngModel)]="userPermissions.collections">Collections</mat-checkbox>
-                                        <mat-checkbox [(ngModel)]="userPermissions.categories">Category structure</mat-checkbox>
+                                        *ngIf="sideDrawer == 'products'" (click)="stopPropagation($event)"
+                                        >
+                                        <mat-checkbox [(ngModel)]="userPermissions.product_list">All products
+                                        </mat-checkbox>
+                                        <mat-checkbox [(ngModel)]="userPermissions.product_groups">Product groups
+                                        </mat-checkbox>
+                                        <mat-checkbox [(ngModel)]="userPermissions.collections">Collections
+                                        </mat-checkbox>
+                                        <mat-checkbox [(ngModel)]="userPermissions.categories">Category structure
+                                        </mat-checkbox>
                                         <mat-checkbox [(ngModel)]="userPermissions.brands">Brands</mat-checkbox>
                                     </div>
 
                                     <div class="sidenav-drawer" [class.show]="sideDrawer === 'customization'"
-                                        *ngIf="sideDrawer == 'customization' " (click)="stopPropagation($event)"
-                                        fxFlex="0 1 50%">
+                                        *ngIf="sideDrawer == 'customization'" (click)="stopPropagation($event)"
+                                        >
                                         <mat-checkbox [(ngModel)]="userPermissions.homepage">Homepage</mat-checkbox>
-                                        <mat-checkbox [(ngModel)]="userPermissions.static_pages">Static pages</mat-checkbox>
+                                        <mat-checkbox [(ngModel)]="userPermissions.static_pages">Static pages
+                                        </mat-checkbox>
                                         <mat-checkbox [(ngModel)]="userPermissions.header">Header</mat-checkbox>
                                         <mat-checkbox [(ngModel)]="userPermissions.footer">Footer</mat-checkbox>
                                         <mat-checkbox [(ngModel)]="userPermissions.navigation">Navigation</mat-checkbox>
@@ -134,28 +170,30 @@
                                     </div>
 
                                     <div class="sidenav-drawer" [class.show]="sideDrawer === 'discount'"
-                                        *ngIf="sideDrawer == 'discount' " (click)="stopPropagation($event)"
-                                        fxFlex="0 1 50%">
-                                        <mat-checkbox [(ngModel)]="userPermissions.main_discounts">Discounts</mat-checkbox>
+                                        *ngIf="sideDrawer == 'discount'" (click)="stopPropagation($event)"
+                                        >
+                                        <mat-checkbox [(ngModel)]="userPermissions.main_discounts">Discounts
+                                        </mat-checkbox>
                                         <mat-checkbox [(ngModel)]="userPermissions.coupons">Coupons</mat-checkbox>
                                     </div>
 
                                     <div class="sidenav-drawer" [class.show]="sideDrawer === 'configuration'"
-                                        *ngIf="sideDrawer == 'configuration' " (click)="stopPropagation($event)"
-                                        fxFlex="0 1 50%">
-                                        <mat-checkbox [(ngModel)]="userPermissions.store_setting">General info</mat-checkbox>
-                                        <mat-checkbox [(ngModel)]="userPermissions.user_management">User management</mat-checkbox>
+                                        *ngIf="sideDrawer == 'configuration'" (click)="stopPropagation($event)"
+                                        >
+                                        <mat-checkbox [(ngModel)]="userPermissions.store_setting">General info
+                                        </mat-checkbox>
+                                        <mat-checkbox [(ngModel)]="userPermissions.user_management">User management
+                                        </mat-checkbox>
                                         <mat-checkbox [(ngModel)]="userPermissions.loyalty">Loyalty</mat-checkbox>
-                                        <mat-checkbox [(ngModel)]="userPermissions.shipping_regions">Shipping regions</mat-checkbox>
-                                        <mat-checkbox [(ngModel)]="userPermissions.shipping_methods">Shipping methods</mat-checkbox>
-                                        <mat-checkbox [(ngModel)]="userPermissions.checkout_setting">Checkout settings</mat-checkbox>
+                                        <mat-checkbox [(ngModel)]="userPermissions.shipping_regions">Shipping regions
+                                        </mat-checkbox>
+                                        <mat-checkbox [(ngModel)]="userPermissions.shipping_methods">Shipping methods
+                                        </mat-checkbox>
+                                        <mat-checkbox [(ngModel)]="userPermissions.checkout_setting">Checkout settings
+                                        </mat-checkbox>
                                     </div>
                                 </div>
 
-
-
-                            </div>
-                            <div fxFlex="0 1 50%">
                             </div>
                         </div>
                     </mat-card>

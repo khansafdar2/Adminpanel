@@ -104,14 +104,14 @@ export class LoyalityComponent implements OnInit {
           (this.loyalityForm.get("rule") as FormArray).push(
             this.fb.group({
               id: [null],
-              spending_amount: [null],
-              no_of_point: [null],
-              no_of_order: [null],
-              start_date: [''],
-              end_date: [''],
-              type: ['amount'],
-              paid_order: [false],
-              is_active: [true]
+              spending_amount: [{value:null, disabled:true}],
+              no_of_point: [{value:null, disabled:true}],
+              no_of_order: [{value:null, disabled:true}],
+              start_date: [{value:"", disabled:true}],
+              end_date: [{value:"", disabled:true}],
+              type: [{value:"amount", disabled:true}],
+              paid_order: [{value:false, disabled:true}],
+              is_active: [{value:true, disabled:true}]
             })
           )
         }

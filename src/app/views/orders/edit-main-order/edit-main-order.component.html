@@ -52,7 +52,7 @@
                                 [class.success]="fulfillmentStatus === 'Fulfilled'"
                                 [class.warning]="fulfillmentStatus === 'Partially Fulfilled'">{{fulfillmentStatus}}</span>
                         </div>
-                        <div>
+                        <div *ngIf="orderStatus !== 'Cancelled'">
                             <button mat-flat-button color="primary" (click)="fullfilmentStatus('Fulfilled')" *ngIf="fulfillmentStatus !== 'Fulfilled'">Mark as Fulfilled</button>
                             <button mat-stroked-button color="primary" (click)="fullfilmentStatus('Unfulfilled')" *ngIf="fulfillmentStatus !== 'Unfulfilled'" style="margin-left: 10px">Mark as Unfulfilled</button>
                         </div>
@@ -100,9 +100,8 @@
                                 [class.success]="paymentStatus === 'Paid'"
                                 [class.warning]="paymentStatus === 'Partially Paid'">Payment: {{paymentStatus}}</span>
                         </div>
-                        <div>
-                            <button mat-flat-button color="primary" (click)="paymentStatus = 'Paid'" *ngIf="paymentStatus !== 'Paid'">Mark as Paid</button>
-                            <button mat-stroked-button color="primary" (click)="paymentStatus = 'Pending'" *ngIf="!isPaid && paymentStatus !== 'Pending'">Mark as Pending</button>
+                        <div *ngIf="orderStatus !== 'Cancelled'">
+                            <button mat-flat-button color="primary" (click)="paymentStatusCheck('Paid')" *ngIf="paymentStatus !== 'Paid'">Mark as Paid</button>
                         </div>
                     </div>
                 </div>
@@ -210,7 +209,6 @@
     <mat-menu #actionsMenu="matMenu">
         <button mat-menu-item (click)="downloadInvoice()">Download invoice</button>
         <button mat-menu-item (click)="refundOrder()" *ngIf="paidAmount > grandTotal">Refund</button>
-        <button mat-menu-item *ngIf="fulfillmentStatus === 'Fulfilled'"  >Cancel fullfilment</button>
-        <button mat-menu-item *ngIf="orderStatus !== 'Cancelled' &&  fulfillmentStatus === 'Unfulfilled' " (click)="onCancelOrder()" >Cancel order</button>
+        <button mat-menu-item *ngIf="orderStatus !== 'Cancelled'" (click)="onCancelOrder()" >Cancel order</button>
     </mat-menu>
 </main>

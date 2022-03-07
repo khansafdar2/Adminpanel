@@ -41,16 +41,18 @@
                                         Title" ? lineitemGroup.get('variant_title').value : ""}}</span>
                                 </div>
                             </div>
-                            <div class="lineitem-price-qty">
-                                <span>{{lineitemGroup.get('price').value}} {{storeCurrency}} </span>
+                            <div *ngIf="orderStatus !== 'Cancelled'" class="lineitem-price-qty">
+                                <span>{{lineitemGroup.get('price').value}} {{storeCurrency}} X</span>
                                 <input type="number" class="lineitem-qty" min="1" formControlName="quantity"
                                     *ngIf="!lineitemGroup.get('deleted').value" (keydown)="onQtyKeydown($event)"
                                     (change)="onQtyChange()" />
 
-                                <span *ngIf="lineitemGroup.get('deleted').value" class="lineitem-qty"> x {{
+                                <span *ngIf="lineitemGroup.get('deleted').value" class="lineitem-qty">  x {{
                                     lineitemGroup.get('quantity').value }}</span>
                             </div>
-                            <div class="lineitem-subtotal">
+
+
+                            <div *ngIf="orderStatus !== 'Cancelled'" class="lineitem-subtotal">
                                 <span>{{lineitemGroup.get('subtotal').value}} {{storeCurrency}}</span>
                                 <div class="shipping-container" *ngIf="!lineitemGroup.get('deleted').value">
                                     <mat-form-field appearance="outline">
@@ -59,14 +61,22 @@
                                             formControlName="shipping_amount" />
                                     </mat-form-field>
                                 </div>
-                                <div *ngIf="lineitemGroup.get('deleted').value">Shipping
+                                <div  *ngIf="lineitemGroup.get('deleted').value">Shipping
                                     {{lineitemGroup.get('shipping_amount').value}}</div>
                             </div>
-                            <div>
+                            <div *ngIf="orderStatus !== 'Cancelled'">
                                 <button mat-icon-button color="warn" *ngIf="!lineitemGroup.get('deleted').value"
                                     (click)="removeLineItem(i)">
                                     <mat-icon>delete</mat-icon>
                                 </button>
+                            </div>
+
+                            <div *ngIf="orderStatus == 'Cancelled'" class="lineitem-price-qty">
+                                {{lineitemGroup.get('price').value}} {{storeCurrency}} x {{lineitemGroup.get('quantity').value}} 
+                            </div>
+                            <div *ngIf="orderStatus == 'Cancelled'" class="lineitem-subtotal">
+                                <span>{{lineitemGroup.get('subtotal').value}} {{storeCurrency}}</span>
+                                <div> Shipping: {{lineitemGroup.get('shipping_amount').value}}</div>
                             </div>
                         </ng-container>
                     </div>
@@ -126,11 +136,9 @@
                             <span [class]="'label ' + (paymentStatus === 'Paid' ? 'success' : 'warning')">Payment:
                                 {{paymentStatus}}</span>
                         </div>
-                        <div>
-                            <button mat-flat-button color="primary" (click)="paymentStatus = 'Paid'"
-                                *ngIf="paymentStatus === 'Pending'">Mark as Paid</button>
-                            <button mat-stroked-button color="primary" (click)="paymentStatus = 'Pending'"
-                                *ngIf="paymentStatus === 'Paid' && !isPaid">Mark as Pending</button>
+                        <div *ngIf="orderStatus !== 'Cancelled'">
+                            <button mat-flat-button color="primary" (click)="paymentStatusCheck('Paid')"
+                            *ngIf="paymentStatus !== 'Paid'">Mark as Paid</button>
                         </div>
                     </div>
                 </div>
@@ -204,8 +212,7 @@
 
     <mat-menu #actionsMenu="matMenu">
         <button mat-menu-item (click)="downloadInvoice()">Download invoice</button>
-        <button mat-menu-item *ngIf="fulfillmentStatus === 'Fulfilled'"  >Cancel fullfilment</button>
         <button mat-menu-item (click)="refundOrder()" *ngIf="paidAmount > grandTotal">Refund</button>
-        <button mat-menu-item *ngIf="orderStatus !== 'Cancelled' &&  fulfillmentStatus === 'Unfulfilled' " (click)="onCancelOrder()" >Cancel order</button>
+        <button mat-menu-item *ngIf="orderStatus !== 'Cancelled'" (click)="onCancelOrder()" >Cancel order</button>
     </mat-menu>
 </main>
