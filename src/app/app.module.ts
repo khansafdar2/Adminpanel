@@ -123,7 +123,7 @@ import { CitiesComponent, CityDeleteDialog, CityDialog } from './views/configura
 import { CheckoutCustomizationComponent } from './views/configuration/checkout-customization/checkout-customization.component';
 import { OrderTimelineComponent } from './views/orders/shared/order-timeline/order-timeline.component';
 import { CancelOrderDialog } from './views/orders/dialogs/cancelOrderDialog';
-import { ContentApprovalComponent } from './views/content-approval/content-approval.component';
+import { ContentApprovalComponent, ContentDisapprovalReasonDialog, DisapproveRequestDialog } from './views/content-approval/content-approval.component';
 
 
 @NgModule({
@@ -265,7 +265,9 @@ import { ContentApprovalComponent } from './views/content-approval/content-appro
     CheckoutCustomizationComponent,
     OrderTimelineComponent,
     CancelOrderDialog,
-    ContentApprovalComponent
+    ContentApprovalComponent,
+    DisapproveRequestDialog,
+    ContentDisapprovalReasonDialog
   ],
   imports: [
     BrowserModule,

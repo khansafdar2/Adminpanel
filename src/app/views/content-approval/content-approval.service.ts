@@ -23,4 +23,20 @@ export class ContentApprovalService {
       }
     });
   }
+
+  updateApprovalStatus(data) {
+    return Axios.put( environment.backend_url + '/vendors/change_approval_status', data, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
+
+
+
 }

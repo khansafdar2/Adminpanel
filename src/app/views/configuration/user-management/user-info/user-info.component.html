@@ -144,17 +144,17 @@
                                         <div fxLayout="column">
                                             <div class="space"></div>
                                             <div fxLayout="row">
-                                                <mat-icon (click)="stopPropagation($event)"
+                                                <mat-icon class="arrow-icon" (click)="stopPropagation($event)"
                                                 
                                                 (click)="toggleDrawer('customization')"
                                                 [class.active]="sideDrawer === 'customization'">keyboard_arrow_right</mat-icon>
                                             </div>
 
-                                            <mat-icon (click)="stopPropagation($event)"
+                                            <mat-icon class="arrow-icon" (click)="stopPropagation($event)"
                                             (click)="toggleDrawer('configuration')"
                                             [class.active]="sideDrawer === 'configuration'">keyboard_arrow_right</mat-icon>
                                             
-                                            <mat-icon  (click)="stopPropagation($event)"
+                                            <mat-icon class="arrow-icon" (click)="stopPropagation($event)"
                                             (click)="toggleDrawer('products')"
                                             [class.active]="sideDrawer === 'products'">keyboard_arrow_right</mat-icon>
 
@@ -162,7 +162,7 @@
                                             <div class="space"></div>
                                             <div class="space"></div>
 
-                                            <mat-icon (click)="stopPropagation($event)"
+                                            <mat-icon class="arrow-icon" (click)="stopPropagation($event)"
                                             (click)="toggleDrawer('discount')"
                                             [class.active]="sideDrawer === 'discount'">keyboard_arrow_right</mat-icon>
                                         </div>

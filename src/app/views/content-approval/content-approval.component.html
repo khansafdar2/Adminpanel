@@ -14,7 +14,9 @@
             [pagination]="true"
             [itemsPerPage]="pageSize"
             [count]="totalCount"
+            [filters]="contentApprovalFilters"
 
+            (filter)="onFilter($event)"
             (page)="onPage($event)"
             (rowAction)="onRowAction($event)">
         </datatable>

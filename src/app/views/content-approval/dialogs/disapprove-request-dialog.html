@@ -1,0 +1,15 @@
+<button mat-icon-button mat-dialog-close class="dialog-close"><mat-icon>close</mat-icon></button>
+<h2 mat-dialog-title>Disapprove content</h2>
+<mat-dialog-content class="mat-typography">
+    <p>State the reason for disapproving content. </p>
+    <form [formGroup]="contentApprovalForm">
+        <mat-form-field  appearance="outline">
+            <mat-label>Reason</mat-label>
+            <input type="text" matInput formControlName="reason" />
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<div mat-dialog-actions>
+    <button mat-stroked-button color="primary" mat-dialog-close>Cancel</button>
+    <button mat-flat-button color="warn" [disabled]="loading" (click)="onSubmit()">Dissapprove</button>
+</div>
