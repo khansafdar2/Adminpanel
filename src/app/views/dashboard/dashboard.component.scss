@@ -10,3 +10,36 @@
         margin-right: 14px;
     }
 }
+.card-value{
+    font-size: 22px;
+    font-weight: 400;
+    margin-bottom: 5px;
+}
+
+
+.card-text{
+    color: #ffc107;
+    font-weight: 500;
+    font-size: 13px;
+    margin-bottom: 0;
+}
+
+.date-filter{
+    margin-bottom: 0 !important;
+}
+
+.card-row{
+    margin-top: 20px;
+}
+
+.vendor-field{
+    margin-top: 13px !important;
+}
+
+.emptyChart{
+    align-items: center;
+}
+
+.emptyChartError{
+    color: #9b9a95;
+}

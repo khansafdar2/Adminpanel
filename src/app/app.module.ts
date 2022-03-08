@@ -29,6 +29,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
+
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -125,6 +127,7 @@ import { OrderTimelineComponent } from './views/orders/shared/order-timeline/ord
 import { CancelOrderDialog } from './views/orders/dialogs/cancelOrderDialog';
 import { ContentApprovalComponent, ContentDisapprovalReasonDialog, DisapproveRequestDialog } from './views/content-approval/content-approval.component';
 import { SendNotificationsComponent } from './views/send-notifications/send-notifications.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 
 @NgModule({
@@ -283,6 +286,7 @@ import { SendNotificationsComponent } from './views/send-notifications/send-noti
     FlexLayoutModule,
     QuillModule.forRoot(),
     AngularFileUploaderModule,
+    NgxDaterangepickerMd.forRoot(),
 
     MatDialogModule,
     MatCardModule,
@@ -304,7 +308,8 @@ import { SendNotificationsComponent } from './views/send-notifications/send-noti
     MatListModule,
     MatProgressSpinnerModule,
     DragDropModule,
-    NgxDropzoneModule
+    NgxDropzoneModule,
+    NgxChartsModule
   ],
   providers: [LoggedInAuthGuard, LoggedOutAuthGuard],
   bootstrap: [AppComponent]
