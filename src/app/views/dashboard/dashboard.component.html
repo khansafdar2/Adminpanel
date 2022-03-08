@@ -193,6 +193,7 @@
                         <ngx-charts-pie-chart *ngIf="soldItemLengthCheck" [results]="topSolditems" [scheme]="'ocean'"
                             [legendTitle]="'Product Sale Report'"  [view]="[containerRef.offsetWidth , 300]"
                             [gradient]="false" [labels]="true">
+                        
                         </ngx-charts-pie-chart>
                     </div>
                     <h2 class="emptyChartError" fxLayoutAlign="center center" *ngIf="!soldItemLengthCheck">No data found</h2>

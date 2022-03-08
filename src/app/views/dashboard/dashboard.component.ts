@@ -62,35 +62,7 @@ export class DashboardComponent implements OnInit {
   lastMonthSales:any;
   lastMonthSalesLengthCheck:boolean = false;
 
-  saleData = [
-    { name: "Mobiles", value: 105000 },
-    { name: "Laptop", value: 55000 },
-    { name: "AC", value: 15000 },
-    { name: "Headset", value: 150000 },
-    { name: "Fridge", value: 20000 }
-  ];
 
-
-
-lineData =[
-  {
-    "name": "Germany",
-    "series": [
-      {
-        "name": "1990",
-        "value": 62000000
-      },
-      {
-        "name": "2010",
-        "value": 73000000
-      },
-      {
-        "name": "2011",
-        "value": 89400000
-      }
-    ]
-  }
-]
 
 mapObject(data) {
   return {name: data.name, value: data.value};
