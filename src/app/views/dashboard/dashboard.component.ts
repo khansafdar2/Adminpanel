@@ -35,6 +35,13 @@ export class DashboardComponent implements OnInit {
   average_basket_value:number;
   canceled_orders_count:number;
   returned_orders_count:number;
+
+  commission_value = null;
+  vendor_name = "";
+  paid_value = null;
+  pending_value = null;
+  total_vendor_orders = null
+  total_value = null;
   total_orders:number;
   total_active_products_count:number;
   total_collections_count:number;
@@ -52,6 +59,8 @@ export class DashboardComponent implements OnInit {
   saleByCityLengthCheck: boolean = false;
   saleByCategory:any;
   saleByCategoryLengthCheck:boolean = false;
+  lastMonthSales:any;
+  lastMonthSalesLengthCheck:boolean = false;
 
   saleData = [
     { name: "Mobiles", value: 105000 },
@@ -98,6 +107,9 @@ mapObject(data) {
     this.getTopSoldItems();
     this.getSalesByCity();
     this.getSaleByCategory();
+    this.getMonthAnalysis();
+    this.getVendorSales();
+
   }
 
   getVendors() {
@@ -116,6 +128,7 @@ mapObject(data) {
       this.getTopSoldItems();
       this.getSalesByCity();
       this.getSaleByCategory();
+      this.getVendorSales();
 
     } else {
       this.getRevenue();
@@ -123,7 +136,7 @@ mapObject(data) {
       this.getTopSoldItems();
       this.getSalesByCity();
       this.getSaleByCategory();
-
+      this.getVendorSales();
     }
   }
 
@@ -259,6 +272,48 @@ mapObject(data) {
   }
 
 
+  getMonthAnalysis() {
+    this.loading = true;
+    if (!this.vendorID) {
+      this.vendorID = '';
+    }
+    this.dashboardService.getMonthAnalysis(this.is_vendor,this.vendorID).then((resp)=>{
+      this.loading = false;
+      if (resp) {
+        this.lastMonthSales = resp.data;
+        if (this.lastMonthSales.length) {
+          this.lastMonthSalesLengthCheck = true;
+        } else {
+          this.lastMonthSalesLengthCheck = false;
+        }
+      }
+    })
+  }
+
+  getVendorSales() {
+    this.loading = true;
+    if (!this.vendorID) {
+      this.vendorID = '';
+    }
+
+    if (!this.start_date && !this.end_date) {
+      this.start_date = null;
+      this.end_date = null;
+    }
+    this.dashboardService.getVendorSales(this.is_vendor,this.vendorID,this.start_date, this.end_date).then((resp)=>{
+      this.loading = false;
+      if (resp) {
+        this.vendor_name = resp.data[0].name;
+        this.commission_value = resp.data[0].commission_value;
+        this.paid_value = resp.data[0].paid_value;
+        this.pending_value = resp.data[0].pending_value;
+        this.total_vendor_orders = resp.data[0].total_orders;
+        this.total_value = resp.data[0].total_value;
+      }
+    })
+  }
+
+
   ngOnInit(): void {
     let todayDate: Date = new Date();
     this.start_date = moment(todayDate).format('YYYY-MM-DD');
@@ -273,6 +328,8 @@ mapObject(data) {
     this.getTopSoldItems();
     this.getSalesByCity();
     this.getSaleByCategory();
+    this.getMonthAnalysis();
+    this.getVendorSales();
   }
 
 }

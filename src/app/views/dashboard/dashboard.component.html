@@ -108,7 +108,7 @@
                 <mat-card>
                     <h4 fxLayoutAlign="center">General Analysis</h4>
                     <div fxLayoutAlign="space-between" fxLayout="row">
-                        <div *ngIf="!is_vendor" fxLayout="column">
+                        <div *ngIf="vendorID ==''" fxLayout="column">
                             <h4 class="card-value">{{total_vendor_count}}</h4>
                             <p class="card-text">Total Vendors</p>
                         </div>
@@ -144,6 +144,41 @@
                         <div fxLayout="column">
                             <h4 class="card-value">{{total_inactive_products_count}}</h4>
                             <p class="card-text">Total Unactive Products</p>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+
+        <div *ngIf="vendorID !=''" class="card-row" fxLayout="row">
+            <div fxFlex="0 1 100%">
+                <mat-card>
+                    <h4 fxLayoutAlign="center">Vendor Sales Analysis</h4>
+                    <div fxLayoutAlign="space-between" fxLayout="row">
+                          <div fxLayout="column">
+                            <h4 class="card-value">{{total_vendor_orders}}</h4>
+                            <p class="card-text">Total vendor orders</p>
+                        </div>
+
+
+                        <div fxLayout="column">
+                            <h4 class="card-value">{{total_value}}</h4>
+                            <p class="card-text">Total value</p>
+                        </div>
+
+                        <div fxLayout="column">
+                            <h4 class="card-value">{{paid_value}}</h4>
+                            <p class="card-text">Total Paid value</p>
+                        </div>
+
+                        <div fxLayout="column">
+                            <h4 class="card-value">{{pending_value}}</h4>
+                            <p class="card-text">Total Pending Value</p>
+                        </div>
+
+                        <div fxLayout="column">
+                            <h4 class="card-value">{{commission_value}}</h4>
+                            <p class="card-text">Commission</p>
                         </div>
                     </div>
                 </mat-card>
@@ -192,6 +227,18 @@
                         </ngx-charts-bar-horizontal>
                     </div>
                     <h2 class="emptyChartError" fxLayoutAlign="center center" *ngIf="!saleByCategoryLengthCheck">No data found</h2>
+                </mat-card>
+            </div>
+
+            <div #containerRef fxFlex="0 1 50%">
+                <mat-card [class.emptyChart]="!lastMonthSalesLengthCheck" fxFlex="0 1 100%">
+                    <div #containerRef4>
+                        <h4 fxLayoutAlign="center">Last month sales</h4>
+                        <ngx-charts-bar-vertical *ngIf="lastMonthSalesLengthCheck" [view]="[containerRef4.offsetWidth, 300]" [results]="lastMonthSales"
+                            [scheme]="'ocean'" [legendTitle]="'Product Sale Chart'" [xAxis]="true" [yAxis]="true" [gradient]="false">
+                        </ngx-charts-bar-vertical>
+                    </div>
+                    <h2 class="emptyChartError" fxLayoutAlign="center center" *ngIf="!lastMonthSalesLengthCheck">No data found</h2>
                 </mat-card>
             </div>
         </div>
