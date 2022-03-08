@@ -7,6 +7,8 @@ import URLS from 'src/app/shared/urls';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ProductsService } from '../../../../products/products.service';
 import { VendorsService } from '../../../../vendors/vendors.service';
+import { ContentDisapprovalReasonDialog } from 'src/app/views/content-approval/content-approval.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'add-shipping-rate',
@@ -22,6 +24,8 @@ export class AddShippingRatesComponent implements OnInit {
     private authservice: AuthService,
     private vendorsService: VendorsService,
     private route: ActivatedRoute,
+    public dialog: MatDialog,
+
   ) {
     this.shippingRateId = this.route.snapshot.paramMap.get('id') ? this.route.snapshot.paramMap.get('id') : null;
   }
@@ -36,6 +40,8 @@ export class AddShippingRatesComponent implements OnInit {
   vendorID = null;
   
   shippingRateId = "";
+  approvalStatus:string = '';
+  reason:string = '';
   endPoints: string;
   errorMessage = "All product groups are associated";
   selectedProductGroups = [];
@@ -232,7 +238,14 @@ export class AddShippingRatesComponent implements OnInit {
     }) 
   }
 
-
+  onViewReason() {
+    let dialogRef = this.dialog.open(ContentDisapprovalReasonDialog, {
+      width: '600px',
+      data: {
+      reason: this.reason
+      }
+    });
+  }
 
   ngOnInit() {
     this.loading = true
@@ -249,6 +262,8 @@ export class AddShippingRatesComponent implements OnInit {
               this.addEmptyConditions(conditionArray)
             }
           }
+          this.approvalStatus = resp.data.status;
+          this.reason = resp.data.reason;
           this.rateForm.patchValue(resp.data)
           this.onZoneChange();
           this.vendorID = this.rateForm.get('vendor').value;

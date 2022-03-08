@@ -32,12 +32,15 @@ export class DiscountsComponent implements OnInit {
     },
     {
       title: "Approval status",
-      selector: "approval_status"
+      selector: "status",
+      cell: row => `<span class="label ${row.status == 'Approved' ? 'success' : ''}${row.status == 'Disapproved' ? 'warning' : ''}">${row.status}</span>`
+
     },
     {
       title: "Status",
       selector: "is_active",
-      cell: row => row.is_active === true ? "Active" : "Inactive"
+      cell: row => `<span class="label ${row.is_active ? 'success' : ''}">${row.is_active ? 'Active' : 'Inactive'}</span>`
+
     },
     {
       title: "Value",

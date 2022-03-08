@@ -109,6 +109,10 @@
                     <h2>Availability</h2>
     
                     <mat-checkbox formControlName="is_active">Available online</mat-checkbox>
+                    <div class="approval-status" fxLayout="row" >
+                        <p class="label" [class.success]="approvalStatus == 'Approved'" [class.warning]="approvalStatus == 'Disapproved'">Approval: {{approvalStatus}}</p>
+                        <mat-icon *ngIf="approvalStatus == 'Disapproved'" class="view-reason" (click)="onViewReason()">info</mat-icon>
+                    </div>
                 </mat-card>
 
                 <mat-card>

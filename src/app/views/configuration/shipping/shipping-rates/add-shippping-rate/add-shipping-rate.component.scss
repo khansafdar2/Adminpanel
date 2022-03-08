@@ -58,11 +58,7 @@
   padding: 0;
   margin: 0;
 }
-.rules{
-  // background: #cccccc38;;
-  // margin: 10px 0;
-  // padding: 10px;
-}
+
 .cancel-button{
   margin-right: 10px;
 }
@@ -98,4 +94,11 @@
 }
 .product-group-browsing{
   margin-top: 10px;
+}
+
+.approval-status{
+  margin-left: 1.8px;
+}
+.view-reason{
+  cursor: pointer;
 }

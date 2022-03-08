@@ -36,7 +36,12 @@ export class ProductGroupsComponent implements OnInit {
     {
       title: "Discount",
       selector: "discount_title"
-    }
+    },
+    {
+      title: "Approval",
+      selector: "status",
+      cell: row => `<span class="label ${row.status == 'Approved' ? 'success' : ''}${row.status == 'Disapproved' ? 'warning' : ''}">${row.status}</span>`
+    },
   ]
   productGroups = [];
   searchString = "";

@@ -11,6 +11,8 @@ import { distinctUntilChanged, tap, switchMap, catchError, map } from 'rxjs/oper
 import { OrdersService } from '../../orders/orders.service';
 import { ProductsService } from '../../products/products.service';
 import { VendorsService } from '../../vendors/vendors.service';
+import { ContentDisapprovalReasonDialog } from '../../content-approval/content-approval.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-edit-discount',
@@ -30,7 +32,9 @@ export class EditDiscountComponent implements OnInit {
     private orderSerive: OrdersService,
     private router: Router,
     private route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    public dialog: MatDialog,
+
   ) {
     this.discountID = this.route.snapshot.paramMap.get('id');
   }
@@ -55,6 +59,8 @@ export class EditDiscountComponent implements OnInit {
   storeCurrency = environment.currency;
   is_vendor = this.authService.user.is_vendor;
   vendorID = this.authService.user.vendor_id;
+  approvalStatus:string = '';
+  reason:string = '';
 
   discountForm = this.fb.group({
     id: [null],
@@ -140,6 +146,14 @@ export class EditDiscountComponent implements OnInit {
   }
 
 
+  onViewReason() {
+    let dialogRef = this.dialog.open(ContentDisapprovalReasonDialog, {
+      width: '600px',
+      data: {
+      reason: this.reason
+      }
+    });
+  }
 
   onVendorChange() {
     if (this.discountForm.get('vendor').value) {
@@ -250,6 +264,8 @@ export class EditDiscountComponent implements OnInit {
     this.discountsService.getDiscountDetail(this.discountID).then(resp => {
       this.loading = false;
       if (resp) {
+        this.approvalStatus = resp.data.status;
+        this.reason = resp.data.reason;
         this.products = resp.data.product
         this.yProducts = resp.data.y_product;
         let mainCategoryArray = [];

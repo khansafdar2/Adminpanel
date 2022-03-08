@@ -105,11 +105,12 @@
                             <div >
                                 <mat-card-title>Shipping created</mat-card-title>
                                 <div class="zone" *ngFor="let rate of shippingRates" >
-                                    <div fxLayout="row" fxLayoutAlign="space-between center">
-                                        <div class="title-wrapper">
+                                    <div  fxLayoutAlign="space-between center">
+                                        <div class="title-wrapper" fxLayout="row"> 
                                             <mat-card-title class="rate-title">{{rate.title}}</mat-card-title>
                                         </div>
-                                        <div>
+                                        <div fxLayout="row">
+                                            <p  class="label" [class.success]="rate.status == 'Approved'" [class.warning]="rate.status == 'Disapproved'">Approval: {{rate.status}}</p>
                                             <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
                                             <mat-menu #menu="matMenu">
                                                 <button (click)="editShippingRate(rate.id)" mat-menu-item>Edit</button>

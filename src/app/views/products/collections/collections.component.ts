@@ -48,8 +48,9 @@ export class CollectionsComponent implements OnInit {
     },
     {
       title: "Approval",
-      selector: "is_approved",
-      cell: row => `<span class="label ${row.is_approved ? 'success' : ''}">${row.is_approved ? 'Approved' : 'Unapproved'}</span>`
+      selector: "status",
+      cell: row => `<span class="label ${row.status == 'Approved' ? 'success' : ''}${row.status == 'Disapproved' ? 'warning' : ''}">${row.status}</span>`
+
     }
   ]
   collectionSelection: SelectionModel<[]> = new SelectionModel(true, []);
@@ -98,9 +99,6 @@ export class CollectionsComponent implements OnInit {
   public rowActions = (row) => {
     let actions = [];
     row.is_active ? actions.push("Deactivate") : actions.push("Activate");
-    if (!this.is_vendor) {
-      row.is_approved ? actions.push("Disapprove") : actions.push("Approve");
-    }
     actions.push("Delete");
     return actions;
   }

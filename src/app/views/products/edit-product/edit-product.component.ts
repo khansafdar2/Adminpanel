@@ -13,6 +13,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { ProductsChangeStatusDialog } from '../products.component';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { VideoPreviewDialog } from '../add-product/add-product.component';
+import { ContentDisapprovalReasonDialog } from '../../content-approval/content-approval.component';
 
 
 interface Variant {
@@ -65,6 +66,8 @@ export class EditProductComponent implements OnInit {
   brands: any[] = [];
   bannerImages = [];
   productOptions = [];
+  approvalStatus: string = '';
+  reason: string = '';
   variants: Variant[] = [];
   deletedVariants: Variant[] = [];
   deletedImages = [];
@@ -262,6 +265,8 @@ export class EditProductComponent implements OnInit {
         for (let i = 0; i < resp.data.features.length; i++) {
           this.addFeature();
         }
+        this.reason = resp.data.reason;
+        this.approvalStatus = resp.data.status;
         // Product images
         let medias = resp.data.images.map(media => {
           let nameArray = media.file_name.split(".");
@@ -369,6 +374,17 @@ export class EditProductComponent implements OnInit {
       }
     });
   }
+
+
+  onViewReason() {
+    let dialogRef = this.dialog.open(ContentDisapprovalReasonDialog, {
+      width: '600px',
+      data: {
+      reason: this.reason
+      }
+    });
+  }
+
 
   onEditOptions() {
     let dialogRef = this.dialog.open(EditProductOptionsDialog, {

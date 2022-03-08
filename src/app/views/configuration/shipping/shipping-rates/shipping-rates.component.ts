@@ -30,6 +30,7 @@ export class ShippingRatesComponent implements OnInit {
   shippingRates = []
   shippingRatesDefault = []
   is_vendor = this.authservice.user.is_vendor;
+  approvalStatus = '';
 
   goBack()
   {
@@ -42,8 +43,9 @@ export class ShippingRatesComponent implements OnInit {
       if (resp)
       {
         this.loading = false
-        this.shippingRates = resp.data.custom_shipping
-        this.shippingRatesDefault = resp.data.default_shipping
+        this.shippingRates = resp.data.custom_shipping;
+        this.shippingRatesDefault = resp.data.default_shipping;
+        this.approvalStatus = resp.data.custom_shipping.status;
       }
     })
   }

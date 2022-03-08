@@ -271,6 +271,10 @@
                         <mat-checkbox formControlName="hide_out_of_stock">Hide when out of stock</mat-checkbox>
                         <p class="form-error" *ngIf="!productForm.get('product_group').value">To make your product
                             available on live store, assign it to any product group.</p>
+                            <div class="approval-status" fxLayout="row" >
+                                <p class="label" [class.success]="approvalStatus == 'Approved'" [class.warning]="approvalStatus == 'Disapproved'">Approval: {{approvalStatus}}</p>
+                                <mat-icon *ngIf="approvalStatus == 'Disapproved'" class="view-reason" (click)="onViewReason()">info</mat-icon>
+                            </div>
                     </div>
                 </mat-card>
 

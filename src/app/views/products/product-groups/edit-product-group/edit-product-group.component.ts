@@ -6,6 +6,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import URLS from 'src/app/shared/urls';
 import { ProductsService } from '../../products.service';
 import { VendorsService } from '../../../vendors/vendors.service';
+import { ContentDisapprovalReasonDialog } from 'src/app/views/content-approval/content-approval.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -21,7 +23,9 @@ export class EditProductGroupComponent implements OnInit {
     private productsService: ProductsService,
     private snackbarService: MatSnackBar,
     private route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    public dialog: MatDialog,
+
   ) {
     this.groupID = this.route.snapshot.paramMap.get("id");
   }
@@ -31,6 +35,9 @@ export class EditProductGroupComponent implements OnInit {
   is_vendor = this.authService.user.is_vendor;
   URLS = URLS;
   vendors = [];
+  approvalStatus: string = '';
+  reason: string = '';
+
   productGroupForm = this.fb.group({
     id: [null],
     title: ['', [Validators.required]],
@@ -54,8 +61,19 @@ export class EditProductGroupComponent implements OnInit {
       this.loading = false;
       if(resp) {
         this.productGroupForm.patchValue(resp.data);
+        this.approvalStatus = resp.data.status;
+        this.reason = resp.data.reason;
       }
     })
+  }
+
+  onViewReason() {
+    let dialogRef = this.dialog.open(ContentDisapprovalReasonDialog, {
+      width: '600px',
+      data: {
+      reason: this.reason
+      }
+    });
   }
 
 

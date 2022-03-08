@@ -9,6 +9,8 @@ import URLS from 'src/app/shared/urls';
 import { ProductsService } from '../../products.service';
 import { VendorsService } from '../../../vendors/vendors.service';
 import { CollectionsService } from '../collections.service';
+import { ContentDisapprovalReasonDialog } from 'src/app/views/content-approval/content-approval.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-edit-collection',
@@ -26,6 +28,8 @@ export class EditCollectionComponent implements OnInit {
     private authService: AuthService,
     private productsService: ProductsService,
     private router: Router,
+    public dialog: MatDialog,
+
     ) {
     this.collectionID = this.route.snapshot.paramMap.get('id');
   }
@@ -37,6 +41,8 @@ export class EditCollectionComponent implements OnInit {
   file_uploading: boolean = false;
   loadingProducts: boolean = true;
   productsPage: number = 1;
+  approvalStatus:string = '';
+  reason:string = '';
   bannerFile: File;
   vendors = [];
   editorModules = {
@@ -187,6 +193,8 @@ export class EditCollectionComponent implements OnInit {
       this.loading = false;
       if(resp) {
         let data = resp.data;
+        this.approvalStatus = resp.data.status;
+        this.reason = resp.data.reason;
         let banner_image = data.banner_image;
         if(data.meta_data.length) {
           for (let i = 0; i < data.meta_data.length; i++) {
@@ -200,6 +208,16 @@ export class EditCollectionComponent implements OnInit {
         this.collectionForm.patchValue(data);
       }
     })
+  }
+
+
+  onViewReason() {
+    let dialogRef = this.dialog.open(ContentDisapprovalReasonDialog, {
+      width: '600px',
+      data: {
+      reason: this.reason
+      }
+    });
   }
 
   onSubmit() {

@@ -43,8 +43,11 @@
           </mat-form-field>
   
           <multi-select-model class="product-group-browsing" (addItems)="onAddItems($event)" *ngIf="this.rateForm.get('vendor').value && this.rateForm.get('zone').value" btnText="Browse Product Groups" [endPoints]="endPoints" [alreadySelectedData]="selectedProductGroups" [emptyMessage]="errorMessage" ></multi-select-model>
-
         </div>
+        <div *ngIf="shippingRateId" class="approval-status" fxLayout="row" >
+          <p class="label" [class.success]="approvalStatus == 'Approved'" [class.warning]="approvalStatus == 'Disapproved'">Approval: {{approvalStatus}}</p>
+          <mat-icon *ngIf="approvalStatus == 'Disapproved'" class="view-reason" (click)="onViewReason()">info</mat-icon>
+      </div>
       </mat-card-content>
     </mat-card>
           

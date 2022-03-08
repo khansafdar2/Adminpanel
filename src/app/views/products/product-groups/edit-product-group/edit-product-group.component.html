@@ -11,8 +11,11 @@
         </div>
     </div>
 
-    <div class="page-container">
         <form [formGroup]="productGroupForm">
+            <div fxLayout="row">
+
+        <div fxFlex="0 1 66.66666">
+
             <mat-card>
                 <div fxLayout="row">
                     <div fxFlex="0 1 50%;">
@@ -44,6 +47,19 @@
                     </div>
                 </div>
             </mat-card>
-        </form>
+        </div>
+
+        <div fxFlex="0 1 33.33333">
+            <mat-card>
+                <h4>Approval status</h4>
+                <div class="approval-status" fxLayout="row" >
+                    <p class="label" [class.success]="approvalStatus == 'Approved'" [class.warning]="approvalStatus == 'Disapproved'">Approval: {{approvalStatus}}</p>
+                    <mat-icon *ngIf="approvalStatus == 'Disapproved'" class="view-reason" (click)="onViewReason()">info</mat-icon>
+                </div>
+
+            </mat-card>
+        </div>
     </div>
+
+        </form>
 </main>

@@ -53,6 +53,11 @@ export class ProductsComponent implements OnInit {
       cell: row => `<span class="label ${row.is_active ? 'success' : ''}">${row.is_active ? 'Active' : 'Inactive'}</span>`
     },
     {
+      title: "Approval",
+      selector: "status",
+      cell: row => `<span class="label ${row.status == 'Approved' ? 'success' : ''}${row.status == 'Disapproved' ? 'warning' : ''}">${row.status}</span>`
+    },
+    {
       title: "Inventory",
       selector: "inventory",
     }
