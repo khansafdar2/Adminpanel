@@ -126,7 +126,6 @@ import { CheckoutCustomizationComponent } from './views/configuration/checkout-c
 import { OrderTimelineComponent } from './views/orders/shared/order-timeline/order-timeline.component';
 import { CancelOrderDialog } from './views/orders/dialogs/cancelOrderDialog';
 import { ContentApprovalComponent, ContentDisapprovalReasonDialog, DisapproveRequestDialog } from './views/content-approval/content-approval.component';
-import { SendNotificationsComponent } from './views/send-notifications/send-notifications.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 
@@ -272,7 +271,6 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     ContentApprovalComponent,
     DisapproveRequestDialog,
     ContentDisapprovalReasonDialog,
-    SendNotificationsComponent
   ],
   imports: [
     BrowserModule,
