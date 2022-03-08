@@ -4,14 +4,13 @@ import { FormBuilder } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
-import URLS from 'src/app/shared/urls';
 
 @Component({
-  selector: 'app-send-notifications',
-  templateUrl: './send-notifications.component.html',
-  styleUrls: ['./send-notifications.component.scss']
+  selector: 'app-push-notifications',
+  templateUrl: './push-notifications.component.html',
+  styleUrls: ['./push-notifications.component.scss']
 })
-export class SendNotificationsComponent implements OnInit {
+export class PushNotificationComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
@@ -21,7 +20,6 @@ export class SendNotificationsComponent implements OnInit {
     private authService: AuthService
   ) { }
 
-  URLS = URLS;
   loading: boolean = false;
   imageUrl: string = '';
 
