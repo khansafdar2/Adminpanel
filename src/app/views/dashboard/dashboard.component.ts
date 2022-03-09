@@ -102,7 +102,7 @@ mapObject(data) {
       this.getSaleByCategory();
       this.getVendorSales();
 
-    } else {
+    } else if(this.start_date == '' && this.end_date == '') {
       this.getRevenue();
       this.getOrderAnalysis();
       this.getTopSoldItems();

@@ -28,7 +28,7 @@
             </li>
             <li *ngIf="!is_vendor && userPermissions.approvals">
                 <a [routerLink]="['/', Urls.contentApproval]" routerLinkActive="active">
-                    <span class="link-icon" [inlineSVG]="'/assets/img/vendor.svg'"></span>Content approval
+                    <span class="link-icon"  [inlineSVG]="'/assets/img/approval.svg'"></span>Content approval
                 </a>
             </li>
             <li *ngIf="!is_vendor && userPermissions.customer">
