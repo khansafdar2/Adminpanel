@@ -6,14 +6,47 @@
         <h1>Send notifications</h1>
 
         <div class="header-actions">
-            <a  mat-stroked-button color="primary">Cancel</a>
-            <button mat-flat-button color="primary" >Save</button>
+            <a [routerLink]="['/',URLS.sendNotification]"  mat-stroked-button color="primary">Cancel</a>
+            <button mat-flat-button color="primary" (click)="onSubmit()" >Send</button>
         </div>
     </div>
 
     <form [formGroup]="sendNotificationForm">
         <div fxLayout="row">
             <div fxFlex="0 1 66.66666%">
+                <mat-card>
+        <div fxLayout="row">
+                        <div fxFlex="0 1 50%">
+                            <mat-form-field  appearance="outline">
+                                <mat-label>Title</mat-label>
+                                <input type="text" matInput formControlName="message_title" />
+                            </mat-form-field>
+                        </div>
+
+                        <div fxFlex="0 1 50%">
+                            <mat-form-field  appearance="outline">
+                                <mat-label>Link</mat-label>
+                                <input type="text" matInput formControlName="link" />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div >
+
+                        
+                            <h3>Message</h3>
+                      
+
+                            <mat-form-field appearance="outline">
+                                <textarea rows="5" matInput placeholder="Write your message" formControlName="message_description"></textarea>
+                            </mat-form-field>
+
+                </div>
+                </mat-card>
+
+
+            </div>
+
+            <div fxFlex="0 1 33.33333%">
                 <mat-card>
                     <image-selector 
                     [(files)]="imageUrl"
@@ -22,14 +55,6 @@
                     valueType="url"
                     (filesChange)=onImageChange($event)
                 ></image-selector>
-                </mat-card>
-
-
-            </div>
-
-            <div fxFlex="0 1 33.33333%">
-                <mat-card>
-
                 </mat-card>
 
 

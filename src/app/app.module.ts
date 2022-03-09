@@ -298,7 +298,6 @@ import { SharedModule } from './shared/shared.module';
     NgxDropzoneModule,
     SharedModule
   ],
-  exports: [],
   providers: [LoggedInAuthGuard, LoggedOutAuthGuard],
   bootstrap: [AppComponent]
 })

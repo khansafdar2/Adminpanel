@@ -48,6 +48,7 @@ const URLS = {
     cities:'cities',
     checkoutCustomization: 'checkout-customization',
     contentApproval: 'content-approval',
+    pushNotification: 'push-notification',
     sendNotification: 'send-notification'
 }
 

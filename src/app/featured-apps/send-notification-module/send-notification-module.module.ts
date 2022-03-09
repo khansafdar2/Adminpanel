@@ -31,12 +31,15 @@ import { InlineSVGModule } from 'ng-inline-svg';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { QuillModule } from 'ngx-quill';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { NotificationsComponent } from './notifications/notifications.component';
+import { LoggedInAuthGuard, LoggedOutAuthGuard } from 'src/app/auth/auth.guard';
 
 
 
 @NgModule({
   declarations: [
     PushNotificationComponent,
+    NotificationsComponent,
     
 
   ],
@@ -72,6 +75,9 @@ import { SharedModule } from 'src/app/shared/shared.module';
     DragDropModule,
     NgxDropzoneModule,
     SharedModule
-  ]
+  ],
+  providers: [LoggedInAuthGuard, LoggedOutAuthGuard],
+
+
 })
 export class SendNotificationModuleModule { }
