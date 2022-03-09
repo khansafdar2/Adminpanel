@@ -23,12 +23,12 @@
             </li>
             <li *ngIf="!is_vendor && userPermissions.vendor">
                 <a [routerLink]="['/', Urls.vendors]" routerLinkActive="active">
-                    <span class="link-icon" [inlineSVG]="'/assets/img/vendor.svg'"></span>Vendors
+                    <span class="link-icon" [inlineSVG]="'/assets/img/VendorsIcon.svg'"></span>Vendors
                 </a>
             </li>
             <li *ngIf="!is_vendor && userPermissions.approvals">
                 <a [routerLink]="['/', Urls.contentApproval]" routerLinkActive="active">
-                    <span class="link-icon"  [inlineSVG]="'/assets/img/approval.svg'"></span>Content approval
+                    <span class="link-icon"  [inlineSVG]="'/assets/img/ApprovalIcon.svg'"></span>Content approval
                 </a>
             </li>
             <li *ngIf="!is_vendor && userPermissions.customer">
@@ -59,7 +59,7 @@
             </li>
             <li *ngIf="is_vendor">
                 <a [routerLink]="['/', Urls.vendors, Urls.edit, authService.user.vendor_id]" routerLinkActive="active">
-                    <span class="link-icon" [inlineSVG]="'/assets/img/vendor.svg'"></span>Vendor profile
+                    <span class="link-icon" [inlineSVG]="'/assets/img/VendorsIcon.svg'"></span>Vendor profile
                 </a>
             </li>
         </ul>
