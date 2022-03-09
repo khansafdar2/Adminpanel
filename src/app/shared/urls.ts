@@ -47,7 +47,9 @@ const URLS = {
     country: 'country',
     cities:'cities',
     checkoutCustomization: 'checkout-customization',
-    contentApproval: 'content-approval'
+    contentApproval: 'content-approval',
+    pushNotification: 'push-notification',
+    sendNotification: 'send-notification'
 }
 
 export default URLS;

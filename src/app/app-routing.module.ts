@@ -208,6 +208,8 @@ const routes: Routes = [
   {path: URLS.country + '/:id', component: CountriesComponent,  canActivate: [LoggedInAuthGuard, ShippingRegionGuard, VendorGuard]},
   {path: URLS.cities + '/:id', component: CitiesComponent,  canActivate: [LoggedInAuthGuard, ShippingRegionGuard, VendorGuard]},
   {path: URLS.checkoutCustomization, component: CheckoutCustomizationComponent,  canActivate: [LoggedInAuthGuard, CheckoutSettingGuard, VendorGuard]},
+  {path: 'send-notification', loadChildren: () => import('./featured-apps/send-notification-module/send-notification-module.module').then(m => m.SendNotificationModuleModule)},
+
 ];
 
 @NgModule({
