@@ -124,6 +124,7 @@ import { CancelOrderDialog } from './views/orders/dialogs/cancelOrderDialog';
 import { ContentApprovalComponent, ContentDisapprovalReasonDialog, DisapproveRequestDialog } from './views/content-approval/content-approval.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { SharedModule } from './shared/shared.module';
+import { FeaturedAppsComponent } from './featured-apps/featured-apps.component';
 
 
 @NgModule({
@@ -264,6 +265,7 @@ import { SharedModule } from './shared/shared.module';
     ContentApprovalComponent,
     DisapproveRequestDialog,
     ContentDisapprovalReasonDialog,
+    FeaturedAppsComponent,
   ],
   imports: [
     BrowserModule,

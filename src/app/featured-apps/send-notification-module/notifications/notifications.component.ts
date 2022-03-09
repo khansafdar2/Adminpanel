@@ -55,7 +55,7 @@ export class NotificationsComponent implements OnInit {
   }
 
   onCellClick(data) {
-    this.router.navigate(["/", URLS.discounts, URLS.edit, data.row.id]);
+    this.router.navigate(["/", URLS.pushNotification, URLS.edit, data.row.id]);
   }
 
   onRowAction(data) {

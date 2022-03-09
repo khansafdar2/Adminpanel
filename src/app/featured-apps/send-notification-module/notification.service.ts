@@ -49,7 +49,18 @@ export class NotificationService {
     });
   }
 
-
+  updateNotification(data) {
+    return Axios.put( environment.backend_url + '/notification/notifications', data, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
 
   deleteNotification(id) {
     return Axios.delete( environment.backend_url + '/notification/notifications/' + id, {

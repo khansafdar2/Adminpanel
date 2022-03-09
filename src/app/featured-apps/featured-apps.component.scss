@@ -1,0 +1,28 @@
+@import "src/scss/variables.scss";
+
+.settings-section {
+    margin-top: 30px;
+
+    .settings-section-cards {
+        > .settings-section-card {
+            margin-bottom: 20px;
+            padding: 0 10px;
+            
+            .mat-card {
+                min-height: 150px;
+                cursor: pointer;
+
+                .mat-card-header {
+                    align-items: center;
+
+                    .mat-card-avatar {
+                        color: $primary;
+                    }
+                    .mat-card-title {
+                        color: $primary;
+                    }
+                }
+            }
+        }
+    }
+}

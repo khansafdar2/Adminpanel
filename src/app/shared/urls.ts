@@ -49,7 +49,8 @@ const URLS = {
     checkoutCustomization: 'checkout-customization',
     contentApproval: 'content-approval',
     pushNotification: 'push-notification',
-    sendNotification: 'send-notification'
+    sendNotification: 'send-notification',
+    featuredApps: 'featured-apps'
 }
 
 export default URLS;

@@ -3,14 +3,14 @@ import { PushNotificationComponent } from './push-notifications/push-notificatio
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import URLS from 'src/app/shared/urls';
+import { EditNotificationComponent } from './edit-notification/edit-notification.component';
 
 
 
 const routes: Routes = [
   {path: '', component:NotificationsComponent },
-  {path: URLS.pushNotification, component:PushNotificationComponent },
-
-  
+  {path: URLS.sendNotification, component:PushNotificationComponent },
+  {path: URLS.edit + '/:id', component:EditNotificationComponent },
 ];
 
 @NgModule({

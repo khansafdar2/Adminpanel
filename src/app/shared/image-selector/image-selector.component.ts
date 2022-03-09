@@ -90,7 +90,6 @@ export class ImageSelectorComponent implements OnInit {
   }
 
   mediaUploaded(response) {
-    console.log(response);
     if(response.status === 200) {
       this.addMedia(response.body);
       this.emitFilesChange();

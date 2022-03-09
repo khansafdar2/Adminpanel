@@ -33,6 +33,7 @@ import { QuillModule } from 'ngx-quill';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { LoggedInAuthGuard, LoggedOutAuthGuard } from 'src/app/auth/auth.guard';
+import { EditNotificationComponent } from './edit-notification/edit-notification.component';
 
 
 
@@ -40,6 +41,7 @@ import { LoggedInAuthGuard, LoggedOutAuthGuard } from 'src/app/auth/auth.guard';
   declarations: [
     PushNotificationComponent,
     NotificationsComponent,
+    EditNotificationComponent,
     
 
   ],

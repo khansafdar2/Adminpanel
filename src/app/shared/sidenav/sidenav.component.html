@@ -52,6 +52,11 @@
                     <span class="link-icon" [inlineSVG]="'/assets/img/SettingsIcon.svg'"></span>Configuration
                 </a>
             </li>
+            <li *ngIf="!is_vendor">
+                <a [routerLink]="'/' + Urls.featuredApps" routerLinkActive="active">
+                    <span class="link-icon" [inlineSVG]="'/assets/img/SettingsIcon.svg'"></span>Featured apps
+                </a>
+            </li>
             <li *ngIf="is_vendor">
                 <a [routerLink]="'/'+ Urls.shipping" routerLinkActive="active">
                     <span class="link-icon" [inlineSVG]="'/assets/img/ShippingIcon.svg'"></span>Shipping
@@ -60,12 +65,6 @@
             <li *ngIf="is_vendor">
                 <a [routerLink]="['/', Urls.vendors, Urls.edit, authService.user.vendor_id]" routerLinkActive="active">
                     <span class="link-icon" [inlineSVG]="'/assets/img/VendorsIcon.svg'"></span>Vendor profile
-                </a>
-            </li>
-
-            <li >
-                <a routerLink="/send-notification" routerLinkActive="active">
-                    <span class="link-icon" [inlineSVG]="'/assets/img/ShippingIcon.svg'"></span>Send notification
                 </a>
             </li>
         </ul>
@@ -115,5 +114,4 @@
             <li *ngIf="userPermissions.coupons"><a [routerLink]="['/', Urls.coupons]" routerLinkActive="active">Coupons</a></li>
         </ul>
     </nav>
-
 </div>

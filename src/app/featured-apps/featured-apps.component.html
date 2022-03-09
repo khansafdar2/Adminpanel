@@ -1,0 +1,24 @@
+<app-topbar></app-topbar>
+<app-sidenav></app-sidenav>
+<main id="main">
+    <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
+        <h1>Featured apps</h1>
+    </div>
+
+    <div class="settings-section">
+        <div class="content" fxLayout="row" fxLayout.xs="column">
+            <h2 class="settings-section-heading" fxFlex="25%">Marketing</h2>
+            <div class="settings-section-cards" fxLayout="row wrap" fxFlex="grow">
+                <div class="settings-section-card" fxFlex="0 1 33.3333%">
+                    <mat-card [routerLink]="['/', URLs.pushNotification]" *ngIf="userPermissions.notifications">
+                        <mat-card-header>
+                            <div mat-card-avatar [inlineSVG]="'/assets/img/InformationIcon.svg'"></div>
+                            <mat-card-title>Push notifications</mat-card-title>
+                            <mat-card-subtitle>Send push notifications to your customers.</mat-card-subtitle>
+                        </mat-card-header>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

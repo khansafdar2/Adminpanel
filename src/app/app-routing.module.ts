@@ -74,6 +74,7 @@ import { CouponsComponent } from './views/discounts/coupons/coupons.component';
 import { LoyalityComponent } from './views/configuration/loyality/loyality.component';
 import { CountriesComponent } from './views/configuration/shipping-regions/countries/countries.component';
 import { ContentApprovalComponent } from './views/content-approval/content-approval.component';
+import { FeaturedAppsComponent } from './featured-apps/featured-apps.component';
 
 
 const routes: Routes = [
@@ -208,8 +209,10 @@ const routes: Routes = [
   {path: URLS.country + '/:id', component: CountriesComponent,  canActivate: [LoggedInAuthGuard, ShippingRegionGuard, VendorGuard]},
   {path: URLS.cities + '/:id', component: CitiesComponent,  canActivate: [LoggedInAuthGuard, ShippingRegionGuard, VendorGuard]},
   {path: URLS.checkoutCustomization, component: CheckoutCustomizationComponent,  canActivate: [LoggedInAuthGuard, CheckoutSettingGuard, VendorGuard]},
-  {path: 'send-notification', loadChildren: () => import('./featured-apps/send-notification-module/send-notification-module.module').then(m => m.SendNotificationModuleModule)},
-
+  {path: URLS.pushNotification,
+    loadChildren: () => import('./featured-apps/send-notification-module/send-notification-module.module').then(m => m.SendNotificationModuleModule)
+  },
+  {path: URLS.featuredApps, component: FeaturedAppsComponent, canActivate: [LoggedInAuthGuard]}
 ];
 
 @NgModule({
