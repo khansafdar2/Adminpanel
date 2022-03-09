@@ -25,21 +25,18 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AngularFileUploaderModule } from 'angular-file-uploader';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { QuillModule } from 'ngx-quill';
-import { SidenavComponent } from 'src/app/shared/sidenav/sidenav.component';
-import { ImageSelectorComponent } from 'src/app/shared/image-selector/image-selector.component';
-import { TopbarComponent } from 'src/app/shared/topbar/topbar.component';
 
 
 
 @NgModule({
   declarations: [
     PushNotificationComponent,
+    
 
   ],
   imports: [
@@ -49,7 +46,6 @@ import { TopbarComponent } from 'src/app/shared/topbar/topbar.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    BrowserAnimationsModule,
     FlexLayoutModule,
     AngularFileUploaderModule,
 
@@ -74,9 +70,6 @@ import { TopbarComponent } from 'src/app/shared/topbar/topbar.component';
     MatProgressSpinnerModule,
     DragDropModule,
     NgxDropzoneModule,
-    SidenavComponent,
-    TopbarComponent,
-    ImageSelectorComponent
   ]
 })
 export class SendNotificationModuleModule { }

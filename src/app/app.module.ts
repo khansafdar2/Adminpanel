@@ -304,7 +304,7 @@ import { ContentApprovalComponent, ContentDisapprovalReasonDialog, DisapproveReq
     DragDropModule,
     NgxDropzoneModule,
   ],
-  exports: [ImageSelectorComponent, SidenavComponent, TopbarComponent],
+  exports: [],
   providers: [LoggedInAuthGuard, LoggedOutAuthGuard],
   bootstrap: [AppComponent]
 })
