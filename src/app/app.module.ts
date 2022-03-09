@@ -36,8 +36,6 @@ import { AppComponent } from './app.component';
 import { SigninComponent } from './auth/signin/signin.component';
 import { DashboardComponent } from './views/dashboard/dashboard.component';
 import { LoggedInAuthGuard, LoggedOutAuthGuard } from './auth/auth.guard';
-import { TopbarComponent } from './shared/topbar/topbar.component';
-import { SidenavComponent } from './shared/sidenav/sidenav.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ConfigurationComponent } from './views/configuration/configuration.component';
 import { TransferOwnershipDialog, UserManagementComponent } from './views/configuration/user-management/user-management.component';
@@ -56,7 +54,6 @@ import { EditSubCategoryComponent } from './views/products/category-structure/su
 import { CollectionDeleteDialog, CollectionsChangeApprovalStatusDialog, CollectionsChangeStatusDialog, CollectionsComponent } from './views/products/collections/collections.component';
 import { AddCollectionComponent } from './views/products/collections/add-collection/add-collection.component';
 import { EditCollectionComponent } from './views/products/collections/edit-collection/edit-collection.component';
-import { DatatableComponent } from './shared/datatable/datatable.component';
 import { AddProductComponent, VideoPreviewDialog } from './views/products/add-product/add-product.component';
 import { DeleteProductGroupDialog, ProductGroupsComponent } from './views/products/product-groups/product-groups.component';
 import { AddProductGroupComponent } from './views/products/product-groups/add-product-group/add-product-group.component';
@@ -98,7 +95,6 @@ import { EditNavigationComponent } from './views/cms/navigations/edit-navigation
 import { EditNavigationNodeComponent } from './views/cms/navigations/edit-navigation-node/edit-navigation-node.component';
 import { DeleteCommissionDialog, EditVendorComponent } from './views/vendors/edit-vendor/edit-vendor.component';
 import { HomepageSliderSection, HomepageCategoriesCarousel, HomepageBrands, HomepageProductsCarousel, HomepageSingleBanner, HomepageCategoriesTabs, HomepageTwoBanners, HomepageFeatureIcons } from './views/cms/homepage/homepage-sections.components';
-import { ImageSelectorComponent } from './shared/image-selector/image-selector.component';
 import { CategorySelectorComponent } from './shared/category-selector/category-selector.component';
 import { CategorySelectorDialogComponent } from './shared/category-selector-dialog/category-selector-dialog.component';
 import { HeaderCustomizationComponent } from './views/cms/customization-header/customization-header.component';
@@ -124,16 +120,14 @@ import { CheckoutCustomizationComponent } from './views/configuration/checkout-c
 import { OrderTimelineComponent } from './views/orders/shared/order-timeline/order-timeline.component';
 import { CancelOrderDialog } from './views/orders/dialogs/cancelOrderDialog';
 import { ContentApprovalComponent, ContentDisapprovalReasonDialog, DisapproveRequestDialog } from './views/content-approval/content-approval.component';
+import { SharedModule } from './shared/shared.module';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    DatatableComponent,
     SigninComponent,
     DashboardComponent,
-    TopbarComponent,
-    SidenavComponent,
     ConfigurationComponent,
     UserManagementComponent,
     TransferOwnershipDialog,
@@ -218,7 +212,6 @@ import { ContentApprovalComponent, ContentDisapprovalReasonDialog, DisapproveReq
     AddNavigationComponent,
     HomepageSliderSection,
     DiscountDeleteDialog,
-    ImageSelectorComponent,
     HomepageCategoriesCarousel,
     HomepageBrands,
     CategorySelectorComponent,
@@ -303,6 +296,7 @@ import { ContentApprovalComponent, ContentDisapprovalReasonDialog, DisapproveReq
     MatProgressSpinnerModule,
     DragDropModule,
     NgxDropzoneModule,
+    SharedModule
   ],
   exports: [],
   providers: [LoggedInAuthGuard, LoggedOutAuthGuard],

@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SendNotificationRoutingModule } from './send-notification-routing.module';
-import { PushNotificationComponent } from './push-notifications/push-notifications.component';
+import { SidenavComponent } from './sidenav/sidenav.component';
+import { TopbarComponent } from './topbar/topbar.component';
+import { DatatableComponent } from './datatable/datatable.component';
+import { MatChipsModule } from '@angular/material/chips';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -9,7 +11,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -27,22 +28,26 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AngularFileUploaderModule } from 'angular-file-uploader';
-import { InlineSVGModule } from 'ng-inline-svg';
 import { NgxDropzoneModule } from 'ngx-dropzone';
-import { QuillModule } from 'ngx-quill';
-import { SharedModule } from 'src/app/shared/shared.module';
+import { InlineSVGModule } from 'ng-inline-svg';
+import { RouterModule } from '@angular/router';
+import { ImageSelectorComponent } from './image-selector/image-selector.component';
+
 
 
 
 @NgModule({
   declarations: [
-    PushNotificationComponent,
+    TopbarComponent,
+    SidenavComponent,
+    DatatableComponent,
+    ImageSelectorComponent
     
 
   ],
   imports: [
     CommonModule,
-    SendNotificationRoutingModule,
+    RouterModule,
     NgSelectModule,
     FormsModule,
     ReactiveFormsModule,
@@ -71,7 +76,13 @@ import { SharedModule } from 'src/app/shared/shared.module';
     MatProgressSpinnerModule,
     DragDropModule,
     NgxDropzoneModule,
-    SharedModule
+    InlineSVGModule
+  ],
+  exports: [
+    TopbarComponent,
+    SidenavComponent,
+    DatatableComponent,
+    ImageSelectorComponent
   ]
 })
-export class SendNotificationModuleModule { }
+export class SharedModule { }
