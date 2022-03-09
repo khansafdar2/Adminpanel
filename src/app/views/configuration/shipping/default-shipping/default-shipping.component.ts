@@ -122,7 +122,7 @@ export class DefaultShippingComponent implements OnInit {
       this.loading = false;
       if (resp)
       {
-        this.zones = [...this.zones, ...resp.data.results]
+        this.zones = [...resp.data.results]
         
       }
     })

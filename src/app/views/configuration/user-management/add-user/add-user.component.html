@@ -102,7 +102,7 @@
                 <div fxFlex="0 1 66.666666%">
                     <mat-card>
                         <div fxLayout="row">
-                            <div fxFlex="0 1 50%">
+                            <div fxFlex="0 1 70%">
                                 <div fxLayout="row">
                                     <div fxLayout="column">
                                         <mat-checkbox [(ngModel)]="userPermissions.dashboard">Dashboard</mat-checkbox>
@@ -118,6 +118,8 @@
                                         <mat-checkbox (change)="discountCheck($event)" [(ngModel)]="userPermissions.discounts" [class.active]="sideDrawer === 'discount'">Discounts</mat-checkbox>
                                         <mat-checkbox [(ngModel)]="userPermissions.customer">Customer</mat-checkbox>
                                         <mat-checkbox [(ngModel)]="userPermissions.approvals">Approval</mat-checkbox>
+                                        <mat-checkbox [(ngModel)]="userPermissions.notifications">Notifications</mat-checkbox>
+
 
                                     </div>
                                         <div fxLayout="column">

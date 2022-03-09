@@ -35,6 +35,7 @@ interface UserPermission {
   shipping_methods : boolean;
   checkout_setting : boolean;
   approvals : boolean;
+  notifications: boolean;
 }
 
 @Injectable({
@@ -94,7 +95,8 @@ export class AuthService {
     shipping_regions : false,
     shipping_methods : true,
     checkout_setting : false,
-    approvals: false
+    approvals: false,
+    notifications: false
   }
 
   user = {

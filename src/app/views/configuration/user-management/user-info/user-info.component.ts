@@ -74,7 +74,8 @@ export class UserInfoComponent implements OnInit {
       shipping_regions : false,
       shipping_methods : false,
       checkout_setting : false,
-      approvals: false
+      approvals: false,
+      notifications: false
     }
   };
   nameInitials: string = "";

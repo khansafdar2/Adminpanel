@@ -193,7 +193,10 @@
                         <ngx-charts-pie-chart *ngIf="soldItemLengthCheck" [results]="topSolditems" [scheme]="'ocean'"
                             [legendTitle]="'Product Sale Report'"  [view]="[containerRef.offsetWidth , 300]"
                             [gradient]="false" [labels]="true">
-                        
+                            <ng-template #tooltipTemplate let-model="model">
+                                <p>{{model.name}}</p>
+                                <p>{{model.value}}%</p>
+                              </ng-template>
                         </ngx-charts-pie-chart>
                     </div>
                     <h2 class="emptyChartError" fxLayoutAlign="center center" *ngIf="!soldItemLengthCheck">No data found</h2>
@@ -206,7 +209,7 @@
                     <div  #containerRef2>
                         <h4 fxLayoutAlign="center">Sale by Cities</h4>
                         <ngx-charts-bar-vertical *ngIf="saleByCityLengthCheck" [view]="[containerRef2.offsetWidth, 300]" [results]="saleByCity"
-                            [scheme]="'ocean'" [legendTitle]="'Product Sale Chart'" [xAxis]="true" [yAxis]="true"
+                            [scheme]="'ocean'"  [xAxis]="true" [yAxis]="true"
                             [gradient]="false">
                         </ngx-charts-bar-vertical>
                     </div>
@@ -223,7 +226,7 @@
                     <div #containerRef3>
                         <h4 fxLayoutAlign="center">Sale by Category</h4>
                         <ngx-charts-bar-horizontal *ngIf="saleByCategoryLengthCheck" [view]="[containerRef3.offsetWidth , 300]" [results]="saleByCategory"
-                            [scheme]="'ocean'" [xAxisLabel]="'Products'" [legendTitle]="'Product Sale Chart'"
+                            [scheme]="'ocean'" [xAxisLabel]="'Products'" 
                             [yAxisLabel]="'Sale'" [xAxis]="true" [yAxis]="true" [gradient]="false">
                         </ngx-charts-bar-horizontal>
                     </div>
@@ -236,7 +239,11 @@
                     <div #containerRef4>
                         <h4 fxLayoutAlign="center">Last month sales</h4>
                         <ngx-charts-bar-vertical *ngIf="lastMonthSalesLengthCheck" [view]="[containerRef4.offsetWidth, 300]" [results]="lastMonthSales"
-                            [scheme]="'ocean'" [legendTitle]="'Product Sale Chart'" [xAxis]="true" [yAxis]="true" [gradient]="false">
+                            [scheme]="'ocean'"  [xAxis]="true" [yAxis]="true" [gradient]="false">
+                            <ng-template #tooltipTemplate let-model="model">
+                                <p>Day {{model.name}}</p>
+                                <p>{{model.value}}</p>
+                              </ng-template>
                         </ngx-charts-bar-vertical>
                     </div>
                     <h2 class="emptyChartError" fxLayoutAlign="center center" *ngIf="!lastMonthSalesLengthCheck">No data found</h2>
