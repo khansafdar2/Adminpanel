@@ -106,27 +106,20 @@
                                 <div fxLayout="row">
                                     <div fxLayout="column">
                                         <mat-checkbox [(ngModel)]="userPermissions.dashboard">Dashboard</mat-checkbox>
-                                            <mat-checkbox (change)="customaizationCheck($event)" [(ngModel)]="userPermissions.customization" [class.active]="sideDrawer === 'customization'"  >Customization</mat-checkbox>
-                                           
-                                            <mat-checkbox (change)="configurationCheck($event)" [(ngModel)]="userPermissions.configuration" [class.active]="sideDrawer === 'configuration'">Configuration</mat-checkbox>
-
-                                            <mat-checkbox (change)="productsCheck($event)" [(ngModel)]="userPermissions.products" [class.active]="sideDrawer === 'products'">Products</mat-checkbox>
-
-
+                                        <mat-checkbox (change)="customaizationCheck($event)" [(ngModel)]="userPermissions.customization" [class.active]="sideDrawer === 'customization'"  >Customization</mat-checkbox>
+                                        <mat-checkbox (change)="configurationCheck($event)" [(ngModel)]="userPermissions.configuration" [class.active]="sideDrawer === 'configuration'">Configuration</mat-checkbox>
+                                        <mat-checkbox (change)="productsCheck($event)" [(ngModel)]="userPermissions.products" [class.active]="sideDrawer === 'products'">Products</mat-checkbox>
                                         <mat-checkbox [(ngModel)]="userPermissions.orders">Orders</mat-checkbox>
                                         <mat-checkbox [(ngModel)]="userPermissions.vendor">Vendor</mat-checkbox>
                                         <mat-checkbox (change)="discountCheck($event)" [(ngModel)]="userPermissions.discounts" [class.active]="sideDrawer === 'discount'">Discounts</mat-checkbox>
                                         <mat-checkbox [(ngModel)]="userPermissions.customer">Customer</mat-checkbox>
                                         <mat-checkbox [(ngModel)]="userPermissions.approvals">Approval</mat-checkbox>
                                         <mat-checkbox [(ngModel)]="userPermissions.notifications">Notifications</mat-checkbox>
-
-
                                     </div>
                                         <div fxLayout="column">
                                             <div class="space"></div>
                                             <div fxLayout="row">
                                                 <mat-icon class="arrow-icon" (click)="stopPropagation($event)"
-                                                
                                                 (click)="toggleDrawer('customization')"
                                                 [class.active]="sideDrawer === 'customization'">keyboard_arrow_right</mat-icon>
                                             </div>
@@ -138,7 +131,6 @@
                                             <mat-icon class="arrow-icon" (click)="stopPropagation($event)"
                                             (click)="toggleDrawer('products')"
                                             [class.active]="sideDrawer === 'products'">keyboard_arrow_right</mat-icon>
-
 
                                             <div class="space"></div>
                                             <div class="space"></div>
