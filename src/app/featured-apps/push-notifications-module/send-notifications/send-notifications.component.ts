@@ -8,11 +8,11 @@ import { AuthService } from 'src/app/auth/auth.service';
 import URLS from 'src/app/shared/urls';
 
 @Component({
-  selector: 'app-push-notifications',
-  templateUrl: './push-notifications.component.html',
-  styleUrls: ['./push-notifications.component.scss']
+  selector: 'app-send-notifications',
+  templateUrl: './send-notifications.component.html',
+  styleUrls: ['./send-notifications.component.scss']
 })
-export class PushNotificationComponent implements OnInit {
+export class SendNotificationsComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,

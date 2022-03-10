@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SendNotificationRoutingModule } from './send-notification-routing.module';
-import { PushNotificationComponent } from './push-notifications/push-notifications.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -34,12 +32,14 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { LoggedInAuthGuard, LoggedOutAuthGuard } from 'src/app/auth/auth.guard';
 import { EditNotificationComponent } from './edit-notification/edit-notification.component';
+import { SendNotificationsComponent } from './send-notifications/send-notifications.component';
+import { PushNotificationRoutingModule } from './push-notifications-routing.module';
 
 
 
 @NgModule({
   declarations: [
-    PushNotificationComponent,
+    SendNotificationsComponent,
     NotificationsComponent,
     EditNotificationComponent,
     
@@ -47,7 +47,7 @@ import { EditNotificationComponent } from './edit-notification/edit-notification
   ],
   imports: [
     CommonModule,
-    SendNotificationRoutingModule,
+    PushNotificationRoutingModule,
     NgSelectModule,
     FormsModule,
     ReactiveFormsModule,
@@ -82,4 +82,4 @@ import { EditNotificationComponent } from './edit-notification/edit-notification
 
 
 })
-export class SendNotificationModuleModule { }
+export class PushNotificationModuleModule { }

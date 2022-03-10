@@ -210,7 +210,7 @@ const routes: Routes = [
   {path: URLS.cities + '/:id', component: CitiesComponent,  canActivate: [LoggedInAuthGuard, ShippingRegionGuard, VendorGuard]},
   {path: URLS.checkoutCustomization, component: CheckoutCustomizationComponent,  canActivate: [LoggedInAuthGuard, CheckoutSettingGuard, VendorGuard]},
   {path: URLS.pushNotification,
-    loadChildren: () => import('./featured-apps/send-notification-module/send-notification-module.module').then(m => m.SendNotificationModuleModule)
+    loadChildren: () => import('./featured-apps/push-notifications-module/push-notifications-module.module').then(m => m.PushNotificationModuleModule)
   },
   {path: URLS.featuredApps, component: FeaturedAppsComponent, canActivate: [LoggedInAuthGuard]}
 ];
