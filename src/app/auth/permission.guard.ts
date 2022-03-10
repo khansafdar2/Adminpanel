@@ -1036,7 +1036,6 @@ export class ShippingMethodsGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      debugger
     if (this.authService.user_permissions.configuration) {
       if (this.authService.user_permissions.shipping_methods) {
         return true;
