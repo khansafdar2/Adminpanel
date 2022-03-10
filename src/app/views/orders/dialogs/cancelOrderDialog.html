@@ -17,5 +17,5 @@
 
 <div mat-dialog-actions>
     <button mat-stroked-button color="primary" mat-dialog-close>No</button>
-    <button mat-flat-button (click)="onCancel()" color="warn">Cancel order</button>
+    <button mat-flat-button [disabled]="loading" (click)="onCancel()" color="warn">Cancel order</button>
 </div>

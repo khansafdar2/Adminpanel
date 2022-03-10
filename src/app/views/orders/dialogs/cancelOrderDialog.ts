@@ -26,7 +26,6 @@ export class CancelOrderDialog {
     }
 
     onCancel() {
-        this.loading = true;
         let endpoint;
         let mainObj;
         if (this.refundStatus == 'wallet') {
@@ -46,7 +45,9 @@ export class CancelOrderDialog {
         } else {
             endpoint = "order_status_change"
         }
+        this.loading = true;
         this.orderService.changeOrderStatus(mainObj,endpoint).then(resp => {
+        this.loading = false;
             if (resp) {
                 this.snackBar.open("Order cancelled.", "", { duration: 2000 });
                 this.dialogRef.close(true);

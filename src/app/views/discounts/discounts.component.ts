@@ -119,6 +119,7 @@ export class DiscountDeleteDialog {
     this.loading = true;
     this.discountService.deleteDiscount(this.data.discount.id).then(resp => {
       if(resp) {
+        this.loading = false;
         this.snackBar.open("Discount deleted.", "", {duration: 2000});
         this.dialogRef.close(true);
       }

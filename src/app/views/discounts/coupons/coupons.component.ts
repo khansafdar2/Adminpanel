@@ -117,6 +117,7 @@ export class CouponsComponent implements OnInit {
       this.loading = true;
       this.couponService.deleteCoupon(this.data.discount.id).then(resp => {
         if(resp) {
+          this.loading = false;
           this.snackBar.open("Coupon deleted.", "", {duration: 2000});
           this.dialogRef.close(true);
         }
