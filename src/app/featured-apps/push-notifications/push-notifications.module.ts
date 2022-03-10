@@ -25,9 +25,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AngularFileUploaderModule } from 'angular-file-uploader';
-import { InlineSVGModule } from 'ng-inline-svg';
 import { NgxDropzoneModule } from 'ngx-dropzone';
-import { QuillModule } from 'ngx-quill';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { LoggedInAuthGuard, LoggedOutAuthGuard } from 'src/app/auth/auth.guard';
@@ -82,4 +80,4 @@ import { PushNotificationRoutingModule } from './push-notifications-routing.modu
 
 
 })
-export class PushNotificationModuleModule { }
+export class PushNotificationsModule { }

@@ -30,7 +30,7 @@ import { AddProductComponent } from './views/products/add-product/add-product.co
 import { ProductGroupsComponent } from './views/products/product-groups/product-groups.component';
 import { AddProductGroupComponent } from './views/products/product-groups/add-product-group/add-product-group.component';
 import { EditProductGroupComponent } from './views/products/product-groups/edit-product-group/edit-product-group.component';
-import { ApprovalGuard, BrandsGuard, CategoryStructureGuard, CheckoutSettingGuard, ConfigurationGuard, CouponGuard, CustomersGuard, CustomizationGuard, DashboardGuard, DiscountsGuard, FilterGuard, FooterPagesGuard, HeaderPagesGuard, HomePageGuard, LoyaltyGuard, MainDiscountGuard, NavigationGuard, OrdersGuard, ProductCollectiontGuard, ProductGrouptGuard, ProductListGuard, ProductsGuard, ShippingMethodsGuard, ShippingRegionGuard, StaticPagesGuard, StoreSettingGuard, UserManagementGuard, VendorGuard} from './auth/permission.guard';
+import { ApprovalGuard, BrandsGuard, CategoryStructureGuard, CheckoutSettingGuard, ConfigurationGuard, CouponGuard, CustomersGuard, CustomizationGuard, DashboardGuard, DiscountsGuard, FilterGuard, FooterPagesGuard, HeaderPagesGuard, HomePageGuard, LoyaltyGuard, MainDiscountGuard, NavigationGuard, NotificationGuard, OrdersGuard, ProductCollectiontGuard, ProductGrouptGuard, ProductListGuard, ProductsGuard, ShippingMethodsGuard, ShippingRegionGuard, StaticPagesGuard, StoreSettingGuard, UserManagementGuard, VendorGuard} from './auth/permission.guard';
 import { NewSuperSubCategoryComponent } from './views/products/category-structure/super-sub-category/new-super-sub-category/new-super-sub-category.component';
 import { EditSuperSubCategoryComponent } from './views/products/category-structure/super-sub-category/edit-super-sub-category/edit-super-sub-category.component';
 import { EditProductComponent } from './views/products/edit-product/edit-product.component';
@@ -210,7 +210,7 @@ const routes: Routes = [
   {path: URLS.cities + '/:id', component: CitiesComponent,  canActivate: [LoggedInAuthGuard, ShippingRegionGuard, VendorGuard]},
   {path: URLS.checkoutCustomization, component: CheckoutCustomizationComponent,  canActivate: [LoggedInAuthGuard, CheckoutSettingGuard, VendorGuard]},
   {path: URLS.pushNotification,
-    loadChildren: () => import('./featured-apps/push-notifications-module/push-notifications-module.module').then(m => m.PushNotificationModuleModule)
+    loadChildren: () => import('./featured-apps/push-notifications/push-notifications.module').then(m => m.PushNotificationsModule), canActivate: [LoggedInAuthGuard,NotificationGuard]
   },
   {path: URLS.featuredApps, component: FeaturedAppsComponent, canActivate: [LoggedInAuthGuard]}
 ];
