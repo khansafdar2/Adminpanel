@@ -317,7 +317,16 @@ export class EditDiscountComponent implements OnInit {
       if (this.discountForm.get('criteria').value != "product_group") {
         this.discountForm.get("vendor").setValue(null)
       }
+      let criteriaType = this.discountForm.get('criteria').value;
+      if (criteriaType === "product_group") {
+        (this.discountForm.controls['vendor'] as FormControl).setValidators([Validators.required]);
+        (this.discountForm.controls['vendor'] as FormControl).updateValueAndValidity();
+
+      } else {
+        (this.discountForm.controls['vendor'] as FormControl).clearValidators();
+        (this.discountForm.controls['vendor'] as FormControl).updateValueAndValidity();
     }
+  }
   }
 
 

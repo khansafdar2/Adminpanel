@@ -53,8 +53,7 @@ export class ContentApprovalComponent implements OnInit {
     {
       title: "Status",
       selector: "status",
-      cell: row => `<span class="label ${row.status == 'Approved' ? 'success' : ''}">${row.status == 'Disapproved' ? 'Dispproved' : 'Approved'}</span>`
-
+      cell: row => `<span class="label ${row.status == 'Approved' ? 'success' : row.status == 'Disapproved' ? 'warning': ''}">${row.status == 'Approved' ? 'Approved' : row.status == 'Disapproved' ? 'Disapproved': 'Pending'}</span>`
     },
     {
       title: "Action by",
