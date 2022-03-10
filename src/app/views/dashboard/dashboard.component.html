@@ -238,7 +238,7 @@
                 <mat-card [class.emptyChart]="!lastMonthSalesLengthCheck" fxFlex="0 1 100%">
                     <div #containerRef4>
                         <h4 fxLayoutAlign="center">Last month sales</h4>
-                        <ngx-charts-bar-vertical *ngIf="lastMonthSalesLengthCheck" [view]="[containerRef4.offsetWidth, 300]" [results]="lastMonthSales"
+                        <ngx-charts-bar-vertical *ngIf="lastMonthSalesLengthCheck" [view]="[containerRef4.offsetWidth, 300]" [roundEdges]="false" [results]="lastMonthSales"
                             [scheme]="'ocean'"  [xAxis]="true" [yAxis]="true" [gradient]="false">
                             <ng-template #tooltipTemplate let-model="model">
                                 <p>Day {{model.name}}</p>
