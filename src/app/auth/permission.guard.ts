@@ -1036,6 +1036,7 @@ export class ShippingMethodsGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+      debugger
     if (this.authService.user_permissions.configuration) {
       if (this.authService.user_permissions.shipping_methods) {
         return true;
@@ -1063,7 +1064,7 @@ export class ShippingMethodsGuard implements CanActivate {
       return true;
     } else {
       if(this.authService.user.is_vendor) {
-        if(route.url[0].path === "shipping" || route.url[0].path === "zones" || route.url[0].path === "shipping-rates" || route.url[0].path === "all"  ) {
+        if(route.url[0].path === "shipping" || route.url[0].path === "zones" || route.url[0].path === "shipping-rates" || route.url[0].path === "all" || route.url[0].path === "add" || route.url[0].path === "edit"  ) {
           return true;
         } 
       }
