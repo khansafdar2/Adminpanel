@@ -21,24 +21,19 @@ export class CancelOrderDialog {
 
     refundOption(event) {
         if (event.value == 'wallet') {
-            this.refundStatus = event.value
+            this.refundStatus = event.value;
+        } else if (event.value == 'bank') {
+            this.refundStatus = event.value;
         }
     }
 
     onCancel() {
         let endpoint;
         let mainObj;
-        if (this.refundStatus == 'wallet') {
-            mainObj = {
-                id: this.data.id,
-                order_status: this.data.order_status,
-                refund_status: this.refundStatus
-            }
-        } else {
-            mainObj = {
-                id: this.data.id,
-                order_status: this.data.order_status,
-            }
+        mainObj = {
+            id: this.data.id,
+            order_status: this.data.order_status,
+            refund_status: this.refundStatus
         }
         if (this.data.orderType == 'childOrder') {
             endpoint = "childorder_status_change"
