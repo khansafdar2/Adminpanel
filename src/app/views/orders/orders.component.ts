@@ -141,6 +141,20 @@ export class OrdersComponent implements OnInit {
           value: "pending"
         }
       ]
+    },
+    {
+      title: "Refund Status",
+      key: "refund_status",
+      values: [
+        {
+          label: "Wallet",
+          value: "wallet"
+        },
+        {
+          label: "Bank",
+          value: "bank" 
+        }
+      ]
     }
   ]
 
