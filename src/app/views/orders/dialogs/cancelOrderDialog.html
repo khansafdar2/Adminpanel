@@ -9,7 +9,7 @@
 <div mat-dialog-actions *ngIf="data.paid_amount > 0 ">
     <mat-radio-group (change)="refundOption($event)" class="collection-type-radio"  fxLayout="row">
         <div fxLayout="row" >
-            <mat-radio-button>Bank transfer</mat-radio-button>
+            <mat-radio-button value="bank">Bank transfer</mat-radio-button>
             <mat-radio-button value="wallet">Customer wallet</mat-radio-button>
         </div>
     </mat-radio-group>
