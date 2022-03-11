@@ -233,7 +233,7 @@ mapObject(data) {
     this.dashboardService.getSaleByCity(this.is_vendor,this.vendorID,this.start_date, this.end_date).then((resp)=>{
       this.loading = false;
       if (resp) {
-        this.saleByCity = (resp.data).map(this.mapObject);  
+        this.saleByCity = (resp.data).map(this.mapObject);
         if (this.saleByCity.length) {
           this.saleByCityLengthCheck = true;
         } else {
