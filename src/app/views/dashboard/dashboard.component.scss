@@ -1,3 +1,6 @@
+@import "src/scss/variables.scss";
+
+
 .dashboard-card-value {
     font-size: 20px;
     font-weight: 400;
@@ -18,7 +21,7 @@
 
 
 .card-text{
-    color: #ffc107;
+    color: $primary;
     font-weight: 500;
     font-size: 13px;
     margin-bottom: 0;

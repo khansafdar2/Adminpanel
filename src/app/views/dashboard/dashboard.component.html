@@ -108,7 +108,7 @@
                 <mat-card>
                     <h4 fxLayoutAlign="center">General Analysis</h4>
                     <div fxLayoutAlign="space-between" fxLayout="row">
-                        <div *ngIf="vendorID ==''" fxLayout="column">
+                        <div *ngIf="vendorID =='' && !is_vendor" fxLayout="column">
                             <h4 class="card-value">{{total_vendor_count}}</h4>
                             <p class="card-text">Total Vendors</p>
                         </div>
@@ -191,7 +191,7 @@
                     <div #containerRef>
                         <h4 fxLayoutAlign="center">Top 10 Sold Items</h4>
                         <ngx-charts-pie-chart *ngIf="soldItemLengthCheck" [results]="topSolditems" [scheme]="'ocean'"
-                            [legendTitle]="'Product Sale Report'"  [view]="[containerRef.offsetWidth , 300]"
+                            [view]="[containerRef.offsetWidth , 300]"
                             [gradient]="false" [labels]="true">
                             <ng-template #tooltipTemplate let-model="model">
                                 <p>{{model.name}}</p>
