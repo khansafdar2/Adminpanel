@@ -1,9 +1,6 @@
+import { ProductSoicalFeedRoutingModule } from './product-social-feed-routing.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SidenavComponent } from './sidenav/sidenav.component';
-import { TopbarComponent } from './topbar/topbar.component';
-import { DatatableComponent } from './datatable/datatable.component';
-import { MatChipsModule } from '@angular/material/chips';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -11,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -29,27 +27,25 @@ import { MatTableModule } from '@angular/material/table';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AngularFileUploaderModule } from 'angular-file-uploader';
 import { NgxDropzoneModule } from 'ngx-dropzone';
-import { InlineSVGModule } from 'ng-inline-svg';
-import { RouterModule } from '@angular/router';
-import { ImageSelectorComponent } from './image-selector/image-selector.component';
-import { TagsInputComponent } from './tags-input/tags-input.component';
-
+import { SharedModule } from 'src/app/shared/shared.module';
+import { LoggedInAuthGuard, LoggedOutAuthGuard } from 'src/app/auth/auth.guard';
+import {MatTabsModule} from '@angular/material/tabs';
+import { ProductSocialFeedComponent, SocialFeedDeleteDialog } from './product-social-feed/product-social-feed.component';
+import { CreateProductSocialFeedComponent } from './create-product-social-feed/create-product-social-feed.component';
+import { EditProductSocialFeedComponent } from './edit-product-social-feed/edit-product-social-feed.component';
 
 
 
 @NgModule({
   declarations: [
-    TopbarComponent,
-    SidenavComponent,
-    DatatableComponent,
-    ImageSelectorComponent,
-    TagsInputComponent
-    
-
+    ProductSocialFeedComponent,
+    SocialFeedDeleteDialog,
+    CreateProductSocialFeedComponent,
+    EditProductSocialFeedComponent
   ],
   imports: [
     CommonModule,
-    RouterModule,
+    ProductSoicalFeedRoutingModule,
     NgSelectModule,
     FormsModule,
     ReactiveFormsModule,
@@ -78,14 +74,10 @@ import { TagsInputComponent } from './tags-input/tags-input.component';
     MatProgressSpinnerModule,
     DragDropModule,
     NgxDropzoneModule,
-    InlineSVGModule
+    SharedModule,
+    MatTabsModule
   ],
-  exports: [
-    TopbarComponent,
-    SidenavComponent,
-    DatatableComponent,
-    ImageSelectorComponent,
-    TagsInputComponent
-  ]
+  providers: [LoggedInAuthGuard, LoggedOutAuthGuard],
+
 })
-export class SharedModule { }
+export class ProductSoicalFeedModule { }

@@ -1,0 +1,85 @@
+<app-topbar></app-topbar>
+<app-sidenav></app-sidenav>
+<main id="main">
+    <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+    <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
+        <div>
+            <button mat-icon-button aria-label="Go back" class="header-back-arrow"
+                [routerLink]="['/',URLS.featuredApps]">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+            <h1> Product Social Feed</h1>
+        </div>
+
+        <div class="header-actions">
+            <a [routerLink]="['/', URLS.productSocialFeed, URLS.createProductSoclialFeed]" mat-flat-button color="primary">Create new</a>
+        </div>
+    </div>
+
+    <div class="page-container">
+            <mat-card class="table-wrapper-card">
+            <mat-tab-group>
+                <mat-tab label="Product and Feed">
+              <datatable [data]="productSocialFeed" [columns]="columns" [pagination]="true" [itemsPerPage]="pageSize"
+                [count]="totalCount" [rowActions]="rowActions" (page)="onPage($event)" (rowAction)="onRowAction($event)"
+                (cellClick)="onCellClick($event)">
+              </datatable>
+            </mat-tab>
+
+            <mat-tab label="Application Settings">
+                <form [formGroup]="socialSettingFeedForm">
+                    <div class="settingForm">
+                        <div fxLayout="column" >
+                            <div>
+                                <h4>Round and format prices to this number of decimal places (default: 2)</h4>
+                                <mat-form-field  appearance="outline">
+                                <mat-label>Round to</mat-label>
+                                <input matInput formControlName="price_format" type="number" min="0" />
+                            </mat-form-field>
+                        </div>
+                            <div class="radio-feilds">
+                                <div fxFlex="0 1 50%" >
+                                    <div fxLayout="row">
+                                        <h4>Export Gender fields</h4>
+                                    </div>
+                                    <div fxLayout="row">
+                                        <mat-radio-group formControlName="export_gender" fxLayout="column"  >
+                                            <mat-radio-button value="vendor">Export vendor as gender field (default)</mat-radio-button>
+                                            <mat-radio-button value="product type">Export product type as gender field</mat-radio-button>
+                                            <mat-radio-button value="tags">Export tags as gender field</mat-radio-button>
+                                        </mat-radio-group>
+                                    </div>
+                                </div>
+
+                            <div fxFlex="0 1 50%" >
+                                <div fxLayout="row">
+                                    <h4>Export unpublished products to the field</h4>
+                                    
+                                </div>
+                                <div fxLayout="row">
+                                    <mat-radio-group formControlName="export_products" fxLayout="column"  >
+                                        <mat-radio-button value="active">Do not export unpublished products</mat-radio-button>
+                                        <mat-radio-button value="both">Do export unpublished products and published products</mat-radio-button>
+                                    </mat-radio-group>
+                                </div>
+                            </div>
+        
+
+                        </div>
+
+                        </div>
+                        <div class="save-button" fxLayoutAlign="end">
+                            <a mat-flat-button [disabled]="loading || !socialSettingFeedForm.valid"
+                               (click)="onSubmit()"  color="primary">Save</a>
+                        </div>
+                        </div>
+                        </form>
+                        
+
+            </mat-tab>
+
+            </mat-tab-group>
+        </mat-card>
+    </div>
+            
+</main>

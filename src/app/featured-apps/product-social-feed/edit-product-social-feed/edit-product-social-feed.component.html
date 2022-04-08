@@ -1,0 +1,198 @@
+<app-topbar></app-topbar>
+<app-sidenav></app-sidenav>
+<main id="main">
+    <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+    <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
+        <div>
+            <button mat-icon-button aria-label="Go back" class="header-back-arrow"
+                [routerLink]="['/',URLS.productSocialFeed]">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+            <h1>Edit Product Social Feed</h1>
+        </div>
+        <div class="header-actions">
+            <a [routerLink]="['/', URLS.productSocialFeed]" mat-stroked-button color="primary">Cancel</a>
+            <button mat-flat-button color="primary" [disabled]="loading || !editproductSocialFeedForm.valid"
+                (click)="onSubmit()">Save</button>
+        </div>
+    </div>
+
+
+    <form [formGroup]="editproductSocialFeedForm">
+        <div fxLayout="row">
+            <div fxFlex="0 1 66.6666%">
+                <mat-card>
+                    <div fxLayout="row">
+                        <div fxFlex="0 1 50%">
+                                <mat-form-field  appearance="outline">
+                                    <mat-label>Feed name</mat-label>
+                                    <input matInput formControlName="feed_name"  />
+                                </mat-form-field>
+                        </div>
+
+                        <div fxFlex="0 1 50%">
+                                <mat-form-field  appearance="outline">
+                                    <mat-label>Feed type</mat-label>
+                                    <mat-select formControlName="feed_type">
+                                        <mat-option value="facebok">Facebook</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                        </div>
+
+                        <div fxLayout="row">
+                            <div fxFlex="0 1 50%">
+                                    <mat-form-field  appearance="outline">
+                                        <mat-label>Currency</mat-label>
+                                        <mat-select formControlName="currency">
+                                            <mat-option value="PKR">PKR</mat-option>
+                                            <mat-option value="Qatar">Qatar</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+    
+                            </div>
+                </mat-card>
+
+                <mat-card>
+                    <div fxLayout="row">
+
+                    <div fxFlex="0 1 50%" >
+                        <div fxLayout="row">
+                            <h4>Export mode</h4>
+                            
+                        </div>
+                        <div fxLayout="row">
+                            <mat-radio-group formControlName="export_mode" fxLayout="column"  >
+                                <mat-radio-button value="all">Export all variants of product</mat-radio-button>
+                                <mat-radio-button value="first variant">Export only one variant of product</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+
+                    <div fxFlex="0 1 50%" >
+                        <div fxLayout="row">
+                            <h4>Export variant</h4>
+                        </div>
+                        <div fxLayout="row">
+                            <mat-radio-group formControlName="export_variant" fxLayout="column"  >
+                                <mat-radio-button value="first variant">Export first variant of a product</mat-radio-button>
+                                <mat-radio-button value="available variant">Export first available for order variant of a product</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+
+
+
+                </div>
+                    <div class="custom-labels" fxLayout="row">
+                        <div fxFlex="0 1 50%" >
+                            <div fxLayout="row">
+                                <h4>Products to export</h4>
+                                
+                            </div>
+                            <div fxLayout="row">
+                                <mat-radio-group formControlName="product_export" fxLayout="column"  >
+                                    <mat-radio-button value="all">All products</mat-radio-button>
+                                    <mat-radio-button value="selected">Products from selected collections</mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                        </div>
+
+                        <div fxFlex="0 1 50%" >
+                            <div fxLayout="row">
+                                <h4>In stock</h4>
+                                
+                            </div>
+                            <div fxLayout="row">
+                                <mat-radio-group formControlName="in_stock" fxLayout="column"  >
+                                    <mat-radio-button value="true">Include all variants</mat-radio-button>
+                                    <mat-radio-button value="false">Include in stock variants only</mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                        </div>
+    
+                        
+        
+                    </div>
+
+                    <div class="custom-labels" fxLayout="row">
+                        <div fxFlex="0 1 50%" >
+                            <div fxLayout="row">
+                                <h4>Use "Compare at" price</h4>
+                                
+                            </div>
+                            <div fxLayout="row">
+                                <mat-radio-group formControlName="use_price" fxLayout="column"  >
+                                    <mat-radio-button value="both">Use both compare at price and price</mat-radio-button>
+                                    <mat-radio-button value="price">Do not use compare at price</mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                        </div>
+                    </div>
+                </mat-card>
+
+                </div>
+
+                <div fxFlex="0 1 33.33333%">
+                    <mat-card>
+                        <h4>Labels</h4>
+                        <div>
+                            <mat-form-field  appearance="outline">
+                                <mat-label>Custom label 1</mat-label>
+                                <mat-select formControlName="custom_label1">
+                                    <mat-option value="tags">Tags</mat-option>
+                                    <mat-option value="sku">SKU</mat-option>
+                                    <mat-option value="product handle">Product handle</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="custom-labels">
+                            <mat-form-field  appearance="outline">
+                                <mat-label>Custom label 2</mat-label>
+                                <mat-select formControlName="custom_label2">
+                                    <mat-option value="tags">Tags</mat-option>
+                                    <mat-option value="sku">SKU</mat-option>
+                                    <mat-option value="product handle">Product handle</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="custom-labels">
+                            <mat-form-field  appearance="outline">
+                                <mat-label>Custom label 3</mat-label>
+                                <mat-select formControlName="custom_label3">
+                                    <mat-option value="tags">Tags</mat-option>
+                                    <mat-option value="sku">SKU</mat-option>
+                                    <mat-option value="product handle">Product handle</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="custom-labels">
+                            <mat-form-field  appearance="outline">
+                                <mat-label>Custom label 4</mat-label>
+                                <mat-select formControlName="custom_label4">
+                                    <mat-option value="tags">Tags</mat-option>
+                                    <mat-option value="sku">SKU</mat-option>
+                                    <mat-option value="product handle">Product handle</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </mat-card>
+
+                    <mat-card>
+                        <h4>Exclude tags from the Generated products</h4>
+                        <div class="custom-labels">
+                            <tags-input
+                            label="Exclude Tags"
+                            [showRemove]="true"
+                            [(value)]="exclude_tags">
+                        </tags-input>
+                        </div>
+                    </mat-card>
+                </div>
+            </div>
+        </form>
+</main>

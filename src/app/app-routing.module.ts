@@ -212,6 +212,10 @@ const routes: Routes = [
   {path: URLS.pushNotification,
     loadChildren: () => import('./featured-apps/push-notifications/push-notifications.module').then(m => m.PushNotificationsModule), canActivate: [LoggedInAuthGuard,NotificationGuard]
   },
+  {
+    path: URLS.productSocialFeed,
+    loadChildren: () => import('./featured-apps/product-social-feed/product-social-feed.module').then(m => m.ProductSoicalFeedModule), canActivate: [LoggedInAuthGuard, LoyaltyGuard, VendorGuard]
+  },
   {path: URLS.featuredApps, component: FeaturedAppsComponent, canActivate: [LoggedInAuthGuard]}
 ];
 

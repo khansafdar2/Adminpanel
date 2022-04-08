@@ -50,7 +50,9 @@ const URLS = {
     contentApproval: 'content-approval',
     pushNotification: 'push-notification',
     sendNotification: 'send-notification',
-    featuredApps: 'featured-apps'
+    featuredApps: 'featured-apps',
+    createProductSoclialFeed: 'create-product-social-feed',
+    productSocialFeed:'product-social-feed',
 }
 
 export default URLS;
