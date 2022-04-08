@@ -62,7 +62,6 @@ import { AddProductGroupComponent } from './views/products/product-groups/add-pr
 import { EditProductGroupComponent } from './views/products/product-groups/edit-product-group/edit-product-group.component';
 import { NewSuperSubCategoryComponent } from './views/products/category-structure/super-sub-category/new-super-sub-category/new-super-sub-category.component';
 import { EditSuperSubCategoryComponent } from './views/products/category-structure/super-sub-category/edit-super-sub-category/edit-super-sub-category.component';
-import { TagsInputComponent } from './shared/tags-input/tags-input.component';
 import { DeleteVariantConfirmDialog, EditProductComponent, EditProductOptionsDialog } from './views/products/edit-product/edit-product.component';
 import { BrandDeleteDialog, BrandsComponent } from './views/products/brands/brands.component';
 import { AddBrandComponent } from './views/products/brands/add-brand/add-brand.component';
@@ -168,7 +167,6 @@ import { FeaturedAppsComponent } from './featured-apps/featured-apps.component';
     CollectionDeleteDialog,
     NewSuperSubCategoryComponent,
     EditSuperSubCategoryComponent,
-    TagsInputComponent,
     EditProductComponent,
     DeleteVariantConfirmDialog,
     EditProductOptionsDialog,

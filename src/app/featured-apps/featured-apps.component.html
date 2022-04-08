@@ -18,6 +18,16 @@
                         </mat-card-header>
                     </mat-card>
                 </div>
+
+                <div class="settings-section-card" fxFlex="0 1 33.3333%">
+                    <mat-card [routerLink]="['/', URLs.productSocialFeed]" *ngIf="userPermissions.notifications">
+                        <mat-card-header>
+                            <div mat-card-avatar [inlineSVG]="'/assets/img/socialFeedIcon.svg'"></div>
+                            <mat-card-title> Product Social Feed</mat-card-title>
+                            <mat-card-subtitle>Create your social feed for products.</mat-card-subtitle>
+                        </mat-card-header>
+                    </mat-card>
+                </div>
             </div>
         </div>
     </div>
