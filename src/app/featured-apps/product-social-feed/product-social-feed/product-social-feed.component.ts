@@ -56,7 +56,7 @@ export class ProductSocialFeedComponent implements OnInit {
       title: "Product Feed Link",
       selector: "feed_link",
       clickable: true,
-      cell: row => `<span>Copy Link</span>`
+      cell: row => row.feed_link? "Copy link": ''
     },
   ];
 

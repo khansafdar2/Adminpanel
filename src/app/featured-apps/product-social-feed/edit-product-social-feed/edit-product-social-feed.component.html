@@ -89,13 +89,13 @@
                     <div class="custom-labels" fxLayout="row">
                         <div fxFlex="0 1 50%" >
                             <div fxLayout="row">
-                                <h4>Products to export</h4>
+                                <h4>Use "Compare at" price</h4>
                                 
                             </div>
                             <div fxLayout="row">
-                                <mat-radio-group formControlName="product_export" fxLayout="column"  >
-                                    <mat-radio-button value="all">All products</mat-radio-button>
-                                    <mat-radio-button value="selected">Products from selected collections</mat-radio-button>
+                                <mat-radio-group formControlName="use_price" fxLayout="column"  >
+                                    <mat-radio-button value="both">Use both compare at price and price</mat-radio-button>
+                                    <mat-radio-button value="price">Do not use compare at price</mat-radio-button>
                                 </mat-radio-group>
                             </div>
                         </div>
@@ -116,21 +116,6 @@
                         
         
                     </div>
-
-                    <div class="custom-labels" fxLayout="row">
-                        <div fxFlex="0 1 50%" >
-                            <div fxLayout="row">
-                                <h4>Use "Compare at" price</h4>
-                                
-                            </div>
-                            <div fxLayout="row">
-                                <mat-radio-group formControlName="use_price" fxLayout="column"  >
-                                    <mat-radio-button value="both">Use both compare at price and price</mat-radio-button>
-                                    <mat-radio-button value="price">Do not use compare at price</mat-radio-button>
-                                </mat-radio-group>
-                            </div>
-                        </div>
-                    </div>
                 </mat-card>
 
                 </div>
@@ -145,6 +130,7 @@
                                     <mat-option value="tags">Tags</mat-option>
                                     <mat-option value="sku">SKU</mat-option>
                                     <mat-option value="product handle">Product handle</mat-option>
+                                    <mat-option value="barcode">Barcode</mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>
@@ -155,6 +141,7 @@
                                     <mat-option value="tags">Tags</mat-option>
                                     <mat-option value="sku">SKU</mat-option>
                                     <mat-option value="product handle">Product handle</mat-option>
+                                    <mat-option value="barcode">Barcode</mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>
@@ -166,6 +153,7 @@
                                     <mat-option value="tags">Tags</mat-option>
                                     <mat-option value="sku">SKU</mat-option>
                                     <mat-option value="product handle">Product handle</mat-option>
+                                    <mat-option value="barcode">Barcode</mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>
@@ -177,6 +165,7 @@
                                     <mat-option value="tags">Tags</mat-option>
                                     <mat-option value="sku">SKU</mat-option>
                                     <mat-option value="product handle">Product handle</mat-option>
+                                    <mat-option value="barcode">Barcode</mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>

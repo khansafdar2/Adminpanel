@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -32,8 +32,8 @@ export class CreateProductSocialFeedComponent implements OnInit {
 
 
   productSocialFeedForm = this.fb.group({
-    feed_name: [''],
-    feed_type: [''],
+    feed_name: ['', [Validators.required]],
+    feed_type: ['', [Validators.required]],
     export_mode:['all'],
     export_variant:['first variant'] ,
     use_price: ['both'],
