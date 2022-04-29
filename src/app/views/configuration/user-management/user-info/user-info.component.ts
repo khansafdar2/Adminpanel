@@ -75,7 +75,9 @@ export class UserInfoComponent implements OnInit {
       shipping_methods : false,
       checkout_setting : false,
       approvals: false,
-      notifications: false
+      notifications: false,
+      socialfeed: false,
+      featured_apps:false
     }
   };
   nameInitials: string = "";
@@ -121,6 +123,31 @@ export class UserInfoComponent implements OnInit {
       this.userDetail.permissions.customization = false;
 
   }
+
+
+
+  featuredAppPermissionCheck(event: MatCheckboxChange) {
+    if (event.checked) {
+      this.userDetail.permissions.featured_apps = true;
+    } else if (!this.userDetail.permissions.notifications && !this.userDetail.permissions.socialfeed) {
+      this.userDetail.permissions.featured_apps = false;
+    }
+  }
+
+
+
+  featuredAppsCheck(event: MatCheckboxChange) {
+    if (event.checked) {
+      this.userDetail.permissions.notifications = true;
+      this.userDetail.permissions.socialfeed = true;
+
+    } else {
+      this.userDetail.permissions.notifications = false;
+      this.userDetail.permissions.socialfeed = false;
+
+    }
+  }
+
   customaizationCheck(event: MatCheckboxChange) {
     if (event.checked) {
       this.userDetail.permissions.header = true;

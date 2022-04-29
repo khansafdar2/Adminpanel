@@ -38,7 +38,7 @@ export class ProductSocialFeedComponent implements OnInit {
     {
       title: "Feed status",
       selector: "feed_status",
-      cell: row => `<span class="label ${row.feed_status == 'OK' ? 'success' : row.feed_status == 'pending' ? 'warning': ''}">${row.feed_status == 'Ok' ? 'Approved' : row.feed_status == 'pending' ? 'Pending': row.feed_status}</span>`
+      cell: row => `<span class="label ${row.feed_status == 'success' ? 'success' : row.feed_status == 'pending' ? 'warning': ''}">${row.feed_status == 'Ok' ? 'Approved' : row.feed_status == 'pending' ? 'Pending': row.feed_status}</span>`
     },
     {
       title: "Created at",

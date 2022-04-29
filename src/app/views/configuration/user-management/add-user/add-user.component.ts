@@ -63,7 +63,9 @@ export class AddUserComponent implements OnInit {
     shipping_methods: false,
     checkout_setting: false,
     approvals: false,
-    notifications: false
+    notifications: false,
+    featured_apps:false,
+    socialfeed:false,
 
   }
 
@@ -186,6 +188,29 @@ export class AddUserComponent implements OnInit {
       !this.userPermissions.static_pages && !this.userPermissions.navigation && !this.userPermissions.filters)
       this.userPermissions.customization = false;
 
+  }
+
+
+  featuredAppPermissionCheck(event: MatCheckboxChange) {
+    if (event.checked) {
+      this.userPermissions.featured_apps = true;
+    } else if (!this.userPermissions.notifications && !this.userPermissions.socialfeed) {
+      this.userPermissions.featured_apps = false;
+    }
+  }
+
+
+
+  featuredAppsCheck(event: MatCheckboxChange) {
+    if (event.checked) {
+      this.userPermissions.notifications = true;
+      this.userPermissions.socialfeed = true;
+
+    } else {
+      this.userPermissions.notifications = false;
+      this.userPermissions.socialfeed = false;
+
+    }
   }
 
   customaizationCheck(event: MatCheckboxChange) {

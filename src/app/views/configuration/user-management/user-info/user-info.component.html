@@ -140,7 +140,8 @@
                                         <mat-checkbox (change)="discountCheck($event)" [(ngModel)]="userDetail.permissions.discounts" [class.active]="sideDrawer === 'discount'">Discounts</mat-checkbox>
                                         <mat-checkbox [(ngModel)]="userDetail.permissions.customer">Customer</mat-checkbox>
                                         <mat-checkbox [(ngModel)]="userDetail.permissions.approvals">Approval</mat-checkbox>
-                                        <mat-checkbox [(ngModel)]="userDetail.permissions.notifications">Notifications</mat-checkbox>
+                                        <mat-checkbox (change)="featuredAppsCheck($event)" [(ngModel)]="userDetail.permissions.featured_apps" [class.active]="sideDrawer === 'featured_apps'">Featured apps</mat-checkbox>
+
 
                                     </div>
                                         <div fxLayout="column">
@@ -167,6 +168,14 @@
                                             <mat-icon class="arrow-icon" (click)="stopPropagation($event)"
                                             (click)="toggleDrawer('discount')"
                                             [class.active]="sideDrawer === 'discount'">keyboard_arrow_right</mat-icon>
+
+                                            <div class="space"></div>
+                                            <div class="space"></div>
+    
+                                            <mat-icon class="arrow-icon" (click)="stopPropagation($event)"
+                                                (click)="toggleDrawer('featured_apps')"
+                                                [class.active]="sideDrawer === 'featured_apps'">keyboard_arrow_right
+                                            </mat-icon>
                                         </div>
                                    
                                     <div class="sidenav-drawer" [class.show]="sideDrawer === 'products'"
@@ -217,6 +226,15 @@
                                         </mat-checkbox>
                                         <mat-checkbox (change)="configurationPermissionCheck($event)" [(ngModel)]="userDetail.permissions.checkout_setting">Checkout settings
                                         </mat-checkbox>
+                                    </div>
+
+                                    <div class="sidenav-drawer" [class.show]="sideDrawer === 'featured_apps'"
+                                        *ngIf="sideDrawer == 'featured_apps'" (click)="stopPropagation($event)">
+                                        <mat-checkbox (change)="featuredAppPermissionCheck($event)"
+                                            [(ngModel)]="userDetail.permissions.notifications">Notifications
+                                        </mat-checkbox>
+                                        <mat-checkbox (change)="featuredAppPermissionCheck($event)"
+                                            [(ngModel)]="userDetail.permissions.socialfeed">Social Feed</mat-checkbox>
                                     </div>
                                 </div>
 
