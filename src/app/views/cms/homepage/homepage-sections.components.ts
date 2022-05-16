@@ -27,7 +27,8 @@ export class HomepageSliderSection implements OnInit {
     this.data.slides.push({
       desktop_img: "",
       mobile_img: "",
-      link: ""
+      link: "",
+      banner_slider_alt_text: ""
     });
   }
 
@@ -186,7 +187,8 @@ export class HomepageSingleBanner implements OnInit {
   @Input() data:any = {
     desktop_img: "",
     mobile_img: "",
-    link: ""
+    link: "",
+    single_banner_text_alt:""
   };
 
   ngOnInit() {
@@ -276,12 +278,14 @@ export class HomepageTwoBanners implements OnInit {
     first_banner: {
       desktop_img: "",
       mobile_img: "",
-      link: ""
+      link: "",
+      banner_alt_text:""
     },
     second_banner: {
       desktop_img: "",
       mobile_img: "",
-      link: ""
+      link: "",
+      banner_alt_text:""
     }
   };
 

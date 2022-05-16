@@ -20,8 +20,21 @@
     </div>
   </div>
 
-  <mat-form-field appearance="outline">
-    <mat-label>Link</mat-label>
-    <input matInput [(ngModel)]="data.link" />
-  </mat-form-field>
+  <div fxLayout="row">
+    <div fxFlex="0 1 50%">
+      <mat-form-field appearance="outline">
+        <mat-label>Single banner alt text</mat-label>
+        <input matInput [(ngModel)]="data.single_banner_text_alt" />
+      </mat-form-field>
+  
+    </div>
+  
+    <div fxFlex="0 1 50%">
+      <mat-form-field appearance="outline">
+        <mat-label>Link</mat-label>
+        <input matInput [(ngModel)]="data.link" />
+      </mat-form-field>
+  
+    </div>
+  </div>
 </mat-card>

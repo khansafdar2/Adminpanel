@@ -43,6 +43,7 @@ export class HeaderCustomizationComponent implements OnInit {
       category_structure: [[]],
       mega_menu_image: [''],
       mega_menu_image_link: [''],
+      mega_menu_image_alt: [''],
       navigation: [null],
       show_track_order: [false]
     })

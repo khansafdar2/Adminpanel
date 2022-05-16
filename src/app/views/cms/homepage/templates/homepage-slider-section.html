@@ -18,11 +18,6 @@
                         [(files)]="slide.desktop_img"
                         valueType="url"
                     ></image-selector>
-    
-                    <mat-form-field appearance="outline">
-                        <mat-label>Slide link</mat-label>
-                        <input matInput [(ngModel)]="slide.link" />
-                    </mat-form-field>
                 </div>
                 <div fxFlex="1 0 50%">
                     <h4>Mobile image</h4>
@@ -30,6 +25,23 @@
                         [(files)]="slide.mobile_img"
                         valueType="url"
                     ></image-selector>
+                </div>
+            </div>
+            <div fxLayout="row">
+                <div fxFlex="0 1 50%">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Slider alt text</mat-label>
+                        <input matInput [(ngModel)]="slide.banner_slider_alt_text" />
+                    </mat-form-field>
+
+                </div>
+
+                <div fxFlex="0 1 50%">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Slide link</mat-label>
+                        <input matInput [(ngModel)]="slide.link" />
+                    </mat-form-field>
+
                 </div>
             </div>
         </mat-card>

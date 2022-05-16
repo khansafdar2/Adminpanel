@@ -135,7 +135,8 @@ export class HomepageAddSectionDialog implements OnInit {
       title: "Banner section",
       desktop_img: "",
       mobile_img: "",
-      link: ""
+      link: "",
+      single_banner_text_alt:""
     },
     {
       type: "categories_tabs",
@@ -149,12 +150,14 @@ export class HomepageAddSectionDialog implements OnInit {
       first_banner: {
         desktop_img: "",
         mobile_img: "",
-        link: ""
+        link: "",
+        banner_alt_text:""
       },
       second_banner: {
         desktop_img: "",
         mobile_img: "",
-        link: ""
+        link: "",
+        banner_alt_text:""
       }
     },
     {
