@@ -29,28 +29,6 @@
                 </mat-card>
     
                 <mat-card>
-                    <h2>Search Engine Preview</h2>
-    
-                    <mat-form-field appearance="outline">
-                        <mat-label>Slug</mat-label>
-                        <input matInput formControlName="slug" />
-                        <mat-hint>If empty, the preview shows what will be auto generated.</mat-hint>
-                    </mat-form-field>
-    
-                    <mat-form-field appearance="outline">
-                        <mat-label>Search engine title</mat-label>
-                        <input matInput formControlName="seo_title" />
-                        <mat-hint>If empty, the preview shows what will be auto generated.</mat-hint>
-                    </mat-form-field>
-    
-                    <mat-form-field appearance="outline">
-                        <mat-label>Search engine description</mat-label>
-                        <textarea matInput formControlName="seo_description"></textarea>
-                        <mat-hint>If empty, the preview shows what will be auto generated.</mat-hint>
-                    </mat-form-field>
-                </mat-card>
-    
-                <mat-card>
                     <h2>Meta data</h2>
     
                     <table class="meta-fields-table">
@@ -85,6 +63,33 @@
                     <div class="text-right meta-fields-bottom">
                         <button mat-button color="primary" (click)="addMetaField()">Add field</button>
                     </div>
+                </mat-card>
+                <mat-card>
+                    <h2>Search Engine customization</h2>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Hnadle</mat-label>
+                        <input matInput formControlName="handle" />
+                        <mat-hint>If empty, the preview shows what will be auto generated.</mat-hint>
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>SEO title</mat-label>
+                        <input matInput formControlName="seo_title" />
+                        <mat-hint>If empty, the preview shows what will be auto generated.</mat-hint>
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>SEO description</mat-label>
+                        <textarea matInput formControlName="seo_description"></textarea>
+                        <mat-hint>If empty, the preview shows what will be auto generated.</mat-hint>
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>SEO keywords</mat-label>
+                        <input matInput formControlName="seo_keywords" />
+                        <mat-hint>If empty, the preview shows what will be auto generated.</mat-hint>
+                    </mat-form-field>
                 </mat-card>
             </div>
             <div fxFlex="0 1 33.33333">

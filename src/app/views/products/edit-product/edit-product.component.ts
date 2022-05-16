@@ -118,7 +118,11 @@ export class EditProductComponent implements OnInit {
     hide_out_of_stock: [false],
     has_variants: [false],
     warranty: [""],
-    tags: [""]
+    tags: [""],
+    handle: [''],
+    seo_title: [''],
+    seo_description: [''],
+    seo_keywords: [''],
   });
 
   inventoryForm = this.fb.group({

@@ -56,9 +56,10 @@ export class AddCollectionComponent implements OnInit {
   collectionForm = this.fb.group({
     title: ['', [Validators.required]],
     description: [''],
-    slug: [''],
+    handle: [''],
     seo_title: [''],
     seo_description: [''],
+    seo_keywords: [''],
     vendor: ['', [Validators.required]],
     banner_image: [null],
     is_active: [false],

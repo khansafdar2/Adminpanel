@@ -32,7 +32,11 @@ export class AddPageComponent implements OnInit {
   pageForm = this.fb.group({
       title: ["", [Validators.required]],
       content: [""],
-      publish_status: true
+      publish_status: true,
+      handle: [''],
+      seo_title: [''],
+      seo_description: [''],
+      seo_keywords: [''],
   });
 
   onSubmit() {

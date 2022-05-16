@@ -41,9 +41,10 @@ export class EditSuperSubCategoryComponent implements OnInit {
     sub_category: [null],
     name: ['', [Validators.required]],
     description: [''],
-    slug: [''],
+    handle: [''],
     seo_title: [''],
     seo_description: [''],
+    seo_keywords: [''],
     banner_image: [null],
     is_active: [false],
     meta_data: this.fb.array([])

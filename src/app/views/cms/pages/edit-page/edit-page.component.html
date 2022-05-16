@@ -22,6 +22,33 @@
 
                 <quill-editor [modules]="editorModules" placeholder="Page content" formControlName="content"></quill-editor>
             </mat-card>
+            <mat-card>
+                <h2>Search Engine customization</h2>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Hnadle</mat-label>
+                    <input matInput formControlName="handle" />
+                    <mat-hint>If empty, the preview shows what will be auto generated.</mat-hint>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>SEO title</mat-label>
+                    <input matInput formControlName="seo_title" />
+                    <mat-hint>If empty, the preview shows what will be auto generated.</mat-hint>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>SEO description</mat-label>
+                    <textarea matInput formControlName="seo_description"></textarea>
+                    <mat-hint>If empty, the preview shows what will be auto generated.</mat-hint>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>SEO keywords</mat-label>
+                    <input matInput formControlName="seo_keywords" />
+                    <mat-hint>If empty, the preview shows what will be auto generated.</mat-hint>
+                </mat-form-field>
+            </mat-card>
         </form>
     </div>
 </main>

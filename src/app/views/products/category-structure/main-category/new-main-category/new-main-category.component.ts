@@ -36,9 +36,10 @@ export class NewMainCategoryComponent implements OnInit {
   categoryForm = this.fb.group({
     name: ['', [Validators.required]],
     description: [''],
-    slug: [''],
+    handle: [''],
     seo_title: [''],
     seo_description: [''],
+    seo_keywords: [''],
     banner_image: [null],
     is_active: [false],
     meta_data: this.fb.array([

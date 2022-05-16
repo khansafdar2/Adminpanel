@@ -37,7 +37,11 @@ export class EditPageComponent implements OnInit {
     id: [null],
     title: ["", [Validators.required]],
     content: [""],
-    publish_status: true
+    publish_status: true,
+    handle: [''],
+    seo_title: [''],
+    seo_description: [''],
+    seo_keywords: [''],
   });
 
   getPageDetails() {
