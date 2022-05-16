@@ -75,6 +75,7 @@ import { LoyalityComponent } from './views/configuration/loyality/loyality.compo
 import { CountriesComponent } from './views/configuration/shipping-regions/countries/countries.component';
 import { ContentApprovalComponent } from './views/content-approval/content-approval.component';
 import { FeaturedAppsComponent } from './featured-apps/featured-apps.component';
+import { PreferencesComponent } from './views/configuration/preferences/preferences.component';
 
 
 const routes: Routes = [
@@ -216,7 +217,8 @@ const routes: Routes = [
     path: URLS.productSocialFeed,
     loadChildren: () => import('./featured-apps/product-social-feed/product-social-feed.module').then(m => m.ProductSoicalFeedModule), canActivate: [LoggedInAuthGuard, SocialFeedGuard, VendorGuard]
   },
-  {path: URLS.featuredApps, component: FeaturedAppsComponent, canActivate: [LoggedInAuthGuard, FeaturedAppGuard, VendorGuard]}
+  {path: URLS.featuredApps, component: FeaturedAppsComponent, canActivate: [LoggedInAuthGuard, FeaturedAppGuard, VendorGuard]},
+  { path: URLS.preferences, component: PreferencesComponent, canActivate: [LoggedInAuthGuard, VendorGuard] },
 ];
 
 @NgModule({

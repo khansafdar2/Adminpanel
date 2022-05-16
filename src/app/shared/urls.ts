@@ -53,6 +53,7 @@ const URLS = {
     featuredApps: 'featured-apps',
     createProductSoclialFeed: 'create-product-social-feed',
     productSocialFeed:'product-social-feed',
+    preferences: 'preferences-settings',
 }
 
 export default URLS;

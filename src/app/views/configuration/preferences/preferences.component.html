@@ -1,0 +1,75 @@
+<app-topbar></app-topbar>
+<app-sidenav></app-sidenav>
+<main id="main">
+  <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+  <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
+    <div>
+      <button mat-icon-button aria-label="Go back" class="header-back-arrow" [routerLink]="['/',URLS.configuration]">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <h1>Preferences</h1>
+    </div>
+
+    <div class="header-actions" fxLayout="row">
+      <a [routerLink]="['/',URLS.configuration]" mat-stroked-button color="primary">Cancel</a>
+      <button mat-flat-button color="primary" [disabled]="!sendPreferencesForm.valid || loading" (click)="onSubmit()">Save
+      </button>
+    </div>
+  </div>
+
+  <div class="page-container">
+      <form [formGroup]="sendPreferencesForm">
+          <div class="settings-section" *ngIf="!loading">
+            <div fxLayout="row">
+                <div fxFlex="0 1 33.333333%">
+                    <h2>General</h2>
+                    <p>Your customers will use this information to indicate their preferred settings.</p>
+                </div>
+                <div fxFlex="1 1 auto">
+                    <mat-card>
+                        <div class="preference" fxLayout="column">
+                            <div fxFlex="0 1 50%">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>SEO title</mat-label>
+                                    <input matInput name="title" formControlName="title"
+                                         />
+                                         <mat-error *ngIf="sendPreferencesForm.get('title').hasError('required')">This field is
+                                            required.</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="0 1 50%">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>SEO description</mat-label>
+                                    <input matInput name="description" formControlName="description"/>
+                                    <mat-error *ngIf="sendPreferencesForm.get('description').hasError('required')">This field is
+                                      required.</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="0 1 50%">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>SEO kewords</mat-label>
+                                    <input matInput name="description" formControlName="description"/>
+                                    <mat-error *ngIf="sendPreferencesForm.get('description').hasError('required')">This field is
+                                      required.</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div fxLayout="column">
+                            <div fxFlex="0 1 50%" fxLayoutAlign="start">
+                                <mat-checkbox class="example chekbox-position"  formControlName="enable_password">Enable password</mat-checkbox>
+                            </div>
+                            <div fxFlex="0 1 50%">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Password</mat-label>
+                                    <input type="text" matInput name="password" formControlName="password" />
+                                    <mat-error *ngIf="sendPreferencesForm.get('password').hasError('required')">This field is required.</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </mat-card>
+                </div>
+            </div>
+          </div>
+      </form>
+  </div>
+</main>

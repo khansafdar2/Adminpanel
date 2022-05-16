@@ -124,12 +124,14 @@ import { ContentApprovalComponent, ContentDisapprovalReasonDialog, DisapproveReq
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { SharedModule } from './shared/shared.module';
 import { FeaturedAppsComponent } from './featured-apps/featured-apps.component';
+import { PreferencesComponent } from './views/configuration/preferences/preferences.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     SigninComponent,
+    PreferencesComponent,
     DashboardComponent,
     ConfigurationComponent,
     UserManagementComponent,
