@@ -258,11 +258,11 @@
                     </div>
                 </div>
             </mat-card>
-            <mat-card>
+            <mat-card [formGroup]="productForm">
                 <h2>Search Engine customization</h2>
 
                 <mat-form-field appearance="outline">
-                    <mat-label>Hnadle</mat-label>
+                    <mat-label>Handle</mat-label>
                     <input matInput formControlName="handle" />
                     <mat-hint>If empty, the preview shows what will be auto generated.</mat-hint>
                 </mat-form-field>

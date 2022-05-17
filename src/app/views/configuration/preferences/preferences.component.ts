@@ -26,7 +26,7 @@ export class PreferencesComponent implements OnInit {
   sendPreferencesForm = this.fb.group({
     title: ['',[Validators.required]],
     password: [''],
-    enable_password: [''],
+    enable_password: [false],
     description: [''],
     seo_keywords: [''],
   });
