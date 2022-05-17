@@ -54,6 +54,7 @@ export class HomepageCategoriesCarousel implements OnInit {
 
   @Input() data:any = {
     title: "",
+    image_alt_text: "",
     categories: []
   };
 

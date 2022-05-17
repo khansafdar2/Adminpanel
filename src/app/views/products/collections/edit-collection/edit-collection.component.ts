@@ -100,6 +100,7 @@ export class EditCollectionComponent implements OnInit {
     seo_title: [''],
     seo_description: [''],
     seo_keywords: [''],
+    slug: [''],
     vendor: ['', [Validators.required]],
     banner_image: [null],
     is_active: [false],

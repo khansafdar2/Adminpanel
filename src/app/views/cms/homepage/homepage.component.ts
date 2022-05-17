@@ -107,6 +107,7 @@ export class HomepageAddSectionDialog implements OnInit {
     {
       type: "categories_carousel",
       title: "Categories carousel",
+      image_alt_text: "",
       categories: []
     },
     {

@@ -46,6 +46,7 @@ export class EditSubCategoryComponent implements OnInit {
     seo_title: [''],
     seo_description: [''],
     seo_keywords: [''],
+    slug: [''],
     banner_image: [null],
     thumbnail_image: [null],
     is_active: [false],

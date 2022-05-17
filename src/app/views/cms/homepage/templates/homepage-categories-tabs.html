@@ -13,6 +13,15 @@
             </mat-form-field>
         </div>
     </div>
+    <div fxLayout="row">
+        <div fxFlex="0 1 50%">
+            <mat-form-field appearance="outline">
+                <mat-label>Image alt text</mat-label>
+                <input matInput [(ngModel)]="data.image_alt_text" />
+            </mat-form-field>
+        </div>
+    </div>
+
 </mat-card>
 
 <h4 style="margin-top: 20px">Categories ({{data.categories.length}}/14)</h4>
