@@ -496,7 +496,6 @@ export class EditProductComponent implements OnInit {
     } else {
       (this.productForm.controls['is_active'] as FormControl).enable();
     }
-    this.checkPriceChange()
   }
 
   onPysicalChange(event) {
