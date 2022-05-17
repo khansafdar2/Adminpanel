@@ -53,9 +53,9 @@
                         </div>
                         <div fxLayout="column">
                             <div fxFlex="0 1 50%" fxLayoutAlign="start">
-                                <mat-checkbox class="example chekbox-position"  formControlName="enable_password">Enable password</mat-checkbox>
+                                <mat-checkbox class="example chekbox-position" (change)="onEnablePasswordChange()"  formControlName="enable_password">Enable password</mat-checkbox>
                             </div>
-                            <div fxFlex="0 1 50%">
+                            <div *ngIf="sendPreferencesForm.get('enable_password').value == true" fxFlex="0 1 50%">
                                 <mat-form-field appearance="outline">
                                     <mat-label>Password</mat-label>
                                     <input type="text" matInput name="password" formControlName="password" />
