@@ -31,18 +31,15 @@
                             <div fxFlex="0 1 50%">
                                 <mat-form-field appearance="outline">
                                     <mat-label>SEO title</mat-label>
-                                    <input matInput name="title" formControlName="title"
-                                         />
-                                         <mat-error *ngIf="sendPreferencesForm.get('title').hasError('required')">This field is
-                                            required.</mat-error>
+                                    <input matInput name="title" formControlName="title" />
+                                    <mat-error *ngIf="sendPreferencesForm.get('title').hasError('required')">This field is required.</mat-error>
                                 </mat-form-field>
                             </div>
                             <div fxFlex="0 1 50%">
                                 <mat-form-field appearance="outline">
                                     <mat-label>SEO description</mat-label>
                                     <input matInput name="description" formControlName="description"/>
-                                    <mat-error *ngIf="sendPreferencesForm.get('description').hasError('required')">This field is
-                                      required.</mat-error>
+                                    <mat-error *ngIf="sendPreferencesForm.get('description').hasError('required')">This field is required.</mat-error>
                                 </mat-form-field>
                             </div>
                             <div fxFlex="0 1 50%">

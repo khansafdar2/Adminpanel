@@ -24,10 +24,10 @@ export class PreferencesComponent implements OnInit {
   URLS = URLS;
   loading: boolean = false;
   sendPreferencesForm = this.fb.group({
-    title: ['',[Validators.required, Validators.pattern(/^[^!"`'#%:;<>={}~\$\(\)\*\+\/\\\?\[\]\^\|]+$/)]],
+    title: ['',[Validators.required]],
     password: [''],
     enable_password: [''],
-    description: ['',[Validators.pattern(/^[^!"`'#%:;<>={}~\$\(\)\*\+\/\\\?\[\]\^\|]+$/)]],
+    description: [''],
     seo_keywords: [''],
   });
 
