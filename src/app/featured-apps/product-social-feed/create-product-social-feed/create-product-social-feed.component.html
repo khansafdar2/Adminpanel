@@ -28,7 +28,6 @@
                                     <mat-label>Feed name</mat-label>
                                     <input matInput formControlName="feed_name"  />
                                 </mat-form-field>
-
                         </div>
 
                         <div fxFlex="0 1 50%">
@@ -42,19 +41,10 @@
 
                         </div>
 
-                        <div fxLayout="row">
-                            <div fxFlex="0 1 50%">
-                                    <mat-form-field  appearance="outline">
-                                        <mat-label>Currency</mat-label>
-                                        <mat-select formControlName="currency">
-                                            <mat-option value="PKR">PKR</mat-option>
-                                            <mat-option value="Qatar">Qatar</mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                                </div>
-    
-                            </div>
+
                 </mat-card>
+
+
 
                 <mat-card>
                     <div fxLayout="row">
@@ -113,10 +103,33 @@
                                 </mat-radio-group>
                             </div>
                         </div>
-    
-                        
-        
                     </div>
+
+                    <div class="custom-labels" fxLayout="row">
+                        <div fxFlex="0 1 50%" >
+                            <div fxLayout="row">
+                                <h4>Product export</h4>
+                                
+                            </div>
+                            <div fxLayout="row">
+                                <mat-radio-group formControlName="product_export" fxLayout="column"  >
+                                    <mat-radio-button value="all">All products</mat-radio-button>
+                                    <mat-radio-button value="category">Category-wise products</mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </mat-card>
+
+                <mat-card *ngIf="productSocialFeedForm.get('product_export').value === 'category'">
+                    <h4>Categories</h4>
+                    <mat-chip-list aria-label="Fish selection"  [selectable]="true">
+                        <mat-chip [removable]="removable" *ngFor="let chip of categoriesTags; let i = index" (removed)="removeChip(i,chip)"> {{chip.category_name}}
+                            <mat-icon  matChipRemove>cancel</mat-icon>
+                        </mat-chip>
+                    </mat-chip-list>
+                    <button mat-stroked-button color="primary" class="category-chips" (click)="categorySelector()">Select Category</button>
                 </mat-card>
 
                 </div>
@@ -132,6 +145,7 @@
                                     <mat-option value="sku">SKU</mat-option>
                                     <mat-option value="product handle">Product handle</mat-option>
                                     <mat-option value="barcode">Barcode</mat-option>
+
                                 </mat-select>
                             </mat-form-field>
                         </div>
@@ -143,6 +157,7 @@
                                     <mat-option value="sku">SKU</mat-option>
                                     <mat-option value="product handle">Product handle</mat-option>
                                     <mat-option value="barcode">Barcode</mat-option>
+
                                 </mat-select>
                             </mat-form-field>
                         </div>
@@ -155,6 +170,7 @@
                                     <mat-option value="sku">SKU</mat-option>
                                     <mat-option value="product handle">Product handle</mat-option>
                                     <mat-option value="barcode">Barcode</mat-option>
+
                                 </mat-select>
                             </mat-form-field>
                         </div>
@@ -167,6 +183,7 @@
                                     <mat-option value="sku">SKU</mat-option>
                                     <mat-option value="product handle">Product handle</mat-option>
                                     <mat-option value="barcode">Barcode</mat-option>
+
                                 </mat-select>
                             </mat-form-field>
                         </div>

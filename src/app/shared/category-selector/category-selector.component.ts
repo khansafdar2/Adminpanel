@@ -104,6 +104,7 @@ export class CategorySelectorComponent implements OnInit {
     let categoryObj = {
       category_id: category.id,
       category_handle: category.handle,
+      category_name: category.name,
       category_type: type
     }
     if (event.checked) {
