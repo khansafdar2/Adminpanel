@@ -71,10 +71,8 @@ export class EditProductComponent implements OnInit {
   variants: Variant[] = [];
   deletedVariants: Variant[] = [];
   deletedImages = [];
-  originalPrice = 0;
   originalOptions = [];
   commissionList:any;
-  changingPrice: boolean = false;
   originalVariants: Variant[] = [];
   creatingVariants: boolean = false;
   productTags: string[] = [];
@@ -303,7 +301,6 @@ export class EditProductComponent implements OnInit {
         } else {
           let variant = resp.data.variants[0];
           this.defaultVariant = variant;
-          this.originalPrice = variant.price;
           this.inventoryForm.patchValue({
             barcode: variant.barcode,
             inventory_quantity: variant.inventory_quantity,
@@ -538,28 +535,6 @@ export class EditProductComponent implements OnInit {
     }
   }
 
-  checkPriceChange() {
-    let selectedGroup = this.productForm.get('product_group').value;
-    let discountApplied: boolean = false;
-
-    if(selectedGroup) {
-      for (let i = 0; i < this.productGroups.length; i++) {
-        if(this.productGroups[i].id == selectedGroup) {
-          discountApplied = this.productGroups[i].discount !== null;
-          break;
-        }
-      }
-
-      if(discountApplied) {
-        if(this.originalPrice != this.priceForm.get('price').value) {
-          this.changingPrice = true;
-        } else {
-          this.changingPrice = false;
-        }
-      }
-    }
-  }
-
   onSubmit() {
     let variants = [];
     let productData = this.productForm.value;
@@ -586,11 +561,6 @@ export class EditProductComponent implements OnInit {
       variants[0].sku = this.inventoryForm.get('sku').value;
       variants[0].barcode = this.inventoryForm.get('barcode').value;
       variants[0].inventory_quantity = this.inventoryForm.get('inventory_quantity').value;
-    }
-
-    if(this.changingPrice) {
-      productData.product_group = "";
-      productData.is_active = false;
     }
 
     productData.options = optionsData;
