@@ -26,6 +26,10 @@ export class AddBrandComponent implements OnInit {
   brandForm = this.fb.group({
     name: ['', [Validators.required]],
     image: [null, [Validators.required]],
+    handle: [''],
+    seo_title: [''],
+    seo_description: [''],
+    seo_keywords: [''],
     banner_image: [null]
   });
   logo_uploading: boolean = false;

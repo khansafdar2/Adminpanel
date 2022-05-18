@@ -48,6 +48,7 @@ export class NewSuperSubCategoryComponent implements OnInit {
     seo_keywords: [''],
     slug: [''],
     banner_image: [null],
+    alt_text: [''],
     is_active: [false],
     meta_data: this.fb.array([
       this.fb.group({

@@ -35,6 +35,10 @@ export class EditBrandComponent implements OnInit {
     id: null,
     name: ['', [Validators.required]],
     image: [null, [Validators.required]],
+    handle: [''],
+    seo_title: [''],
+    seo_description: [''],
+    seo_keywords: [''],
     banner_image: [null]
   });
   logo_uploading: boolean = false;

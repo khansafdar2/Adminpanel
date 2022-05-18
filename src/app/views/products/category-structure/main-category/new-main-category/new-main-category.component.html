@@ -111,71 +111,11 @@
                     </div>
 
                     <p class="recommended-resolution">Recommended resolution: 1920x400</p>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Banner alt text</mat-label>
+                        <input matInput formControlName="alt_text"/>
+                      </mat-form-field>
                 </mat-card>
-
-                <!-- <mat-card>
-                    <h2>Organization</h2>
-
-                </mat-card> -->
-
-                <!-- <mat-card>
-                    <h2>Collection type</h2>
-    
-                    <mat-radio-group fxLayout="column" class="collection-type-radio"
-                        [(ngModel)]="collectionType">
-                        <mat-radio-button value="Manual">
-                            <p class="radio-label">Manual</p>
-                            <p class="radio-detail">Add products to this category manually.</p>
-                        </mat-radio-button>
-                        <mat-radio-button value="Automated">
-                            <p class="radio-label">Automated</p>
-                            <p class="radio-detail">Existing and future products that match the conditions you set will automatically added to this category.</p>
-                        </mat-radio-button>
-                    </mat-radio-group>
-    
-                    <div class="collection-conditions" *ngIf="collectionType == 'Automated'">
-                        <h3>Conditions</h3>
-    
-                        <mat-radio-group fxLayout="column" class="category-rule-type" [(ngModel)]="collectionConditions.rule">
-                            <label>Products must match</label>
-                            <mat-radio-button value="all">all conditions</mat-radio-button>
-                            <mat-radio-button value="Automated">any conditions</mat-radio-button>
-                        </mat-radio-group>
-    
-                        <div class="collection-conditions-wrap">
-                            <div fxLayout="row wrap" *ngFor="let condition of collectionConditions.conditions; let i = index">
-                                <div fxFlex="0 1 50%">
-                                    <mat-form-field appearance="outline">
-                                        <mat-label></mat-label>
-                                        <mat-select [(ngModel)]="condition.column">
-                                            <mat-option value="tag">Product tag</mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                                </div>
-                                <div fxFlex="0 1 50%">
-                                    <mat-form-field appearance="outline">
-                                        <mat-label></mat-label>
-                                        <mat-select [(ngModel)]="condition.condition">
-                                            <mat-option value="equal">is equal to</mat-option>
-                                            <mat-option value="not equal">is not equal to</mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                                </div>
-                                <div fxFlex="0 1 50%">
-                                    <mat-form-field appearance="outline">
-                                        <mat-label>Tag</mat-label>
-                                        <input matInput [(ngModel)]="condition.value" />
-                                    </mat-form-field>
-                                </div>
-                                <div fxFlex="0 1 50%">
-                                    <button mat-icon-button color="primary" (click)="deleteCondition(i)"><mat-icon>delete</mat-icon></button>
-                                </div>
-                            </div>
-                        </div>
-    
-                        <button mat-button color="primary" (click)="addCondition()">+ Add another</button>
-                    </div>
-                </mat-card> -->
             </div>
         </div>
     </form>

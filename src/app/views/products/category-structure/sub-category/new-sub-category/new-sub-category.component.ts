@@ -52,6 +52,7 @@ export class NewSubCategoryComponent implements OnInit {
     slug: [''],
     banner_image: [null],
     thumbnail_image: [null],
+    alt_text: [''],
     is_active: [false],
     meta_data: this.fb.array([
       this.fb.group({

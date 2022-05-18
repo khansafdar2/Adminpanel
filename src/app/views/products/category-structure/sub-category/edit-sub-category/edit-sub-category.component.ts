@@ -49,6 +49,7 @@ export class EditSubCategoryComponent implements OnInit {
     slug: [''],
     banner_image: [null],
     thumbnail_image: [null],
+    alt_text: [''],
     is_active: [false],
     main_category: [null],
     meta_data: this.fb.array([])
