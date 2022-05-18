@@ -31,34 +31,31 @@
                             <div fxFlex="0 1 50%">
                                 <mat-form-field appearance="outline">
                                     <mat-label>SEO title</mat-label>
-                                    <input matInput name="title" formControlName="title"
-                                         />
-                                         <mat-error *ngIf="sendPreferencesForm.get('title').hasError('required')">This field is
-                                            required.</mat-error>
+                                    <input matInput name="seo_title" formControlName="seo_title" />
+                                    <mat-error *ngIf="sendPreferencesForm.get('seo_title').hasError('required')">This field is required.</mat-error>
                                 </mat-form-field>
                             </div>
                             <div fxFlex="0 1 50%">
                                 <mat-form-field appearance="outline">
                                     <mat-label>SEO description</mat-label>
-                                    <input matInput name="description" formControlName="description"/>
-                                    <mat-error *ngIf="sendPreferencesForm.get('description').hasError('required')">This field is
-                                      required.</mat-error>
+                                    <input matInput name="seo_description" formControlName="seo_description"/>
+                                    <mat-error *ngIf="sendPreferencesForm.get('seo_description').hasError('required')">This field is required.</mat-error>
                                 </mat-form-field>
                             </div>
                             <div fxFlex="0 1 50%">
                                 <mat-form-field appearance="outline">
                                     <mat-label>SEO kewords</mat-label>
-                                    <input matInput name="description" formControlName="description"/>
-                                    <mat-error *ngIf="sendPreferencesForm.get('description').hasError('required')">This field is
+                                    <input matInput name="seo_keywords" formControlName="seo_keywords"/>
+                                    <mat-error *ngIf="sendPreferencesForm.get('seo_keywords').hasError('required')">This field is
                                       required.</mat-error>
                                 </mat-form-field>
                             </div>
                         </div>
                         <div fxLayout="column">
                             <div fxFlex="0 1 50%" fxLayoutAlign="start">
-                                <mat-checkbox class="example chekbox-position"  formControlName="enable_password">Enable password</mat-checkbox>
+                                <mat-checkbox class="example chekbox-position" (change)="onEnablePasswordChange()"  formControlName="enable_password">Enable password</mat-checkbox>
                             </div>
-                            <div fxFlex="0 1 50%">
+                            <div *ngIf="sendPreferencesForm.get('enable_password').value" fxFlex="0 1 50%">
                                 <mat-form-field appearance="outline">
                                     <mat-label>Password</mat-label>
                                     <input type="text" matInput name="password" formControlName="password" />

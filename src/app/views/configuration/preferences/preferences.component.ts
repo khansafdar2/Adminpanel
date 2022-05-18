@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import URLS from 'src/app/shared/urls';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Validators } from '@angular/forms';
@@ -24,16 +24,35 @@ export class PreferencesComponent implements OnInit {
   URLS = URLS;
   loading: boolean = false;
   sendPreferencesForm = this.fb.group({
-    title: ['',[Validators.required, Validators.pattern(/^[^!"`'#%:;<>={}~\$\(\)\*\+\/\\\?\[\]\^\|]+$/)]],
+    seo_title: ['',[Validators.required]],
     password: [''],
-    enable_password: [''],
-    description: ['',[Validators.pattern(/^[^!"`'#%:;<>={}~\$\(\)\*\+\/\\\?\[\]\^\|]+$/)]],
+    enable_password: [false],
+    seo_description: [''],
     seo_keywords: [''],
   });
 
+
+
+  onEnablePasswordChange() {
+    let passwordCheck = this.sendPreferencesForm.get('enable_password').value;
+    if (passwordCheck == true) {
+      (this.sendPreferencesForm.controls['password'] as FormControl).setValidators([Validators.required]);
+      (this.sendPreferencesForm.controls['password'] as FormControl).updateValueAndValidity();
+    } else {
+      (this.sendPreferencesForm.controls['password'] as FormControl).clearValidators();
+      (this.sendPreferencesForm.controls['password'] as FormControl).updateValueAndValidity();
+    }
+  }
+
   onSubmit() {
     this.loading = true;
-    this.preferencesService.getPreferencesSetting(this.sendPreferencesForm.value).then(resp => {
+    let mainObj;
+    let passwordCheck = this.sendPreferencesForm.get('enable_password').value;
+    mainObj = this.sendPreferencesForm.value;
+    if (passwordCheck == false) {
+      mainObj.password = '';
+    }
+    this.preferencesService.getPreferencesSetting(mainObj).then(resp => {
       this.loading = false;
       if (resp) {
         this.snackbar.open("Preferences created successfully.", "", { duration: 3000 });

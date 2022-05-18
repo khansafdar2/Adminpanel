@@ -12,7 +12,7 @@ export class PreferencesService {
   constructor(private authservice: AuthService) { }
 
   getPreferencesSetting(data) {
-    return Axios.post(environment.backend_url + '/setting/preferences', data, {
+    return Axios.post(environment.backend_url + '/cms/preferences', data, {
       headers: {
         Authorization: this.authservice.token
       }
@@ -25,7 +25,7 @@ export class PreferencesService {
   }
 
   getPreferencesDetail() {
-    return Axios.get(environment.backend_url + '/setting/preferences', {
+    return Axios.get(environment.backend_url + '/cms/preferences', {
       headers: {
         Authorization: this.authservice.token
       }
