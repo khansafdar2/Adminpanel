@@ -1,47 +1,6 @@
 <div class="datatable">
-  <!-- <div class="search-row">
-    <mat-form-field *ngIf="searchable">
-      <mat-label>Search</mat-label>
-      <input matInput type="search" (keyup)="onSearch()" [(ngModel)]="searchQuery" />
-      <mat-icon matSuffix fontSet="icofont-search"></mat-icon>
-    </mat-form-field>
-
-    <button mat-flat-button class="filters-toggle"
-            (click)="toggleFilters()"
-            *ngIf="filters && filters.length"><mat-icon>filter_alt</mat-icon> Filters <mat-icon>arrow_drop_down</mat-icon></button>
-    <button mat-flat-button color="primary" class="new-button" *ngIf="showAddNew" (click)="onAddNew()">+ New</button>
-  </div> -->
-
-  <!-- <ng-container *ngIf="filters && filters.length">
-    <div class="filters-row" *ngIf="displayFilters">
-      <div class="activated-filters">
-        <mat-chip-list aria-label="Fish selection">
-          <ng-container *ngFor="let filter of appliedFilters">
-            <mat-chip *ngFor="let value of filter.values">{{ value }} <mat-icon matChipRemove (click)="applyFilter(filter.title, value, false)">clear</mat-icon></mat-chip>
-          </ng-container>
-        </mat-chip-list>
-      </div>
-      <div class="available-filters">
-        <ng-container *ngFor="let filter of filters; let i = index">
-          <button mat-stroked-button [matMenuTriggerFor]="filterMenu">{{ filter.title }} <mat-icon>arrow_drop_down</mat-icon></button>
-          <mat-menu #filterMenu="matMenu">
-            <ng-template matMenuContent>
-              <ng-container *ngFor="let value of filter.values">
-                <mat-checkbox class="mat-menu-item"
-                              (change)="applyFilter(filter.title, value, $event.checked)"
-                              [checked]="isFilterApplied(filter.title, value)"
-                              (click)="$event.stopPropagation()">{{ value }}</mat-checkbox>
-              </ng-container>
-            </ng-template>
-          </mat-menu>
-        </ng-container>
-      </div>
-    </div>
-  </ng-container> -->
-
-  <div class="filters-row">
+  <div class="filters-row"   fxLayout="row wrap" >
     <!-- Table search field and columns -->
-    <div class="search-filter">
       <mat-form-field *ngIf="searchable" appearance="outline" class="table-search-field">
         <mat-label>Search</mat-label>
         <input matInput type="search" (keyup)="onSearch()" [(ngModel)]="searchQuery" />
@@ -54,11 +13,8 @@
           <mat-option *ngFor="let column of searchColumns" [value]="column.value">{{column.label}}</mat-option>
         </mat-select>
       </mat-form-field>
-    </div>
 
-    <!-- Table filters -->
-    <div class="table-filters" *ngIf="_filters && _filters.length">
-      <div class="available-filters">
+      <ng-container  *ngIf="_filters && _filters.length">
         <mat-form-field appearance="outline" *ngFor="let filter of _filters; let i = index">
           <mat-label>{{ filter.title }}</mat-label>
           <mat-select [(ngModel)]="appliedFilters[i].value" (selectionChange)="onFilterChange($event, i)">
@@ -66,24 +22,10 @@
             <mat-option *ngFor="let value of filter.values" [value]="value.value ? value.value : value">{{ value.label ? value.label : value }}</mat-option>
           </mat-select>
         </mat-form-field>
-        <!-- <ng-container *ngFor="let filter of filters; let i = index">
-          <button mat-stroked-button [matMenuTriggerFor]="filterMenu">{{ filter.title }} <mat-icon>arrow_drop_down</mat-icon></button>
-          <mat-menu #filterMenu="matMenu">
-            <ng-template matMenuContent>
-              <ng-container *ngFor="let value of filter.values">
-                <mat-checkbox class="mat-menu-item"
-                              (change)="applyFilter(filter.title, value, $event.checked)"
-                              [checked]="isFilterApplied(filter.title, value)"
-                              (click)="$event.stopPropagation()">{{ value }}</mat-checkbox>
-              </ng-container>
-            </ng-template>
-          </mat-menu>
-        </ng-container> -->
-      </div>
-    </div>
+      </ng-container>
   </div>
 
-  <div class="table-wrapper">
+  <div  class="table-wrapper">
     <table mat-table matSort [dataSource]="dataSource" (matSortChange)="sortData($event)">
   
       <ng-container matColumnDef="select">
@@ -112,8 +54,8 @@
     
         <td mat-cell *matCellDef="let row" style="width: {{column.width ? column.width : 'auto'}}">
           <ng-container *ngIf="column.cell; else normalCell">
-            <span *ngIf="column.clickable" class="clickable-cell" (click)="onCellClick(row, column.selector)" [innerHTML]="column.cell(row)"></span>
-            <span *ngIf="!column.clickable" [innerHTML]="column.cell(row)"></span>
+            <span  *ngIf="column.clickable" class="clickable-cell" (click)="onCellClick(row, column.selector)" [innerHTML]="column.cell(row)"></span>
+            <span  *ngIf="!column.clickable" [innerHTML]="column.cell(row)"></span>
           </ng-container>
 
           <ng-template #normalCell>

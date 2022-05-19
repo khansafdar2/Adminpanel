@@ -207,6 +207,17 @@ export class OrdersComponent implements OnInit {
     });
   }
 
+  onSalesReport() {
+    let dialogRef = this.dialog.open(SalesReportDialog, {
+      width: "600px",
+    });
+    dialogRef.afterClosed().subscribe(exported => {
+      if (exported) {
+        this.orderSelection.clear();
+      }
+    });
+  }
+
   getOrders() {
     this.loading = true;
     let orderservice;
@@ -262,6 +273,56 @@ export class OrdersExportDialog {
         var fileLink = document.createElement('a');
         fileLink.href = fileURL;
         fileLink.setAttribute('download', 'export_orders.csv');
+        document.body.appendChild(fileLink);
+        fileLink.click();
+        document.body.removeChild(fileLink);
+        this.dialogRef.close(true);
+      }
+    });
+  }
+}
+
+
+@Component({
+  selector: 'sales-report-dialog',
+  styleUrls: ['./orders.component.scss'],
+  templateUrl: './dialogs/salesReportDialog.html',
+})
+export class SalesReportDialog {
+  constructor(
+    public dialogRef: MatDialogRef<SalesReportDialog>,
+    @Inject(MAT_DIALOG_DATA) public data,
+    private ordersService: OrdersService
+  ) {
+
+  }
+
+  loading: boolean = false;
+  ids: string = "";
+  exportType = "all";
+  start_date:any;
+  end_date:any;
+
+  onDownload() {
+    this.loading = true;
+    if (!this.start_date && !this.end_date) {
+      this.start_date = null;
+      this.end_date = null;
+    } else if (!this.start_date && this.end_date) {
+      this.start_date = null;
+    } else if (this.start_date && !this.end_date) {
+      this.end_date = null;
+    }
+    this.ordersService.salesReport(this.start_date, this.end_date).then(resp => {
+      console.log(resp);
+      
+      this.loading = false;
+      if (resp) {
+        let csv_data = resp.data;
+        var fileURL = window.URL.createObjectURL(new Blob([csv_data], { type: 'text/csv;charset=utf-8;' }));
+        var fileLink = document.createElement('a');
+        fileLink.href = fileURL;
+        fileLink.setAttribute('download', 'sales_report.csv');
         document.body.appendChild(fileLink);
         fileLink.click();
         document.body.removeChild(fileLink);

@@ -793,3 +793,26 @@ body {
         padding-right: 90px;
     }
 }
+
+.table-wrapper{
+    overflow-x: auto;
+
+}
+
+.datatable {
+
+    .filters-row {
+
+        margin: 0;
+
+            .mat-form-field-wrapper {
+
+                padding: 0;
+
+            }
+
+    }
+
+
+
+}

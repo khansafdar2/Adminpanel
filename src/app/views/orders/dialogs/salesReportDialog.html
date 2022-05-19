@@ -1,0 +1,26 @@
+<button mat-icon-button mat-dialog-close class="dialog-close"><mat-icon>close</mat-icon></button>
+<h2 mat-dialog-title>Download Sales Report</h2>
+
+<mat-dialog-content class="mat-typography">
+    <h4>Filter by date range</h4>
+                    <div fxLayout="row" >
+                        <div fxFlex="0 1 50%" class="date-filter" >
+                            <mat-form-field   appearance="outline">
+                                <mat-label>start date</mat-label>
+                                <input type="date"  [(ngModel)]="start_date" matInput />
+                            </mat-form-field>
+                        </div>
+
+                        <div fxFlex="0 1 50%" class="date-filter"  >
+                            <mat-form-field    appearance="outline">
+                                <mat-label>end date</mat-label>
+                                <input type="date"  [(ngModel)]="end_date" matInput />
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+</mat-dialog-content>
+<div mat-dialog-actions>
+    <button mat-stroked-button color="primary" mat-dialog-close>Cancel</button>
+    <button mat-flat-button color="primary" [disabled]="loading" (click)="onDownload()">Download</button>
+</div>

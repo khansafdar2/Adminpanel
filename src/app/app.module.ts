@@ -72,7 +72,7 @@ import { AddVariantComponent } from './views/products/add-variant/add-variant.co
 import { AddDiscountComponent } from './views/discounts/add-discount/add-discount.component';
 import { EditDiscountComponent } from './views/discounts/edit-discount/edit-discount.component';
 import { AddShippingDialog, AddZoneDialog, DeleteShippingDialog, DeleteZoneDialog, EditShippingDialog, ShippingComponent, ViewZoneDialog } from './views/configuration/shipping/shipping.component';
-import { OrdersComponent, OrdersExportDialog } from './views/orders/orders.component';
+import { OrdersComponent, OrdersExportDialog ,SalesReportDialog} from './views/orders/orders.component';
 import { AddOrderComponent } from './views/orders/add-order/add-order.component';
 import { CustomerDeleteDialog, CustomersComponent } from './views/customers/customers.component';
 import { AddCustomerComponent } from './views/customers/add-customer/add-customer.component';
@@ -266,6 +266,7 @@ import { PreferencesComponent } from './views/configuration/preferences/preferen
     DisapproveRequestDialog,
     ContentDisapprovalReasonDialog,
     FeaturedAppsComponent,
+    SalesReportDialog,
   ],
   imports: [
     BrowserModule,

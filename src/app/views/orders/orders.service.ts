@@ -313,5 +313,31 @@ export class OrdersService {
     });
   }
 
+  
+ 
+  salesReport(start_date, end_date) {
+    let endPoint;
+    if(!start_date && !end_date) {
+     endPoint =  "/dashboard/orders_report";
+    } else if(start_date && !end_date) {
+      endPoint =  "/dashboard/orders_report?start_date=" + start_date;
+     } else if(!start_date && end_date) {
+      endPoint =  "/dashboard/orders_report?end_date=" + end_date;
+     } else {
+     endPoint =  "/dashboard/orders_report?start_date=" + start_date + "&end_date=" + end_date;
+     }
+    return Axios.get(environment.backend_url + endPoint, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+      .catch(error => {
+        if (error.response.data.detail == "Session expired, Reopen the application!") {
+          this.authService.signout();
+        }
+        return error;
+      });
+  }
+
 
 }
