@@ -262,16 +262,12 @@ export class OrdersExportDialog {
   loading: boolean = false;
   ids: string = "";
   exportType = "all";
-  showMessage = false;
 
   onExport() {
     this.loading = true;
     this.ordersService.exportOrders(this.exportType === "all" ? "all" : this.ids).then(resp => {
       this.loading = false;
       if (resp) {
-        if(this.exportType === "all") {
-          this.showMessage = true;
-        } else {
           let csv_data = resp.data;
           var fileURL = window.URL.createObjectURL(new Blob([csv_data], { type: 'text/csv;charset=utf-8;' }));
           var fileLink = document.createElement('a');
@@ -281,8 +277,6 @@ export class OrdersExportDialog {
           fileLink.click();
           document.body.removeChild(fileLink);
           this.dialogRef.close(true);
-        }
-
       }
     });
   }

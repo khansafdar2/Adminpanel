@@ -696,16 +696,12 @@ export class ProductsExportDialog {
   loading: boolean = false;
   ids: string = "";
   exportType = "all";
-  showMessage = false;
 
   onExport() {
     this.loading = true;
     this.productsService.exportProducts(this.exportType === "all" ? "all" : this.ids).then(resp => {
       this.loading = false;
       if (resp) {
-        if(this.exportType === "all") {
-          this.showMessage = true;
-        } else {
           let csv_data = resp.data;
           var fileURL = window.URL.createObjectURL(new Blob([csv_data], { type: 'text/csv;charset=utf-8;' }));
           var fileLink = document.createElement('a');
@@ -715,7 +711,6 @@ export class ProductsExportDialog {
           fileLink.click();
           document.body.removeChild(fileLink);
           this.dialogRef.close(true);
-        }
       }
     });
   }
