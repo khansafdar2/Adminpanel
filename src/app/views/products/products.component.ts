@@ -696,21 +696,23 @@ export class ProductsExportDialog {
   loading: boolean = false;
   ids: string = "";
   exportType = "all";
+  exportMessageShow = false;
 
   onExport() {
     this.loading = true;
     this.productsService.exportProducts(this.exportType === "all" ? "all" : this.ids).then(resp => {
       this.loading = false;
       if (resp) {
-          let csv_data = resp.data;
-          var fileURL = window.URL.createObjectURL(new Blob([csv_data], { type: 'text/csv;charset=utf-8;' }));
-          var fileLink = document.createElement('a');
-          fileLink.href = fileURL;
-          fileLink.setAttribute('download', 'export_products.csv');
-          document.body.appendChild(fileLink);
-          fileLink.click();
-          document.body.removeChild(fileLink);
-          this.dialogRef.close(true);
+        this.exportMessageShow = true;
+          // let csv_data = resp.data;
+          // var fileURL = window.URL.createObjectURL(new Blob([csv_data], { type: 'text/csv;charset=utf-8;' }));
+          // var fileLink = document.createElement('a');
+          // fileLink.href = fileURL;
+          // fileLink.setAttribute('download', 'export_products.csv');
+          // document.body.appendChild(fileLink);
+          // fileLink.click();
+          // document.body.removeChild(fileLink);
+          // this.dialogRef.close(true);
       }
     });
   }
