@@ -30,44 +30,60 @@
                     <div class="lineitem-wrapper" [class.deleted]="lineitemGroup.get('deleted').value"
                         *ngFor="let lineitemGroup of lineitemsFormArray['controls']; let i = index">
                         <ng-container [formGroup]="lineitemGroup">
-                            <div class="lineitem-productdata">
-                                <img
-                                    [src]="lineitemGroup.get('product_image').value ? lineitemGroup.get('product_image').value : '/assets/img/placeholder-image.png'" />
+                            <div flexLayout="row" fxLayoutAlign="space-between">
+                                <div class="lineitem-productdata">
+                                    <img
+                                        [src]="lineitemGroup.get('product_image').value ? lineitemGroup.get('product_image').value : '/assets/img/placeholder-image.png'" />
+                                    <div>
+                                        <span class="product-name">{{lineitemGroup.get('product_title').value}}</span>
+                                        <span class="variant_info">{{lineitemGroup.get('variant_title').value !== "Default
+                                            Title" ? lineitemGroup.get('variant_title').value : ""}}</span>
+                                    </div>
+                                </div>
+                                <div *ngIf="orderStatus !== 'Cancelled'" class="lineitem-price-qty">
+                                    <span>{{lineitemGroup.get('price').value}} {{storeCurrency}} <span class="chater-space">X</span> </span>
+                                    <input type="number" class="lineitem-qty" min="1" formControlName="quantity"
+                                        *ngIf="!lineitemGroup.get('deleted').value" (keydown)="onQtyKeydown($event)"
+                                        (change)="onQtyChange()" />
+    
+                                    <span *ngIf="lineitemGroup.get('deleted').value" class="lineitem-qty">  x {{
+                                        lineitemGroup.get('quantity').value }}</span>
+                                </div>
+                            </div>
+
+                            <div flexLayout="row" fxLayoutAlign="space-between" class="margin" >
+
+                                <div *ngIf="orderStatus !== 'Cancelled'" class="lineitem-subtotal">
+                                    <div class="shipping-container" *ngIf="!lineitemGroup.get('deleted').value">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Shipping</mat-label>
+                                            <input matInput placeholder="shipping" type="number" (change)="updateTotals()"
+                                                formControlName="shipping_amount" />
+                                        </mat-form-field>
+                                    </div>
+                                    <!-- <div *ngIf="lineitemGroup.get('deleted').value">
+                                        {{lineitemGroup.get('shipping_amount').value}}
+                                    </div> -->
+                                </div>
+
                                 <div>
-                                    <span class="product-name">{{lineitemGroup.get('product_title').value}}</span>
-                                    <span class="variant_info">{{lineitemGroup.get('variant_title').value !== "Default
-                                        Title" ? lineitemGroup.get('variant_title').value : ""}}</span>
+                                    <div><p class="font-margin">Subtotal</p></div>
+                                    <span>{{lineitemGroup.get('subtotal').value}} {{storeCurrency}}</span>
+
+                                </div>
+                                <div>
+                                        <div *ngIf="orderStatus !== 'Cancelled'">
+                                            <button mat-icon-button color="warn" *ngIf="!lineitemGroup.get('deleted').value" (click)="removeLineItem(i)">
+                                                <mat-icon>delete</mat-icon>
+                                            </button>
+                                        </div>
+
                                 </div>
                             </div>
-                            <div *ngIf="orderStatus !== 'Cancelled'" class="lineitem-price-qty">
-                                <span>{{lineitemGroup.get('price').value}} {{storeCurrency}} X</span>
-                                <input type="number" class="lineitem-qty" min="1" formControlName="quantity"
-                                    *ngIf="!lineitemGroup.get('deleted').value" (keydown)="onQtyKeydown($event)"
-                                    (change)="onQtyChange()" />
-
-                                <span *ngIf="lineitemGroup.get('deleted').value" class="lineitem-qty">  x {{
-                                    lineitemGroup.get('quantity').value }}</span>
-                            </div>
+                      
 
 
-                            <div *ngIf="orderStatus !== 'Cancelled'" class="lineitem-subtotal">
-                                <span>{{lineitemGroup.get('subtotal').value}} {{storeCurrency}}</span>
-                                <div class="shipping-container" *ngIf="!lineitemGroup.get('deleted').value">
-                                    <mat-form-field appearance="outline">
-                                        <mat-label>Shipping</mat-label>
-                                        <input matInput placeholder="shipping" type="number" (change)="updateTotals()"
-                                            formControlName="shipping_amount" />
-                                    </mat-form-field>
-                                </div>
-                                <div  *ngIf="lineitemGroup.get('deleted').value">Shipping
-                                    {{lineitemGroup.get('shipping_amount').value}}</div>
-                            </div>
-                            <div *ngIf="orderStatus !== 'Cancelled'">
-                                <button mat-icon-button color="warn" *ngIf="!lineitemGroup.get('deleted').value"
-                                    (click)="removeLineItem(i)">
-                                    <mat-icon>delete</mat-icon>
-                                </button>
-                            </div>
+                     
 
                             <div *ngIf="orderStatus == 'Cancelled'" class="lineitem-price-qty">
                                 {{lineitemGroup.get('price').value}} {{storeCurrency}} x {{lineitemGroup.get('quantity').value}} 
@@ -110,6 +126,14 @@
                     </div>
                     <div>
                         <span>{{totalShipping}} {{storeCurrency}}</span>
+                    </div>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="space-between">
+                    <div>
+                        <span>Discount</span>
+                    </div>
+                    <div>
+                        <span>{{Discount}} {{storeCurrency}}</span>
                     </div>
                 </div>
                 <div fxLayout="row" fxLayoutAlign="space-between" class="lineitems-total-row">

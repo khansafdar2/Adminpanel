@@ -46,6 +46,7 @@ export class EditChildOrderComponent implements OnInit {
   isPaid: boolean = false;
   subTotal: number = 0;
   totalShipping: number = 0;
+  Discount: number = 0;
   totalTax: number = 0;
   grandTotal: number = 0;
   paidAmount: number = 0;
@@ -84,6 +85,7 @@ export class EditChildOrderComponent implements OnInit {
         this.paidAmount = parseFloat(resp.data.paid_amount);
         this.subTotal = resp.data.subtotal_price;
         this.totalShipping = resp.data.total_shipping;
+        this.Discount = resp.data.discounted_price
         this.grandTotal = resp.data.total_price;
         this.notes = resp.data.notes;
         this.tags = resp.data.tags ? resp.data.tags.split(",") : [];

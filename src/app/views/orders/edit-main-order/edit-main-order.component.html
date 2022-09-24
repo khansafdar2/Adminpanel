@@ -29,20 +29,36 @@
 
                 <div class="order-lineitems">
                     <div class="lineitem-wrapper" [class.deleted]="lineitem.deleted" *ngFor="let lineitem of lineitems;">
-                        <div class="lineitem-productdata">
-                            <img [src]="lineitem.product_image ? lineitem.product_image : '/assets/img/placeholder-image.png'" />
-                            <div>
-                                <span class="product-name">{{lineitem.product_title}}</span>
-                                <span class="variant_info">{{lineitem.vendor}}<br>{{lineitem.variant_title !== "Default Title" ? lineitem.variant_title : ""}}</span>
+                        <div fxLayout="row" fxLayoutAlign="space-between ">
+
+                            <div class="lineitem-productdata">
+                                <img [src]="lineitem.product_image ? lineitem.product_image : '/assets/img/placeholder-image.png'" />
+                                <div>
+                                    <span class="product-name">{{lineitem.product_title}}</span>
+                                    <span class="variant_info">{{lineitem.vendor}}<br>{{lineitem.variant_title !== "Default Title" ? lineitem.variant_title : ""}}</span>
+                                </div>
+                            </div>
+
+                            <div class="lineitem-price-qty">
+                                {{lineitem.price}} {{storeCurrency}} x {{lineitem.quantity}} 
                             </div>
                         </div>
-                        <div class="lineitem-price-qty">
-                            {{lineitem.price}} {{storeCurrency}} x {{lineitem.quantity}} 
+                        <div fxLayout="row" fxLayoutAlign="space-between" class="margin">
+                            <div> Shipping: {{lineitem.shipping_amount}}</div>
+
+                            <div>
+                                <div>
+                                    <p class="font-margin">Subtotal</p>
+                                </div>
+                            
+                            
+                                <span>{{lineitem.subtotal}} {{storeCurrency}}</span>
+                            </div>
                         </div>
-                        <div class="lineitem-subtotal">
+                        <!-- <div class="lineitem-subtotal">
                             <span>{{lineitem.subtotal}} {{storeCurrency}}</span>
                             <div> Shipping: {{lineitem.shipping_amount}}</div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div class="fulfillent-status">
@@ -75,6 +91,14 @@
                     </div>
                     <div>
                         <span>{{totalShipping}} {{storeCurrency}}</span>
+                    </div>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="space-between">
+                    <div>
+                        <span>Discount</span>
+                    </div>
+                    <div>
+                        <span>{{discount}} {{storeCurrency}}</span>
                     </div>
                 </div>
                 <div fxLayout="row" fxLayoutAlign="space-between" class="lineitems-total-row">

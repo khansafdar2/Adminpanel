@@ -47,6 +47,7 @@ export class EditMainOrderComponent implements OnInit {
   paymentStatus: string = "Pending";
   subTotal: number = 0;
   totalShipping: number = 0;
+  discount: number = 0;
   totalTax: number = 0;
   paidAmount:any;
   grandTotal: number = 0;
@@ -163,6 +164,7 @@ export class EditMainOrderComponent implements OnInit {
         this.childOrders = resp.data.child_orders;
         this.subTotal = resp.data.subtotal_price;
         this.totalShipping = resp.data.total_shipping;
+        this.discount = resp.data.discounted_price
         this.grandTotal = resp.data.total_price;
         this.paidAmount = parseFloat(resp.data.paid_amount);
         this.shippingAddress = resp.data.shipping_address.address ? resp.data.shipping_address : null;

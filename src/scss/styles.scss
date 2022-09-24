@@ -558,9 +558,9 @@ body {
 
     .lineitem-wrapper {
         padding: 12px 0;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+        // display: flex;
+        // align-items: center;
+        // justify-content: space-between;
 
         .lineitem-productdata {
             display: flex;
@@ -816,3 +816,8 @@ body {
 
 
 }
+
+// .order-lineitems + .order-lineitems{
+//     border-top: 1px solid #ddd !important;
+
+// }
