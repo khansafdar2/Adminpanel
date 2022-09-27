@@ -144,7 +144,6 @@ export class CreateProductSocialFeedComponent implements OnInit {
 
 
   removeChip(index, data) {
-    debugger
     this.categoriesTags.splice(index, 1);
     if(data) {
       if(data.category_type == "main") {
