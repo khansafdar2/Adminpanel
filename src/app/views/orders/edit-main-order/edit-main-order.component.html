@@ -15,17 +15,19 @@
     <div fxLayout="row">
         <div fxFlex="0 1 60%">
             <mat-card class="order-details">
-                <div fxLayout="row" fxLayoutAlign="space-between">
-                    <div>
+                    
                         <h3>Order details</h3>
-                        <p class="order-number">Order No. {{orderNumber}}</p>
+                        <div fxLayout="row" fxLayoutAlign="space-between">
+                            <div>
+                                <p class="order-number">Order No. {{orderNumber}}</p>
 
-                        <div *ngIf="orderStatus == 'Cancelled'">
-                            <span  [class]="'label ' + (orderStatus === 'Cancelled' ? 'success' : 'warning')">{{orderStatus}}</span>
+                            </div>
+                            <div *ngIf="orderStatus == 'Cancelled'">
+                                <span  [class]="'label ' + (orderStatus === 'Cancelled' ? 'success' : 'warning')">{{orderStatus}}</span>
+                            </div>
                         </div>
-                    </div>
 
-                </div>
+                
 
                 <div class="order-lineitems">
                     <div class="lineitem-wrapper" [class.deleted]="lineitem.deleted" *ngFor="let lineitem of lineitems;">
@@ -44,7 +46,7 @@
                             </div>
                         </div>
                         <div fxLayout="row" fxLayoutAlign="space-between" class="margin">
-                            <div> 
+                            <div class="space"> 
                                 <p class="font-margin">
                                     Shipping
     
