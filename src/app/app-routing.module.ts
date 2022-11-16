@@ -76,6 +76,11 @@ import { CountriesComponent } from './views/configuration/shipping-regions/count
 import { ContentApprovalComponent } from './views/content-approval/content-approval.component';
 import { FeaturedAppsComponent } from './featured-apps/featured-apps.component';
 import { PreferencesComponent } from './views/configuration/preferences/preferences.component';
+import { BlogsComponent } from './views/cms/blogs/blogs/blogs.component';
+import { AddBlogComponent } from './views/cms/blogs/add-blog/add-blog/add-blog.component';
+import { EditBlogComponent } from './views/cms/blogs/edit-blog/edit-blog/edit-blog.component';
+import { AddCategoryComponent } from './views/cms/categories/add-category/add-category/add-category.component';
+import { EditCategoryComponent } from './views/cms/categories/edit-category/edit-category/edit-category.component';
 
 
 const routes: Routes = [
@@ -171,6 +176,15 @@ const routes: Routes = [
     {path: URLS.add, component: AddPageComponent, canActivate: [StaticPagesGuard]},
     {path: URLS.edit + '/:id', component: EditPageComponent, canActivate: [StaticPagesGuard]},
   ]},
+  {path: URLS.blogs, canActivate: [LoggedInAuthGuard, CustomizationGuard], children: [
+    { path: '', redirectTo: URLS.all, pathMatch: 'full' },
+    { path: URLS.all, component: BlogsComponent},
+    { path: URLS.add, component: AddBlogComponent},
+    { path: URLS.addCategory, component: AddCategoryComponent},
+    { path: URLS.edit + '/:id', component: EditBlogComponent},
+    { path: URLS.editCategory + '/:id', component: EditCategoryComponent},
+  ]},
+
   {path: URLS.headerCustomization, component: HeaderCustomizationComponent,  canActivate: [LoggedInAuthGuard, HeaderPagesGuard]},
   {path: URLS.footerCustomization, component: FooterCustomizationComponent,  canActivate: [LoggedInAuthGuard, FooterPagesGuard]},
   {path: URLS.homepage, canActivate: [LoggedInAuthGuard, HomePageGuard], component: HomepageComponent},

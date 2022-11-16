@@ -125,6 +125,12 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { SharedModule } from './shared/shared.module';
 import { FeaturedAppsComponent } from './featured-apps/featured-apps.component';
 import { PreferencesComponent } from './views/configuration/preferences/preferences.component';
+import { BlogsComponent,BlogPageDeleteDialog,CategoryDeleteDialog } from './views/cms/blogs/blogs/blogs.component';
+import {MatTabsModule} from '@angular/material/tabs';
+import { AddBlogComponent } from './views/cms/blogs/add-blog/add-blog/add-blog.component';
+import { EditBlogComponent } from './views/cms/blogs/edit-blog/edit-blog/edit-blog.component';
+import { AddCategoryComponent } from './views/cms/categories/add-category/add-category/add-category.component';
+import { EditCategoryComponent } from './views/cms/categories/edit-category/edit-category/edit-category.component';
 
 
 @NgModule({
@@ -267,6 +273,13 @@ import { PreferencesComponent } from './views/configuration/preferences/preferen
     ContentDisapprovalReasonDialog,
     FeaturedAppsComponent,
     SalesReportDialog,
+    BlogsComponent,
+    BlogPageDeleteDialog,
+    CategoryDeleteDialog,
+    AddBlogComponent,
+    EditBlogComponent,
+    AddCategoryComponent,
+    EditCategoryComponent,
   ],
   imports: [
     BrowserModule,
@@ -283,6 +296,7 @@ import { PreferencesComponent } from './views/configuration/preferences/preferen
     NgxDaterangepickerMd.forRoot(),
 
     MatDialogModule,
+    MatTabsModule,
     MatCardModule,
     MatIconModule,
     MatButtonModule,

@@ -1,0 +1,42 @@
+<app-topbar></app-topbar>
+<app-sidenav></app-sidenav>
+<main id="main">
+    <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+    <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
+        <h1>Edit Blog Post</h1>
+
+        <div class="header-actions">
+             <a [routerLink]="['/', URLS.blogs]" mat-stroked-button color="primary">Cancel</a>
+            <button mat-flat-button color="primary" [disabled]="!blogPageForm.valid || loading" (click)="onSubmit()">Save</button>
+        </div>
+    </div>
+    
+    <div class="page-container">
+        <form [formGroup]="blogPageForm">
+            <mat-card>
+                <mat-form-field appearance="outline">
+                    <mat-label>Title</mat-label>
+                    <input  matInput formControlName="title" />
+                    <mat-error *ngIf="blogPageForm.get('title').hasError('required')">Enter title of your page.</mat-error>
+                    <mat-error *ngIf="blogPageForm.get('title').hasError('pattern')">Special characters can not be used.</mat-error>
+                </mat-form-field>
+
+				<mat-form-field appearance="outline">
+					<mat-label>Author</mat-label>
+					<input  matInput formControlName="author" />
+					<mat-error *ngIf="blogPageForm.get('author').hasError('required')">Enter author of your page.</mat-error>
+					<mat-error *ngIf="blogPageForm.get('author').hasError('pattern')">Special characters can not be used.</mat-error>
+				</mat-form-field>	
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Categories</mat-label>
+                    <mat-select formControlName ="blog_category">
+                        <mat-option *ngFor="let category of categroyList" [value]="category.id">{{category.title}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <quill-editor [modules]="editorModules" placeholder="Post content" formControlName="content"></quill-editor>		
+			</mat-card>
+        </form>
+    </div>
+</main>

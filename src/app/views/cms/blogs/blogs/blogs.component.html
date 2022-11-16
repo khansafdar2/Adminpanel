@@ -1,0 +1,48 @@
+<app-topbar></app-topbar>
+<app-sidenav></app-sidenav>
+<main id="main">
+    <mat-progress-bar class="page-loader" color="accent" mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+    <div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
+        <h1>Blogs</h1>
+    </div>
+
+    <div class="page-container">
+        <mat-card class="table-wrapper-card">
+            <mat-tab-group>
+                <mat-tab label="Categories">
+                    <div class="button-style" fxLayoutAlign="end">
+                        <a mat-stroked-button color="primary" [routerLink]="['/', URLS.blogs, URLS.addCategory]">
+                            +Add</a>
+                    </div>
+                    <mat-card class="table-wrapper-card">
+                        <datatable
+                            [data]="categoryList"
+                            [columns]="displayedCategoryColumns"
+                            [rowActions]="rowCategoryActions"
+             
+                            (rowAction)="onRowCategoryAction($event)"
+                            (cellClick)="onCellCategoryClick($event)">
+                        </datatable>
+                    </mat-card>
+
+                </mat-tab>
+                <mat-tab label="Blogs">
+                    <div class="button-style" fxLayoutAlign="end">
+                        <a mat-stroked-button color="primary" [routerLink]="['/', URLS.blogs, URLS.add]">
+                            +Add</a>
+                    </div>
+                    <mat-card class="table-wrapper-card">
+                        <datatable
+                            [data]="blogsPages"
+                            [columns]="displayedColumns"
+                            [rowActions]="rowActions"
+             
+                            (rowAction)="onRowAction($event)"
+                            (cellClick)="onCellClick($event)">
+                        </datatable>
+                    </mat-card>
+                </mat-tab>
+            </mat-tab-group>
+        </mat-card>
+    </div>
+</main>
