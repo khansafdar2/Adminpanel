@@ -3,7 +3,7 @@ import { Sort } from '@angular/material/sort';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
-import { Debounce } from '../utils';
+import { Debounce } from '../utils'; 
 
 export interface Column {
   // Title on the column to show on head row

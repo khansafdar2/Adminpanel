@@ -14,29 +14,61 @@
     <div class="page-container">
         <form [formGroup]="blogPageForm">
             <mat-card>
-                <mat-form-field appearance="outline">
-                    <mat-label>Title</mat-label>
-                    <input  matInput formControlName="title" />
-                    <mat-error *ngIf="blogPageForm.get('title').hasError('required')">Enter title of your page.</mat-error>
-                    <mat-error *ngIf="blogPageForm.get('title').hasError('pattern')">Special characters can not be used.</mat-error>
-                </mat-form-field>
+                <div fxLayout="row">
+                    <div fxFlex="0 1 66.66666%">
 
-				<mat-form-field appearance="outline">
-					<mat-label>Author</mat-label>
-					<input  matInput formControlName="author" />
-					<mat-error *ngIf="blogPageForm.get('author').hasError('required')">Enter author of your page.</mat-error>
-					<mat-error *ngIf="blogPageForm.get('author').hasError('pattern')">Special characters can not be used.</mat-error>
-				</mat-form-field>	
+                        <mat-form-field appearance="outline">
+                            <mat-label>Title</mat-label>
+                            <input  matInput formControlName="title" />
+                            <mat-error *ngIf="blogPageForm.get('title').hasError('required')">Enter title of your page.</mat-error>
+                            <mat-error *ngIf="blogPageForm.get('title').hasError('pattern')">Special characters can not be used.</mat-error>
+                        </mat-form-field>
+        
+                        <mat-form-field appearance="outline">
+                            <mat-label>Author</mat-label>
+                            <input  matInput formControlName="author" />
+                            <mat-error *ngIf="blogPageForm.get('author').hasError('required')">Enter author of your page.</mat-error>
+                            <mat-error *ngIf="blogPageForm.get('author').hasError('pattern')">Special characters can not be used.</mat-error>
+                        </mat-form-field>
+        
+                        <mat-form-field appearance="outline">
+                            <mat-label>Categories</mat-label>
+                            <mat-select formControlName ="blog_category">
+                                <mat-option *ngFor="let category of categroyList" [value]="category.id">{{category.title}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
 
-                <mat-form-field appearance="outline">
-                    <mat-label>Categories</mat-label>
-                    <mat-select formControlName ="blog_category">
-                        <mat-option *ngFor="let category of categroyList" [value]="category.id">{{category.title}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
+                        <mat-form-field  appearance="outline">  
+                            <mat-label>Status</mat-label>
+                            <mat-select formControlName="status">
+                                <mat-option value="Draft">Draft</mat-option>
+                                <mat-option value="Publish">Publish</mat-option>
+                            </mat-select>
+                        </mat-form-field>
 
-                <quill-editor [modules]="editorModules" placeholder="Post content" formControlName="content"></quill-editor>		
+                        <mat-form-field appearance="outline">
+                            <mat-label>Date</mat-label>
+                            <input type="datetime-local" matInput formControlName="published_at" />
+                        </mat-form-field>
+
+                        <quill-editor [modules]="editorModules" placeholder="Post content" formControlName="content"></quill-editor>
+
+                    </div>
+
+                    <div fxFlex="0 1 33.33333%">
+                        <mat-card>
+                            <image-selector 
+                                [(files)]="imageUrl"
+                                [multiple]="false"
+                                formats=".jpg,.jpeg,.png"
+                                valueType="url"
+                                (filesChange)=onImageChange($event)
+                            ></image-selector>
+                        </mat-card>
+                    </div>
+                </div>
 			</mat-card>
+
         </form>
     </div>
 </main>

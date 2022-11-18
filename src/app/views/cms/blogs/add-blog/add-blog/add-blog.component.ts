@@ -22,6 +22,8 @@ export class AddBlogComponent implements OnInit {
 
 
   loading: boolean = false;
+  selectedOption = "Draft"
+  imageUrl: string = '';
   URLS = URLS;
   categroyList:any = [];
   editorModules = {
@@ -37,16 +39,27 @@ export class AddBlogComponent implements OnInit {
     title: ["", [Validators.required, Validators.pattern(/^[^!"`'#%,:;<>={}~\$\(\)\*\+\/\\\?\[\]\^\|]+$/)]],
     content: ["", [Validators.required]],
     author: ["", [Validators.required, Validators.pattern(/^[^!"`'#%,:;<>={}~\$\(\)\*\+\/\\\?\[\]\^\|]+$/)]],
-    blog_category:[null,[Validators.required]]
+    blog_category:[null,[Validators.required]],
+    is_active:[true],
+    thumbnail_image:[''],
+    published_at:[''],
+    status:['']
   });
 
 
   getCategories() {
-    this.blogsService.getCategories().then(resp => {
+    this.blogsService.getCategoriesBlog().then(resp => {
       if(resp) {
         console.log(resp.data);
         this.categroyList = resp.data.results;
       }
+    })
+  }
+
+  onImageChange(url){
+    this.imageUrl = url;
+    this.blogPageForm.patchValue({
+      thumbnail_image: this.imageUrl
     })
   }
 

@@ -21,6 +21,7 @@ export class EditBlogComponent implements OnInit {
   ) { this.pageID = this.route.snapshot.paramMap.get('id'); }
 
   loading: boolean = true;
+  imageUrl: string = '';
   URLS = URLS;
   categroyList:any;
   pageID: string = "";
@@ -38,22 +39,32 @@ export class EditBlogComponent implements OnInit {
     content: ["", [Validators.required]],
     author: ["", [Validators.required, Validators.pattern(/^[^!"`'#%,:;<>={}~\$\(\)\*\+\/\\\?\[\]\^\|]+$/)]],
     blog_category:[null,[Validators.required]],
-    status:["publish"],
-    is_active:[true]
+    is_active:[true],
+    thumbnail_image:[''],
+    published_at:[''],
+    status:['']
   });
+
+  onImageChange(url){
+    this.imageUrl = url;
+    this.blogPageForm.patchValue({
+      thumbnail_image: this.imageUrl
+    })
+  }
 
   getBlogPageDetails() {
     this.loading = true;
     this.blogsService.getBlogPage(this.pageID).then(resp => {
       this.loading = false;
       if (resp) {
+        debugger
         this.blogPageForm.patchValue(resp.data);
       }
     });
   }
 
   getCategories() {
-    this.blogsService.getCategories().then(resp => {
+    this.blogsService.getCategoriesBlog().then(resp => {
       if(resp) {
         console.log(resp.data);
         this.categroyList = resp.data.results;

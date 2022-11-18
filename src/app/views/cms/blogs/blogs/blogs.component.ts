@@ -5,6 +5,8 @@ import { Column } from 'src/app/shared/datatable/datatable.component';
 import URLS from 'src/app/shared/urls';
 import { BlogsService } from '../blogs.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { PageEvent } from '@angular/material/paginator';
+
 
 
 
@@ -18,32 +20,72 @@ export class BlogsComponent implements OnInit {
   constructor(
     private blogsService: BlogsService,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackbar: MatSnackBar,
   ) { }
 
   loading: boolean = true;
   URLS = URLS;
   blogsPages = [];
   categoryList = [];
+  pageSize: number = 10;
+  pageNumber: number = 1;
+  totalCount: number = 0;
 
 
   displayedColumns: Column[] = [
     {
       title: "Title",
       selector: 'title',
-      clickable: true
+      clickable: true,  
+      sortable: true,
     },
     {
-      title: "",
-      selector: "updated_at",
-      pipe: 'date',
-      dateFormat: 'MMM d, h:mm a',
-      width: "140px"
-    }
+      title: "Category",
+      selector: 'blog_category_title',
+
+    },
+    {
+      title: "Status",
+      selector: 'status',
+      cell: row => `<span class="label ${row.status == 'Publish' ? 'success' : ''}${row.status == 'Draft' ? 'Inactive' : ''}">${row.status}</span>`
+
+    },
   ];
 
 
-  rowActions: string[] = ["Delete"];
+  // rowActions: string[] = ["Delete"];
+
+  rowActions = row => {
+    if(row.status =="Publish"){
+
+      let actions = [];
+      actions.push('Draft');
+      actions.push('Delete');
+      debugger
+      return actions;
+    }
+    else{
+      
+      let actions = [];
+      actions.push('Publish');
+      actions.push('Delete');
+      debugger
+      return actions;
+    }
+  }
+
+  statusChange(row){
+    debugger
+    this.loading = true;
+    this.blogsService.statusChange(row).then(resp => {
+      this.loading = false;
+      if (resp) {
+        this.snackbar.open("Status change successfully.", "", { duration: 3000 });
+        this.getBlogPages();
+      }
+    })
+  }
 
 
   onCellClick(data) {
@@ -68,40 +110,78 @@ export class BlogsComponent implements OnInit {
     this.router.navigate(["/", URLS.blogs, URLS.editCategory, data.row.id]);
   }
 
+  onPage(event: PageEvent) {
+    debugger
+    this.pageNumber = event.pageIndex + 1;
+    this.pageSize = event.pageSize;
+    this.getBlogPages();
+  }
+
+  sortData(event:PageEvent){
+
+  }
+  sortChanged(event){
+
+  }
+
+
 
   getBlogPages() {
     this.loading = true;
-    this.blogsService.getBlogPages().then(resp => {
+    this.blogsService.getBlogPages(this.pageNumber, this.pageSize).then(resp => {
       this.loading = false;
       if (resp) {
+        debugger
         this.blogsPages = resp.data.results;
+        this.totalCount = resp.data.count;
       }
     })
   }
 
+  
+  pageSizeCategory: number = 10;
+  pageNumberCategory: number = 1;
+  totalCountCategory: number = 0;
+
+  onPageCategory(event: PageEvent) {
+    debugger
+    this.pageNumberCategory = event.pageIndex + 1;
+    this.pageSizeCategory = event.pageSize;
+    this.getBlogPages();
+  }
+
   getCategories() {
     this.loading = true;
-    this.blogsService.getCategories().then(resp => {
+    this.blogsService.getCategories(this.pageNumberCategory,this.pageSize).then(resp => {
       this.loading = false;
       if (resp) {
         this.categoryList = resp.data.results;
+        this.totalCountCategory = resp.data.count;
+
       }
     })
   }
 
   onRowAction(data) {
-    let dialogRef = this.dialog.open(BlogPageDeleteDialog, {
-      width: "600px",
-      data: {
-        page: data.row
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(deleted => {
-      if (deleted) {
-        this.getBlogPages();
-      }
-    });
+    if(data.action =="Delete"){
+      debugger
+      let dialogRef = this.dialog.open(BlogPageDeleteDialog, {
+        width: "600px",
+        data: {
+          page: data.row
+        }
+      });
+  
+      dialogRef.afterClosed().subscribe(deleted => {
+        if (deleted) {
+          this.getBlogPages();
+        }
+      });
+    }
+    else{
+      debugger
+      this.statusChange(data.row)
+    }
   }
 
 

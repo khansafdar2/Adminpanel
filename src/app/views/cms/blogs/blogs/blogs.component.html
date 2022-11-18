@@ -19,6 +19,10 @@
                             [data]="categoryList"
                             [columns]="displayedCategoryColumns"
                             [rowActions]="rowCategoryActions"
+                            [pagination]="true"
+                            (page)="onPageCategory($event)"
+                            [itemsPerPage]="pageSizeCategory"
+                            [count]="totalCountCategory"
              
                             (rowAction)="onRowCategoryAction($event)"
                             (cellClick)="onCellCategoryClick($event)">
@@ -34,6 +38,11 @@
                     <mat-card class="table-wrapper-card">
                         <datatable
                             [data]="blogsPages"
+                            [pagination]="true"
+                            (page)="onPage($event)"
+                            (sort)="sortData($event)"
+                            [itemsPerPage]="pageSize"
+                            [count]="totalCount"
                             [columns]="displayedColumns"
                             [rowActions]="rowActions"
              
