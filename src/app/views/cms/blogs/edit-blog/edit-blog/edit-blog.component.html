@@ -6,11 +6,12 @@
         <h1>Edit Blog Post</h1>
 
         <div class="header-actions">
-             <a [routerLink]="['/', URLS.blogs]" mat-stroked-button color="primary">Cancel</a>
-            <button mat-flat-button color="primary" [disabled]="!blogPageForm.valid || loading" (click)="onSubmit()">Save</button>
+            <a [routerLink]="['/', URLS.blogs]" mat-stroked-button color="primary">Cancel</a>
+            <button mat-flat-button color="primary" [disabled]="!blogPageForm.valid || loading"
+                (click)="onSubmit()">Save</button>
         </div>
     </div>
-    
+
     <div class="page-container">
         <form [formGroup]="blogPageForm">
             <mat-card>
@@ -19,55 +20,65 @@
 
                         <mat-form-field appearance="outline">
                             <mat-label>Title</mat-label>
-                            <input  matInput formControlName="title" />
-                            <mat-error *ngIf="blogPageForm.get('title').hasError('required')">Enter title of your page.</mat-error>
-                            <mat-error *ngIf="blogPageForm.get('title').hasError('pattern')">Special characters can not be used.</mat-error>
+                            <input matInput formControlName="title" />
+                            <mat-error *ngIf="blogPageForm.get('title').hasError('required')">Enter title of your page.
+                            </mat-error>
+                            <mat-error *ngIf="blogPageForm.get('title').hasError('pattern')">Special characters can not
+                                be used.</mat-error>
                         </mat-form-field>
-        
+
                         <mat-form-field appearance="outline">
                             <mat-label>Author</mat-label>
-                            <input  matInput formControlName="author" />
-                            <mat-error *ngIf="blogPageForm.get('author').hasError('required')">Enter author of your page.</mat-error>
-                            <mat-error *ngIf="blogPageForm.get('author').hasError('pattern')">Special characters can not be used.</mat-error>
+                            <input matInput formControlName="author" />
+                            <mat-error *ngIf="blogPageForm.get('author').hasError('required')">Enter author of your
+                                page.</mat-error>
+                            <mat-error *ngIf="blogPageForm.get('author').hasError('pattern')">Special characters can not
+                                be used.</mat-error>
                         </mat-form-field>
-        
+
                         <mat-form-field appearance="outline">
                             <mat-label>Categories</mat-label>
-                            <mat-select formControlName ="blog_category">
-                                <mat-option *ngFor="let category of categroyList" [value]="category.id">{{category.title}}</mat-option>
+                            <mat-select formControlName="blog_category">
+                                <mat-option *ngFor="let category of categroyList" [value]="category.id">
+                                    {{category.title}}</mat-option>
                             </mat-select>
                         </mat-form-field>
 
-                        <mat-form-field  appearance="outline">  
+                        <mat-form-field appearance="outline">
                             <mat-label>Status</mat-label>
                             <mat-select formControlName="status">
                                 <mat-option value="Draft">Draft</mat-option>
                                 <mat-option value="Publish">Publish</mat-option>
                             </mat-select>
                         </mat-form-field>
-
-                        <mat-form-field appearance="outline">
-                            <mat-label>Date</mat-label>
-                            <input type="datetime-local" matInput formControlName="published_at" />
-                        </mat-form-field>
-
-                        <quill-editor [modules]="editorModules" placeholder="Post content" formControlName="content"></quill-editor>
+                        
+                        <quill-editor [modules]="editorModules" placeholder="Post content" formControlName="content">
+                        </quill-editor>
 
                     </div>
 
                     <div fxFlex="0 1 33.33333%">
                         <mat-card>
-                            <image-selector 
-                                [(files)]="imageUrl"
-                                [multiple]="false"
-                                formats=".jpg,.jpeg,.png"
-                                valueType="url"
-                                (filesChange)=onImageChange($event)
-                            ></image-selector>
+                            <div class="flex" fxLayoutAlign="center center">
+                                <div >
+
+                                    <img [src]="previewImageSrc" class="banner-preview-image" *ngIf="previewImageSrc" />
+                                </div>
+                                <div >
+                                    <button mat-icon-button color="warn" class="remove-preview" *ngIf="previewImageSrc" (click)="removeBanner()"><mat-icon>close</mat-icon></button>
+
+                                    <!-- <button class="style" mat-button type="button" color="warn" *ngIf="previewImageSrc"
+                                        (click)="removeBanner()">
+                                        <mat-icon>delete</mat-icon>
+                                    </button> -->
+                                </div>
+                            </div>
+                            <image-selector [(files)]="imageUrl" [multiple]="false" formats=".jpg,.jpeg,.png"
+                                valueType="url" (filesChange)=onImageChange($event)></image-selector>
                         </mat-card>
                     </div>
                 </div>
-			</mat-card>
+            </mat-card>
 
         </form>
     </div>

@@ -203,7 +203,6 @@ export class ProductsComponent implements OnInit {
     this.productsService.getProductsList(this.page, this.pageLimit, this.filterString, this.searchString).then(resp => {
       this.loading = false;
       if (resp) {
-        debugger
         this.totalCount = resp.data.count;
         this.products = resp.data.results;
       }

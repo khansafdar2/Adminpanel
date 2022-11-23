@@ -1,0 +1,17 @@
+.flex {
+    display: flex;
+}
+
+.style {
+    POSITION: ABSOLUTE;
+    right: 0;
+    top: 40px;
+}
+
+.remove-preview{
+position: absolute;
+top: 0;
+right: 3px;
+opacity: 1;
+transition: opacity 0.2s ease-out;
+}

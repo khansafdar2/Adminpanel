@@ -50,7 +50,6 @@ export class BlogsService {
   }
 
   createBlogPage(data) {
-    debugger
     return Axios.post(environment.backend_url + '/cms/blog', data, {
       headers: {
         Authorization: this.authService.token
@@ -64,7 +63,6 @@ export class BlogsService {
   }
 
   statusChange(data) {
-    debugger
     var updatedData
     let simple:string = data.id
     // simple.string();

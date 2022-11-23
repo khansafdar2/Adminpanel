@@ -62,7 +62,6 @@ export class BlogsComponent implements OnInit {
       let actions = [];
       actions.push('Draft');
       actions.push('Delete');
-      debugger
       return actions;
     }
     else{
@@ -70,13 +69,11 @@ export class BlogsComponent implements OnInit {
       let actions = [];
       actions.push('Publish');
       actions.push('Delete');
-      debugger
       return actions;
     }
   }
 
   statusChange(row){
-    debugger
     this.loading = true;
     this.blogsService.statusChange(row).then(resp => {
       this.loading = false;
@@ -111,7 +108,6 @@ export class BlogsComponent implements OnInit {
   }
 
   onPage(event: PageEvent) {
-    debugger
     this.pageNumber = event.pageIndex + 1;
     this.pageSize = event.pageSize;
     this.getBlogPages();
@@ -131,7 +127,6 @@ export class BlogsComponent implements OnInit {
     this.blogsService.getBlogPages(this.pageNumber, this.pageSize).then(resp => {
       this.loading = false;
       if (resp) {
-        debugger
         this.blogsPages = resp.data.results;
         this.totalCount = resp.data.count;
       }
@@ -144,7 +139,6 @@ export class BlogsComponent implements OnInit {
   totalCountCategory: number = 0;
 
   onPageCategory(event: PageEvent) {
-    debugger
     this.pageNumberCategory = event.pageIndex + 1;
     this.pageSizeCategory = event.pageSize;
     this.getBlogPages();
@@ -164,7 +158,6 @@ export class BlogsComponent implements OnInit {
 
   onRowAction(data) {
     if(data.action =="Delete"){
-      debugger
       let dialogRef = this.dialog.open(BlogPageDeleteDialog, {
         width: "600px",
         data: {
@@ -179,7 +172,6 @@ export class BlogsComponent implements OnInit {
       });
     }
     else{
-      debugger
       this.statusChange(data.row)
     }
   }

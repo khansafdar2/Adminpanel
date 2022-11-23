@@ -23,6 +23,7 @@ export class EditBlogComponent implements OnInit {
   loading: boolean = true;
   imageUrl: string = '';
   URLS = URLS;
+  previewImageSrc = ''
   categroyList:any;
   pageID: string = "";
   editorModules = {
@@ -46,6 +47,7 @@ export class EditBlogComponent implements OnInit {
   });
 
   onImageChange(url){
+    this.previewImageSrc = "";
     this.imageUrl = url;
     this.blogPageForm.patchValue({
       thumbnail_image: this.imageUrl
@@ -57,9 +59,16 @@ export class EditBlogComponent implements OnInit {
     this.blogsService.getBlogPage(this.pageID).then(resp => {
       this.loading = false;
       if (resp) {
-        debugger
+        this.previewImageSrc = resp.data.thumbnail_image
         this.blogPageForm.patchValue(resp.data);
       }
+    });
+  }
+
+  removeBanner() {
+    this.previewImageSrc = "";
+    this.blogPageForm.patchValue({
+      thumbnail_image: null
     });
   }
 

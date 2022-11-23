@@ -55,6 +55,7 @@ export class AddBlogComponent implements OnInit {
       }
     })
   }
+  
 
   onImageChange(url){
     this.imageUrl = url;
