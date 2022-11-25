@@ -2,13 +2,18 @@ import { Injectable } from '@angular/core';
 import Axios from 'axios';
 import { AuthService } from 'src/app/auth/auth.service';
 import { environment } from 'src/environments/environment';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class BlogsService {
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService,
+    private snackbar: MatSnackBar,
+
+    ) { }
 
   getBlogPages(page, limit) {
     return Axios.get(environment.backend_url + '/cms/blog_list?page=' + page + '&limit=' + limit, {
@@ -59,6 +64,24 @@ export class BlogsService {
         if (error.response.data.detail == "Session expired, Reopen the application!") {
           this.authService.signout();
         }
+        else{
+          if (error.response.status === 404) {
+            this.snackbar.open("Not found", "", { duration: 3000, panelClass: ['blue-snackbar'] });
+    
+          }
+          else if (error.response.status === 422) {
+            this.snackbar.open("Validation error", "", { duration: 3000, panelClass: ['blue-snackbar'] });
+          }
+          else if (error.response.status === 401) {
+            this.snackbar.open("Unauthorized", "", { duration: 3000, panelClass: ['blue-snackbar'] });
+          }
+          else if (error.response.status === 400) {
+            this.snackbar.open("Bad request", "", { duration: 3000, panelClass: ['blue-snackbar'] });
+          }
+          else{
+          this.snackbar.open("Something went wrong", "", { duration: 3000, panelClass: ['blue-snackbar'] });
+          }
+        }
       });
   }
 
@@ -106,6 +129,24 @@ export class BlogsService {
         if (error.response.data.detail == "Session expired, Reopen the application!") {
           this.authService.signout();
         }
+        else{
+          if (error.response.status === 404) {
+            this.snackbar.open("Not found", "", { duration: 3000, panelClass: ['blue-snackbar'] });
+    
+          }
+          else if (error.response.status === 422) {
+            this.snackbar.open("Validation error", "", { duration: 3000, panelClass: ['blue-snackbar'] });
+          }
+          else if (error.response.status === 401) {
+            this.snackbar.open("Unauthorized", "", { duration: 3000, panelClass: ['blue-snackbar'] });
+          }
+          else if (error.response.status === 400) {
+            this.snackbar.open("Bad request", "", { duration: 3000, panelClass: ['blue-snackbar'] });
+          }
+          else{
+          this.snackbar.open("Something went wrong", "", { duration: 3000, panelClass: ['blue-snackbar'] });
+          }
+        }
       });
   }
 
@@ -146,6 +187,24 @@ export class BlogsService {
         if (error.response.data.detail == "Session expired, Reopen the application!") {
           this.authService.signout();
         }
+        else{
+          if (error.response.status === 404) {
+            this.snackbar.open("Not found", "", { duration: 3000, panelClass: ['blue-snackbar'] });
+    
+          }
+          else if (error.response.status === 422) {
+            this.snackbar.open("Validation error", "", { duration: 3000, panelClass: ['blue-snackbar'] });
+          }
+          else if (error.response.status === 401) {
+            this.snackbar.open("Unauthorized", "", { duration: 3000, panelClass: ['blue-snackbar'] });
+          }
+          else if (error.response.status === 400) {
+            this.snackbar.open("Bad request", "", { duration: 3000, panelClass: ['blue-snackbar'] });
+          }
+          else{
+          this.snackbar.open("Something went wrong", "", { duration: 3000, panelClass: ['blue-snackbar'] });
+          }
+        }
       });
   }
 
@@ -158,6 +217,24 @@ export class BlogsService {
       .catch(error => {
         if (error.response.data.detail == "Session expired, Reopen the application!") {
           this.authService.signout();
+        }
+        else{
+          if (error.response.status === 404) {
+            this.snackbar.open("Not found", "", { duration: 3000, panelClass: ['blue-snackbar'] });
+    
+          }
+          else if (error.response.status === 422) {
+            this.snackbar.open("Validation error", "", { duration: 3000, panelClass: ['blue-snackbar'] });
+          }
+          else if (error.response.status === 401) {
+            this.snackbar.open("Unauthorized", "", { duration: 3000, panelClass: ['blue-snackbar'] });
+          }
+          else if (error.response.status === 400) {
+            this.snackbar.open("Bad request", "", { duration: 3000, panelClass: ['blue-snackbar'] });
+          }
+          else{
+          this.snackbar.open("Something went wrong", "", { duration: 3000, panelClass: ['blue-snackbar'] });
+          }
         }
       });
   }

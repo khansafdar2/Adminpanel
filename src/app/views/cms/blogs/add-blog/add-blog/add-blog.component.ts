@@ -25,7 +25,7 @@ export class AddBlogComponent implements OnInit {
   selectedOption = "Draft"
   imageUrl: string = '';
   URLS = URLS;
-  categroyList:any = [];
+  categroyList: any = [];
   editorModules = {
     toolbar: [
       ['bold', 'italic', 'underline', 'strike'],
@@ -39,25 +39,24 @@ export class AddBlogComponent implements OnInit {
     title: ["", [Validators.required, Validators.pattern(/^[^!"`'#%,:;<>={}~\$\(\)\*\+\/\\\?\[\]\^\|]+$/)]],
     content: ["", [Validators.required]],
     author: ["", [Validators.required, Validators.pattern(/^[^!"`'#%,:;<>={}~\$\(\)\*\+\/\\\?\[\]\^\|]+$/)]],
-    blog_category:[null,[Validators.required]],
-    is_active:[true],
-    thumbnail_image:[''],
-    published_at:[''],
-    status:['']
+    blog_category: [null,[Validators.required]],
+    is_active: [true],
+    thumbnail_image: [''],
+    status: ['']
   });
 
 
   getCategories() {
     this.blogsService.getCategoriesBlog().then(resp => {
-      if(resp) {
+      if (resp) {
         console.log(resp.data);
         this.categroyList = resp.data.results;
       }
     })
   }
-  
 
-  onImageChange(url){
+
+  onImageChange(url) {
     this.imageUrl = url;
     this.blogPageForm.patchValue({
       thumbnail_image: this.imageUrl
@@ -73,7 +72,7 @@ export class AddBlogComponent implements OnInit {
         this.snackbar.open("Blog Page created.", "", { duration: 3000 });
         this.router.navigate(["/", URLS.blogs]);
       }
-    });
+    })
   }
 
 

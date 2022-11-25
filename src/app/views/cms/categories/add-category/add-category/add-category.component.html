@@ -16,7 +16,7 @@
             <mat-card>
                 <mat-form-field appearance="outline">
                     <mat-label>Title</mat-label>
-                    <input  matInput formControlName="title" />
+                    <input required  matInput formControlName="title" />
                     <mat-error *ngIf="categoryForm.get('title').hasError('required')">Enter title of your page.</mat-error>
                     <mat-error *ngIf="categoryForm.get('title').hasError('pattern')">Special characters can not be used.</mat-error>
                 </mat-form-field>

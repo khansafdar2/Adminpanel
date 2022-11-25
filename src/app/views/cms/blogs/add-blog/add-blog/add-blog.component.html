@@ -18,21 +18,21 @@
 
                         <mat-form-field appearance="outline">
                             <mat-label>Title</mat-label>
-                            <input  matInput formControlName="title" />
+                            <input  matInput required formControlName="title" />
                             <mat-error *ngIf="blogPageForm.get('title').hasError('required')">Enter title of your page.</mat-error>
                             <mat-error *ngIf="blogPageForm.get('title').hasError('pattern')">Special characters can not be used.</mat-error>
                         </mat-form-field>
         
                         <mat-form-field appearance="outline">
                             <mat-label>Author</mat-label>
-                            <input  matInput formControlName="author" />
+                            <input  matInput required formControlName="author" />
                             <mat-error *ngIf="blogPageForm.get('author').hasError('required')">Enter author of your page.</mat-error>
                             <mat-error *ngIf="blogPageForm.get('author').hasError('pattern')">Special characters can not be used.</mat-error>
                         </mat-form-field>
         
                         <mat-form-field appearance="outline">
                             <mat-label>Categories</mat-label>
-                            <mat-select formControlName ="blog_category">
+                            <mat-select required formControlName ="blog_category">
                                 <mat-option *ngFor="let category of categroyList" [value]="category.id">{{category.title}}</mat-option>
                             </mat-select>
                         </mat-form-field>

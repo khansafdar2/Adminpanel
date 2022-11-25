@@ -42,7 +42,6 @@ export class EditBlogComponent implements OnInit {
     blog_category:[null,[Validators.required]],
     is_active:[true],
     thumbnail_image:[''],
-    published_at:[''],
     status:['']
   });
 
