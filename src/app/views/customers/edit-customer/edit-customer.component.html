@@ -67,7 +67,7 @@
                                     mat-icon-button
                                     color="warn"
                                     *ngIf="customerForm.get('address')['controls'].length > 1"
-                                    (click)="removeAddress(i)"
+                                    (click)="removeAddress(i,addressGroup.value.id)"
                                 ><mat-icon>delete</mat-icon></button>
                             </div>
                         </div>

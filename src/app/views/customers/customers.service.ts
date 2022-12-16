@@ -76,4 +76,17 @@ export class CustomersService {
       }
     });
   }
+
+  deleteAddress(id) {
+    return Axios.delete( environment.backend_url + '/crm/address/' + id, {
+      headers: {
+        Authorization: this.authService.token
+      }
+    })
+    .catch(error => {
+      if (error.response.data.detail == "Session expired, Reopen the application!") {
+        this.authService.signout();
+      }
+    });
+  }
 }

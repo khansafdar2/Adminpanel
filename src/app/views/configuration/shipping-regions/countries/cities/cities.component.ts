@@ -42,6 +42,7 @@ export class CitiesComponent implements OnInit {
   pageSize: number = 20;
   country_name = '';
   countryID = null
+  // listing:true
 
   getCityList() {
     this.loading = true;

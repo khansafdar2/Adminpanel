@@ -76,7 +76,7 @@ import { OrdersComponent, OrdersExportDialog ,SalesReportDialog} from './views/o
 import { AddOrderComponent } from './views/orders/add-order/add-order.component';
 import { CustomerDeleteDialog, CustomersComponent } from './views/customers/customers.component';
 import { AddCustomerComponent } from './views/customers/add-customer/add-customer.component';
-import { EditCustomerComponent } from './views/customers/edit-customer/edit-customer.component';
+import { EditCustomerComponent,AddressDeleteDialog } from './views/customers/edit-customer/edit-customer.component';
 import { VariantSelectorComponent, VariantSelectorDialog } from './shared/variant-selector/variant-selector.component';
 import { EditMainOrderComponent } from './views/orders/edit-main-order/edit-main-order.component';
 import { CustomerAddressDialog } from './views/orders/dialogs/CustomerAddressDialog';
@@ -198,6 +198,7 @@ import { EditCategoryComponent } from './views/cms/categories/edit-category/edit
     CustomersComponent,
     AddCustomerComponent,
     EditCustomerComponent,
+    AddressDeleteDialog,
     CustomerDeleteDialog,
     VariantSelectorComponent,
     VariantSelectorDialog,

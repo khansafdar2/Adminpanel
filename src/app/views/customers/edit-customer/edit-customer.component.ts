@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import URLS from 'src/app/shared/urls';
@@ -18,7 +19,9 @@ export class EditCustomerComponent implements OnInit {
     private customersService: CustomersService,
     private snackBar: MatSnackBar,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private dialog: MatDialog
+
   ) {
     this.customerID = this.activatedRoute.snapshot.paramMap.get('id');
   }
@@ -87,7 +90,7 @@ export class EditCustomerComponent implements OnInit {
     }
   }
 
-  removeAddress(index) {
+  removeAddress(index,add) {
     const addressGroup = (this.customerForm.get('address') as FormArray).controls[index];
     let is_primary = addressGroup.get('primary_address').value;
     (this.customerForm.get('address') as FormArray).removeAt(index);
@@ -96,6 +99,14 @@ export class EditCustomerComponent implements OnInit {
         primary_address: true
       });
     }
+
+    this.customersService.deleteAddress(add).then(resp => {
+      if(resp) {
+        this.snackBar.open("Customer deleted successfully.", "", {duration: 3000});
+
+      }
+    });
+    
   }
 
   onSubmit() {
@@ -115,4 +126,29 @@ export class EditCustomerComponent implements OnInit {
     this.getCustomerDetails();
   }
 
+}
+
+@Component({
+  selector: 'address-delete-dialog',
+  templateUrl: '../dialogs/address-delete-dialog.html',
+})
+export class AddressDeleteDialog {
+  constructor(
+    public dialogRef: MatDialogRef<AddressDeleteDialog>,
+    @Inject(MAT_DIALOG_DATA) public data,
+    private snackbar: MatSnackBar,
+    private customerService: CustomersService) {
+  }
+
+  loading: boolean = false;
+
+  deleteAddress() {
+    this.loading = true;
+    this.customerService.deleteAddress(this.data.customer.id).then(resp => {
+      if(resp) {
+        this.snackbar.open("Customer deleted successfully.", "", {duration: 3000});
+        this.dialogRef.close(true);
+      }
+    });
+  }
 }

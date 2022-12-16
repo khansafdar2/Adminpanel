@@ -64,7 +64,7 @@ export class ShippingRegionService {
   }
 
   getCityList(id, page, limit) {
-    return Axios.get( environment.backend_url + '/setting/city_list?country_id=' + id + "&page=" + page + "&limit=" + limit, {
+    return Axios.get( environment.backend_url + '/setting/city_list?country_id=' + id + "&page=" + page + "&limit=" + limit +"&listing="+true, {
       headers: {
         Authorization: this.authService.token
       }
