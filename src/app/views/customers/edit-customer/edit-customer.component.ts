@@ -102,7 +102,7 @@ export class EditCustomerComponent implements OnInit {
 
     this.customersService.deleteAddress(add).then(resp => {
       if(resp) {
-        this.snackBar.open("Customer deleted successfully.", "", {duration: 3000});
+        this.snackBar.open("Address deleted successfully.", "", {duration: 3000});
 
       }
     });
@@ -128,27 +128,27 @@ export class EditCustomerComponent implements OnInit {
 
 }
 
-@Component({
-  selector: 'address-delete-dialog',
-  templateUrl: '../dialogs/address-delete-dialog.html',
-})
-export class AddressDeleteDialog {
-  constructor(
-    public dialogRef: MatDialogRef<AddressDeleteDialog>,
-    @Inject(MAT_DIALOG_DATA) public data,
-    private snackbar: MatSnackBar,
-    private customerService: CustomersService) {
-  }
+// @Component({
+//   selector: 'address-delete-dialog',
+//   templateUrl: '../dialogs/address-delete-dialog.html',
+// })
+// export class AddressDeleteDialog {
+//   constructor(
+//     public dialogRef: MatDialogRef<AddressDeleteDialog>,
+//     @Inject(MAT_DIALOG_DATA) public data,
+//     private snackbar: MatSnackBar,
+//     private customerService: CustomersService) {
+//   }
 
-  loading: boolean = false;
+//   loading: boolean = false;
 
-  deleteAddress() {
-    this.loading = true;
-    this.customerService.deleteAddress(this.data.customer.id).then(resp => {
-      if(resp) {
-        this.snackbar.open("Customer deleted successfully.", "", {duration: 3000});
-        this.dialogRef.close(true);
-      }
-    });
-  }
-}
+//   deleteAddress() {
+//     this.loading = true;
+//     this.customerService.deleteAddress(this.data.customer.id).then(resp => {
+//       if(resp) {
+//         this.snackbar.open("Customer deleted successfully.", "", {duration: 3000});
+//         this.dialogRef.close(true);
+//       }
+//     });
+//   }
+// }
