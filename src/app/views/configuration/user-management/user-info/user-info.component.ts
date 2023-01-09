@@ -48,6 +48,7 @@ export class UserInfoComponent implements OnInit {
       id: null,
       dashboard: false,
       customization: false,
+      blog: false,
       theme: false,
       products: false,
       orders: false,
@@ -118,7 +119,7 @@ export class UserInfoComponent implements OnInit {
   customizationPermissionCheck(event: MatCheckboxChange) {
     if (event.checked) {
       this.userDetail.permissions.customization = true;
-    } else if (!this.userDetail.permissions.header && !this.userDetail.permissions.footer && !this.userDetail.permissions.homepage && 
+    } else if (!this.userDetail.permissions.header && !this.userDetail.permissions.footer && !this.userDetail.permissions.blog && !this.userDetail.permissions.homepage && 
       !this.userDetail.permissions.static_pages && !this.userDetail.permissions.navigation && !this.userDetail.permissions.filters)
       this.userDetail.permissions.customization = false;
 
@@ -156,6 +157,7 @@ export class UserInfoComponent implements OnInit {
       this.userDetail.permissions.static_pages = true;
       this.userDetail.permissions.navigation = true;
       this.userDetail.permissions.filters = true;
+      this.userDetail.permissions.blog = true;
     } else {
       this.userDetail.permissions.header = false;
       this.userDetail.permissions.footer = false;
@@ -163,6 +165,7 @@ export class UserInfoComponent implements OnInit {
       this.userDetail.permissions.static_pages = false;
       this.userDetail.permissions.navigation = false;
       this.userDetail.permissions.filters = false;
+      this.userDetail.permissions.blog = false;
     }
   }
 
@@ -257,7 +260,6 @@ export class UserInfoComponent implements OnInit {
     }
 
     delete data.permissions.id;
-
     this.usersService.updateUser(data).then(resp => {
       if(resp) {
         this.loading = false;

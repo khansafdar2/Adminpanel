@@ -36,6 +36,7 @@ export class AddUserComponent implements OnInit {
   userPermissions = {
     dashboard: false,
     customization: false,
+    blogs: false,
     theme: true,
     products: false,
     orders: false,
@@ -185,7 +186,7 @@ export class AddUserComponent implements OnInit {
     if (event.checked) {
       this.userPermissions.customization = true;
     } else if (!this.userPermissions.header && !this.userPermissions.footer && !this.userPermissions.homepage && 
-      !this.userPermissions.static_pages && !this.userPermissions.navigation && !this.userPermissions.filters)
+      !this.userPermissions.static_pages && !this.userPermissions.navigation && !this.userPermissions.blogs && !this.userPermissions.filters)
       this.userPermissions.customization = false;
 
   }
@@ -221,6 +222,7 @@ export class AddUserComponent implements OnInit {
       this.userPermissions.static_pages = true;
       this.userPermissions.navigation = true;
       this.userPermissions.filters = true;
+      this.userPermissions.blogs = true;
     } else {
       this.userPermissions.header = false;
       this.userPermissions.footer = false;
@@ -228,6 +230,7 @@ export class AddUserComponent implements OnInit {
       this.userPermissions.static_pages = false;
       this.userPermissions.navigation = false;
       this.userPermissions.filters = false;
+      this.userPermissions.blogs = false;
     }
   }
 

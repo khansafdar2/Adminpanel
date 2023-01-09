@@ -202,6 +202,7 @@
                                         <mat-checkbox (change)="customizationPermissionCheck($event)" [(ngModel)]="userDetail.permissions.footer">Footer</mat-checkbox>
                                         <mat-checkbox (change)="customizationPermissionCheck($event)" [(ngModel)]="userDetail.permissions.navigation">Navigation</mat-checkbox>
                                         <mat-checkbox (change)="customizationPermissionCheck($event)" [(ngModel)]="userDetail.permissions.filters">Filters</mat-checkbox>
+                                        <mat-checkbox (change)="customizationPermissionCheck($event)" [(ngModel)]="userDetail.permissions.blog">Blogs</mat-checkbox>
                                     </div>
 
                                     <div class="sidenav-drawer" [class.show]="sideDrawer === 'discount'"

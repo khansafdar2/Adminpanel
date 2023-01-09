@@ -299,9 +299,9 @@ export class EditDiscountComponent implements OnInit {
           resp.data.product = resp.data.product.map(this.mapProductID);
         }
         this.discountForm.patchValue(resp.data);
-        if (resp.data.start_date || resp.data.end_date) {
-            (this.discountForm.controls['is_active'] as FormControl).disable();
-        }
+        // if (resp.data.start_date || resp.data.end_date) {
+        //     (this.discountForm.controls['is_active'] as FormControl).disable();
+        // }
         if (this.is_vendor) {
           this.getProductGroups();
         } else {
@@ -345,30 +345,30 @@ export class EditDiscountComponent implements OnInit {
 
 
 
-  statusActiveCondition() {
-    let discountType = this.discountForm.get('discount_type').value
-      if (this.discountForm.get('start_date').value || this.discountForm.get('end_date').value) {
-        (this.discountForm.controls['start_date'] as FormControl).setValidators([Validators.required]);
-        (this.discountForm.controls['end_date'] as FormControl).setValidators([Validators.required]);
-        (this.discountForm.controls['start_date'] as FormControl).updateValueAndValidity();
-        (this.discountForm.controls['end_date'] as FormControl).updateValueAndValidity();
-        (this.discountForm.controls['is_active'] as FormControl).disable();
-        this.discountForm.patchValue({
-          is_active: false
-        });
-      } else {
-        if (discountType == 'simple_discount') {
-          (this.discountForm.controls['start_date'] as FormControl).clearValidators();
-          (this.discountForm.controls['end_date'] as FormControl).clearValidators();
-          (this.discountForm.controls['start_date'] as FormControl).updateValueAndValidity();
-          (this.discountForm.controls['end_date'] as FormControl).updateValueAndValidity();
-          (this.discountForm.controls['is_active'] as FormControl).enable();
-          this.discountForm.patchValue({
-            is_active: true
-          });
-        }
-      }
-  }
+  // statusActiveCondition() {
+  //   let discountType = this.discountForm.get('discount_type').value
+  //     if (this.discountForm.get('start_date').value || this.discountForm.get('end_date').value) {
+  //       (this.discountForm.controls['start_date'] as FormControl).setValidators([Validators.required]);
+  //       (this.discountForm.controls['end_date'] as FormControl).setValidators([Validators.required]);
+  //       (this.discountForm.controls['start_date'] as FormControl).updateValueAndValidity();
+  //       (this.discountForm.controls['end_date'] as FormControl).updateValueAndValidity();
+  //       (this.discountForm.controls['is_active'] as FormControl).disable();
+  //       this.discountForm.patchValue({
+  //         is_active: false
+  //       });
+  //     } else {
+  //       if (discountType == 'simple_discount') {
+  //         (this.discountForm.controls['start_date'] as FormControl).clearValidators();
+  //         (this.discountForm.controls['end_date'] as FormControl).clearValidators();
+  //         (this.discountForm.controls['start_date'] as FormControl).updateValueAndValidity();
+  //         (this.discountForm.controls['end_date'] as FormControl).updateValueAndValidity();
+  //         (this.discountForm.controls['is_active'] as FormControl).enable();
+  //         this.discountForm.patchValue({
+  //           is_active: true
+  //         });
+  //       }
+  //     }
+  // }
 
   onSubmit() {
     this.loading = true;
