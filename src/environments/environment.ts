@@ -8,6 +8,7 @@ export const environment = {
   // backend_url: "http://localhost:8000",
   // backend_url: "https://staging-backend.kees.qa",
   // backend_url: "https://backend.kees.qa",
+  // backend_url: "https://staging-backend.kees.qa",
   backend_url: "https://staging-backend.kees.qa",
   // backend_url: "src/environments/environment.prod.ts",
   // backend_url : "https://0530-110-93-244-53.ngrok.io",

@@ -105,7 +105,7 @@
             <li *ngIf="userPermissions.footer"><a [routerLink]="['/', Urls.footerCustomization]" routerLinkActive="active">Footer</a></li>
             <li *ngIf="userPermissions.navigation"><a [routerLink]="['/', Urls.navigations]" routerLinkActive="active">Navigation</a></li>
             <li *ngIf="userPermissions.filters"><a [routerLink]="['/', Urls.filters]" routerLinkActive="active">Filters</a></li>
-            <li *ngIf="!is_vendor"><a [routerLink]="['/', Urls.blogs]" routerLinkActive="active">Blogs</a></li>
+            <li *ngIf="userPermissions.blog"><a [routerLink]="['/', Urls.blogs]" routerLinkActive="active">Blogs</a></li>
         </ul>
     </nav>
 </div>

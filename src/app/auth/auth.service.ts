@@ -15,6 +15,7 @@ interface UserPermission {
   discounts: boolean;
   configuration: boolean;
   vendor: boolean;
+  blog: boolean;
   product_list : boolean;
   product_groups : boolean;
   collections : boolean;
@@ -26,6 +27,7 @@ interface UserPermission {
   footer : boolean;
   navigation : boolean;
   filters : boolean;
+  // blog : boolean;
   main_discounts : boolean;
   coupons : boolean;
   store_setting : boolean;
@@ -72,6 +74,7 @@ export class AuthService {
     dashboard: true,
     customization: false,
     theme: false,
+    blog: false,
     products: true,
     orders: true,
     customer: true,
