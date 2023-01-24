@@ -116,6 +116,14 @@
             <mat-card class="order-financial-details">
                 <div fxLayout="row" fxLayoutAlign="space-between">
                     <div>
+                        <span>Discount</span>
+                    </div>
+                    <div>
+                        <span>{{discount}} {{storeCurrency}}</span>
+                    </div>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="space-between">
+                    <div>
                         <span>Subtotal</span>
                     </div>
                     <div>
@@ -128,14 +136,6 @@
                     </div>
                     <div>
                         <span>{{totalShipping}} {{storeCurrency}}</span>
-                    </div>
-                </div>
-                <div fxLayout="row" fxLayoutAlign="space-between">
-                    <div>
-                        <span>Discount</span>
-                    </div>
-                    <div>
-                        <span>{{discount}} {{storeCurrency}}</span>
                     </div>
                 </div>
                 <div fxLayout="row" fxLayoutAlign="space-between" class="lineitems-total-row">

@@ -55,6 +55,7 @@ export class EditMainOrderComponent implements OnInit {
   childOrders = [];
   notes: string = "";
   fullfilmentStatusClicked: boolean = false;
+  orderStatusClicked: boolean = false;
   paidStatusClicked: boolean = false;
   childOrderColumns: Column[] = [
     {
@@ -209,9 +210,16 @@ export class EditMainOrderComponent implements OnInit {
     this.fulfillmentStatus = data;
   }
 
+
   paymentStatusCheck(data){
     this.paidStatusClicked = true;
     this.paymentStatus = data;
+  }
+
+
+  onSelection(event){
+    this.orderStatusClicked = true;
+    this.orderStatus = event.value
   }
 
   refundOrder() {
@@ -245,7 +253,7 @@ export class EditMainOrderComponent implements OnInit {
 
   onSubmit() {
     let data;
-    if(this.fullfilmentStatusClicked && this.paidStatusClicked){
+    if(this.fullfilmentStatusClicked && this.paidStatusClicked && this.orderStatus){
       data = {
         id: this.orderID,
         fulfillment_status: this.fulfillmentStatus,
@@ -276,10 +284,19 @@ export class EditMainOrderComponent implements OnInit {
         shipping_address: this.shippingAddress ? this.shippingAddress : null,
         billing_address: this.billingAddress ? this.billingAddress : null
       }
-    } else {
+    } else if(this.orderStatusClicked) {
       data = {
         id: this.orderID,
         order_status: this.orderStatus,
+        notes: this.notes,
+        tags: this.tags.length ? this.tags.join(",") : "",
+        shipping_address: this.shippingAddress ? this.shippingAddress : null,
+        billing_address: this.billingAddress ? this.billingAddress : null
+      }
+    }
+    else{
+      data = {
+        id: this.orderID,
         notes: this.notes,
         tags: this.tags.length ? this.tags.join(",") : "",
         shipping_address: this.shippingAddress ? this.shippingAddress : null,
