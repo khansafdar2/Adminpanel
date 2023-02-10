@@ -36,12 +36,12 @@ export class LoyalityComponent implements OnInit {
     minimum_orders_loyalty_start: [null],
     minimum_point_redeem: [null],
     is_paid: [null],
-    rule: this.fb.array([])
+    rules: this.fb.array([])
   })
 
 
   addRule() {
-    (this.loyalityForm.get("rule") as FormArray).push(
+    (this.loyalityForm.get("rules") as FormArray).push(
       this.fb.group({
         spending_amount: [null],
         no_of_point: [null],
@@ -57,8 +57,8 @@ export class LoyalityComponent implements OnInit {
 
 
   removeRule(index) {
-    if ((this.loyalityForm.get("rule") as FormArray).at(index).get('id')) {
-    let ruleID = (this.loyalityForm.get("rule") as FormArray).at(index).get('id').value;
+    if ((this.loyalityForm.get("rules") as FormArray).at(index).get('id')) {
+    let ruleID = (this.loyalityForm.get("rules") as FormArray).at(index).get('id').value;
       let dialogRef = this.dialog.open(DeleteLoyaltyRuleDialog, {
         width: "600px",
         data: {
@@ -74,13 +74,13 @@ export class LoyalityComponent implements OnInit {
 
 
     } else {
-      (this.loyalityForm.get('rule') as FormArray).removeAt(index)
+      (this.loyalityForm.get('rules') as FormArray).removeAt(index)
 
     }
   }
 
   removeRuleAfterConfirmation(index) {
-    (this.loyalityForm.get('rule') as FormArray).removeAt(index);
+    (this.loyalityForm.get('rules') as FormArray).removeAt(index);
   }
 
   onSubmit() {
@@ -99,9 +99,9 @@ export class LoyalityComponent implements OnInit {
     this.loyalityService.getLoyality().then((resp) => {
       this.loading = false;
       if (resp) {
-        this.loyalityDetails = resp.data[0];
-        for (let i = 0; i < this.loyalityDetails.rule.length; i++) {
-          (this.loyalityForm.get("rule") as FormArray).push(
+        this.loyalityDetails = resp.data;
+        for (let i = 0; i < this.loyalityDetails.rules.length; i++) {
+          (this.loyalityForm.get("rules") as FormArray).push(
             this.fb.group({
               id: [null],
               spending_amount: [{value:null, disabled:true}],
@@ -117,6 +117,7 @@ export class LoyalityComponent implements OnInit {
         }
         this.loyalityForm.patchValue(this.loyalityDetails);
       }
+      console.log(this.loyalityForm.value)
     })
   }
 

@@ -46,7 +46,7 @@
 
                 <mat-card>
                     <h3>Loyalty rules</h3>
-                    <ng-container *ngFor="let ruleGroup of loyalityForm.get('rule')['controls']; let i = index;">
+                    <ng-container *ngFor="let ruleGroup of loyalityForm.get('rules')['controls']; let i = index;">
                         <div [formGroup]=ruleGroup>
                             <div fxLayout="row" fxLayoutAlign="space-between">
                                 <h4>Rule {{i+1}}</h4>

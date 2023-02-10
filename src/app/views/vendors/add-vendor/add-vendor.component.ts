@@ -6,6 +6,8 @@ import { VendorsService } from '../vendors.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { SharedService } from '../../../shared/shared.service';
+
 
 
 @Component({
@@ -20,6 +22,7 @@ export class AddVendorComponent implements OnInit {
     private vendorsService: VendorsService,
     private snackbar: MatSnackBar,
     private router: Router,
+    private sharedService: SharedService
 
   ) { }
 
@@ -27,6 +30,12 @@ export class AddVendorComponent implements OnInit {
   URLS = URLS;
   commission_type_check:any;
   storeCurrency = environment.currency;
+
+  nationalIdURL: string = "";
+  nationalId_document_uploading: boolean = false;
+
+  tradelicenseURL: string = "";
+  tradelicense_document_uploading: boolean = false;
 
   vendorForm = this.fb.group({
     name: ["", [Validators.required]],
@@ -43,8 +52,57 @@ export class AddVendorComponent implements OnInit {
     product_group_approval: [false],
     collection_approval: [false],
     discount_approval: [false],
-    shipping_approval: [false]
+    shipping_approval: [false],
+    national_id: [null],
+    trade_license: [null],
   });
+
+
+
+  selectNationalIdDocument(e) {
+    const file = e.target.files[0];
+    this.nationalId_document_uploading = true;
+    this.sharedService.uploadMedia(file).then(resp => {
+      this.nationalId_document_uploading = false;
+      if (resp) {
+        this.nationalIdURL = resp.data[0].cdn_link;
+        this.vendorForm.patchValue({
+          national_id: this.nationalIdURL
+        });
+        e.target.value = "";
+      }
+    });
+  }
+
+  selectTradeLicenseDocument(e) {
+    const file = e.target.files[0];
+    this.tradelicense_document_uploading = true;
+    this.sharedService.uploadMedia(file).then(resp => {
+      this.tradelicense_document_uploading = false;
+      if (resp) {
+        this.tradelicenseURL = resp.data[0].cdn_link;
+        console.log("TradeLicence URL:", this.tradelicenseURL);
+        this.vendorForm.patchValue({
+          trade_license: this.tradelicenseURL
+        });
+        e.target.value = "";
+      }
+    });
+  }
+
+  removeNationalIdDocument() {
+    this.nationalIdURL = "";
+    this.vendorForm.patchValue({
+      national_id: null
+    });
+  }
+
+  removeTradeLicenseDocument() {
+    this.tradelicenseURL = "";
+    this.vendorForm.patchValue({
+      trade_license: null
+    });
+  }
 
 
 

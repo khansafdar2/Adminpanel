@@ -63,6 +63,50 @@
           </div>
 
         </mat-card>
+
+        <mat-card>
+          <h4>Document details</h4>
+
+          <!-- national_id -->
+          <div fxLayout="row" fxLayoutAlign="center center">
+            <div fxFlex>
+              <input type="file" class="document-upload-input" accept=".png, .jpg, .jpeg, .pdf, .doc, .docx" #nationalIdDocInput (change)="selectNationalIdDocument($event)">
+              <button mat-button color="primary" (click)="nationalIdDocInput.click()" [disabled]="nationalId_document_uploading"><mat-icon class="document-upload-icon">cloud_upload</mat-icon> Upload National ID</button>
+            </div>
+
+            <div fxFlex="0 1 80%" fxLayoutAlign="center">
+              <mat-spinner class="document-upload-spinner" diameter="25" *ngIf="nationalId_document_uploading"></mat-spinner>
+              <a [href]="nationalIdURL" target="_blank" class="document-upload-link" *ngIf="nationalIdURL">
+                <span>National ID</span>
+                <mat-icon class="document-open-icon">open_in_new</mat-icon>
+              </a>
+            </div>
+
+            <div fxFlex>
+              <button mat-icon-button color="warn" *ngIf="nationalIdURL" (click)="removeNationalIdDocument()"><mat-icon>delete</mat-icon></button>
+            </div>
+          </div>
+
+          <!-- trade_license -->
+          <div fxLayout="row" fxLayoutAlign="center center">
+            <div fxFlex>
+              <input type="file" class="document-upload-input" accept=".png, .jpg, .jpeg, .pdf, .doc, .docx" #tradeLicenseInput (change)="selectTradeLicenseDocument($event)">
+              <button mat-button color="primary" (click)="tradeLicenseInput.click()" [disabled]="tradelicense_document_uploading"><mat-icon class="document-upload-icon">cloud_upload</mat-icon> Upload Trade License</button>
+            </div>
+
+            <div fxFlex="0 1 80%" fxLayoutAlign="center">
+              <mat-spinner class="document-upload-spinner" diameter="25" *ngIf="tradelicense_document_uploading"></mat-spinner>
+              <a [href]="tradelicenseURL" target="_blank" class="document-upload-link" *ngIf="tradelicenseURL">
+                <span>Trade License</span>
+                <mat-icon class="document-open-icon">open_in_new</mat-icon>
+              </a>
+            </div>
+
+            <div fxFlex>
+              <button mat-icon-button color="warn" *ngIf="tradelicenseURL" (click)="removeTradeLicenseDocument()"><mat-icon>delete</mat-icon></button>
+            </div>
+          </div>       
+        </mat-card>
       </div>
 
       <div fxFlex="0 1 33.3333%">

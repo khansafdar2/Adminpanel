@@ -9,6 +9,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from 'src/environments/environment';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { SharedService } from '../../../shared/shared.service';
+
 
 @Component({
   selector: 'app-edit-vendor',
@@ -24,7 +26,9 @@ export class EditVendorComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private snackbar: MatSnackBar,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private sharedService: SharedService
+
   ) {
     this.vendorID = this.route.snapshot.paramMap.get('id');
   }
@@ -36,6 +40,12 @@ export class EditVendorComponent implements OnInit {
   commission_type_check: any;
   is_vendor = this.authService.user.is_vendor;
   storeCurrency = environment.currency;
+
+  nationalIdURL: string = "";
+  nationalId_document_uploading: boolean = false;
+
+  tradelicenseURL: string = "";
+  tradelicense_document_uploading: boolean = false;
 
   vendorForm = this.fb.group({
     id: this.vendorID,
@@ -53,7 +63,9 @@ export class EditVendorComponent implements OnInit {
     product_group_approval: [false],
     collection_approval: [false],
     discount_approval: [false],
-    shipping_approval: [false]
+    shipping_approval: [false],
+    national_id: [null],
+    trade_license: [null],
   });
 
 
@@ -123,6 +135,17 @@ export class EditVendorComponent implements OnInit {
       this.loading = false;
       if (resp) {
         this.vendorDetails = resp.data
+        let national_id = resp.data.national_id;
+        let trade_license = resp.data.trade_license;
+
+
+        if (national_id) {
+          this.nationalIdURL = national_id;
+        }
+        
+        if (trade_license) {
+          this.tradelicenseURL = trade_license;
+        }
         for (let i = 0; i < this.vendorDetails.commissions.length; i++) {
           (this.vendorForm.get("commissions") as FormArray).push(
             this.fb.group({
@@ -135,6 +158,53 @@ export class EditVendorComponent implements OnInit {
         }
         this.vendorForm.patchValue(this.vendorDetails);
       }
+    });
+  }
+
+  
+  selectNationalIdDocument(e) {
+    const file = e.target.files[0];
+    this.nationalId_document_uploading = true;
+    this.sharedService.uploadMedia(file).then(resp => {
+      this.nationalId_document_uploading = false;
+      if (resp) {
+        this.nationalIdURL = resp.data[0].cdn_link;
+        this.vendorForm.patchValue({
+          national_id: this.nationalIdURL
+        });
+        e.target.value = "";
+      }
+    });
+  }
+
+  selectTradeLicenseDocument(e) {
+    const file = e.target.files[0];
+    this.tradelicense_document_uploading = true;
+    this.sharedService.uploadMedia(file).then(resp => {
+      this.tradelicense_document_uploading = false;
+      if (resp) {
+        this.tradelicenseURL = resp.data[0].cdn_link;
+        console.log("TradeLicence URL:", this.tradelicenseURL);
+        this.vendorForm.patchValue({
+          trade_license: this.tradelicenseURL
+        });
+        e.target.value = "";
+      }
+    });
+  }
+
+
+  removeNationalIdDocument() {
+    this.nationalIdURL = "";
+    this.vendorForm.patchValue({
+      national_id: null
+    });
+  }
+
+  removeTradeLicenseDocument() {
+    this.tradelicenseURL = "";
+    this.vendorForm.patchValue({
+      trade_license: null
     });
   }
 
