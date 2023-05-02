@@ -9,7 +9,7 @@ import { VendorsService } from '../../vendors/vendors.service';
 import { filter } from 'rxjs/operators';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
+import { PageEvent } from '@angular/material/paginator';
 @Component({
   selector: 'app-collections',
   templateUrl: './collections.component.html',
@@ -92,8 +92,9 @@ export class CollectionsComponent implements OnInit {
   ]
   filterString: string = "";
   searchString: string = "";
-  pageNumber: number = 1;
-  pageSize: number = 50;
+  page: number = 1;
+  pageLimit: number = 10;
+  totalCount: number = 0;
 
 
   public rowActions = (row) => {
@@ -109,19 +110,26 @@ export class CollectionsComponent implements OnInit {
     }
   }
 
+  onPageChange(event: PageEvent) {
+    this.page = event.pageIndex + 1;
+    this.pageLimit = event.pageSize;
+    this.getCollections();
+  }
+
   getCollections() {
     this.loading = true;
     this.collectionSelection.clear();
-    this.collectionsService.getCollectionsList(this.pageNumber, this.pageSize, this.filterString, this.searchString).then(resp => {
+    this.collectionsService.getCollectionsList(this.page, this.pageLimit, this.filterString, this.searchString).then(resp => {
       this.loading = false;
       if(resp) {
+        this.totalCount = resp.data.count
         this.collections = resp.data.results;
       }
     });
   }
 
   getVendorsList() {
-    this.vendorsService.getVendorsList(1, 50).then(resp => {
+    this.vendorsService.getVendorsList(1, 100).then(resp => {
       if(resp) {
         if (!this.is_vendor) {
           this.vendors = resp.data.results;

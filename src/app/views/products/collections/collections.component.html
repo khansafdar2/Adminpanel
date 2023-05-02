@@ -28,6 +28,11 @@
                     [rowActions]="rowActions"
                     [searchable]="true"
                     [filters]="filtersArray"
+                    [pagination]="true"
+                    [count]="totalCount"
+                    [itemsPerPage]="pageLimit"
+        
+                    (page)="onPageChange($event)"
 
                     (search)="onSearch($event)"
                     (filter)="onFilter($event)"
