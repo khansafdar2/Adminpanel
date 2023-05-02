@@ -126,7 +126,7 @@ export class AddCollectionComponent implements OnInit {
   // }
 
   getVendorsList() {
-    this.vendorService.getVendorsList(1, 50).then(resp => {
+    this.vendorService.getVendorsList(1, 100).then(resp => {
       if(resp) {
         this.vendors = resp.data.results;
       }

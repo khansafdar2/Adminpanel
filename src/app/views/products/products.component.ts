@@ -210,7 +210,7 @@ export class ProductsComponent implements OnInit {
   }
 
   getVendors() {
-    this.vendorsService.getVendorsList(1, 50).then(resp => {
+    this.vendorsService.getVendorsList(1, 100).then(resp => {
       if (resp) {
         let filters = [
           {
