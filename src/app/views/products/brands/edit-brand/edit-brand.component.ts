@@ -98,6 +98,7 @@ export class EditBrandComponent implements OnInit {
         let data = {
           id: resp.data.id,
           name: resp.data.name,
+          handle: resp.data.handle,
           image: resp.data.image ? resp.data.image.id : null
         }
         this.brandForm.patchValue(data);
